@@ -1,16 +1,16 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
 
 const Description = ({navigation}) => {
   return (
-    <View style={{flex:1,justifyContent:'center',alignItems:"center"}}>
-        <TouchableOpacity onPress={()=>navigation.goBack()}>
-      <Text>Description</Text>
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text>Description</Text>
       </TouchableOpacity>
     </View>
-  )
-}
+  );
+};
 
-export default Description
+export default Description;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

@@ -56,12 +56,15 @@ const Home = ({navigation}) => {
   const [accessToken, setAccessToken] = useState();
   const [profile, setProfile] = useState();
   const [deviceName, setDeviceName] = useState();
+  const [heading, setHeading] = useState('Home');
   const [reload, setReload] = useState(false);
   const image_url = 'https://mobilezmarket.com/images/';
   const _accesstoken = useSelector(state => state.todo.accessToken);
   const dispatch = useDispatch();
   const name = DeviceInfo.getBrand();
-
+  setTimeout(() => {
+    setHeading(`${name}'s ${deviceName}`);
+  }, 5000);
   DeviceInfo.getDeviceName().then(res => {
     setDeviceName(res);
   });
@@ -258,9 +261,15 @@ const Home = ({navigation}) => {
 
   const _renderItem = ({item, index}) => {
     return (
-      <View style={{width: '100%', height: 200, backgroundColor: color.white}}>
+      <View
+        style={{
+          width: '100%',
+          height: 110,
+          backgroundColor: color.white,
+          borderRadius: 20,
+        }}>
         <Image
-          style={{width: '100%', height: '100%'}}
+          style={{width: '100%', height: '100%', borderRadius: 20}}
           source={{uri: image_url + item}}
           resizeMode="cover"
         />
@@ -272,18 +281,15 @@ const Home = ({navigation}) => {
     <View
       style={{
         flexDirection: 'row',
-        width: '100%',
         justifyContent: 'space-between',
         alignItems: 'center',
         justifyContent: 'space-between',
       }}>
-      <View style={styles.orange_line_heading} />
       <Text style={styles.heading}>{props.header_name}</Text>
-      <View style={styles.orange_line_heading} />
     </View>
   );
   const FlatListBox = props => (
-    <View style={{width: width - 20, marginTop: 15}}>
+    <View style={{width: width - 20, marginTop: 15, marginLeft: 24}}>
       {/* bar with heading and view more */}
       <FlatlistHomeHeader header_name={props.header} onPress={props.onPress} />
       {/* flatlist  */}
@@ -301,61 +307,70 @@ const Home = ({navigation}) => {
           alignItems: 'center',
           backgroundColor: color.white,
           paddingBottom: 100,
+          paddingHorizontal: 24,
         }}
         showsVerticalScrollIndicator={false}
-        stickyHeaderHiddenOnScroll={true}
-        stickyHeaderIndices={[0]}>
+        stickyHeaderHiddenOnScroll={false}
+        // stickyHeaderIndices={[0]}
+      >
         <View style={styles.header}>
           <View
             style={[
               {
-                backgroundColor: 'red',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                width: width - 20,
+                width: '100%',
                 alignItems: 'center',
+                marginTop: 25,
               },
             ]}>
-            <Image style={{width: 150, height: 60}} source={logo} />
+            <Text style={tw`text-white text-xl`} numberOfLines={1}>
+              {heading}
+            </Text>
 
             {/* login Register */}
             {accessToken ? (
               <TouchableOpacity
                 disabled
-                onPress={() => navigation.navigate('Profile')}
-                style={{alignItems: 'center', height: '100%', width: 100}}>
+                onPress={() => navigation.navigate('Profile')}>
                 {profile && (
-                  <View style={tw`flex items-center justify-center`}>
-                    <Text style={{color: color.black}}>Welcome</Text>
-                    <Text style={{color: color.black, fontWeight: 'bold'}}>
-                      {profile.first_name}
-                    </Text>
-                  </View>
+                  <Image
+                    style={tw`h-12 w-12 rounded-full`}
+                    source={{uri: image_url + profile.photo}}
+                  />
                 )}
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity
-                style={{alignItems: 'center'}}
-                onPress={() => navigation.navigate('Login')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                 <Text style={{color: color.orange, fontSize: 15}}>
                   {'Login/Register'}
                 </Text>
               </TouchableOpacity>
             )}
           </View>
-
-          <TextInput
-            onFocus={() => navigation.navigate('SearchScreen')}
-            placeholder="Search"
-            style={{
-              backgroundColor: 'white',
-              height: 40,
-              borderRadius: 10,
-              padding: 8,
-              paddingHorizontal: 8,
-              marginTop: 5,
-            }}
-          />
+          <View style={tw`relative rounded-md`}>
+            <TextInput
+              onFocus={() => navigation.navigate('SearchScreen')}
+              placeholder="Search"
+              placeholderTextColor={'white'}
+              style={{
+                height: 43,
+                borderRadius: 4,
+                backgroundColor: '#4894F1',
+                paddingLeft: 32,
+                paddingHorizontal: 8,
+                marginTop: 25,
+                alignItems: 'center',
+                justifyContent: 'center',
+                display: 'flex',
+              }}></TextInput>
+            <Icon
+              style={tw`absolute top-9 left-2`}
+              name="magnifying-glass"
+              size={20}
+              color={'white'}
+            />
+          </View>
         </View>
         {/* /header finsihes here */}
 
@@ -365,82 +380,85 @@ const Home = ({navigation}) => {
             {
               zIndex: 10,
               alignItems: 'center',
-              top: -90,
+              top: -55,
             },
           ]}>
-          <View style={tw`w-full px-4 items-center`}>
+          <View
+            style={tw`w-full px-6 items-center rounded-[13px] overflow-hidden `}>
             <Carousel
               loop
               autoplay
               data={sliderImages}
               renderItem={_renderItem}
-              sliderWidth={width - 20}
+              sliderWidth={width - 25}
               itemWidth={width - 20}
               layout={'stack'}
             />
           </View>
 
-          <View style={styles.tabBox}>
-            {/* row1 */}
-            <View style={styles.tab_box_rows}>
-              {/* box1 */}
-              <TouchableOpacity
-                style={styles.tab_box}
-                onPress={() =>
-                  navigation.navigate('Listings', {name: 'New Phones'})
-                }>
+          {/* row1 */}
+          <View style={styles.tab_box_rows}>
+            {/* box1 */}
+            <TouchableOpacity
+              style={styles.tab_box}
+              onPress={() =>
+                navigation.navigate('Listings', {name: 'New Phones'})
+              }>
+              <View style={tw`flex items-center justify-center `}>
                 <Image
                   style={styles.category_image}
-                  source={require('../assets/tabIcons/01.png')}
+                  source={require('../assets/smartphone.png')}
                   resizeMode="contain"
                 />
-                <Text style={styles.tab_text} numberOfLines={3}>
-                  New Phones
-                </Text>
-              </TouchableOpacity>
+                <Text style={tw`text-white mt-1 text-[10px]`}>Phone</Text>
+              </View>
+            </TouchableOpacity>
 
-              {/* box2 */}
-              <TouchableOpacity
-                style={styles.tab_box}
-                onPress={() =>
-                  navigation.navigate('Listings', {name: 'Used Phones'})
-                }>
+            {/* box2 */}
+            <TouchableOpacity
+              style={styles.tab_box}
+              onPress={() =>
+                navigation.navigate('Listings', {name: 'Used Phones'})
+              }>
+              <View style={tw`flex items-center justify-center `}>
                 <Image
                   style={styles.category_image}
-                  source={require('../assets/tabIcons/02.png')}
+                  source={require('../assets/smartwatch.png')}
                   resizeMode="contain"
                 />
-                <Text style={styles.tab_text}>Used Phones</Text>
-              </TouchableOpacity>
-              {/* box3 */}
-              <TouchableOpacity
-                style={styles.tab_box}
-                onPress={() => navigation.navigate('FindMyDevice')}>
+                <Text style={tw`text-white mt-1 text-[10px]`}>Smart Watch</Text>
+              </View>
+            </TouchableOpacity>
+            {/* box3 */}
+            <TouchableOpacity
+              style={styles.tab_box}
+              onPress={() => navigation.navigate('FindMyDevice')}>
+              <View style={tw`flex items-center justify-center `}>
                 <Image
                   style={styles.category_image}
-                  source={require('../assets/tabIcons/03.png')}
+                  source={require('../assets/Tablets.png')}
                   resizeMode="contain"
                 />
-                <Text style={styles.tab_text}>Find my device</Text>
-              </TouchableOpacity>
-            </View>
-            {/* row2 */}
+                <Text style={tw`text-white mt-1 text-[10px]`}>Tablets</Text>
+              </View>
+            </TouchableOpacity>
           </View>
+          {/* row2 */}
 
           <FlatListBox
-            header={'Recently Posted Phones'}
+            header={'Recent Phones'}
             data={recentMobiles}
             type={'phones'}
           />
           {/* used phones */}
           <FlatListBox
-            header={'Recently Posted Watches'}
+            header={'Recent Watches'}
             data={recentWatches}
             type={'watches'}
           />
 
           <FlatListBox
-            header={'Recently Posted Tablets'}
+            header={'Recent Tablets'}
             data={recentTablets}
             type={'tablets'}
           />
@@ -484,10 +502,9 @@ export default Home;
 const styles = StyleSheet.create({
   header: {
     width: width,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: 8,
-    height: 250,
+    paddingHorizontal: 24,
+
+    height: 231,
     borderBottomWidth: 1,
     backgroundColor: '#015dcf',
   },
@@ -510,21 +527,23 @@ const styles = StyleSheet.create({
   },
   tab_box_rows: {
     height: 100,
-    width: '100%',
+    // backgroundColor: 'orange',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 20,
   },
+  tabBox_view: {},
   tab_box: {
-    width: 100,
-    height: 100,
-    borderColor: color.black,
+    width: 87,
+    height: 87,
     alignItems: 'center',
     justifyContent: 'center',
     // borderWidth:1,
-    padding: 2,
-    borderRadius: 10,
-    backgroundColor: color.white,
+    borderRadius: 13,
+    backgroundColor: '#015DCF',
+
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -548,7 +567,6 @@ const styles = StyleSheet.create({
   heading: {
     color: color.black,
     fontSize: 20,
-    fontWeight: 'bold',
   },
   viewmore_text: {
     color: color.orange,
@@ -557,7 +575,7 @@ const styles = StyleSheet.create({
   _flatlist: {
     marginBottom: 10,
   },
-  category_image: {height: 40, width: 40},
+  category_image: {height: 30, width: 30},
   orange_line_heading: {
     borderTopWidth: 1,
     borderBottomWidth: 1,

@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import {color} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Entypo';
 const HomeFlatlist = props => {
   const navigation = useNavigation();
   const renderItem = ({item}) => {
@@ -19,27 +20,14 @@ const HomeFlatlist = props => {
     return (
       <TouchableOpacity
         style={{
-          width: 200,
-          margin: 5,
-          marginVertical: 10,
-          padding: 10,
-          backgroundColor: color.white,
-          borderRadius: 20,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.23,
-          shadowRadius: 2.62,
-
-          elevation: 4,
+          width: 150,
+          marginTop: 20,
         }}
         onPress={() => navigation.navigate('ProductPage', {id: id})}>
         <Image
           style={{
-            height: 150,
-            width: '100%',
+            height: 108,
+            width: 98,
             marginBottom: 5,
             backgroundColor: color.black,
             borderRadius: 10,
@@ -47,29 +35,27 @@ const HomeFlatlist = props => {
           source={{uri: image_url + item?.image?.img}}
           resizeMode="contain"
         />
-
-        <Text
-          numberOfLines={1}
-          style={{
-            fontSize: 16,
-            width: '95%',
-            fontWeight: 'bold',
-            color: color.black,
-          }}>
-          {item.brand} <Text>{item.model}</Text>
-        </Text>
-        <Text
-          numberOfLines={1}
-          style={{color: color.orange, fontWeight: 'bold'}}>
-          Rs. {item.price}
-        </Text>
+        <View>
+          <Text
+            numberOfLines={1}
+            style={{
+              fontSize: 12,
+              width: '85%',
+              color: '#252B5C',
+            }}>
+            {item.brand} <Text>{item.model}</Text>
+          </Text>
+          <Text numberOfLines={1} style={{color: '#015DCF'}}>
+            Rs. {item.price}
+          </Text>
+        </View>
         {props.type === 'phones' && (
           <>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+
                 width: '90%',
                 marginTop: 2,
               }}>
@@ -78,7 +64,9 @@ const HomeFlatlist = props => {
 
               <Text style={styles.small_text}>{item.storage}GB</Text>
               <Text style={styles.small_text}> | </Text>
-              <Text style={styles.small_text}>{item.pta_status}</Text>
+              <Text numberOfLines={1} style={styles.small_text}>
+                {item.pta_status}
+              </Text>
             </View>
           </>
         )}
@@ -86,14 +74,15 @@ const HomeFlatlist = props => {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'space-between',
+
             width: '90%',
             marginTop: 2,
           }}>
+          <Icon name="location-pin" size={10} />
           <Text style={styles.small_text}>{item.user.city}</Text>
-          <Text style={styles.small_text}>
+          {/* <Text style={styles.small_text}>
             {item.created_at.substring(0, 10)}
-          </Text>
+          </Text> */}
         </View>
       </TouchableOpacity>
     );
@@ -115,5 +104,6 @@ export default HomeFlatlist;
 const styles = StyleSheet.create({
   small_text: {
     color: 'gray',
+    fontSize: 10,
   },
 });

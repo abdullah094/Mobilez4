@@ -40,13 +40,13 @@ const FindMyDevice = ({navigation, route}) => {
       .post(FILTER, JSON.stringify(filterData))
       .then(response => {
         setData(response.data.products);
+        console.log(response.data);
       })
       .catch(error => {
         setData([]);
         console.log(error);
       });
   };
-
   useEffect(() => {
     fetchResults();
   }, []);

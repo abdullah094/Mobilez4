@@ -6935,6 +6935,11 @@ react-native-indicators@^0.17.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-paper-dropdown@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-paper-dropdown/-/react-native-paper-dropdown-1.0.7.tgz#64fe004b05b73ca5c781873d800ac5062b35bdc9"
+  integrity sha512-St0rZFw5sC7mbXtFCOGsyEa0fIBaG6Cfz78RsjFNzTj+rKd1i9qlDY2O7eOa2zAUEnFlL+C7FXdXUY9RUNELNw==
+
 react-native-phone-call@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-phone-call/-/react-native-phone-call-1.2.0.tgz#11c28120f9528647167b58742ebb7225f52d28c1"

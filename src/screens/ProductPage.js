@@ -15,16 +15,23 @@ import {
 import React, {useState, useEffect} from 'react';
 import Slider from '../components/Slider';
 import {color} from '../constants/Colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import FontAwsome from 'react-native-vector-icons/FontAwesome';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import axios from 'axios';
 import {DESCRIPTION, WISHLIST} from '@env';
 import Loading from '../components/Loading';
 import call from 'react-native-phone-call';
 import {useSelector} from 'react-redux';
+import {Image} from 'react-native';
+import Flatbox from '../components/Flatbox';
 
 const {height, width} = Dimensions.get('window');
 const ProductPage = ({navigation, route}) => {
   const [data, setData] = useState();
+  const [recentMobiles, setRecentMobiles] = useState();
+  const [recentWatches, setRecentWatches] = useState();
+  const [recentTablets, setRecentTablets] = useState();
   const [seemore, setSeemore] = useState(3);
   const [like, setLike] = useState(false);
   const accessToken = useSelector(state => state.todo.accessToken);
@@ -33,13 +40,27 @@ const ProductPage = ({navigation, route}) => {
   const image_url = 'https://mobilezmarket.com/images/';
   let slider_data = [];
   const link = 'https://api.whatsapp.com/send?phone=+';
+  const relatedAds = data?.related_ads.map((element, index) => {
+    let {productimages: image, ...rest} = element;
+
+    console.log('imageData', (element = {image: image[0], ...rest}));
+    return (element = {image: image[0], ...rest});
+  });
+  const moreAds = data?.more_ads.map((element, index) => {
+    let {productimages: image, ...rest} = element;
+
+    console.log('imageData', (element = {image: image[0], ...rest}));
+    return (element = {image: image[0], ...rest});
+  });
+
   const fetchData = () => {
     const api = DESCRIPTION + id;
     // console.log(api)
     axios
       .get(api)
       .then(response => {
-        setData(response?.data.details);
+        setData(response?.data);
+        // console.log('Response======', response.data.related_ads);
       })
       .catch(error => {
         console.log(error);
@@ -76,9 +97,9 @@ const ProductPage = ({navigation, route}) => {
     skipCanOpen: true, // Skip the canOpenURL check
   };
   if (data) {
-    args.number = data.user.phone;
+    args.number = data?.details?.phone;
   }
-
+  console.log(data?.details?.phone);
   const CallWhatsappSms = () => (
     <View
       style={[
@@ -87,14 +108,14 @@ const ProductPage = ({navigation, route}) => {
           width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          position: 'absolute',
+          marginTop: '15%',
         },
         Platform.OS === 'android' && {bottom: 25},
       ]}>
       <TouchableOpacity
         style={styles.commmunication_buttons}
         onPress={() => call(args).catch(console.error)}>
-        <MaterialIcon name="phone" size={17} color={color.white} />
+        <Ionicons name="call-outline" size={25} color={color.white} />
         <Text style={styles.communication_buttons_text}>Call</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -113,13 +134,14 @@ const ProductPage = ({navigation, route}) => {
             })
             .catch(err => console.error('An error occurred', err));
         }}>
-        <MaterialIcon name="wifi-calling" size={17} color={color.white} />
+        <FontAwsome name={'whatsapp'} size={25} color={'white'} />
         <Text style={styles.communication_buttons_text}>Whatsapp</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity style={styles.commmunication_buttons}>
-        <MaterialIcon name='sms' size={17} color={color.white}/>
-          <Text style={styles.communication_buttons_text}>Sms</Text>
-        </TouchableOpacity> */}
+      <TouchableOpacity style={styles.commmunication_buttons}>
+        <Ionicons name={'ios-chatbubbles-outline'} size={25} color={'white'} />
+
+        <Text style={styles.communication_buttons_text}>Chat</Text>
+      </TouchableOpacity>
     </View>
   );
 
@@ -127,12 +149,19 @@ const ProductPage = ({navigation, route}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: color.white}}>
       <ScrollView
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{alignItems: 'center', paddingBottom: 150}}>
-        <Pressable
+        <View
           style={{
-            position: 'absolute',
-            top: 50,
-            left: 20,
+            marginTop: 10,
+
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: width,
+            backgroundColor: 'white',
+
+            height: 70,
             zIndex: 999,
             shadowColor: '#FFFFFF',
             shadowOffset: {
@@ -143,18 +172,58 @@ const ProductPage = ({navigation, route}) => {
             shadowRadius: 16.0,
 
             elevation: 24,
-            borderRadius: 30,
+
             backgroundColor: 'white',
-          }}
-          onPress={() => navigation.goBack()}>
-          <MaterialIcon
-            name="keyboard-arrow-left"
-            size={40}
-            color={color.black}
+          }}>
+          <Pressable style={{margin: 15}} onPress={() => navigation.goBack()}>
+            <MaterialIcon
+              name="keyboard-arrow-left"
+              size={40}
+              color={color.black}
+            />
+          </Pressable>
+          <View style={{flex: 1, alignItems: 'center'}}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: 'bold',
+                display: 'flex',
+                right: 20,
+                color: '#1E2022',
+              }}>
+              Home
+            </Text>
+          </View>
+        </View>
+
+        <View
+          flexDirection="row"
+          style={{width: width, paddingHorizontal: 16}}
+          justifyContent="space-between">
+          {/* <Slider data={data.productimages} /> */}
+          <Image
+            style={{
+              height: 300,
+              width: '70%',
+              borderRadius: 10,
+            }}
+            source={{uri: image_url + data?.details.productimages[0].img}}
           />
-        </Pressable>
-        <View>
-          <Slider data={data.productimages} />
+
+          <View
+            style={{
+              width: '30%',
+              height: 300,
+            }}>
+            {data?.details.productimages?.map(({img, index}) => (
+              <Image
+                key={index}
+                style={styles.productImage}
+                resizeMode="contain"
+                source={{uri: image_url + img}}
+              />
+            ))}
+          </View>
         </View>
         <View
           style={{
@@ -167,77 +236,82 @@ const ProductPage = ({navigation, route}) => {
           <Text
             style={[
               styles.heading,
-              {fontSize: 18, color: color.orange, marginBottom: 0},
+              {fontSize: 14, color: color.black, marginBottom: 0},
             ]}>
-            ${data.price}
+            <Text>
+              {data.details.brand}
+              {data.details.model}
+            </Text>
           </Text>
-          {/* <Pressable style={[{margin:0,zIndex:999},{marginTop:0,marginRight:5,bottom:0}]} onPress={()=>{
-          setLike(!like)                                 //Like product
-             //Vibrate device on pressing heart
+          <Text style={{color: '#015DCF'}}>
+            Rs. {data.details.price.toLocaleString()}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+
+            alignItems: 'center',
           }}>
-         { like?<MaterialIcon name='favorite' size={30} color={color.red}/>:<MaterialIcon name='favorite-outline' size={30} color={color.red}/>}
-          </Pressable> */}
-        </View>
-        <View style={{width: width - 30}}>
-          <Text style={[styles.heading, {marginTop: 0}]}>
-            {data.brand} <Text>{data.model}</Text>
-          </Text>
-          <Text style={{color: color.black, fontSize: 12, marginTop: 5}}>
-            Ram: {data.ram}GB | Storage: {data.storage}GB | {data.pta_status}
-          </Text>
           <View
-            style={{flexDirection: 'row', alignItems: 'center', marginTop: 5}}>
-            <MaterialIcon name="location-on" size={13} color={color.orange} />
-            <Text
-              style={[
-                styles.heading,
-                {
-                  fontSize: 13,
-                  fontWeight: 'normal',
-                  marginLeft: 1,
-                  marginTop: 0,
-                },
-              ]}>
-              {data?.user.city}
-            </Text>
-          </View>
-          <TouchableOpacity
-            onPress={Add_to_Wishlist}
             style={{
-              marginVertical: 10,
-              padding: 5,
-              backgroundColor: 'red',
-              width: 130,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 10,
+              width: width - 59,
             }}>
-            <Text style={{color: color.white, fontWeight: '500', fontSize: 15}}>
-              Add to Wishlist
+            <Text style={{color: color.black, fontSize: 12, marginTop: 5}}>
+              {data.details.ram}GB | {data.details.storage}GB |{' '}
+              {data.details.pta_status}
             </Text>
-          </TouchableOpacity>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <MaterialIcon name="location-on" size={13} color={color.black} />
+              <Text
+                style={[
+                  styles.heading,
+                  {
+                    fontSize: 13,
+                    fontWeight: 'normal',
+                    marginLeft: 1,
+                    marginTop: 0,
+                  },
+                ]}>
+                {data?.details.user.city}
+              </Text>
+            </View>
+          </View>
+
+          <Pressable>
+            <Ionicons name={'share-social-sharp'} size={30} color={'#0167E6'} />
+          </Pressable>
         </View>
+
         {/* Description */}
-        <View style={{width: width - 35, marginTop: 10}}>
+        <View style={{width: width - 35, flexWrap: 'wrap', marginTop: 7}}>
           <Text
             style={[
               styles.heading,
               {
                 fontWeight: '500',
                 fontSize: 15,
-                marginVertical: 10,
-                marginTop: 10,
+                borderBottomColor: '#2B67F6',
+                borderBottomWidth: 1,
+                color: '#2B67F6',
               },
             ]}>
-            Description
+            description
           </Text>
           <Text
             style={{fontWeight: '200', color: color.black}}
             numberOfLines={seemore}>
-            {data.description}
+            {/* {console.log(data.description)} */}
+            {data.details.description}
           </Text>
           {/* See less see more button */}
-          <TouchableOpacity onPress={() => setSeemore(30)}>
+          {/* <TouchableOpacity onPress={() => setSeemore(30)}>
             {seemore === 3 ? (
               <Text>See more</Text>
             ) : (
@@ -245,13 +319,14 @@ const ProductPage = ({navigation, route}) => {
                 <Text>See less</Text>
               </TouchableOpacity>
             )}
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
+        <CallWhatsappSms />
+        <Flatbox header={'Realted Ads'} onPress={() => {}} data={relatedAds} />
+        <Flatbox header={'More Ads'} onPress={() => {}} data={moreAds} />
       </ScrollView>
 
       {/* call whatsapp sms button */}
-
-      <CallWhatsappSms />
     </SafeAreaView>
   );
 };
@@ -259,14 +334,14 @@ const ProductPage = ({navigation, route}) => {
 export default ProductPage;
 
 const styles = StyleSheet.create({
-  heading: {color: color.black, fontSize: 20, fontWeight: 'bold', marginTop: 5},
+  heading: {color: color.black, fontSize: 20, fontWeight: 'bold'},
   commmunication_buttons: {
-    backgroundColor: color.orange,
+    backgroundColor: '#2B67F6',
     width: 110,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 5,
+    borderRadius: 10,
     flexDirection: 'row',
     marginHorizontal: 5,
   },
@@ -275,5 +350,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15,
     marginLeft: 2,
+  },
+  productImage: {
+    width: '100%',
+    height: 92,
+    margin: 4,
+    marginHorizontal: 8,
+    borderRadius: 10,
   },
 });

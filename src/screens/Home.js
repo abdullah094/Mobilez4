@@ -333,7 +333,7 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={{color: color.orange, fontSize: 15}}>
+                <Text style={{color: color.white, fontSize: 15}}>
                   {'Login/Register'}
                 </Text>
               </TouchableOpacity>

@@ -20,7 +20,7 @@ import {data} from '../data/test';
 import Icon from 'react-native-vector-icons/Entypo';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Carousel from 'react-native-snap-carousel';
-import HomeFlatlist from '../components/HomeFlatlist';
+import FlatListBox from '../components/Flatbox';
 import {
   RECENTLY_ADDED_MOBILES,
   RECENTLY_ADDED_WATCHES,
@@ -288,16 +288,7 @@ const Home = ({navigation}) => {
       <Text style={styles.heading}>{props.header_name}</Text>
     </View>
   );
-  const FlatListBox = props => (
-    <View style={{width: width - 20, marginTop: 15, marginLeft: 24}}>
-      {/* bar with heading and view more */}
-      <FlatlistHomeHeader header_name={props.header} onPress={props.onPress} />
-      {/* flatlist  */}
-      <View style={styles._flatlist}>
-        <HomeFlatlist data={props.data} type={props.type} />
-      </View>
-    </View>
-  );
+ 
   if (!recentMobiles || (!recentWatches && !sliderImages === []))
     return <Loading />;
   return (

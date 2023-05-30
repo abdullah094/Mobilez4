@@ -6,14 +6,21 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
+import Menu from 'react-native-vector-icons/Entypo';
+import tw from 'twrnc';
+
 import {color} from '../constants/Colors';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {Ram, Storage, Pta_status, Condition, Warranty} from '../constants/Data';
-
+import Header from '../components/Header';
 const {width, height} = Dimensions.get('window');
 const Filter = ({navigation}) => {
+  const [accessToken, setAccessToken] = useState();
+  const [profile, setProfile] = useState();
+
   const [ramData, setRamData] = useState({
     ram: ' ',
     storage: '',
@@ -35,6 +42,7 @@ const Filter = ({navigation}) => {
     max_price: '',
     min_price: '',
   });
+  const image_url = 'https://mobilezmarket.com/images/';
 
   useEffect(() => {
     setForm({
@@ -59,6 +67,19 @@ const Filter = ({navigation}) => {
         paddingTop: 40,
         paddingBottom: 100,
       }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Menu name="menu" size={30} color={'black'} />
+        <Text>Filter</Text>
+        {/* <Image
+          style={tw`h-12 w-12 rounded-full`}
+          source={{uri: image_url + profile.photo}}
+        /> */}
+      </View>
       <View style={{width: 270}}>
         <Text style={styles.heading}>Price Range</Text>
         <View

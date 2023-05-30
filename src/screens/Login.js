@@ -18,12 +18,13 @@ import axios from 'axios';
 import Context from '../data/Context';
 import {useDispatch, useSelector} from 'react-redux';
 import {reduxSetAccessToken} from '../Redux/Slices';
+import tw from 'twrnc';
 
 const {width, height} = Dimensions.get('window');
 const Login = ({navigation}) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [loginLoader, setLoginLoader] = useState('Login');
+  const [loginLoader, setLoginLoader] = useState('Sign In');
   const {signIn} = useContext(Context);
   const accesstoken = useSelector(state => state.todo.accessToken);
 
@@ -87,60 +88,92 @@ const Login = ({navigation}) => {
         contentContainerStyle={{
           flex: 1,
           alignItems: 'center',
-          backgroundColor: color.gray,
+
           paddingBottom: 50,
           justifyContent: 'center',
         }}>
         <Image
-          style={{width: 250, height: 100, marginBottom: 50}}
+          style={{width: 200, height: 80, marginBottom: 30}}
           source={require('../assets/mobile-logo.png')}
         />
-        <View style={styles.input_box}>
-          <Text style={styles.box_heading}>Email</Text>
-          <TextInput
-            keyboardType="email-address"
-            style={styles.input}
-            value={email}
-            onChangeText={text => setEmail(text.toLowerCase())}
-          />
-        </View>
+        <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>
+          <View style={styles.input_box}>
+            <Text style={styles.box_heading}>Email</Text>
+            <TextInput
+              keyboardType="email-address"
+              style={styles.input}
+              value={email}
+              onChangeText={text => setEmail(text.toLowerCase())}
+            />
+          </View>
 
-        <View style={styles.input_box}>
-          <Text style={styles.box_heading}>Password</Text>
-          <TextInput
-            style={styles.input}
-            value={password}
-            onChangeText={text => setPassword(text.toLowerCase())}
-          />
-        </View>
+          <View style={styles.input_box}>
+            <Text style={styles.box_heading}>Password</Text>
+            <TextInput
+              style={styles.input}
+              value={password}
+              onChangeText={text => setPassword(text.toLowerCase())}
+            />
+          </View>
 
-        <TouchableOpacity
-          onPress={fetchLogin}
-          style={{
-            backgroundColor: color.orange,
-            width: width - 40,
-            height: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 10,
-            marginTop: 20,
-          }}>
-          <Text style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
-            {loginLoader}
-          </Text>
-        </TouchableOpacity>
-        <View style={{flexDirection: 'row', marginTop: 15}}>
+          <View style={tw`flex-row justify-end mt-3`}>
+            {/* <TouchableOpacity
+              style={{padding: 5}}
+              onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text>Remember Me</Text>
+            </TouchableOpacity> */}
+
+            <TouchableOpacity
+              style={{padding: 5}}
+              onPress={() => navigation.navigate('ForgotPassword')}>
+              <Text>Forgot your password?</Text>
+            </TouchableOpacity>
+          </View>
+
           <TouchableOpacity
-            style={{padding: 5}}
-            onPress={() => navigation.navigate('ForgotPassword')}>
-            <Text>Forgot your password?</Text>
+            onPress={fetchLogin}
+            style={{
+              backgroundColor: color.orange,
+              width: 311,
+              height: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 50,
+              marginTop: 20,
+            }}>
+            <Text
+              style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
+              {loginLoader}
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 15,
+              justifyContent: 'center',
+              // backgroundColor: 'black',
+            }}>
+            <Text>Or</Text>
+          </View>
+        </View>
+
+        <View style={tw`flex flex-row justify-center w-full   z-20 `}>
+          <TouchableOpacity style={styles.social_buttons}>
+            <Image style={tw`h-4 w-2`} source={require('../assets/F.png')} />
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
+            <Image style={tw`h-4 w-4`} source={require('../assets/Gpng.png')} />
+            <Image style={tw`h-2 w-2`} source={require('../assets/plus.png')} />
           </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={{marginTop: 10, padding: 5}}
-          onPress={() => navigation.navigate('SignUp', {city: 'Karachi'})}>
-          <Text style={{color: 'blue'}}>Register</Text>
-        </TouchableOpacity>
+
+        <View style={tw`w-full flex-row mt-14 items-center justify-center`}>
+          <Text>Don't have and account? </Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate('SignUp', {city: 'Karachi'})}>
+            <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </>
   );
@@ -150,22 +183,22 @@ export default Login;
 
 const styles = StyleSheet.create({
   input_box: {
-    width: width - 40,
     marginTop: 15,
   },
   input: {
-    borderRadius: 10,
-    padding: 5,
-    paddingHorizontal: 10,
+    justifyContent: 'flex-end',
+    paddingHorizontal: 1,
     color: color.black,
-    height: 50,
-    backgroundColor: color.white,
+    height: 40,
+    borderBottomWidth: 1,
+    borderColor: color.gray,
   },
   box_heading: {
     fontSize: 15,
-    color: color.black,
+    color: 'gray',
     fontWeight: 'bold',
     marginBottom: 5,
     marginLeft: 2,
   },
+  social_buttons: tw`bg-[#3B5998] h-11 w-11 mx-4 rounded-full top--6 justify-center items-center flex-row `,
 });

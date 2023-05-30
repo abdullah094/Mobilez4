@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import React, {useState, useContext} from 'react';
 import Header from '../components/Header';
@@ -18,6 +19,8 @@ import {SelectList} from 'react-native-dropdown-select-list';
 import {REGISTER} from '@env';
 import axios from 'axios';
 import Context from '../data/Context';
+import DropDown from 'react-native-paper-dropdown';
+import tw from 'twrnc';
 
 const {width, height} = Dimensions.get('window');
 const SignUp = ({navigation, route}) => {
@@ -26,12 +29,13 @@ const SignUp = ({navigation, route}) => {
   const [check, setCheck] = useState(false);
   const [registerButtonText, setRegisterButtonText] = useState('Register');
   const [selected, setSelected] = useState('');
+  const [showDropDown, setShowDropDown] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
     email: '',
     phone: '',
-    city: city,
+    city: 'Karachi',
     acc_type: '',
     password: '',
     conf_password: '',
@@ -44,8 +48,8 @@ const SignUp = ({navigation, route}) => {
 
   const {signUp} = useContext(Context);
   const data = [
-    {key: '1', value: 'individual'},
-    {key: '2', value: 'business'},
+    {label: 'individual', value: 'individual'},
+    {label: 'business', value: 'business'},
   ];
 
   const fetchData = async () => {
@@ -71,157 +75,176 @@ const SignUp = ({navigation, route}) => {
         setRegisterButtonText('Register');
       });
   };
+  console.log(formData);
   return (
     <ScrollView
       contentContainerStyle={styles.container}
       stickyHeaderHiddenOnScroll={true}
       // stickyHeaderIndices={[0]}
     >
-      <Header header={'Register'} onPress={() => navigation.goBack()} />
-
-      <View style={[styles.box, {marginTop: 100}]}>
-        <Text style={styles.box_heading}>First Name</Text>
+      <Header onPress={() => navigation.goBack()} />
+      <Text style={tw`py-10 pt-20 text-black text-2xl self-start mx-10`}>
+        Create your <Text style={tw`font-bold`}>account</Text>
+      </Text>
+      <View style={tw`bg-white p-5 w-90  pb-12 `}>
         <TextInput
           style={styles.box_input}
           value={formData.first_name}
+          placeholder="First name"
           onChangeText={text => setFormData({...formData, first_name: text})}
         />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Last Name</Text>
+
         <TextInput
           style={styles.box_input}
           value={formData.last_name}
+          placeholder="Last name"
           onChangeText={text => setFormData({...formData, last_name: text})}
         />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Select City</Text>
-        <TextInput
-          style={styles.box_input}
-          value={city}
-          onFocus={() => navigation.navigate('CityList')}
-        />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Phone Number</Text>
+        {/* <View style={tw`mt-3 `}>
+          <DropDown
+            mode={'flat'}
+            inputProps={tw`bg-white w-full`}
+            dropDownItemStyle={tw`bg-white`}
+            visible={showDropDown}
+            showDropDown={() => setShowDropDown(true)}
+            onDismiss={() => setShowDropDown(false)}
+            value={formData.city}
+            setValue={val => setFormData({...formData, city: val})}
+            list={data}
+          />
+        </View> */}
+
         <TextInput
           style={styles.box_input}
           keyboardType="number-pad"
+          placeholder="Phone number"
           value={formData.phone}
           onChangeText={text => setFormData({...formData, phone: text})}
         />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Email</Text>
+
         <TextInput
           style={styles.box_input}
           keyboardType="email-address"
+          placeholder="Email"
           value={formData.email}
           onChangeText={text =>
             setFormData({...formData, email: text.toLowerCase()})
           }
         />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Password</Text>
+
         <TextInput
           style={styles.box_input}
           keyboardType="visible-password"
           value={formData.password}
+          placeholder="password"
           onChangeText={text =>
             setFormData({...formData, password: text.toLowerCase()})
           }
         />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Confirm Password</Text>
+
         <TextInput
           style={styles.box_input}
           keyboardType="visible-password"
           value={formData.conf_password}
+          placeholder="confirm password"
           onChangeText={text =>
             setFormData({...formData, conf_password: text.toLowerCase()})
           }
         />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Select Account type</Text>
-        <View style={{marginTop: 5}}>
-          <SelectList
-            setSelected={val => setFormData({...formData, acc_type: val})}
-            data={data}
-            save="value"
+
+        <View style={tw`mt-3 `}>
+          <DropDown
+            inputProps={tw`bg-white w-full `}
+            dropDownItemStyle={tw`bg-white`}
+            placeholder="Account type"
+            visible={showDropDown}
+            showDropDown={() => setShowDropDown(true)}
+            onDismiss={() => setShowDropDown(false)}
+            value={formData.acc_type}
+            setValue={val => setFormData({...formData, acc_type: val})}
+            list={data}
           />
         </View>
-      </View>
 
-      {formData.acc_type === 'business' && (
-        <>
-          <View style={styles.box}>
-            <Text style={styles.box_heading}>Shop Name</Text>
+        {formData.acc_type === 'business' && (
+          <>
             <TextInput
               style={styles.box_input}
               value={formData.shop_name}
+              placeholder="shop name"
               onChangeText={text => setFormData({...formData, shop_name: text})}
             />
-          </View>
 
-          <View style={styles.box}>
-            <Text style={styles.box_heading}>Shop Address</Text>
             <TextInput
               style={styles.box_input}
               value={formData.shop_address}
+              placeholder="shop address"
               onChangeText={text =>
                 setFormData({...formData, shop_address: text})
               }
             />
-          </View>
-        </>
-      )}
+          </>
+        )}
 
-      <View
-        style={{
-          flexDirection: 'row',
-          width: width - 40,
-          marginTop: 30,
-          alignItems: 'center',
-        }}>
-        <Pressable
-          onPress={() => setCheck(!check)}
+        <View
           style={{
-            marginLeft: 10,
-            borderWidth: 1,
-            width: 25,
-            height: 25,
+            flexDirection: 'row',
+            width: width - 40,
+            marginTop: 30,
+            alignItems: 'center',
+          }}>
+          <Pressable
+            onPress={() => setCheck(!check)}
+            style={{
+              marginLeft: 10,
+              borderWidth: 1,
+              width: 25,
+              height: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 5,
+            }}>
+            {check && (
+              <MaterialIcon name="check" color={color.orange} size={24} />
+            )}
+          </Pressable>
+          <Text style={{marginLeft: 5, color: color.black}}>
+            I have read and accept terms and conditions.
+          </Text>
+        </View>
+        <TouchableOpacity
+          disabled={!check}
+          onPress={fetchData}
+          style={{
+            height: 50,
+            backgroundColor: color.orange,
+            marginTop: 30,
             justifyContent: 'center',
             alignItems: 'center',
-            borderRadius: 5,
+            borderRadius: 25,
           }}>
-          {check && (
-            <MaterialIcon name="check" color={color.orange} size={24} />
-          )}
-        </Pressable>
-        <Text style={{marginLeft: 5, color: color.black}}>
-          I have read and accept terms and conditions.
-        </Text>
+          <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
+            {registerButtonText}
+          </Text>
+        </TouchableOpacity>
+        <Text style={tw`my-5 self-center`}>Or</Text>
       </View>
-      <TouchableOpacity
-        disabled={!check}
-        onPress={fetchData}
-        style={{
-          width: width - 50,
-          height: 50,
-          backgroundColor: color.orange,
-          marginTop: 30,
-          justifyContent: 'center',
-          alignItems: 'center',
-          borderRadius: 10,
-        }}>
-        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
-          {registerButtonText}
-        </Text>
-      </TouchableOpacity>
+      <View style={tw`flex flex-row justify-center w-full   z-20 `}>
+        <TouchableOpacity style={styles.social_buttons}>
+          <Image style={tw`h-4 w-2`} source={require('../assets/F.png')} />
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
+          <Image style={tw`h-4 w-4`} source={require('../assets/Gpng.png')} />
+          <Image style={tw`h-2 w-2`} source={require('../assets/plus.png')} />
+        </TouchableOpacity>
+      </View>
+
+      <View style={tw`flex-row items-center my-5`}>
+        <Text style={tw`text-gray-500`}>Already have account?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={tw`text-blue-800 mx-1`}>Sign In</Text>
+        </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 };
@@ -245,13 +268,11 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   box_input: {
-    width: '100%',
     height: 50,
-    borderWidth: 1,
-    borderColor: '#A9A9A9',
-    backgroundColor: color.white,
-    borderRadius: 20,
+    borderBottomWidth: 1,
+    borderColor: 'gray',
+
     marginTop: 5,
-    paddingHorizontal: 15,
   },
+  social_buttons: tw`bg-[#3B5998] h-11 w-11 mx-4 rounded-full top--6 justify-center items-center flex-row `,
 });

@@ -29,6 +29,15 @@ import Videos from './src/screens/Videos';
 import BlogDetails from './src/screens/BlogDetails';
 import FindMyDevice from './src/screens/FindMyDevice';
 import Filter from './src/screens/Filter';
+import {
+  Appbar,
+  DarkTheme,
+  DefaultTheme,
+  Provider as Paper,
+  Surface,
+  ThemeProvider,
+} from 'react-native-paper';
+
 const App = () => {
   const Stack = createNativeStackNavigator();
   const AuthStack = createNativeStackNavigator();
@@ -114,126 +123,128 @@ const App = () => {
   return (
     <Context.Provider value={authContext}>
       <Provider store={Store}>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="TabNavigation">
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="TabNavigation"
-              component={TabNavigation}
-            />
+        <Paper>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName="TabNavigation">
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="TabNavigation"
+                component={TabNavigation}
+              />
 
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="CityList"
-              component={CityList}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="Description"
-              component={Description}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="ProductPage"
-              component={ProductPage}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="Login"
-              component={Login}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="SearchScreen"
-              component={SearchScreen}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="HomeFlatlist"
-              component={HomeFlatlist}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="ForgotPassword"
-              component={ForgotPassword}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="SignUp"
-              component={SignUp}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="Listings"
-              component={Listings}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="Profile"
-              component={Profile}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="OTPScreen"
-              component={OTPScreen}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="OtpVerify"
-              component={OtpVerify}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="PostAnAd"
-              component={PostAnAd}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="ContactUs"
-              component={ContactUs}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="MyWishlist"
-              component={MyWishlist}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="TermsAndCondition"
-              component={TermsAndCondition}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="PrivacyPolicy"
-              component={PrivacyPolicy}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="Blogs"
-              component={Blogs}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="Videos"
-              component={Videos}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="BlogDetails"
-              component={BlogDetails}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="FindMyDevice"
-              component={FindMyDevice}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="Filter"
-              component={Filter}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="CityList"
+                component={CityList}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Description"
+                component={Description}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="ProductPage"
+                component={ProductPage}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Login"
+                component={Login}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="SearchScreen"
+                component={SearchScreen}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="HomeFlatlist"
+                component={HomeFlatlist}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="ForgotPassword"
+                component={ForgotPassword}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="SignUp"
+                component={SignUp}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Listings"
+                component={Listings}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Profile"
+                component={Profile}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="OTPScreen"
+                component={OTPScreen}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="OtpVerify"
+                component={OtpVerify}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="PostAnAd"
+                component={PostAnAd}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="ContactUs"
+                component={ContactUs}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="MyWishlist"
+                component={MyWishlist}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="TermsAndCondition"
+                component={TermsAndCondition}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="PrivacyPolicy"
+                component={PrivacyPolicy}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Blogs"
+                component={Blogs}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Videos"
+                component={Videos}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="BlogDetails"
+                component={BlogDetails}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="FindMyDevice"
+                component={FindMyDevice}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Filter"
+                component={Filter}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </Paper>
       </Provider>
     </Context.Provider>
   );

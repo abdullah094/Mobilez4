@@ -153,8 +153,12 @@ const ProductPage = ({navigation, route}) => {
             color={color.black}
           />
         </Pressable>
-        <View>
-          <Slider data={data.productimages} />
+        <View flexDirection="row">
+          {/* <Slider data={data.productimages} /> */}
+          <View>
+            <Image />
+          </View>
+          <View></View>
         </View>
         <View
           style={{

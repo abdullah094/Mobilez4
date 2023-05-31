@@ -43,16 +43,15 @@ const ProductPage = ({navigation, route}) => {
   const relatedAds = data?.related_ads.map((element, index) => {
     let {productimages: image, ...rest} = element;
 
-    console.log('imageData', (element = {image: image[0], ...rest}));
-    return (element = {image: image[0], ...rest});
+    return (element = {image: image[0], ...rest, index});
   });
-  const moreAds = data?.more_ads.map((element, index) => {
+  const moreAds = data?.more_ads.map(element => {
     let {productimages: image, ...rest} = element;
 
-    console.log('imageData', (element = {image: image[0], ...rest}));
     return (element = {image: image[0], ...rest});
   });
 
+  console.log(relatedAds);
   const fetchData = () => {
     const api = DESCRIPTION + id;
     // console.log(api)

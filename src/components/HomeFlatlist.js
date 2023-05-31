@@ -89,13 +89,15 @@ const HomeFlatlist = props => {
   };
 
   return (
-    <FlatList
-      showsHorizontalScrollIndicator={false}
-      horizontal
-      data={props.data}
-      keyExtractor={item => item.id}
-      renderItem={renderItem}
-    />
+    <>
+      <FlatList
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        data={props.data}
+        keyExtractor={item => item.id}
+        renderItem={renderItem}
+      />
+    </>
   );
 };
 

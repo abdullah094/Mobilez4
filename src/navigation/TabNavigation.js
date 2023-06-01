@@ -7,7 +7,7 @@ import Sell from '../screens/Sell';
 import Settings from '../screens/Settings';
 import PostAnAd from '../screens/PostAnAd';
 import MyAds from '../screens/MyAds';
-
+import {color} from '../constants/Styles';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -31,7 +31,7 @@ export default function App() {
           // You can return any component that you like here!
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: 'tomato',
+        tabBarActiveTintColor: 'blue',
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
         tabBarHideOnKeyboard: true,

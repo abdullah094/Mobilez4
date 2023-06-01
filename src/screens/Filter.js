@@ -20,6 +20,12 @@ import Slider from 'rn-range-slider';
 
 import RangeSlider from 'rn-range-slider';
 import {useDispatch, useSelector} from 'react-redux';
+import Thumb from '../components/Thumb';
+import Rail from '../components/Rail';
+import RailSelected from '../components/RailSelected';
+import Notch from '../components/Notch';
+import Label from '../components/Label';
+import style from './style';
 import {
   reduxSetAccessToken,
   setProfileData,
@@ -35,10 +41,34 @@ const Filter = ({navigation}) => {
   const isFocused = useIsFocused();
   const [value, setValue] = useState(0);
 
-  const handleValueChange = useCallback((low, high) => {
-    setLow(low);
-    setHigh(high);
+  const [rangeDisabled, setRangeDisabled] = useState(false);
+  const [low, setLow] = useState(0);
+  const [high, setHigh] = useState(100);
+  const [min, setMin] = useState(0);
+  const [max, setMax] = useState(1000000);
+  const [floatingLabel, setFloatingLabel] = useState(false);
+
+  const renderThumb = useCallback(name => <Thumb name={name} />, []);
+  const renderRail = useCallback(() => <Rail />, []);
+  const renderRailSelected = useCallback(() => <RailSelected />, []);
+  const renderLabel = useCallback(value => <Label text={value} />, []);
+  const renderNotch = useCallback(() => <Notch />, []);
+  const handleValueChange = useCallback((lowValue, highValue) => {
+    setLow(lowValue);
+    setHigh(highValue);
   }, []);
+  const toggleRangeEnabled = useCallback(
+    () => setRangeDisabled(!rangeDisabled),
+    [rangeDisabled],
+  );
+  const setMinTo50 = useCallback(() => setMin(50), []);
+  const setMinTo0 = useCallback(() => setMin(0), []);
+  const setMaxTo100 = useCallback(() => setMax(100), []);
+  const setMaxTo500 = useCallback(() => setMax(500), []);
+  const toggleFloatingLabel = useCallback(
+    () => setFloatingLabel(!floatingLabel),
+    [floatingLabel],
+  );
 
   const _accesstoken = useSelector(state => state.todo.accessToken);
   // const name = DeviceInfo.getBrand();
@@ -127,7 +157,7 @@ const Filter = ({navigation}) => {
 
   console.log(form);
   console.log('heloooo', accessToken);
-
+  console.log('min ' + min + ' ' + 'max' + max);
   return (
     <ScrollView
       contentContainerStyle={{
@@ -145,7 +175,7 @@ const Filter = ({navigation}) => {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             alignItems: 'center',
 
             // borderWidth: 1,
@@ -166,7 +196,7 @@ const Filter = ({navigation}) => {
           source={{uri: image_url + profile.photo}}
         /> */}
 
-          <View>
+          {/* <View>
             {accessToken ? (
               <TouchableOpacity
                 disabled
@@ -185,7 +215,7 @@ const Filter = ({navigation}) => {
                 </Text>
               </TouchableOpacity>
             )}
-          </View>
+          </View> */}
         </View>
         <View style={tw`relative rounded-md`}>
           <TextInput
@@ -211,8 +241,15 @@ const Filter = ({navigation}) => {
             color={'white'}
           />
         </View>
-        <View style={{width: 372, padding: '1%'}}>
-          <Text style={{color: color.white, fontWeight: '400', fontSize: 15}}>
+        <View style={{width: 372}}>
+          <Text
+            style={{
+              color: color.white,
+              fontWeight: '400',
+              fontSize: 15,
+              paddingVertical: 8,
+              paddingHorizontal: 5,
+            }}>
             Price Range
           </Text>
           <View
@@ -225,25 +262,54 @@ const Filter = ({navigation}) => {
               marginTop: 10,
             }}>
             <View style={styles.min_max_box}>
-              <TextInput
-                value={form.min_price}
-                onChangeText={text => setForm({...form, min_price: text})}
-                keyboardType="number-pad"
-                style={styles.min_max_input}
-                placeholder="0"
-              />
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  padding: 8,
+                  width: width - 310,
+                  borderColor: 'white',
+                }}>
+                <Text style={{color: 'white'}}>{low}</Text>
+              </View>
             </View>
             <View style={styles.min_max_box}>
-              <TextInput
-                value={form.max_price}
-                onChangeText={text => setForm({...form, max_price: text})}
-                keyboardType="number-pad"
-                style={styles.min_max_input}
-                placeholder="10000"
-              />
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  alignItems: 'center',
+                  padding: 8,
+                  width: width - 310,
+                  borderColor: 'white',
+                }}>
+                <Text style={{color: 'white'}}>{high}</Text>
+              </View>
             </View>
           </View>
         </View>
+      </View>
+      <View
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: 250,
+          paddingBottom: 20,
+        }}>
+        <Slider
+          style={{width: '140%'}}
+          min={min}
+          max={max}
+          step={1}
+          disableRange={rangeDisabled}
+          renderThumb={renderThumb}
+          renderRail={renderRail}
+          renderRailSelected={renderRailSelected}
+          renderLabel={renderLabel}
+          renderNotch={renderNotch}
+          onValueChanged={handleValueChange}
+        />
       </View>
 
       <View
@@ -254,6 +320,7 @@ const Filter = ({navigation}) => {
           borderRadius: 40,
           backgroundColor: 'white',
           height: '100%',
+          borderColor: 'white',
         }}>
         <View
           style={{
@@ -351,7 +418,7 @@ const Filter = ({navigation}) => {
           onPress={() => navigation.navigate('FindMyDevice', {_form: form})}
           style={{
             backgroundColor: color.orange,
-            marginTop: 15,
+            marginTop: 40,
             justifyContent: 'center',
             alignItems: 'center',
             height: 50,

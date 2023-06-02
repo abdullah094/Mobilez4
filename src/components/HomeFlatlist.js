@@ -10,47 +10,101 @@ import React from 'react';
 import {color} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Entypo';
+import tw from 'twrnc';
+
 const HomeFlatlist = props => {
   const navigation = useNavigation();
   const renderItem = ({item}) => {
+    console.log('Date...............', item.created_at);
     const image_url = 'https://mobilezmarket.com/images/';
 
     const id = item.id;
+    const dateString = item.created_at;
+    const date = new Date(dateString);
 
+    const formattedDate = date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    console.log(id);
     return (
       <TouchableOpacity
         style={{
-          width: 150,
+          overflow: 'hidden',
           marginTop: 20,
+          shadowColor: '#000',
+          backgroundColor: 'white',
+          borderRadius: 20,
+          padding: 10,
+          paddingHorizontal: 15,
+          marginLeft: 16,
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.25,
+          shadowRadius: 3.84,
+
+          elevation: 5,
         }}
         onPress={() => navigation.navigate('ProductPage', {id: id})}>
-        <Image
-          style={{
-            height: 108,
-            width: 98,
-            marginBottom: 5,
-            backgroundColor: color.black,
-            borderRadius: 10,
-          }}
-          source={{uri: image_url + item?.image?.img}}
-          resizeMode="contain"
-        />
-        <View>
-          <Text
-            numberOfLines={1}
+        <View style={tw`flex items-center justify-center w-32`}>
+          <Image
             style={{
-              fontSize: 12,
-              width: '85%',
-              color: '#252B5C',
-            }}>
-            {item.brand} <Text>{item.model}</Text>
-          </Text>
-          <Text numberOfLines={1} style={{color: '#015DCF'}}>
-            Rs. {item.price}
-          </Text>
-        </View>
-        {props.type === 'phones' && (
-          <>
+              height: 120,
+              width: '100%',
+              marginBottom: 5,
+              backgroundColor: color.black,
+              borderRadius: 10,
+            }}
+            source={{uri: image_url + item?.image?.img}}
+            resizeMode="contain"
+          />
+
+          <View style={tw``}>
+            <Text
+              numberOfLines={1}
+              style={{
+                fontSize: 15,
+                color: '#252B5C',
+                fontWeight: '700',
+              }}>
+              {item.brand} <Text>{item.model}</Text>
+            </Text>
+            <Text
+              numberOfLines={1}
+              style={{color: '#015DCF', fontWeight: '700'}}>
+              Rs. {item.price}
+            </Text>
+
+            {props.type === 'phones' && (
+              <>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+
+                    width: '90%',
+                    marginTop: 2,
+                  }}>
+                  <Text style={styles.small_text}>{item.ram}GB</Text>
+                  <Text style={styles.small_text}> | </Text>
+
+                  <Text style={styles.small_text}>{item.storage}GB</Text>
+                  <Text style={styles.small_text}> | </Text>
+                  <Text numberOfLines={1} style={styles.small_text}>
+                    {item.pta_status}
+                  </Text>
+                </View>
+              </>
+            )}
+            <View>
+              <Text numberOfLines={1} style={styles.small_text}>
+                {formattedDate}
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: 'row',
@@ -59,30 +113,13 @@ const HomeFlatlist = props => {
                 width: '90%',
                 marginTop: 2,
               }}>
-              <Text style={styles.small_text}>{item.ram}GB</Text>
-              <Text style={styles.small_text}> | </Text>
-
-              <Text style={styles.small_text}>{item.storage}GB</Text>
-              <Text style={styles.small_text}> | </Text>
-              <Text numberOfLines={1} style={styles.small_text}>
-                {item.pta_status}
-              </Text>
-            </View>
-          </>
-        )}
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-
-            width: '90%',
-            marginTop: 2,
-          }}>
-          <Icon name="location-pin" size={10} />
-          <Text style={styles.small_text}>{item.user.city}</Text>
-          {/* <Text style={styles.small_text}>
+              <Icon name="location-pin" size={10} />
+              <Text style={styles.small_text}>{item.user.city}</Text>
+              {/* <Text style={styles.small_text}>
             {item.created_at.substring(0, 10)}
           </Text> */}
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -96,6 +133,7 @@ const HomeFlatlist = props => {
         data={props.data}
         keyExtractor={item => item.id}
         renderItem={renderItem}
+        contentContainerStyle={{paddingVertical: 10}}
       />
     </>
   );
@@ -107,5 +145,6 @@ const styles = StyleSheet.create({
   small_text: {
     color: 'gray',
     fontSize: 10,
+    fontWeight: '700',
   },
 });

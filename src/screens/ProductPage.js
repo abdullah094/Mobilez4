@@ -25,11 +25,14 @@ import call from 'react-native-phone-call';
 import {useSelector} from 'react-redux';
 import {Image} from 'react-native';
 import Flatbox from '../components/Flatbox';
+import DropDown from 'react-native-paper-dropdown';
 
 const {height, width} = Dimensions.get('window');
 const ProductPage = ({navigation, route}) => {
   const [data, setData] = useState();
   const [recentMobiles, setRecentMobiles] = useState();
+  const [images, setImages] = useState();
+
   const [recentWatches, setRecentWatches] = useState();
   const [recentTablets, setRecentTablets] = useState();
   const [seemore, setSeemore] = useState(3);
@@ -51,7 +54,6 @@ const ProductPage = ({navigation, route}) => {
     return (element = {image: image[0], ...rest});
   });
 
-  console.log(relatedAds);
   const fetchData = () => {
     const api = DESCRIPTION + id;
     // console.log(api)
@@ -65,8 +67,24 @@ const ProductPage = ({navigation, route}) => {
         console.log(error);
       });
   };
+  const fetchImages = () => {
+    const api = DESCRIPTION + id;
+    axios
+      .get(api)
+      .then(response => {
+        setImages(response?.data.details.productimages);
+
+        // console.log('=================', response?.data.details.productimages);
+        // console.log('Response======', response.data.related_ads);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    console.log('Images');
+  };
   useEffect(() => {
     fetchData();
+    fetchImages();
   }, []);
 
   console.log(id);
@@ -144,7 +162,7 @@ const ProductPage = ({navigation, route}) => {
     </View>
   );
 
-  if (!data) return <Loading />;
+  if (!data || !images) return <Loading />;
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: color.white}}>
       <ScrollView
@@ -200,27 +218,38 @@ const ProductPage = ({navigation, route}) => {
           style={{width: width, paddingHorizontal: 16}}
           justifyContent="space-between">
           {/* <Slider data={data.productimages} /> */}
-          <Image
+          <TouchableOpacity
             style={{
               height: 300,
               width: '70%',
               borderRadius: 10,
             }}
-            source={{uri: image_url + data?.details.productimages[0].img}}
-          />
+            onPress={() => navigation.navigate('Images', {images: images})}>
+            <Image
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 10,
+              }}
+              source={{uri: image_url + data?.details.productimages[0].img}}
+            />
+          </TouchableOpacity>
 
           <View
             style={{
               width: '30%',
               height: 300,
             }}>
-            {data?.details.productimages?.map(({img, index}) => (
-              <Image
-                key={index}
-                style={styles.productImage}
-                resizeMode="contain"
-                source={{uri: image_url + img}}
-              />
+            {data?.details.productimages?.slice(0, 3).map(({img, index}) => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Images', {images: images})}>
+                <Image
+                  key={index}
+                  style={styles.productImage}
+                  resizeMode="contain"
+                  source={{uri: image_url + img}}
+                />
+              </TouchableOpacity>
             ))}
           </View>
         </View>
@@ -299,6 +328,7 @@ const ProductPage = ({navigation, route}) => {
                 borderBottomColor: '#2B67F6',
                 borderBottomWidth: 1,
                 color: '#2B67F6',
+                width: 80,
               },
             ]}>
             description
@@ -320,11 +350,11 @@ const ProductPage = ({navigation, route}) => {
             )}
           </TouchableOpacity> */}
         </View>
-        <CallWhatsappSms />
+
         <Flatbox header={'Realted Ads'} onPress={() => {}} data={relatedAds} />
         <Flatbox header={'More Ads'} onPress={() => {}} data={moreAds} />
       </ScrollView>
-
+      <CallWhatsappSms />
       {/* call whatsapp sms button */}
     </SafeAreaView>
   );

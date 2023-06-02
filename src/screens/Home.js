@@ -288,7 +288,7 @@ const Home = ({navigation}) => {
       <Text style={styles.heading}>{props.header_name}</Text>
     </View>
   );
- 
+
   if (!recentMobiles || (!recentWatches && !sliderImages === []))
     return <Loading />;
   return (
@@ -297,7 +297,6 @@ const Home = ({navigation}) => {
         contentContainerStyle={{
           alignItems: 'center',
           backgroundColor: color.white,
-          paddingBottom: 100,
           paddingHorizontal: 24,
         }}
         showsVerticalScrollIndicator={false}
@@ -315,8 +314,10 @@ const Home = ({navigation}) => {
                 marginTop: 25,
               },
             ]}>
-            <Text style={tw`text-white text-xl`} numberOfLines={1}>
-              {heading}
+            <Text
+              style={{fontSize: 15, color: 'white', fontWeight: '600'}}
+              numberOfLines={1}>
+              {heading.slice(0, 19)}
             </Text>
 
             {/* login Register */}
@@ -453,7 +454,7 @@ const Home = ({navigation}) => {
             data={recentTablets}
             type={'tablets'}
           />
-          <View
+          {/* <View
             style={{
               width: width,
               height: 100,
@@ -465,9 +466,9 @@ const Home = ({navigation}) => {
               style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
               {name} {deviceName}
             </Text>
-          </View>
+          </View> */}
 
-          <View style={{marginVertical: 40}}>
+          <View style={styles.company_box}>
             <FlatList
               horizontal
               data={logos}
@@ -575,5 +576,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     marginHorizontal: 10,
+  },
+  company_box: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

@@ -41,6 +41,9 @@ import {
   reduxRemoveAccessToken,
 } from '../Redux/Slices';
 import tw from 'twrnc';
+import SearchScreen from './SearchScreen';
+import Slider from '../components/Slider';
+import HomeSlider from '../components/HomeSlider';
 
 const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {
@@ -55,8 +58,8 @@ const Home = ({navigation}) => {
   const [profile, setProfile] = useState();
   const [deviceName, setDeviceName] = useState();
   const [heading, setHeading] = useState('Home');
-
-  const image_url = 'https://www.mobilezmarket.com/images/';
+  const [reload, setReload] = useState(false);
+  const image_url = 'https:/www./mobilezmarket.com/images/';
   const _accesstoken = useSelector(state => state.todo.accessToken);
   const dispatch = useDispatch();
   const name = DeviceInfo.getBrand();
@@ -86,7 +89,7 @@ const Home = ({navigation}) => {
   };
   console.log(HOME_SLIDER_IMAGES);
   useEffect(() => {
-    console.log('fetch access token HOme useeffect');
+    console.log('fetch access token HOme useEffect');
     let user_token;
     setTimeout(async () => {
       user_token = null;
@@ -263,6 +266,7 @@ const Home = ({navigation}) => {
     return (
       <View
         style={{
+          zIndex: 1,
           width: '100%',
           height: 110,
           backgroundColor: color.white,
@@ -276,18 +280,6 @@ const Home = ({navigation}) => {
       </View>
     );
   };
-
-  const FlatlistHomeHeader = props => (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}>
-      <Text style={styles.heading}>{props.header_name}</Text>
-    </View>
-  );
 
   if (!recentMobiles || (!recentWatches && !sliderImages === []))
     return <Loading />;
@@ -341,54 +333,17 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
             )}
           </View>
-          <View style={tw`relative rounded-md`}>
-            <TextInput
-              onFocus={() => navigation.navigate('SearchScreen')}
-              placeholder="Search"
-              placeholderTextColor={'white'}
-              style={{
-                height: 43,
-                borderRadius: 4,
-                backgroundColor: '#4894F1',
-                paddingLeft: 32,
-                paddingHorizontal: 8,
-                marginTop: 25,
-                alignItems: 'center',
-                justifyContent: 'center',
-                display: 'flex',
-              }}></TextInput>
-            <Icon
-              style={tw`absolute top-9 left-2`}
-              name="magnifying-glass"
-              size={20}
-              color={'white'}
-            />
+          <View style={tw`relative rounded-md flex-1`}>
+            <SearchScreen />
+            <View
+              style={tw`w-full px-6 top-[120px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
+              <HomeSlider />
+            </View>
           </View>
         </View>
         {/* /header finsihes here */}
 
-        <View
-          style={[
-            tw`w-full`,
-            {
-              zIndex: 10,
-              alignItems: 'center',
-              top: -55,
-            },
-          ]}>
-          <View
-            style={tw`w-full px-6 items-center rounded-[13px] overflow-hidden `}>
-            <Carousel
-              loop
-              autoplay
-              data={sliderImages}
-              renderItem={_renderItem}
-              sliderWidth={width - 25}
-              itemWidth={width - 20}
-              layout={'stack'}
-            />
-          </View>
-
+        <View style={tw`w-full items-center top-[50px] mb-10`}>
           {/* row1 */}
           <View style={styles.tab_box_rows}>
             {/* box1 */}
@@ -496,7 +451,6 @@ const styles = StyleSheet.create({
   header: {
     width: width,
     paddingHorizontal: 24,
-
     height: 231,
     borderBottomWidth: 1,
     backgroundColor: '#015dcf',

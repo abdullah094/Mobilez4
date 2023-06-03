@@ -15,7 +15,7 @@ const Slider = ({data}) => {
   const [scrollPosition, setscrollPosition] = useState(0);
   // const inputEl = useRef(0);
   // console.log(scrollPosition)
-  const image_url = 'https://mobilezmarket.com/images/';
+  const image_url = 'https://www.mobilezmarket.com/images/';
 
   const scroll_value = () => {
     //spits out value of index of image currently displayed

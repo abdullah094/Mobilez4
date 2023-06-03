@@ -3,7 +3,6 @@ import {
   Text,
   View,
   ScrollView,
-  TextInput,
   Dimensions,
   TouchableOpacity,
   Pressable,
@@ -26,6 +25,8 @@ import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Header from '../components/Header';
 const {width, height} = Dimensions.get('window');
 import FormData from 'form-data';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {TextInput} from 'react-native-paper';
 // require the module
 var RNFS = require('react-native-fs');
 
@@ -559,19 +560,14 @@ const PostAnAd = ({navigation}) => {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.box}>
-            <Text style={{color: 'black', fontWeight: '700'}}>Description</Text>
-            <TextInput
-              style={[
-                styles.box_input,
-                {height: 200, textAlignVertical: 'top'},
-              ]}
-              multiline={true}
-              value={form.description}
-              onChangeText={text => setForm({...form, description: text})}
-            />
-          </View>
-        </View>
+      <View style={styles.box}>
+        <Text style={styles.box_heading}>Description</Text>
+        <TextInput
+          style={[styles.box_input, {height: 200, textAlignVertical: 'top'}]}
+          multiline={true}
+          value={form.description}
+          onChangeText={text => setForm({...form, description: text})}
+        />
       </View>
 
       <TouchableOpacity
@@ -601,13 +597,18 @@ const styles = StyleSheet.create({
   },
 
   box_input: {
+    height: 50,
     borderColor: color.black,
     borderRadius: 10,
     color: color.black,
 
     borderWidth: 1,
     borderColor: '#939393',
+    backgroundColor: 'white',
   },
   check_box_box: {flexDirection: 'row', alignItems: 'center', marginTop: 5},
   check_box_text: {color: color.black},
+  selectList: {
+    color: 'black',
+  },
 });

@@ -14,12 +14,6 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import {color} from '../constants/Colors';
-import {const_styles} from '../constants/Styles';
-import logo from '../assets/mobile-logo.png';
-import {data} from '../data/test';
-import Icon from 'react-native-vector-icons/Entypo';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import Carousel from 'react-native-snap-carousel';
 import FlatListBox from '../components/Flatbox';
 import {
   RECENTLY_ADDED_MOBILES,

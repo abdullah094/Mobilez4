@@ -17,7 +17,10 @@ import {SEARCH} from '@env';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import tw from 'twrnc';
+import {useIsFocused} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
+import DeviceInfo from 'react-native-device-info';
 
 import {
   reduxSetAccessToken,
@@ -85,10 +88,6 @@ const SearchScreen = () => {
       }
     }, 200);
   }, [isFocused]);
-
-  const clear = () => {
-    setSearchText('');
-  };
 
   const clear = () => {
     setSearchText('');

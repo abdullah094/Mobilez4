@@ -559,32 +559,33 @@ const PostAnAd = ({navigation}) => {
               </Text>
             </TouchableOpacity>
           </View>
+        </View>
+        <View style={styles.box}>
+          <Text style={styles.box_heading}>Description</Text>
+          <TextInput
+            style={[styles.box_input, {height: 200, textAlignVertical: 'top'}]}
+            multiline={true}
+            value={form.description}
+            onChangeText={text => setForm({...form, description: text})}
+          />
+        </View>
 
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Description</Text>
-        <TextInput
-          style={[styles.box_input, {height: 200, textAlignVertical: 'top'}]}
-          multiline={true}
-          value={form.description}
-          onChangeText={text => setForm({...form, description: text})}
-        />
+        <TouchableOpacity
+          onPress={() => PostAdFunc()}
+          style={{
+            backgroundColor: color.orange,
+            width: width - 50,
+            height: 50,
+            borderRadius: 20,
+            marginTop: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={{color: color.white, fontWeight: 'bold', fontSize: 15}}>
+            {button}
+          </Text>
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        onPress={() => PostAdFunc()}
-        style={{
-          backgroundColor: color.orange,
-          width: width - 50,
-          height: 50,
-          borderRadius: 20,
-          marginTop: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text style={{color: color.white, fontWeight: 'bold', fontSize: 15}}>
-          {button}
-        </Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -601,7 +602,7 @@ const styles = StyleSheet.create({
     borderColor: color.black,
     borderRadius: 10,
     color: color.black,
-
+    width: width - 30,
     borderWidth: 1,
     borderColor: '#939393',
     backgroundColor: 'white',

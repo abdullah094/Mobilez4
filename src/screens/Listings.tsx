@@ -63,14 +63,14 @@ const Listings = ({route, navigation}) => {
           <TouchableOpacity onPress={navigation.goBack}>
             <Ionicons
               name="ios-arrow-back-sharp"
-              color={color.black}
+              color={color.white}
               size={25}
             />
           </TouchableOpacity>
 
           <View style={tw`flex flex-row items-center px-2`}>
-            <Ionicons name="filter" color={color.black} size={25} />
-            <Text>Filter</Text>
+            <Ionicons name="filter" color={color.white} size={25} />
+            <Text style={{color: color.white, fontWeight: '500'}}>Filter</Text>
           </View>
           {/* // price/ location /model/modelyear */}
           <ScrollView

@@ -44,3 +44,9 @@ export const Condition = [
   {key: 2, value: 'Used'},
   {key: 3, value: 'Refurbished'},
 ];
+
+export const City = [
+  {key: 1, value: 'Karachi'},
+  {key: 2, value: 'Lahore'},
+  {key: 3, value: 'Faislabad'},
+];

@@ -10,7 +10,7 @@ import Settings from '../screens/Settings';
 import PostAnAd from '../screens/PostAnAd';
 import MyAds from '../screens/MyAds';
 import {color} from '../constants/Styles';
-import People from 'react-native-vector-icons/Octicons';
+import More from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
 const Tab = createBottomTabNavigator();
 
@@ -57,7 +57,7 @@ export default function App() {
       <Tab.Screen
         name="MyAds"
         options={{
-          tabBarLabel: 'Trending',
+          tabBarLabel: 'My Ads',
           tabBarIcon: ({color, size}) => (
             <Image
               style={{height: size, width: size, tintColor: color}}
@@ -123,9 +123,9 @@ export default function App() {
         name="More"
         component={Settings}
         options={{
-          tabBarLabel: 'Settings',
+          tabBarLabel: 'More',
           tabBarIcon: ({color, size}) => (
-            <People name="people" color={color} size={size} />
+            <More name="read-more" color={color} size={size} />
           ),
         }}
       />

@@ -330,7 +330,7 @@ const Home = ({navigation}) => {
           <View style={tw`relative rounded-md flex-1`}>
             <SearchScreen />
             <View
-              style={tw`w-full px-6 top-[120px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
+              style={tw`w-full px-6 top-[100px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
               <HomeSlider />
             </View>
           </View>
@@ -529,5 +529,6 @@ const styles = StyleSheet.create({
   company_box: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 20,
   },
 });

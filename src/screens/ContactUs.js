@@ -11,7 +11,8 @@ import {
 import React from 'react';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
-
+import Email from 'react-native-vector-icons/Zocial';
+import Location from 'react-native-vector-icons/Entypo';
 const {width, height} = Dimensions.get('window');
 const ContactUs = ({navigation}) => {
   return (
@@ -28,11 +29,20 @@ const ContactUs = ({navigation}) => {
 
         <View style={[styles.box, {marginTop: 40}]}>
           <Text style={styles.box_name}>Name</Text>
-          <TextInput style={styles.box_input} />
+          <TextInput
+            placeholder="Name"
+            placeholderTextColor={'grey'}
+            style={styles.box_input}
+          />
         </View>
 
         <View style={styles.box}>
-          <Text style={styles.box_name}>Email</Text>
+          <Text
+            placeholder="Email"
+            placeholderTextColor={'grey'}
+            style={styles.box_name}>
+            Email
+          </Text>
           <TextInput style={styles.box_input} />
         </View>
         <View style={styles.box}>
@@ -58,6 +68,53 @@ const ContactUs = ({navigation}) => {
             Submit
           </Text>
         </TouchableOpacity>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+
+            width: width - 30,
+            flexWrap: 'wrap',
+            paddingTop: 20,
+          }}>
+          <Email name="email" size={35} color={color.orange} />
+          <View
+            style={{
+              width: 220,
+              justifyContent: 'center',
+              paddingHorizontal: 10,
+            }}>
+            <Text style={{fontWeight: '400', color: 'black'}}>
+              info@mobilezmarket.com
+            </Text>
+            <Text style={{fontWeight: '400', color: 'black'}}>
+              support@mobilezmarket.com
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+
+            width: width - 30,
+            flexWrap: 'wrap',
+            paddingTop: 20,
+          }}>
+          <Location name="location" size={35} color={color.red} />
+          <View
+            style={{
+              width: 220,
+              justifyContent: 'center',
+              paddingHorizontal: 10,
+            }}>
+            <Text style={{fontWeight: '400', color: 'black'}}>
+              DHA Karahi, Pakistan
+            </Text>
+          </View>
+        </View>
       </ScrollView>
     </>
   );

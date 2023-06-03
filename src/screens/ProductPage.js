@@ -73,6 +73,7 @@ const ProductPage = ({navigation, route}) => {
       .get(api)
       .then(response => {
         setImages(response?.data.details.productimages);
+        console.log(response?.data.details.productimages);
 
         // console.log('=================', response?.data.details.productimages);
         // console.log('Response======', response.data.related_ads);
@@ -87,7 +88,6 @@ const ProductPage = ({navigation, route}) => {
     fetchImages();
   }, []);
 
-  console.log(id);
   const Add_to_Wishlist = () => {
     const api = WISHLIST + id;
     axios
@@ -116,7 +116,7 @@ const ProductPage = ({navigation, route}) => {
   if (data) {
     args.number = data?.details?.phone;
   }
-  console.log(data?.details?.phone);
+
   const CallWhatsappSms = () => (
     <View
       style={[
@@ -255,26 +255,39 @@ const ProductPage = ({navigation, route}) => {
         </View>
         <View
           style={{
-            flexDirection: 'row',
-            width: width - 30,
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginTop: 10,
+            borderBottomWidth: 1,
+            borderColor: color.gray,
           }}>
-          <Text
-            style={[
-              styles.heading,
-              {fontSize: 14, color: color.black, marginBottom: 0},
-            ]}>
-            <Text>
-              {data.details.brand}
-              {data.details.model}
+          <View
+            style={{
+              flexDirection: 'row',
+              width: width - 30,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: 10,
+            }}>
+            <Text
+              style={[
+                styles.heading,
+                {fontSize: 20, color: color.black, marginBottom: 0},
+              ]}>
+              <Text>{data.details.brand}</Text>
+              <Text> {data.details.model}</Text>
             </Text>
-          </Text>
-          <Text style={{color: '#015DCF'}}>
+
+            <Pressable>
+              <Ionicons
+                name={'share-social-sharp'}
+                size={30}
+                color={'#0167E6'}
+              />
+            </Pressable>
+          </View>
+          <Text style={{color: '#015DCF', fontSize: 20, fontWeight: '700'}}>
             Rs. {data.details.price.toLocaleString()}
           </Text>
         </View>
+
         <View
           style={{
             flexDirection: 'row',
@@ -284,37 +297,246 @@ const ProductPage = ({navigation, route}) => {
           }}>
           <View
             style={{
-              width: width - 59,
+              width: width - 30,
+              marginVertical: 15,
             }}>
-            <Text style={{color: color.black, fontSize: 12, marginTop: 5}}>
-              {data.details.ram}GB | {data.details.storage}GB |{' '}
-              {data.details.pta_status}
-            </Text>
-
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
-              <MaterialIcon name="location-on" size={13} color={color.black} />
+              <Text
+                style={{
+                  color: color.black,
+                  fontSize: 15,
+
+                  fontWeight: '700',
+                }}>
+                Storage :
+              </Text>
+              <Text
+                style={{
+                  color: color.grey,
+                  fontSize: 15,
+                  alignItems: 'center',
+                  fontWeight: '400',
+                  paddingHorizontal: 5,
+                }}>
+                {data.details.storage}GB
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 7,
+              }}>
+              <Text
+                style={{
+                  color: color.black,
+                  fontSize: 15,
+
+                  fontWeight: '700',
+                }}>
+                RAM :
+              </Text>
+              <Text
+                style={{
+                  color: color.grey,
+                  fontSize: 15,
+
+                  fontWeight: '400',
+                  paddingHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                {data.details.ram}GB
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 7,
+              }}>
+              <Text
+                style={{
+                  color: color.black,
+                  fontSize: 15,
+
+                  fontWeight: '700',
+                }}>
+                Warrenty :
+              </Text>
+              <Text
+                style={{
+                  color: color.grey,
+                  fontSize: 15,
+
+                  fontWeight: '400',
+                  paddingHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                {data.details.warranty}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 7,
+              }}>
+              <Text
+                style={{
+                  color: color.black,
+                  fontSize: 15,
+
+                  fontWeight: '700',
+                }}>
+                Product Condition :
+              </Text>
+              <Text
+                style={{
+                  color: color.grey,
+                  fontSize: 15,
+
+                  fontWeight: '400',
+                  paddingHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                {data.details.product_type}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 7,
+              }}>
+              <Text
+                style={{
+                  color: color.black,
+                  fontSize: 15,
+
+                  fontWeight: '700',
+                }}>
+                PTA Status :
+              </Text>
+              <Text
+                style={{
+                  color: color.grey,
+                  fontSize: 15,
+
+                  fontWeight: '400',
+                  paddingHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                {data.details.pta_status}
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 7,
+              }}>
+              <Text
+                style={{
+                  color: color.black,
+                  fontSize: 15,
+
+                  fontWeight: '700',
+                }}>
+                Posted By :
+              </Text>
+              <Text
+                style={{
+                  color: color.grey,
+                  fontSize: 15,
+
+                  fontWeight: '400',
+                  paddingHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                {data.details.user.shop_name}
+              </Text>
+            </View>
+            {/* <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 7,
+              }}>
+              <Text
+                style={{
+                  color: color.black,
+                  fontSize: 15,
+
+                  fontWeight: '700',
+                }}>
+                Shop Name :
+              </Text>
+              <Text
+                style={{
+                  color: color.grey,
+                  fontSize: 15,
+
+                  fontWeight: '400',
+                  paddingHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                {data.details.user.shop_name}
+              </Text>
+            </View> */}
+            {/* <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 7,
+              }}>
+              <Text
+                style={{
+                  color: color.black,
+                  fontSize: 15,
+
+                  fontWeight: '700',
+                }}>
+                Shop Address :
+              </Text>
+              <Text
+                style={{
+                  color: color.grey,
+                  fontSize: 15,
+
+                  fontWeight: '400',
+                  paddingHorizontal: 5,
+                  alignItems: 'center',
+                }}>
+                {data.details.user.shop_address}
+              </Text>
+            </View> */}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 7,
+              }}>
+              <MaterialIcon name="location-on" size={18} color={color.red} />
               <Text
                 style={[
                   styles.heading,
                   {
-                    fontSize: 13,
-                    fontWeight: 'normal',
+                    fontSize: 15,
+                    fontWeight: 'bold',
                     marginLeft: 1,
-                    marginTop: 0,
                   },
                 ]}>
                 {data?.details.user.city}
               </Text>
             </View>
           </View>
-
-          <Pressable>
-            <Ionicons name={'share-social-sharp'} size={30} color={'#0167E6'} />
-          </Pressable>
         </View>
 
         {/* Description */}
@@ -323,15 +545,16 @@ const ProductPage = ({navigation, route}) => {
             style={[
               styles.heading,
               {
-                fontWeight: '500',
-                fontSize: 15,
+                fontWeight: '700',
+                fontSize: 17,
                 borderBottomColor: '#2B67F6',
                 borderBottomWidth: 1,
                 color: '#2B67F6',
-                width: 80,
+                width: 90,
+                marginVertical: 5,
               },
             ]}>
-            description
+            Description
           </Text>
           <Text
             style={{
@@ -344,7 +567,6 @@ const ProductPage = ({navigation, route}) => {
             numberOfLines={seemore}>
             {/* {console.log(data.description)} */}
             {data.details.description}
-            {console.log(data.details.description)}
           </Text>
           {/* See less see more button */}
           {/* <TouchableOpacity onPress={() => setSeemore(30)}>

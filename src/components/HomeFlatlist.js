@@ -23,11 +23,10 @@ const HomeFlatlist = props => {
     const date = new Date(dateString);
 
     const formattedDate = date.toLocaleDateString('en-US', {
-      year: 'numeric',
       month: 'long',
       day: 'numeric',
     });
-
+    console.log(formattedDate);
     // console.log(id);
     return (
       <TouchableOpacity
@@ -69,13 +68,13 @@ const HomeFlatlist = props => {
               style={{
                 fontSize: 15,
                 color: '#252B5C',
-                fontWeight: '700',
+                fontWeight: '800',
               }}>
               {item.brand} <Text>{item.model}</Text>
             </Text>
             <Text
               numberOfLines={1}
-              style={{color: '#015DCF', fontWeight: '700'}}>
+              style={{color: '#015DCF', fontWeight: '800'}}>
               Rs. {item.price}
             </Text>
 
@@ -100,24 +99,26 @@ const HomeFlatlist = props => {
                 </View>
               </>
             )}
-            <View>
-              <Text numberOfLines={1} style={styles.small_text}>
-                {formattedDate}
-              </Text>
-            </View>
             <View
               style={{
                 flexDirection: 'row',
-                alignItems: 'center',
-
-                width: '90%',
-                marginTop: 2,
+                justifyContent: 'space-between',
               }}>
-              <Icon name="location-pin" size={10} />
-              <Text style={styles.small_text}>{item.user.city}</Text>
-              {/* <Text style={styles.small_text}>
-            {item.created_at.substring(0, 10)}
-          </Text> */}
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+
+                  marginTop: 2,
+                }}>
+                <Icon name="location-pin" size={10} />
+                <Text style={styles.small_text}>{item.user.city}</Text>
+              </View>
+              <View>
+                <Text numberOfLines={1} style={styles.small_text}>
+                  {formattedDate}
+                </Text>
+              </View>
             </View>
           </View>
         </View>

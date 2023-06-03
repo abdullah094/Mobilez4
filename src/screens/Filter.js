@@ -32,7 +32,14 @@ import {
   reduxRemoveAccessToken,
 } from '../Redux/Slices';
 import {GET_PROFILE_DATA} from '@env';
-import {Ram, Storage, Pta_status, Condition, Warranty} from '../constants/Data';
+import {
+  Ram,
+  Storage,
+  Pta_status,
+  Condition,
+  Warranty,
+  City,
+} from '../constants/Data';
 import Header from '../components/Header';
 const {width, height} = Dimensions.get('window');
 const Filter = ({navigation}) => {
@@ -439,12 +446,17 @@ const Filter = ({navigation}) => {
           />
         </View>
         <View style={{marginTop: 10}}>
-          <TextInput
-            value={ramData.city}
-            placeholder="Location"
+          <SelectList
+            boxStyles={{
+              backgroundColor: color.white,
+              borderColor: '#D3D3D3',
+            }}
             inputStyles={{color: 'grey'}}
-            onChangeText={text => setRamData({...ramData, city: text})}
-            style={[styles.input]}
+            search={false}
+            placeholder="City"
+            setSelected={val => setRamData({...ramData, city: val})}
+            data={City}
+            save="value"
           />
         </View>
         <TouchableOpacity

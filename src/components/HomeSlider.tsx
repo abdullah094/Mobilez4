@@ -3,6 +3,11 @@ import React, {useEffect, useState} from 'react';
 import Carousel from 'react-native-snap-carousel';
 import axios from 'axios';
 import {HOME_SLIDER_IMAGES} from '@env';
+import Sort from 'react-native-vector-icons/MaterialIcons';
+import Grid from 'react-native-vector-icons/Entypo';
+import ListIcon from 'react-native-vector-icons/Feather';
+import {color} from '../constants/Colors';
+
 const {width, height} = Dimensions.get('window');
 const HomeSlider = () => {
   const [sliderImages, setSliderImages] = useState([]);
@@ -45,15 +50,19 @@ const HomeSlider = () => {
     );
   };
   return (
-    <Carousel
-      loop
-      autoplay
-      data={sliderImages}
-      renderItem={_renderItem}
-      sliderWidth={width - 25}
-      itemWidth={width - 20}
-      layout={'stack'}
-    />
+    <>
+      <View>
+        <Carousel
+          loop
+          autoplay
+          data={sliderImages}
+          renderItem={_renderItem}
+          sliderWidth={width - 25}
+          itemWidth={width - 20}
+          layout={'stack'}
+        />
+      </View>
+    </>
   );
 };
 

@@ -335,6 +335,7 @@ const Filter = ({navigation}) => {
                   backgroundColor: color.white,
                   borderColor: '#D3D3D3',
                 }}
+                inputStyles={{color: 'grey'}}
                 search={false}
                 placeholder="Category"
                 setSelected={val => setRamData({...ramData, ram: val})}
@@ -350,6 +351,7 @@ const Filter = ({navigation}) => {
                   backgroundColor: color.white,
                   borderColor: '#D3D3D3',
                 }}
+                inputStyles={{color: 'grey'}}
                 search={false}
                 placeholder="Brands"
                 setSelected={val => setRamData({...ramData, storage: val})}
@@ -362,55 +364,86 @@ const Filter = ({navigation}) => {
 
         <View style={{marginTop: 10}}>
           <View style={{marginTop: 5}}>
-            <TextInput
-              value={ramData.city}
+            <SelectList
+              boxStyles={{
+                backgroundColor: color.white,
+                borderColor: '#D3D3D3',
+              }}
+              inputStyles={{color: 'grey'}}
+              search={false}
               placeholder="RAM"
-              onChangeText={text => setRamData({...ramData, ram: text})}
-              style={[styles.input]}
+              setSelected={val => setRamData({...ramData, ram: val})}
+              data={Ram}
+              save="value"
             />
           </View>
         </View>
         <View style={{marginTop: 10}}>
           <View style={{marginTop: 5}}>
-            <TextInput
-              value={ramData.city}
+            <SelectList
+              boxStyles={{
+                backgroundColor: color.white,
+                borderColor: '#D3D3D3',
+              }}
+              inputStyles={{color: 'grey'}}
+              search={false}
               placeholder="Storage"
-              onChangeText={text => setRamData({...ramData, storage: text})}
-              style={[styles.input]}
+              setSelected={val => setRamData({...ramData, storage: val})}
+              data={Storage}
+              save="value"
             />
           </View>
         </View>
         <View style={{marginTop: 10}}>
           <View style={{marginTop: 5}}>
-            <TextInput
-              value={ramData.city}
+            <SelectList
+              boxStyles={{
+                backgroundColor: color.white,
+                borderColor: '#D3D3D3',
+              }}
+              inputStyles={{color: 'grey'}}
+              search={false}
               placeholder="PTA Status"
-              onChangeText={text => setRamData({...ramData, pta_status: text})}
-              style={[styles.input]}
+              setSelected={val => setRamData({...ramData, pta_status: val})}
+              data={Pta_status}
+              save="value"
             />
           </View>
         </View>
         <View style={{marginTop: 10}}>
-          <TextInput
-            value={ramData.city}
-            placeholder="Product Condition"
-            onChangeText={text => setRamData({...ramData, condition: text})}
-            style={[styles.input]}
+          <SelectList
+            boxStyles={{
+              backgroundColor: color.white,
+              borderColor: '#D3D3D3',
+            }}
+            inputStyles={{color: 'grey'}}
+            search={false}
+            placeholder="Condition"
+            setSelected={val => setRamData({...ramData, condition: val})}
+            data={Condition}
+            save="value"
           />
         </View>
         <View style={{marginTop: 10}}>
-          <TextInput
-            value={ramData.city}
+          <SelectList
+            boxStyles={{
+              backgroundColor: color.white,
+              borderColor: '#D3D3D3',
+            }}
+            inputStyles={{color: 'grey'}}
+            search={false}
             placeholder="Warranty"
-            onChangeText={text => setRamData({...ramData, Warranty: text})}
-            style={[styles.input]}
+            setSelected={val => setRamData({...ramData, Warranty: val})}
+            data={Warranty}
+            save="value"
           />
         </View>
         <View style={{marginTop: 10}}>
           <TextInput
             value={ramData.city}
             placeholder="Location"
-            onChangeText={text => setRamData({...ramData, Warranty: text})}
+            inputStyles={{color: 'grey'}}
+            onChangeText={text => setRamData({...ramData, city: text})}
             style={[styles.input]}
           />
         </View>

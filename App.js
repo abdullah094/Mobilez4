@@ -29,6 +29,7 @@ import Videos from './src/screens/Videos';
 import BlogDetails from './src/screens/BlogDetails';
 import FindMyDevice from './src/screens/FindMyDevice';
 import Filter from './src/screens/Filter';
+import Images from './src/screens/Images';
 import {
   Appbar,
   DarkTheme,
@@ -241,6 +242,11 @@ const App = () => {
                 options={{headerShown: false}}
                 name="Filter"
                 component={Filter}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Images"
+                component={Images}
               />
             </Stack.Navigator>
           </NavigationContainer>

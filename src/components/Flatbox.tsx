@@ -1,29 +1,29 @@
-import React from 'react'
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
-import HomeFlatlist from './HomeFlatlist'
-import { color } from '../constants/Colors';
+import React from 'react';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import HomeFlatlist from './HomeFlatlist';
+import {color} from '../constants/Colors';
 const {height, width} = Dimensions.get('window');
-const Flatbox = ({header,onPress,data,type}) => {
+const Flatbox = ({header, onPress, data, type}) => {
   return (
-    <View style={{width: width - 20, marginTop: 15, marginLeft: 24}}>
-    {/* bar with heading and view more */}
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
-      <Text style={styles.heading}>{header}</Text>
+    <View style={{width: width - 20, marginTop: 15}}>
+      {/* bar with heading and view more */}
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <Text style={styles.heading}>{header}</Text>
+      </View>
+      {/* flatlist  */}
+      <View style={styles._flatlist}>
+        <HomeFlatlist data={data} type={type} />
+      </View>
     </View>
-    {/* flatlist  */}
-    <View style={styles._flatlist}>
-      <HomeFlatlist data={data} type={type} />
-    </View>
-  </View>
-  )
-}
+  );
+};
 
-export default Flatbox
+export default Flatbox;
 
 const styles = StyleSheet.create({
   _flatlist: {
@@ -32,5 +32,6 @@ const styles = StyleSheet.create({
   heading: {
     color: color.black,
     fontSize: 20,
-  }
-})
+    marginLeft: 10,
+  },
+});

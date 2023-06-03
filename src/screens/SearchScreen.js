@@ -19,11 +19,32 @@ import {useNavigation} from '@react-navigation/native';
 import tw from 'twrnc';
 import Icon from 'react-native-vector-icons/Entypo';
 
+import {
+  reduxSetAccessToken,
+  setProfileData,
+  reduxRemoveAccessToken,
+} from '../Redux/Slices';
 const {width, height} = Dimensions.get('window');
 const SearchScreen = () => {
   const navigation = useNavigation();
   const [searchedItems, setSearchedItems] = useState();
   const [searchText, setSearchText] = useState();
+  const [heading, setHeading] = useState('Home');
+  const [accessToken, setAccessToken] = useState();
+  const isFocused = useIsFocused();
+  const [deviceName, setDeviceName] = useState();
+
+  const _accesstoken = useSelector(state => state.todo.accessToken);
+  const dispatch = useDispatch();
+  const name = DeviceInfo.getBrand();
+  setTimeout(() => {
+    setHeading(`${name}'s ${deviceName}`);
+  }, 5000);
+  DeviceInfo.getDeviceName().then(res => {
+    setDeviceName(res);
+  });
+  let _accessToken;
+  _accessToken = useSelector(state => state.todo.accessToken);
 
   const getSearchedItemsFunc = () => {
     axios
@@ -39,11 +60,34 @@ const SearchScreen = () => {
       .then(function (response) {
         //handle success
         response.data.message || setSearchedItems(response.data.search_data);
+        console.log(response.data.search_data);
       })
       .catch(function (response) {
         //handle error
         console.log(response);
       });
+  };
+  useEffect(() => {
+    console.log('fetch access token HOme useeffect');
+    let user_token;
+    setTimeout(async () => {
+      user_token = null;
+      try {
+        user_token = await AsyncStorage.getItem('@user_token');
+        setAccessToken(user_token);
+        dispatch(reduxSetAccessToken(user_token));
+      } catch (e) {
+        if (user_token === null) {
+          setAccessToken();
+          dispatch(reduxRemoveAccessToken());
+        }
+        console.log(e);
+      }
+    }, 200);
+  }, [isFocused]);
+
+  const clear = () => {
+    setSearchText('');
   };
 
   const clear = () => {
@@ -116,4 +160,13 @@ const SearchScreen = () => {
 
 export default SearchScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  header: {
+    width: width,
+    paddingHorizontal: 24,
+
+    height: 150,
+    borderBottomWidth: 1,
+    backgroundColor: '#015dcf',
+  },
+});

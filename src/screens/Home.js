@@ -29,7 +29,7 @@ import {
   HOME_SLIDER_IMAGES,
 } from '@env';
 import axios from 'axios';
-import SearchDropDown from '../components/SearchDropDown';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../components/Loading';
 import {useDispatch, useSelector} from 'react-redux';
@@ -53,9 +53,7 @@ const Home = ({navigation}) => {
   const [recentWatches, setRecentWatches] = useState();
   const [recentTablets, setRecentTablets] = useState();
   const [sliderImages, setSliderImages] = useState([]);
-  const [searchBoxFocus, setSearchBoxFocus] = useState(false);
-  const [searchText, setSearchText] = useState();
-  const [searchedItems, setSearchedItems] = useState();
+
   const [accessToken, setAccessToken] = useState();
   const [profile, setProfile] = useState();
   const [deviceName, setDeviceName] = useState();
@@ -81,6 +79,7 @@ const Home = ({navigation}) => {
       .then(response => {
         response.data.images.forEach(element => {
           setSliderImages(JSON.parse(element.banner_images));
+          console.log('ImageSlider', HOME_SLIDER_IMAGES);
         });
       })
       .catch(error => {
@@ -88,7 +87,7 @@ const Home = ({navigation}) => {
       });
     // setSliderImages(images)
   };
-
+  console.log(HOME_SLIDER_IMAGES);
   useEffect(() => {
     console.log('fetch access token HOme useEffect');
     let user_token;
@@ -219,6 +218,7 @@ const Home = ({navigation}) => {
       .get(RECENTLY_ADDED_TABLETS)
       .then(response => {
         setRecentTablets(response.data.tablets);
+        console.log(RECENTLY_ADDED_TABLETS);
       })
       .catch(error => {
         console.log('Tablet' + error);
@@ -289,7 +289,6 @@ const Home = ({navigation}) => {
         contentContainerStyle={{
           alignItems: 'center',
           backgroundColor: color.white,
-          paddingBottom: 100,
           paddingHorizontal: 24,
         }}
         showsVerticalScrollIndicator={false}
@@ -307,8 +306,10 @@ const Home = ({navigation}) => {
                 marginTop: 25,
               },
             ]}>
-            <Text style={tw`text-white text-xl`} numberOfLines={1}>
-              {heading}
+            <Text
+              style={{fontSize: 15, color: 'white', fontWeight: '600'}}
+              numberOfLines={1}>
+              {heading.slice(0, 19)}
             </Text>
 
             {/* login Register */}
@@ -325,7 +326,8 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={{color: color.white, fontSize: 15}}>
+                <Text
+                  style={{color: color.white, fontSize: 14, fontWeight: '600'}}>
                   {'Login/Register'}
                 </Text>
               </TouchableOpacity>
@@ -408,7 +410,7 @@ const Home = ({navigation}) => {
             data={recentTablets}
             type={'tablets'}
           />
-          <View
+          {/* <View
             style={{
               width: width,
               height: 100,
@@ -420,9 +422,9 @@ const Home = ({navigation}) => {
               style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
               {name} {deviceName}
             </Text>
-          </View>
+          </View> */}
 
-          <View style={{marginVertical: 40}}>
+          <View style={styles.company_box}>
             <FlatList
               horizontal
               data={logos}
@@ -529,5 +531,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     marginHorizontal: 10,
+  },
+  company_box: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

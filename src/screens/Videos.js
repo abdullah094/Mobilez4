@@ -27,6 +27,7 @@ const Videos = ({navigation}) => {
       .get(VIDEOS)
       .then(response => {
         setData(response.data.videos);
+        console.log(response.data.videos);
       })
       .catch(error => {
         Alert.alert('Failed');

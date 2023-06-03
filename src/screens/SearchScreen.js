@@ -6,15 +6,22 @@ import {
   FlatList,
   Dimensions,
   Pressable,
+  SafeAreaView,
+  Touchable,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
 import {SEARCH} from '@env';
 import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
+import tw from 'twrnc';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const {width, height} = Dimensions.get('window');
-const SearchScreen = ({navigation}) => {
+const SearchScreen = () => {
+  const navigation = useNavigation();
   const [searchedItems, setSearchedItems] = useState();
   const [searchText, setSearchText] = useState();
 
@@ -39,50 +46,70 @@ const SearchScreen = ({navigation}) => {
       });
   };
 
+  const clear = () => {
+    setSearchText('');
+  };
+
   useEffect(() => {
+    if (searchText == '') setSearchedItems();
+
     getSearchedItemsFunc();
   }, [searchText]);
   return (
-    <View style={{flex: 1, alignItems: 'center', backgroundColor: color.gray}}>
-      <Header header={'Search here'} onPress={() => navigation.goBack()} />
+    <View style={tw`flex-1 z-10`}>
       <TextInput
-        autoFocus
         value={searchText}
+        clearTextOnFocus={() => setSearchText('')}
         onChangeText={text => setSearchText(text)}
+        placeholder="Search"
+        placeholderTextColor={'white'}
         style={{
-          width: width - 40,
-          borderRadius: 20,
-          backgroundColor: 'white',
-          height: 50,
-          padding: 3,
-          paddingHorizontal: 20,
-          marginBottom: 10,
-          marginTop: 100,
-          color: color.black,
+          width: '100%',
+          height: 43,
+          borderRadius: 4,
+          backgroundColor: '#4894F1',
+          paddingLeft: 32,
+          paddingHorizontal: 8,
+          marginTop: 25,
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: 'flex',
+          color: 'white',
         }}
       />
-
-      <FlatList
-        keyboardShouldPersistTaps="handled"
-        data={searchedItems}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <Pressable
-            onPress={() => navigation.navigate('ProductPage', {id: item.id})}
-            style={{
-              width: width - 50,
-              borderBottomWidth: 1,
-              paddingTop: 20,
-              borderColor: color.white,
-              paddingVertical: 2,
-              padding: 2,
-            }}>
-            <Text style={{color: color.black}}>
-              {item.brand} <Text>{item.model}</Text>
-            </Text>
-          </Pressable>
-        )}
+      <Icon
+        style={tw`absolute top-9 left-2`}
+        name="magnifying-glass"
+        size={20}
+        color={'white'}
       />
+      <TouchableOpacity style={tw`absolute top-9 right-2`} onPress={clear}>
+        <Icon name="cross" size={20} color={'white'} />
+      </TouchableOpacity>
+
+      <View style={tw`bg-white z-10`}>
+        <FlatList
+          keyboardShouldPersistTaps="handled"
+          data={searchedItems}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <Pressable
+              onPress={() => navigation.navigate('ProductPage', {id: item.id})}
+              style={{
+                width: width - 50,
+                borderBottomWidth: 1,
+                paddingTop: 20,
+                borderColor: color.white,
+                paddingVertical: 2,
+                padding: 2,
+              }}>
+              <Text style={{color: color.black}}>
+                {item.brand} <Text>{item.model}</Text>
+              </Text>
+            </Pressable>
+          )}
+        />
+      </View>
     </View>
   );
 };

@@ -8,6 +8,7 @@ import Settings from '../screens/Settings';
 import PostAnAd from '../screens/PostAnAd';
 import MyAds from '../screens/MyAds';
 import {color} from '../constants/Styles';
+import Listings from '../screens/Listings';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
         tabBarHideOnKeyboard: true,
       })}>
       <Tab.Screen name="Home" component={Home} />
+      {/* <Tab.Screen name="Home" component={Listings} /> */}
 
       <Tab.Screen name="MyAds" component={MyAds} />
 

@@ -15,7 +15,7 @@ const {width, height} = Dimensions.get('window');
 const BlogDetails = ({navigation, route}) => {
   const {data} = route.params;
   console.log(data.title);
-  const base_url = 'https://mobilezmarket.com/images/';
+  const base_url = 'https://www.mobilezmarket.com/images/';
 
   const source = {
     html: data.description,

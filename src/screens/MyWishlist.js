@@ -18,7 +18,7 @@ const {width, height} = Dimensions.get('window');
 const MyWishlist = ({navigation}) => {
   const [data, setData] = useState([]);
   const accessToken = useSelector(state => state.todo.accessToken);
-  const base_url = 'https://mobilezmarket.com/images/';
+  const base_url = 'https://www.mobilezmarket.com/images/';
   const fetchData = () => {
     axios
       .get(WISHLIST_GET, {

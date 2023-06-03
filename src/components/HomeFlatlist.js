@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 const HomeFlatlist = props => {
   const navigation = useNavigation();
   const renderItem = ({item}) => {
-    const image_url = 'https://mobilezmarket.com/images/';
+    const image_url = 'https://www.mobilezmarket.com/images/';
 
     const id = item.id;
 

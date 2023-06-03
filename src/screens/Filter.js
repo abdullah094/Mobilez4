@@ -102,7 +102,7 @@ const Filter = ({navigation}) => {
     max_price: '',
     min_price: '',
   });
-  const image_url = 'https://mobilezmarket.com/images/';
+  const image_url = 'https://www.mobilezmarket.com/images/';
   const fetchProfileData = async () => {
     await axios
       .get(GET_PROFILE_DATA, {

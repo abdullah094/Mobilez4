@@ -18,7 +18,7 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 const Blogs = ({navigation}) => {
   const [data, setData] = useState();
-  const base_url = 'https://mobilezmarket.com/images/';
+  const base_url = 'https://www.mobilezmarket.com/images/';
   const fetchData = () => {
     axios
       .get(BLOGS)

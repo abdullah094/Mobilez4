@@ -334,10 +334,17 @@ const ProductPage = ({navigation, route}) => {
             description
           </Text>
           <Text
-            style={{fontWeight: '200', color: color.black}}
+            style={{
+              fontWeight: '500',
+              color: color.grey,
+
+              flexWrap: 'wrap',
+              alignItems: 'center',
+            }}
             numberOfLines={seemore}>
             {/* {console.log(data.description)} */}
             {data.details.description}
+            {console.log(data.details.description)}
           </Text>
           {/* See less see more button */}
           {/* <TouchableOpacity onPress={() => setSeemore(30)}>

@@ -11,12 +11,12 @@ import {color} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Entypo';
 import tw from 'twrnc';
+import {width} from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
 
 const HomeFlatlist = props => {
   const navigation = useNavigation();
   const renderItem = ({item}) => {
-    console.log('Date...............', item.created_at);
-    const image_url = 'https://mobilezmarket.com/images/';
+    const image_url = 'https://www.mobilezmarket.com/images/';
 
     const id = item.id;
     const dateString = item.created_at;
@@ -28,7 +28,7 @@ const HomeFlatlist = props => {
       day: 'numeric',
     });
 
-    console.log(id);
+    // console.log(id);
     return (
       <TouchableOpacity
         style={{
@@ -63,7 +63,7 @@ const HomeFlatlist = props => {
             resizeMode="contain"
           />
 
-          <View style={tw``}>
+          <View style={{justifyContent: 'flex-start', width: 135}}>
             <Text
               numberOfLines={1}
               style={{

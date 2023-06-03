@@ -18,7 +18,7 @@ import {useIsFocused} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 const MyAds = ({navigation}) => {
-  const image_url = 'https://mobilezmarket.com/images/';
+  const image_url = 'https://www.mobilezmarket.com/images/';
   const isFocused = useIsFocused();
   const [data, setData] = useState();
   const _accessToken = useSelector(state => state.todo.accessToken);

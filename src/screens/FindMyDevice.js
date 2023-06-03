@@ -33,7 +33,7 @@ const FindMyDevice = ({navigation, route}) => {
     min_price: '',
   });
 
-  const image_url = 'https://mobilezmarket.com/images/';
+  const image_url = 'https://www.mobilezmarket.com/images/';
   const fetchResults = async () => {
     setData();
     await axios

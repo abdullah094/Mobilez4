@@ -29,7 +29,7 @@ import {
   HOME_SLIDER_IMAGES,
 } from '@env';
 import axios from 'axios';
-import SearchDropDown from '../components/SearchDropDown';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../components/Loading';
 import {useDispatch, useSelector} from 'react-redux';
@@ -50,15 +50,13 @@ const Home = ({navigation}) => {
   const [recentWatches, setRecentWatches] = useState();
   const [recentTablets, setRecentTablets] = useState();
   const [sliderImages, setSliderImages] = useState([]);
-  const [searchBoxFocus, setSearchBoxFocus] = useState(false);
-  const [searchText, setSearchText] = useState();
-  const [searchedItems, setSearchedItems] = useState();
+
   const [accessToken, setAccessToken] = useState();
   const [profile, setProfile] = useState();
   const [deviceName, setDeviceName] = useState();
   const [heading, setHeading] = useState('Home');
-  const [reload, setReload] = useState(false);
-  const image_url = 'https://mobilezmarket.com/images/';
+
+  const image_url = 'https://www.mobilezmarket.com/images/';
   const _accesstoken = useSelector(state => state.todo.accessToken);
   const dispatch = useDispatch();
   const name = DeviceInfo.getBrand();
@@ -78,6 +76,7 @@ const Home = ({navigation}) => {
       .then(response => {
         response.data.images.forEach(element => {
           setSliderImages(JSON.parse(element.banner_images));
+          console.log('ImageSlider', HOME_SLIDER_IMAGES);
         });
       })
       .catch(error => {
@@ -85,7 +84,7 @@ const Home = ({navigation}) => {
       });
     // setSliderImages(images)
   };
-
+  console.log(HOME_SLIDER_IMAGES);
   useEffect(() => {
     console.log('fetch access token HOme useeffect');
     let user_token;
@@ -216,6 +215,7 @@ const Home = ({navigation}) => {
       .get(RECENTLY_ADDED_TABLETS)
       .then(response => {
         setRecentTablets(response.data.tablets);
+        console.log(RECENTLY_ADDED_TABLETS);
       })
       .catch(error => {
         console.log('Tablet' + error);
@@ -334,7 +334,8 @@ const Home = ({navigation}) => {
               </TouchableOpacity>
             ) : (
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={{color: color.white, fontSize: 15}}>
+                <Text
+                  style={{color: color.white, fontSize: 14, fontWeight: '600'}}>
                   {'Login/Register'}
                 </Text>
               </TouchableOpacity>

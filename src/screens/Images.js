@@ -7,7 +7,7 @@ import {FlatList, Pressable} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 const Images = ({navigation, route}) => {
   const {images} = route.params;
-  const image_url = 'https://mobilezmarket.com/images/';
+  const image_url = 'https://www.mobilezmarket.com/images/';
   const {width, height} = Dimensions.get('window');
   console.log(images);
   const _renderItem = ({item}) => {

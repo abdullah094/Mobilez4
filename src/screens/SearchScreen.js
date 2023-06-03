@@ -61,13 +61,13 @@ const SearchScreen = ({navigation}) => {
       .then(function (response) {
         //handle success
         response.data.message || setSearchedItems(response.data.search_data);
+        console.log(response.data.search_data);
       })
       .catch(function (response) {
         //handle error
         console.log(response);
       });
   };
-
   useEffect(() => {
     console.log('fetch access token HOme useeffect');
     let user_token;

@@ -40,7 +40,7 @@ const ProductPage = ({navigation, route}) => {
   const accessToken = useSelector(state => state.todo.accessToken);
   const profile = useSelector(state => state.todo.profile);
   const {id} = route.params;
-  const image_url = 'https://mobilezmarket.com/images/';
+  const image_url = 'https://www.mobilezmarket.com/images/';
   let slider_data = [];
   const link = 'https://api.whatsapp.com/send?phone=+';
   const relatedAds = data?.related_ads.map((element, index) => {

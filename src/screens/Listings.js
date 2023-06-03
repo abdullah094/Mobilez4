@@ -19,7 +19,7 @@ const Listings = ({route, navigation}) => {
   const {name} = route.params;
   const [data, setdata] = useState();
   const used_phone_api = NEW_USED_PHONES.replace('new', 'used');
-  const image_url = 'https://mobilezmarket.com/images/';
+  const image_url = 'https://www.mobilezmarket.com/images/';
   const fetchData = () => {
     const api = name === 'New Phones' ? NEW_USED_PHONES : used_phone_api;
     const data_collect = name === 'New Phones' ? `new_devices` : `used_devices`;

@@ -46,7 +46,7 @@ export default function App() {
       <Tab.Screen
         name="Home"
         options={{
-          tabBarLabel: '',
+          tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
             <HomeIcon name="home" color={color} size={size} />
           ),
@@ -57,7 +57,7 @@ export default function App() {
       <Tab.Screen
         name="MyAds"
         options={{
-          tabBarLabel: '',
+          tabBarLabel: 'Trending',
           tabBarIcon: ({color, size}) => (
             <Image
               style={{height: size, width: size, tintColor: color}}
@@ -68,6 +68,7 @@ export default function App() {
         component={MyAds}
       />
       <Tab.Screen
+        component={PostAnAd}
         name="Sell"
         options={{
           tabBarLabel: '',
@@ -77,7 +78,7 @@ export default function App() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: 45,
+                height: 50,
                 width: 45,
                 borderRadius: 45,
                 backgroundColor: '#D9D9D9',
@@ -103,13 +104,12 @@ export default function App() {
             </View>
           ),
         }}
-        component={MyAds}
       />
 
       <Tab.Screen
         name="Chat"
         options={{
-          tabBarLabel: '',
+          tabBarLabel: 'Chat',
           tabBarIcon: ({color, size}) => (
             <Image
               style={{height: 30, width: 30, tintColor: color}}
@@ -123,7 +123,7 @@ export default function App() {
         name="More"
         component={Settings}
         options={{
-          tabBarLabel: '',
+          tabBarLabel: 'Settings',
           tabBarIcon: ({color, size}) => (
             <People name="people" color={color} size={size} />
           ),

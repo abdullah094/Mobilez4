@@ -38,6 +38,7 @@ import tw from 'twrnc';
 import SearchScreen from './SearchScreen';
 import Slider from '../components/Slider';
 import HomeSlider from '../components/HomeSlider';
+import {Profile} from '../../type/type';
 
 const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {
@@ -46,13 +47,11 @@ const Home = ({navigation}) => {
   const [recentMobiles, setRecentMobiles] = useState();
   const [recentWatches, setRecentWatches] = useState();
   const [recentTablets, setRecentTablets] = useState();
-  const [sliderImages, setSliderImages] = useState([]);
 
   const [accessToken, setAccessToken] = useState();
-  const [profile, setProfile] = useState();
-  const [deviceName, setDeviceName] = useState();
+  const [profile, setProfile] = useState<Profile>();
+  const [deviceName, setDeviceName] = useState<string>();
   const [heading, setHeading] = useState('Home');
-  const [reload, setReload] = useState(false);
   const image_url = 'https:/www./mobilezmarket.com/images/';
   const _accesstoken = useSelector(state => state.todo.accessToken);
   const dispatch = useDispatch();
@@ -60,28 +59,12 @@ const Home = ({navigation}) => {
   setTimeout(() => {
     setHeading(`${name}'s ${deviceName}`);
   }, 5000);
-  DeviceInfo.getDeviceName().then(res => {
+  DeviceInfo.getDeviceName().then((res: string) => {
     setDeviceName(res);
   });
   let _accessToken;
   _accessToken = useSelector(state => state.todo.accessToken);
 
-  const fetchSliderImages = async () => {
-    let images = [];
-    await axios
-      .get(HOME_SLIDER_IMAGES)
-      .then(response => {
-        response.data.images.forEach(element => {
-          setSliderImages(JSON.parse(element.banner_images));
-          console.log('ImageSlider', HOME_SLIDER_IMAGES);
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    // setSliderImages(images)
-  };
-  console.log(HOME_SLIDER_IMAGES);
   useEffect(() => {
     console.log('fetch access token HOme useEffect');
     let user_token;
@@ -239,15 +222,15 @@ const Home = ({navigation}) => {
       .then(response => {
         const _profile = response.data.profile;
         setProfile(_profile);
+        console.log('_profile', _profile);
+
         dispatch(setProfileData(_profile));
       })
       .catch(error => {
         console.log('ProfileData ' + error);
       });
   };
-  useEffect(() => {
-    fetchSliderImages();
-  }, []);
+
   useEffect(() => {
     fetchRecentMobileData();
     fetchRecentWatches();
@@ -275,8 +258,7 @@ const Home = ({navigation}) => {
     );
   };
 
-  if (!recentMobiles || (!recentWatches && !sliderImages === []))
-    return <Loading />;
+  if (!recentMobiles || !recentWatches) return <Loading />;
   return (
     <SafeAreaView>
       <ScrollView

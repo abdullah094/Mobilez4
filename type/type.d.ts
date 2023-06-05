@@ -1,0 +1,33 @@
+export interface Profile {
+  account_status: string;
+  active_status: number;
+  area: null;
+  avatar: string;
+  city: string;
+  cnic_back_image: string;
+  cnic_front_image: string;
+  conf_password: string;
+  created_at: Date;
+  dark_mode: number;
+  email: string;
+  email_verified_at: null;
+  fb_id: null;
+  first_name: string;
+  id: number;
+  is_agree: number;
+  is_verified: number;
+  last_name: string;
+  messenger_color: string;
+  name: string;
+  nic_number: string;
+  phone: string;
+  photo: string;
+  shop_address: string;
+  shop_name: string;
+  shop_visiting_card: string;
+  social_login: null;
+  type: string;
+  updated_at: Date;
+  user_type: null;
+  whatsapp_num: null;
+}

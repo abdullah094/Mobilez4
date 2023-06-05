@@ -23,8 +23,8 @@ import tw from 'twrnc';
 
 const {width, height} = Dimensions.get('window');
 const Login = ({navigation}) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const [loginLoader, setLoginLoader] = useState('Sign In');
   const {signIn} = useContext(Context);
   const accesstoken = useSelector(state => state.todo.accessToken);
@@ -98,7 +98,7 @@ const Login = ({navigation}) => {
                   keyboardType="email-address"
                   style={styles.input}
                   value={email}
-                  onChangeText={text => setEmail(text.toLowerCase())}
+                  onChangeText={(text: string) => setEmail(text.toLowerCase())}
                 />
               </View>
 

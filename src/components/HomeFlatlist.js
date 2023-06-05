@@ -111,7 +111,7 @@ const HomeFlatlist = props => {
 
                   marginTop: 2,
                 }}>
-                <Icon name="location-pin" size={10} />
+                <Icon name="location-pin" size={10} color={color.red} />
                 <Text style={styles.small_text}>{item.user.city}</Text>
               </View>
               <View>

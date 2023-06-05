@@ -198,6 +198,12 @@ const PostAnAd = ({navigation}) => {
     });
     setForm({...form, image: images});
   };
+  const customStyles = {
+    option: provided => ({
+      ...provided,
+      color: 'red', // Change the color value to your desired text color
+    }),
+  };
 
   useEffect(() => {
     getBrandFunc();
@@ -327,7 +333,10 @@ const PostAnAd = ({navigation}) => {
             <View style={{marginTop: 10}}>
               <SelectList
                 placeholder="Choose Brands"
-                inputStyles={{color: 'grey'}}
+                inputStyles={{
+                  color: 'grey',
+                  fontFamily: 'Geologica_Auto-Black',
+                }}
                 setSelected={val => setForm({...form, brand: val})}
                 data={brands}
                 save="value"
@@ -408,6 +417,7 @@ const PostAnAd = ({navigation}) => {
             <View style={{marginTop: 10}}>
               <SelectList
                 placeholder="PTA Status"
+                styles={{}}
                 inputStyles={{color: 'grey'}}
                 setSelected={val => setForm({...form, pta_status: val})}
                 data={approved}
@@ -595,6 +605,7 @@ export default PostAnAd;
 const styles = StyleSheet.create({
   box: {
     paddingTop: 10,
+    color: 'red',
   },
 
   box_input: {

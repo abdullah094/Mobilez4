@@ -219,7 +219,7 @@ const SignUp = ({navigation, route}) => {
             </TouchableOpacity>
             <Text style={tw`my-5 self-center`}>Or</Text>
           </View>
-          <View style={tw`flex flex-row justify-center w-full  z-20 `}>
+          <View style={tw`flex flex-row justify-center w-full bottom-3  z-20 `}>
             <TouchableOpacity style={styles.social_buttons}>
               <Image style={tw`h-4 w-2`} source={require('../assets/F.png')} />
             </TouchableOpacity>

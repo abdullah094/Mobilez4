@@ -20,13 +20,9 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Loading from '../components/Loading';
 import tw from 'twrnc';
 import HomeSlider from '../components/HomeSlider';
-import SearchScreen from './SearchScreen';
 import {Button, Chip} from 'react-native-paper';
 import ListIcon from 'react-native-vector-icons/Feather';
-import Icon from 'react-native-vector-icons/Entypo';
 
-import {Pressable} from 'react-native';
-import HomeFlatlist from '../components/HomeFlatlist';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
 
@@ -34,7 +30,7 @@ const {width, height} = Dimensions.get('window');
 const Listings = ({route, navigation, props}) => {
   const [filter, setFilter] = useState(1);
   const {name} = route.params ?? 'New Phones';
-  const [data, setdata] = useState();
+  const [data, setData] = useState();
   const used_phone_api = NEW_USED_PHONES.replace('new', 'used');
   const image_url = 'https://www.mobilezmarket.com/images/';
   const fetchData = () => {
@@ -48,21 +44,12 @@ const Listings = ({route, navigation, props}) => {
         item.price == '';
         item.created_at;
       });
-      setdata(response.data[data_collect]);
+      setData(response.data[data_collect]);
     });
   };
   const [Grid, setGrid] = useState(true);
   const column = Grid ? 2 : 1;
-  // const dateString = data.created_at;
-  // const date = new Date(dateString);
-
-  // const formattedDate = date.toLocaleDateString('en-US', {
-  //   month: 'long',
-  //   day: 'numeric',
-  // });
-  // console.log(formattedDate);
   const clear = () => {};
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -117,9 +104,6 @@ const Listings = ({route, navigation, props}) => {
           <View style={tw`relative rounded-md flex-1`}>
             <View style={tw`flex-1 z-10`}>
               <TextInput
-                // value={searchText}
-                // clearTextOnFocus={() => setSearchText('')}
-                // onChangeText={text => setSearchText(text)}
                 placeholder="Search"
                 placeholderTextColor={'white'}
                 style={{

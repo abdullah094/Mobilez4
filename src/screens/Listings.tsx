@@ -47,7 +47,7 @@ const Listings = ({route, navigation, props}) => {
       setData(response.data[data_collect]);
     });
   };
-  const [Grid, setGrid] = useState(true);
+  const [Grid, setGrid] = useState(false);
   const column = Grid ? 2 : 1;
   const clear = () => {};
   useEffect(() => {

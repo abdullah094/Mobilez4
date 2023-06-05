@@ -98,7 +98,7 @@ const GridItem = ({item, image}) => {
 
                 marginTop: 2,
               }}>
-              <Icon name="location-pin" size={10} />
+              <Icon name="location-pin" size={10} color={'red'} />
               <Text style={styles.small_text}>{item.user.city}</Text>
             </View>
             <View>

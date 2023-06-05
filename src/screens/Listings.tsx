@@ -191,7 +191,9 @@ const Listings = ({route, navigation, props}) => {
             paddingBottom: 100,
           }}
           numColumns={column}
-          renderItem={({item}) => <GridItem item={item}></GridItem>}
+          renderItem={({item}) => (
+            <GridItem item={item} image={item.image.img}></GridItem>
+          )}
         />
       ) : (
         <FlatList

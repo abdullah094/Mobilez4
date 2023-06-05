@@ -1,0 +1,26 @@
+declare module '@env' {
+  export const API_BASE: string;
+  export const RECENTLY_ADDED_MOBILES: string;
+  export const RECENTLY_ADDED_WATCHES: string;
+  export const RECENTLY_ADDED_TABLETS: string;
+  export const SEARCH: string;
+  export const DESCRIPTION: string;
+  export const LOGIN: string;
+  export const REGISTER: string;
+  export const NEW_USED_PHONES: string;
+  export const GET_PROFILE_DATA: string;
+  export const SUBMITOTP: string;
+  export const LOGOUT: string;
+  export const FORGOT_PASSWORD: string;
+  export const VERIFY_OTP: string;
+  export const POSTANAD: string;
+  export const BRANDS: string;
+  export const MODELS: string;
+  export const WISHLIST: string;
+  export const WISHLIST_GET: string;
+  export const VIDEOS: string;
+  export const HOME_SLIDER_IMAGES: string;
+  export const BLOGS: string;
+  export const FILTER: string;
+  export const MYADS: string;
+}

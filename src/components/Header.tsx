@@ -11,7 +11,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
-const Header = ({header, onPress}) => {
+const Header = ({header = null, onPress}) => {
   return (
     <SafeAreaView
       style={{

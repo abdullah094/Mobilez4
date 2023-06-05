@@ -404,26 +404,13 @@ const Home = ({navigation}) => {
             data={recentTablets}
             type={'tablets'}
           />
-          {/* <View
-            style={{
-              width: width,
-              height: 100,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: color.orange,
-            }}>
-            <Text
-              style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
-              {name} {deviceName}
-            </Text>
-          </View> */}
-
           <View style={styles.company_box}>
             <FlatList
               horizontal
               data={logos}
               showsHorizontalScrollIndicator={false}
-              keyExtractor={item => item.id}
+              key={'#'}
+              keyExtractor={item => '#' + item.id}
               renderItem={({item}) => (
                 <Image
                   style={{width: 70, height: 70, marginHorizontal: 20}}

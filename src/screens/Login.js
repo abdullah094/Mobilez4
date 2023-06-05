@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import Header from '../components/Header';
@@ -81,101 +82,113 @@ const Login = ({navigation}) => {
   };
 
   return (
-    <>
-      <Header onPress={() => navigation.goBack()} />
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{
-          flex: 1,
-          alignItems: 'center',
-
-          paddingBottom: 50,
-          justifyContent: 'center',
-        }}>
-        <Image
-          style={{width: 200, height: 80, marginBottom: 30}}
-          source={require('../assets/mobile-logo.png')}
-        />
-        <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>
-          <View style={styles.input_box}>
-            <Text style={styles.box_heading}>Email</Text>
-            <TextInput
-              keyboardType="email-address"
-              style={styles.input}
-              value={email}
-              onChangeText={text => setEmail(text.toLowerCase())}
+    <SafeAreaView style={tw`flex-1`}>
+      <ScrollView contentContainerStyle={tw`flex-1`}>
+        <View style={tw`h-full`}>
+          <Header onPress={() => navigation.goBack()} />
+          <View style={tw` flex-1 items-center justify-center`}>
+            <Image
+              style={{width: 200, height: 80, marginBottom: 30}}
+              source={require('../assets/mobile-logo.png')}
             />
-          </View>
+            <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>
+              <View style={styles.input_box}>
+                <Text style={styles.box_heading}>Email</Text>
+                <TextInput
+                  keyboardType="email-address"
+                  style={styles.input}
+                  value={email}
+                  onChangeText={text => setEmail(text.toLowerCase())}
+                />
+              </View>
 
-          <View style={styles.input_box}>
-            <Text style={styles.box_heading}>Password</Text>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={text => setPassword(text.toLowerCase())}
-            />
-          </View>
+              <View style={styles.input_box}>
+                <Text style={styles.box_heading}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  value={password}
+                  onChangeText={text => setPassword(text.toLowerCase())}
+                />
+              </View>
 
-          <View style={tw`flex-row justify-end mt-3`}>
-            {/* <TouchableOpacity
+              <View style={tw`flex-row justify-end mt-3`}>
+                {/* <TouchableOpacity
               style={{padding: 5}}
               onPress={() => navigation.navigate('ForgotPassword')}>
               <Text>Remember Me</Text>
             </TouchableOpacity> */}
 
-            <TouchableOpacity
-              style={{padding: 5}}
-              onPress={() => navigation.navigate('ForgotPassword')}>
-              <Text>Forgot your password?</Text>
-            </TouchableOpacity>
+                <TouchableOpacity
+                  style={{padding: 5}}
+                  onPress={() => navigation.navigate('ForgotPassword')}>
+                  <Text>Forgot your password?</Text>
+                </TouchableOpacity>
+              </View>
+
+              <TouchableOpacity
+                onPress={fetchLogin}
+                style={{
+                  backgroundColor: color.orange,
+                  width: 311,
+                  height: 50,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                  marginTop: 20,
+                }}>
+                <Text
+                  style={{
+                    color: color.white,
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                  }}>
+                  {loginLoader}
+                </Text>
+              </TouchableOpacity>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 15,
+                  justifyContent: 'center',
+                  // backgroundColor: 'black',
+                }}>
+                <Text>Or</Text>
+              </View>
+            </View>
+
+            <View style={tw`flex flex-row justify-center w-full   z-20 `}>
+              <TouchableOpacity style={styles.social_buttons}>
+                <Image
+                  style={tw`h-4 w-2`}
+                  source={require('../assets/F.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
+                <Image
+                  style={tw`h-4 w-4`}
+                  source={require('../assets/Gpng.png')}
+                />
+                <Image
+                  style={tw`h-2 w-2`}
+                  source={require('../assets/plus.png')}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={tw`w-full flex-row mt-14 items-center justify-center`}>
+              <Text>Don't have and account? </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('SignUp', {city: 'Karachi'})
+                }>
+                <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-
-          <TouchableOpacity
-            onPress={fetchLogin}
-            style={{
-              backgroundColor: color.orange,
-              width: 311,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 50,
-              marginTop: 20,
-            }}>
-            <Text
-              style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
-              {loginLoader}
-            </Text>
-          </TouchableOpacity>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 15,
-              justifyContent: 'center',
-              // backgroundColor: 'black',
-            }}>
-            <Text>Or</Text>
-          </View>
-        </View>
-
-        <View style={tw`flex flex-row justify-center w-full   z-20 `}>
-          <TouchableOpacity style={styles.social_buttons}>
-            <Image style={tw`h-4 w-2`} source={require('../assets/F.png')} />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
-            <Image style={tw`h-4 w-4`} source={require('../assets/Gpng.png')} />
-            <Image style={tw`h-2 w-2`} source={require('../assets/plus.png')} />
-          </TouchableOpacity>
-        </View>
-
-        <View style={tw`w-full flex-row mt-14 items-center justify-center`}>
-          <Text>Don't have and account? </Text>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('SignUp', {city: 'Karachi'})}>
-            <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 

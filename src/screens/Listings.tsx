@@ -51,7 +51,7 @@ const Listings = ({route, navigation, props}) => {
       setdata(response.data[data_collect]);
     });
   };
-  const [Grid, setGrid] = useState(true);
+  const [Grid, setGrid] = useState(false);
   const column = Grid ? 2 : 1;
   // const dateString = data.created_at;
   // const date = new Date(dateString);

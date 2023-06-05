@@ -54,6 +54,15 @@ const ProductPage = ({navigation, route}) => {
     return (element = {image: image[0], ...rest});
   });
 
+  const dateString = data?.details.created_at;
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+  });
+
+  console.log('=====', formattedDate);
+
   const fetchData = () => {
     const api = DESCRIPTION + id;
     // console.log(api)
@@ -114,7 +123,7 @@ const ProductPage = ({navigation, route}) => {
     skipCanOpen: true, // Skip the canOpenURL check
   };
   if (data) {
-    args.number = data?.details?.phone;
+    args.number = data?.details.user.phone;
   }
 
   const CallWhatsappSms = () => (
@@ -463,83 +472,73 @@ const ProductPage = ({navigation, route}) => {
                 {data.details.user.shop_name}
               </Text>
             </View>
-            {/* <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 7,
-              }}>
-              <Text
-                style={{
-                  color: color.black,
-                  fontSize: 15,
-
-                  fontWeight: '700',
-                }}>
-                Shop Name :
-              </Text>
-              <Text
-                style={{
-                  color: color.grey,
-                  fontSize: 15,
-
-                  fontWeight: '400',
-                  paddingHorizontal: 5,
-                  alignItems: 'center',
-                }}>
-                {data.details.user.shop_name}
-              </Text>
-            </View> */}
-            {/* <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 7,
-              }}>
-              <Text
-                style={{
-                  color: color.black,
-                  fontSize: 15,
-
-                  fontWeight: '700',
-                }}>
-                Shop Address :
-              </Text>
-              <Text
-                style={{
-                  color: color.grey,
-                  fontSize: 15,
-
-                  fontWeight: '400',
-                  paddingHorizontal: 5,
-                  alignItems: 'center',
-                }}>
-                {data.details.user.shop_address}
-              </Text>
-            </View> */}
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 marginTop: 7,
               }}>
-              <MaterialIcon name="location-on" size={18} color={color.red} />
               <Text
                 style={{
+                  color: color.black,
                   fontSize: 15,
-                  fontWeight: 'bold',
-                  marginLeft: 1,
-                  color: 'black',
+
+                  fontWeight: '700',
                 }}>
-                {data?.details.user.city}
+                Date :
               </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+
+                  width: width - 60,
+                  flexWrap: 'wrap',
+                }}>
+                <Text
+                  style={{
+                    color: color.black,
+                    fontSize: 15,
+
+                    fontWeight: '400',
+                    paddingHorizontal: 5,
+                    alignItems: 'center',
+                  }}>
+                  {formattedDate}
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 7,
+
+                    justifyContent: 'flex-end',
+                  }}>
+                  <MaterialIcon
+                    name="location-on"
+                    size={18}
+                    color={color.red}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                      marginLeft: 1,
+                      color: 'black',
+                    }}>
+                    {data?.details.user.city}
+                    {console.log('===========', data.details.user.created_at)}
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
         </View>
 
         {/* Description */}
-        <View style={{width: width - 35, flexWrap: 'wrap', marginTop: 7}}>
-          <Text style={styles.description}>description</Text>
+        <View style={{width: width - 30, flexWrap: 'wrap', marginTop: 7}}>
+          <Text style={styles.description}>Description</Text>
           <Text
             style={{
               fontWeight: '500',

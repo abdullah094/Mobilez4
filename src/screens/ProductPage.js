@@ -309,59 +309,63 @@ const ProductPage = ({navigation, route}) => {
               width: width - 30,
               marginVertical: 15,
             }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  color: color.black,
-                  fontSize: 15,
+            {data.details.category === 'Mobile' ? (
+              <>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: color.black,
+                      fontSize: 15,
 
-                  fontWeight: '700',
-                }}>
-                Storage :
-              </Text>
-              <Text
-                style={{
-                  color: color.black,
-                  fontSize: 15,
-                  alignItems: 'center',
-                  fontWeight: '400',
-                  paddingHorizontal: 5,
-                }}>
-                {data.details.storage}GB
-              </Text>
-            </View>
+                      fontWeight: '700',
+                    }}>
+                    Storage :
+                  </Text>
+                  <Text
+                    style={{
+                      color: color.black,
+                      fontSize: 15,
+                      alignItems: 'center',
+                      fontWeight: '400',
+                      paddingHorizontal: 5,
+                    }}>
+                    {data.details.storage}GB
+                  </Text>
+                </View>
 
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 7,
-              }}>
-              <Text
-                style={{
-                  color: color.black,
-                  fontSize: 15,
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 7,
+                  }}>
+                  <Text
+                    style={{
+                      color: color.black,
+                      fontSize: 15,
 
-                  fontWeight: '700',
-                }}>
-                RAM :
-              </Text>
-              <Text
-                style={{
-                  color: color.black,
-                  fontSize: 15,
+                      fontWeight: '700',
+                    }}>
+                    RAM :
+                  </Text>
+                  <Text
+                    style={{
+                      color: color.black,
+                      fontSize: 15,
 
-                  fontWeight: '400',
-                  paddingHorizontal: 5,
-                  alignItems: 'center',
-                }}>
-                {data.details.ram}GB
-              </Text>
-            </View>
+                      fontWeight: '400',
+                      paddingHorizontal: 5,
+                      alignItems: 'center',
+                    }}>
+                    {data.details.ram}GB
+                  </Text>
+                </View>
+              </>
+            ) : null}
 
             <View
               style={{
@@ -417,34 +421,36 @@ const ProductPage = ({navigation, route}) => {
                 {data.details.product_type}
               </Text>
             </View>
-
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                marginTop: 7,
-              }}>
-              <Text
+            {data.details.category === 'Mobile' ? (
+              <View
                 style={{
-                  color: color.black,
-                  fontSize: 15,
-
-                  fontWeight: '700',
-                }}>
-                PTA Status :
-              </Text>
-              <Text
-                style={{
-                  color: color.black,
-                  fontSize: 15,
-
-                  fontWeight: '400',
-                  paddingHorizontal: 5,
+                  flexDirection: 'row',
                   alignItems: 'center',
+                  marginTop: 7,
                 }}>
-                {data.details.pta_status}
-              </Text>
-            </View>
+                <Text
+                  style={{
+                    color: color.black,
+                    fontSize: 15,
+
+                    fontWeight: '700',
+                  }}>
+                  PTA Status :
+                </Text>
+                <Text
+                  style={{
+                    color: color.black,
+                    fontSize: 15,
+
+                    fontWeight: '400',
+                    paddingHorizontal: 5,
+                    alignItems: 'center',
+                  }}>
+                  {data.details.pta_status}
+                </Text>
+              </View>
+            ) : null}
+
             <View
               style={{
                 flexDirection: 'row',

@@ -157,9 +157,7 @@ const SearchScreen = () => {
               </Pressable>
             )}
           />
-        ) : (
-          <Text>Not availableI</Text>
-        )}
+        ) : null}
       </View>
     </View>
   );

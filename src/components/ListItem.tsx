@@ -67,7 +67,12 @@ const ListItem = ({item, image}) => {
         }}>
         <View>
           <Text
-            style={{color: 'black', fontWeight: '700', fontSize: 17}}
+            style={{
+              color: 'black',
+              fontWeight: '700',
+              fontSize: 17,
+              marginTop: 6,
+            }}
             numberOfLines={1}>
             {item.brand} {item?.model}
           </Text>
@@ -75,7 +80,7 @@ const ListItem = ({item, image}) => {
             style={{
               color: color.orange,
               fontSize: 16,
-              marginTop: 1,
+              marginTop: 4,
               fontWeight: '700',
             }}
             numberOfLines={1}>
@@ -83,7 +88,7 @@ const ListItem = ({item, image}) => {
           </Text>
           {item.ram && item.storage ? (
             <Text
-              style={{color: 'gray', marginTop: 2, fontSize: 14}}
+              style={{color: 'gray', marginTop: 5, fontSize: 14}}
               numberOfLines={1}>
               {item?.ram} GB | {item?.storage} GB | {item?.pta_status}
             </Text>
@@ -91,11 +96,11 @@ const ListItem = ({item, image}) => {
             item.ram && item.storage === null
           )}
 
-          <Text
+          {/* <Text
             style={{color: 'gray', marginTop: 1, fontSize: 12}}
             numberOfLines={2}>
             {item?.description}
-          </Text>
+          </Text> */}
         </View>
 
         <View

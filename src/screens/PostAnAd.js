@@ -381,6 +381,8 @@ const PostAnAd = ({navigation}) => {
             <TextInput
               style={styles.box_input}
               keyboardType="number-pad"
+              placeholder="Enter Price"
+              inputStyles={{color: 'black'}}
               value={form.price}
               onChangeText={text => setForm({...form, price: text})}
             />
@@ -571,8 +573,10 @@ const PostAnAd = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{borderWidth: 1, flex: 2}}>
-          <Text>Description</Text>
+        <View style={{flex: 2, flexDirection: 'row', width: width - 20}}>
+          <Text style={{fontWeight: '600', color: 'black', fontSize: 15}}>
+            Description
+          </Text>
         </View>
 
         <View

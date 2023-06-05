@@ -303,7 +303,7 @@ const Home = ({navigation}) => {
             <Text
               style={{fontSize: 15, color: 'white', fontWeight: '600'}}
               numberOfLines={1}>
-              {heading.slice(0, 19)}
+              {heading}
             </Text>
 
             {/* login Register */}

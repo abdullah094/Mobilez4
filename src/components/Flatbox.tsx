@@ -3,7 +3,7 @@ import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import HomeFlatlist from './HomeFlatlist';
 import {color} from '../constants/Colors';
 const {height, width} = Dimensions.get('window');
-const Flatbox = ({header, onPress, data, type}) => {
+const Flatbox = ({header, data, type}) => {
   return (
     <View style={{width: width - 20, marginTop: 15}}>
       {/* bar with heading and view more */}

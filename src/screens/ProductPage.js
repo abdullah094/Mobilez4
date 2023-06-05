@@ -316,7 +316,7 @@ const ProductPage = ({navigation, route}) => {
               </Text>
               <Text
                 style={{
-                  color: color.grey,
+                  color: color.black,
                   fontSize: 15,
                   alignItems: 'center',
                   fontWeight: '400',
@@ -343,7 +343,7 @@ const ProductPage = ({navigation, route}) => {
               </Text>
               <Text
                 style={{
-                  color: color.grey,
+                  color: color.black,
                   fontSize: 15,
 
                   fontWeight: '400',
@@ -371,7 +371,7 @@ const ProductPage = ({navigation, route}) => {
               </Text>
               <Text
                 style={{
-                  color: color.grey,
+                  color: color.black,
                   fontSize: 15,
 
                   fontWeight: '400',
@@ -398,7 +398,7 @@ const ProductPage = ({navigation, route}) => {
               </Text>
               <Text
                 style={{
-                  color: color.grey,
+                  color: color.black,
                   fontSize: 15,
 
                   fontWeight: '400',
@@ -426,7 +426,7 @@ const ProductPage = ({navigation, route}) => {
               </Text>
               <Text
                 style={{
-                  color: color.grey,
+                  color: color.black,
                   fontSize: 15,
 
                   fontWeight: '400',
@@ -525,14 +525,12 @@ const ProductPage = ({navigation, route}) => {
               }}>
               <MaterialIcon name="location-on" size={18} color={color.red} />
               <Text
-                style={[
-                  styles.heading,
-                  {
-                    fontSize: 15,
-                    fontWeight: 'bold',
-                    marginLeft: 1,
-                  },
-                ]}>
+                style={{
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  marginLeft: 1,
+                  color: 'black',
+                }}>
                 {data?.details.user.city}
               </Text>
             </View>
@@ -541,22 +539,7 @@ const ProductPage = ({navigation, route}) => {
 
         {/* Description */}
         <View style={{width: width - 35, flexWrap: 'wrap', marginTop: 7}}>
-          <Text
-            style={[
-              styles.heading,
-              {
-                fontWeight: '700',
-                fontSize: 17,
-                borderBottomColor: '#2B67F6',
-                borderBottomWidth: 1,
-                color: '#2B67F6',
-
-                marginVertical: 5,
-                flex: 1,
-              },
-            ]}>
-            Description
-          </Text>
+          <Text style={styles.description}>description</Text>
           <Text
             style={{
               fontWeight: '500',
@@ -593,7 +576,19 @@ const ProductPage = ({navigation, route}) => {
 export default ProductPage;
 
 const styles = StyleSheet.create({
-  heading: {color: color.black, fontSize: 20, fontWeight: 'bold'},
+  heading: {
+    color: '#2B67F6',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  description: {
+    color: '#2B67F6',
+    fontSize: 20,
+    fontWeight: 'bold',
+    borderBottomWidth: 2,
+
+    borderBottomColor: '#2B67F6',
+  },
   commmunication_buttons: {
     backgroundColor: '#2B67F6',
     width: 110,

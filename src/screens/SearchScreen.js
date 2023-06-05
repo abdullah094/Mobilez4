@@ -62,8 +62,10 @@ const SearchScreen = () => {
       )
       .then(function (response) {
         //handle success
-        response.data.message || setSearchedItems(response.data.search_data);
-        console.log(response.data.search_data);
+        console.log('------------------------', response.data.message);
+        !response.data.message
+          ? setSearchedItems(response.data.search_data)
+          : setSearchedItems();
       })
       .catch(function (response) {
         //handle error
@@ -131,27 +133,33 @@ const SearchScreen = () => {
       </TouchableOpacity>
 
       <View style={tw`bg-white z-10`}>
-        <FlatList
-          keyboardShouldPersistTaps="handled"
-          data={searchedItems}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <Pressable
-              onPress={() => navigation.navigate('ProductPage', {id: item.id})}
-              style={{
-                width: width - 50,
-                borderBottomWidth: 1,
-                paddingTop: 20,
-                borderColor: color.white,
-                paddingVertical: 2,
-                padding: 2,
-              }}>
-              <Text style={{color: color.black}}>
-                {item.brand} <Text>{item.model}</Text>
-              </Text>
-            </Pressable>
-          )}
-        />
+        {searchedItems ? (
+          <FlatList
+            keyboardShouldPersistTaps="handled"
+            data={searchedItems}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('ProductPage', {id: item.id})
+                }
+                style={{
+                  width: width - 50,
+                  borderBottomWidth: 1,
+                  paddingTop: 20,
+                  borderColor: color.white,
+                  paddingVertical: 2,
+                  padding: 2,
+                }}>
+                <Text style={{color: color.black}}>
+                  {item.brand} <Text>{item.model}</Text>
+                </Text>
+              </Pressable>
+            )}
+          />
+        ) : (
+          <Text>Not availableI</Text>
+        )}
       </View>
     </View>
   );

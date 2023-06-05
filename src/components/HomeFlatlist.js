@@ -48,7 +48,7 @@ const HomeFlatlist = props => {
 
           elevation: 5,
         }}
-        onPress={() => navigation.navigate('ProductPage', {id: id})}>
+        onPress={() => navigation.push('ProductPage', {id: id})}>
         <View style={tw`flex items-center justify-center w-32`}>
           <Image
             style={{
@@ -75,7 +75,7 @@ const HomeFlatlist = props => {
             <Text
               numberOfLines={1}
               style={{color: '#015DCF', fontWeight: '800'}}>
-              Rs. {item.price}
+              Rs. {item.price.toLocaleString()}
             </Text>
 
             {props.type === 'phones' && (

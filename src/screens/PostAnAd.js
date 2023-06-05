@@ -11,6 +11,7 @@ import {
   Image,
   Alert,
   ActivityIndicator,
+  TextInput,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {color} from '../constants/Colors';
@@ -26,7 +27,7 @@ import Header from '../components/Header';
 const {width, height} = Dimensions.get('window');
 import FormData from 'form-data';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {TextInput} from 'react-native-paper';
+
 // require the module
 var RNFS = require('react-native-fs');
 
@@ -375,10 +376,10 @@ const PostAnAd = ({navigation}) => {
               </View>
             )}
           </View>
+          {console.log(form.price)}
           <View style={styles.box}>
             <TextInput
               style={styles.box_input}
-              inputStyles={{color: 'grey'}}
               keyboardType="number-pad"
               value={form.price}
               onChangeText={text => setForm({...form, price: text})}
@@ -570,10 +571,20 @@ const PostAnAd = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.box}>
-          <Text style={styles.box_heading}>Description</Text>
+        <View style={{borderWidth: 1, flex: 2}}>
+          <Text>Description</Text>
+        </View>
+
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: 5,
+            width: width,
+            height: 230,
+            justifyContent: 'center',
+          }}>
           <TextInput
-            style={[styles.box_input, {height: 200, textAlignVertical: 'top'}]}
+            style={styles.description}
             multiline={true}
             value={form.description}
             onChangeText={text => setForm({...form, description: text})}
@@ -613,14 +624,20 @@ const styles = StyleSheet.create({
     borderColor: color.black,
     borderRadius: 10,
     color: color.black,
-    width: width - 30,
+
     borderWidth: 1,
-    borderColor: '#939393',
-    backgroundColor: 'white',
   },
   check_box_box: {flexDirection: 'row', alignItems: 'center', marginTop: 5},
   check_box_text: {color: color.black},
   selectList: {
     color: 'black',
+  },
+  description: {
+    height: 230,
+    borderColor: color.black,
+    borderRadius: 10,
+    color: color.black,
+    width: width - 10,
+    borderWidth: 1,
   },
 });

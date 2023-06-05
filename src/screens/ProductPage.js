@@ -453,8 +453,8 @@ const ProductPage = ({navigation, route}) => {
               </Text>
               <Text
                 style={{
-                  color: color.grey,
                   fontSize: 15,
+                  color: color.black,
 
                   fontWeight: '400',
                   paddingHorizontal: 5,
@@ -550,8 +550,9 @@ const ProductPage = ({navigation, route}) => {
                 borderBottomColor: '#2B67F6',
                 borderBottomWidth: 1,
                 color: '#2B67F6',
-                width: 90,
+
                 marginVertical: 5,
+                flex: 1,
               },
             ]}>
             Description

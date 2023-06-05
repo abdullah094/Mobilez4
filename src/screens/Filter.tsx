@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect, useCallback} from 'react';
 import Menu from 'react-native-vector-icons/Entypo';
@@ -41,6 +42,9 @@ import {
   City,
 } from '../constants/Data';
 import Header from '../components/Header';
+import {Appbar, Searchbar} from 'react-native-paper';
+import SearchScreen from './SearchScreen';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const {width, height} = Dimensions.get('window');
 const Filter = ({navigation}) => {
   const [accessToken, setAccessToken] = useState();
@@ -166,181 +170,106 @@ const Filter = ({navigation}) => {
   console.log('heloooo', accessToken);
   console.log('min ' + min + ' ' + 'max' + max);
   return (
-    <ScrollView
-      contentContainerStyle={{
-        alignItems: 'center',
-        backgroundColor: '#015DCF',
-        paddingBottom: 100,
-      }}>
-      <View
-        style={{
-          backgroundColor: '#015DCF',
-          width: width,
+    <SafeAreaView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
           alignItems: 'center',
-          padding: 10,
+          paddingBottom: 100,
         }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-
-            // borderWidth: 1,
-            width: width - 50,
-          }}>
-          {/* <View style={{width: 90}}>
-            <Menu name="menu" size={30} color={'white'} />
-          </View> */}
-
-          <View>
-            <Text style={{fontSize: 15, fontWeight: 'bold', color: 'white'}}>
-              Filters
-            </Text>
-          </View>
-
-          {/* <Image
-          style={tw`h-12 w-12 rounded-full`}
-          source={{uri: image_url + profile.photo}}
-        /> */}
-
-          {/* <View>
-            {accessToken ? (
-              <TouchableOpacity
-                disabled
-                onPress={() => navigation.navigate('Profile')}>
-                {profile && (
-                  <Image
-                    style={tw`h-12 w-12 rounded-full`}
-                    source={{uri: image_url + profile.photo}}
-                  />
-                )}
+        <View style={tw`w-full mx-4  bg-[#015DCF]`}>
+          <View style={tw` p-4`}>
+            <View style={tw`flex-row items-center justify-between  p-2`}>
+              <TouchableOpacity onPress={navigation.goBack}>
+                <Ionicons
+                  name="ios-arrow-back-sharp"
+                  color={color.white}
+                  size={25}
+                />
               </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={{color: color.white, fontSize: 15}}>
-                  {'Login/Register'}
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View> */}
-        </View>
-        <View style={tw`relative rounded-md`}>
-          <TextInput
-            onFocus={() => navigation.navigate('SearchScreen')}
-            placeholder="Search"
-            placeholderTextColor={'white'}
-            style={{
-              width: width - 50,
-              height: 43,
-              borderRadius: 4,
-              backgroundColor: '#4894F1',
-              paddingLeft: 32,
-              paddingHorizontal: 8,
-              marginTop: 25,
-              alignItems: 'center',
-              justifyContent: 'center',
-              display: 'flex',
-            }}></TextInput>
-          <Icon
-            style={tw`absolute top-9 left-2`}
-            name="magnifying-glass"
-            size={20}
-            color={'white'}
-          />
-        </View>
-        <View style={{width: 372}}>
-          <Text
-            style={{
-              color: color.white,
-              fontWeight: '400',
-              fontSize: 15,
-              paddingVertical: 8,
-              paddingHorizontal: 5,
-            }}>
-            Price Range
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 5,
-              width: '100%',
-              justifyContent: 'space-between',
-              marginTop: 10,
-            }}>
-            <View style={styles.min_max_box}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  flex: 1,
+                  fontWeight: 'bold',
+                  color: 'white',
+                  textAlign: 'center',
+                }}>
+                Filters
+              </Text>
+            </View>
+
+            <View style={tw`flex-row `}>
+              <Text
+                style={{
+                  color: color.white,
+                  fontWeight: '400',
+                  fontSize: 15,
+                  paddingVertical: 16,
+                }}>
+                Price Range
+              </Text>
+            </View>
+            <View style={tw`flex-row justify-between`}>
               <View
                 style={{
                   borderWidth: 1,
                   borderRadius: 10,
                   alignItems: 'center',
                   padding: 8,
-                  width: width - 310,
+                  width: 100,
                   borderColor: 'white',
                 }}>
                 <Text style={{color: 'white'}}>{low}</Text>
               </View>
-            </View>
-            <View style={styles.min_max_box}>
+
               <View
                 style={{
                   borderWidth: 1,
                   borderRadius: 10,
                   alignItems: 'center',
                   padding: 8,
-                  width: width - 310,
+                  width: 100,
                   borderColor: 'white',
                 }}>
                 <Text style={{color: 'white'}}>{high}</Text>
               </View>
             </View>
+            <Slider
+              style={{width: '100%'}}
+              min={min}
+              max={max}
+              step={1}
+              disableRange={rangeDisabled}
+              renderThumb={renderThumb}
+              renderRail={renderRail}
+              renderRailSelected={renderRailSelected}
+              renderLabel={renderLabel}
+              renderNotch={renderNotch}
+              onValueChanged={handleValueChange}
+            />
           </View>
-        </View>
-      </View>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: 250,
-          paddingBottom: 20,
-        }}>
-        <Slider
-          style={{width: '140%'}}
-          min={min}
-          max={max}
-          step={1}
-          disableRange={rangeDisabled}
-          renderThumb={renderThumb}
-          renderRail={renderRail}
-          renderRailSelected={renderRailSelected}
-          renderLabel={renderLabel}
-          renderNotch={renderNotch}
-          onValueChanged={handleValueChange}
-        />
-      </View>
-
-      <View
-        style={{
-          width: 412,
-          padding: '5%',
-          borderWidth: 1,
-          borderRadius: 40,
-          backgroundColor: 'white',
-          height: '100%',
-          borderColor: 'white',
-        }}>
-        <View
-          style={{
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}>
-          <View style={{marginTop: 10}}>
-            <View style={{marginTop: 5}}>
+          <View
+            style={{
+              padding: 16,
+              paddingTop: 32,
+              borderWidth: 1,
+              borderTopLeftRadius: 40,
+              borderTopRightRadius: 40,
+              backgroundColor: 'white',
+              borderColor: 'white',
+            }}>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
               <SelectList
                 boxStyles={{
                   backgroundColor: color.white,
                   borderColor: '#D3D3D3',
+                  marginTop: 16,
                 }}
                 inputStyles={{color: 'grey'}}
                 search={false}
@@ -349,14 +278,11 @@ const Filter = ({navigation}) => {
                 data={Ram}
                 save="value"
               />
-            </View>
-          </View>
-          <View style={{marginTop: 10}}>
-            <View style={{marginTop: 5}}>
               <SelectList
                 boxStyles={{
                   backgroundColor: color.white,
                   borderColor: '#D3D3D3',
+                  marginTop: 16,
                 }}
                 inputStyles={{color: 'grey'}}
                 search={false}
@@ -366,15 +292,12 @@ const Filter = ({navigation}) => {
                 save="value"
               />
             </View>
-          </View>
-        </View>
 
-        <View style={{marginTop: 10}}>
-          <View style={{marginTop: 5}}>
             <SelectList
               boxStyles={{
                 backgroundColor: color.white,
                 borderColor: '#D3D3D3',
+                marginTop: 16,
               }}
               inputStyles={{color: 'grey'}}
               search={false}
@@ -383,14 +306,12 @@ const Filter = ({navigation}) => {
               data={Ram}
               save="value"
             />
-          </View>
-        </View>
-        <View style={{marginTop: 10}}>
-          <View style={{marginTop: 5}}>
+
             <SelectList
               boxStyles={{
                 backgroundColor: color.white,
                 borderColor: '#D3D3D3',
+                marginTop: 16,
               }}
               inputStyles={{color: 'grey'}}
               search={false}
@@ -399,14 +320,12 @@ const Filter = ({navigation}) => {
               data={Storage}
               save="value"
             />
-          </View>
-        </View>
-        <View style={{marginTop: 10}}>
-          <View style={{marginTop: 5}}>
+
             <SelectList
               boxStyles={{
                 backgroundColor: color.white,
                 borderColor: '#D3D3D3',
+                marginTop: 16,
               }}
               inputStyles={{color: 'grey'}}
               search={false}
@@ -415,73 +334,77 @@ const Filter = ({navigation}) => {
               data={Pta_status}
               save="value"
             />
+
+            <SelectList
+              boxStyles={{
+                backgroundColor: color.white,
+                borderColor: '#D3D3D3',
+                marginTop: 16,
+              }}
+              inputStyles={{color: 'grey'}}
+              search={false}
+              placeholder="Condition"
+              setSelected={val => setRamData({...ramData, condition: val})}
+              data={Condition}
+              save="value"
+            />
+
+            <SelectList
+              boxStyles={{
+                backgroundColor: color.white,
+                borderColor: '#D3D3D3',
+                marginTop: 16,
+              }}
+              inputStyles={{color: 'grey'}}
+              search={false}
+              placeholder="Warranty"
+              setSelected={val => setRamData({...ramData, Warranty: val})}
+              data={Warranty}
+              save="value"
+            />
+
+            <SelectList
+              boxStyles={{
+                backgroundColor: color.white,
+                borderColor: '#D3D3D3',
+                marginTop: 16,
+              }}
+              inputStyles={{color: 'grey'}}
+              search={false}
+              placeholder="City"
+              setSelected={val => setRamData({...ramData, city: val})}
+              data={City}
+              save="value"
+            />
+            <TouchableOpacity
+              onPress={() => navigation.navigate('FindMyDevice', {_form: form})}
+              style={{
+                backgroundColor: color.orange,
+                marginTop: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: 50,
+                borderRadius: 20,
+              }}>
+              <Text
+                style={{
+                  color: color.white,
+                  fontWeight: 'bold',
+                  fontSize: 20,
+                }}>
+                Search
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={{marginTop: 10}}>
-          <SelectList
-            boxStyles={{
-              backgroundColor: color.white,
-              borderColor: '#D3D3D3',
-            }}
-            inputStyles={{color: 'grey'}}
-            search={false}
-            placeholder="Condition"
-            setSelected={val => setRamData({...ramData, condition: val})}
-            data={Condition}
-            save="value"
-          />
-        </View>
-        <View style={{marginTop: 10}}>
-          <SelectList
-            boxStyles={{
-              backgroundColor: color.white,
-              borderColor: '#D3D3D3',
-            }}
-            inputStyles={{color: 'grey'}}
-            search={false}
-            placeholder="Warranty"
-            setSelected={val => setRamData({...ramData, Warranty: val})}
-            data={Warranty}
-            save="value"
-          />
-        </View>
-        <View style={{marginTop: 10}}>
-          <SelectList
-            boxStyles={{
-              backgroundColor: color.white,
-              borderColor: '#D3D3D3',
-            }}
-            inputStyles={{color: 'grey'}}
-            search={false}
-            placeholder="City"
-            setSelected={val => setRamData({...ramData, city: val})}
-            data={City}
-            save="value"
-          />
-        </View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('FindMyDevice', {_form: form})}
-          style={{
-            backgroundColor: color.orange,
-            marginTop: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: 50,
-            borderRadius: 20,
-          }}>
-          <Text style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
-            Search
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default Filter;
 
 const styles = StyleSheet.create({
-  min_max_box: {},
   min_max_input: {
     borderWidth: 1,
     borderColor: 'white',

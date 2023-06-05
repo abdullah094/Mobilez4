@@ -15,9 +15,8 @@ import {color} from '../constants/Colors';
 import {NEW_USED_PHONES} from '@env';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Sort from 'react-native-vector-icons/MaterialIcons';
-import Grid from 'react-native-vector-icons/Entypo';
+import Entypo from 'react-native-vector-icons/Entypo';
 import Loading from '../components/Loading';
 import tw from 'twrnc';
 import HomeSlider from '../components/HomeSlider';
@@ -27,6 +26,10 @@ import ListIcon from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import {Pressable} from 'react-native';
+import HomeFlatlist from '../components/HomeFlatlist';
+import GridItem from '../components/GridItem';
+import ListItem from '../components/ListItem';
+
 const {width, height} = Dimensions.get('window');
 const Listings = ({route, navigation, props}) => {
   const [filter, setFilter] = useState(1);
@@ -48,8 +51,8 @@ const Listings = ({route, navigation, props}) => {
       setdata(response.data[data_collect]);
     });
   };
-  console.log('=======================itemmmmmmmmmmmmmmmm', data);
-
+  const [Grid, setGrid] = useState(true);
+  const column = Grid ? 2 : 1;
   // const dateString = data.created_at;
   // const date = new Date(dateString);
 
@@ -151,25 +154,6 @@ const Listings = ({route, navigation, props}) => {
             </View>
           </View>
         </View>
-        {/* <View style={tw`h-12 flex flex-row items-center bg-white`}>
-       <TouchableOpacity
-      //     style={{marginLeft: 15}}
-      //     onPress={() => navigation.goBack()}>
-      //     <Icon name="ios-arrow-back-sharp" color={color.black} size={25} />
-      //   </TouchableOpacity>
-      //   <Text
-      //     style={{
-      //       flex: 1,
-      //       textAlign: 'center',
-      //       alignItems: 'center',
-      //       justifyContent: 'center',
-      //       color: color.black,
-      //       fontWeight: 'bold',
-      //       fontSize: 20,
-      //     }}>
-      //     {name}
-      //   </Text>
-      // </View> */}
       </>
     );
   };
@@ -180,152 +164,51 @@ const Listings = ({route, navigation, props}) => {
     <SafeAreaView style={tw`flex-1`}>
       <Header></Header>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: width - 50,
-          marginHorizontal: 20,
-
-          marginTop: 70,
-        }}>
+      <View style={tw` flex-row items-center justify-between pt-16 m-6`}>
         <TouchableOpacity>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Sort name="sort" color={color.black} size={30} />
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: '700',
-                color: color.black,
-                alignItems: 'center',
-              }}>
-              Sort
-            </Text>
+          <View style={tw`flex flex-row items-center`}>
+            <Sort st name="sort" color={color.black} size={30} />
+            <Text style={tw`px-2 font-bold text-lg`}>Sort</Text>
           </View>
         </TouchableOpacity>
-        <View
-          style={{
-            flexDirection: 'row',
-            width: 65,
-            justifyContent: 'space-between',
-          }}>
-          <TouchableOpacity>
+        <View style={tw`flex-row`}>
+          <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
             <ListIcon name="list" color={color.black} size={30} />
           </TouchableOpacity>
-          <TouchableOpacity>
-            <Grid name="grid" color={color.black} size={30} />
+          <TouchableOpacity onPress={() => setGrid(true)}>
+            <Entypo name="grid" color={color.black} size={30} />
           </TouchableOpacity>
         </View>
       </View>
-      <View>
+      {Grid ? (
         <FlatList
           data={data}
-          keyExtractor={item => item.id}
+          key={'_'}
+          keyExtractor={item => '_' + item.id}
           contentContainerStyle={{
             justifyContent: 'space-between',
             marginHorizontal: 15,
             paddingBottom: 100,
           }}
-          numColumns={2}
+          numColumns={column}
+          renderItem={({item}) => <GridItem item={item}></GridItem>}
+        />
+      ) : (
+        <FlatList
+          data={data}
+          key={'#'}
+          keyExtractor={item => '#' + item.id}
+          contentContainerStyle={{
+            justifyContent: 'space-between',
+            marginHorizontal: 15,
+            paddingBottom: 100,
+          }}
+          numColumns={column}
           renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() => navigation.navigate('ProductPage', {id: item.id})}
-              style={{
-                overflow: 'hidden',
-                marginTop: 20,
-                shadowColor: '#000',
-                backgroundColor: 'white',
-                borderRadius: 20,
-                padding: 10,
-                paddingHorizontal: 15,
-                marginLeft: 16,
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 3.84,
-
-                elevation: 5,
-              }}>
-              <Image
-                style={{
-                  height: 120,
-                  width: '100%',
-                  marginBottom: 5,
-                  backgroundColor: color.black,
-                  borderRadius: 10,
-                }}
-                source={{uri: image_url + item?.image?.img}}
-                resizeMode="contain"
-              />
-
-              <View style={{justifyContent: 'flex-start', width: 135}}>
-                <Text
-                  numberOfLines={1}
-                  style={{
-                    fontSize: 15,
-                    color: '#252B5C',
-                    fontWeight: '800',
-                  }}>
-                  {item.brand} <Text>{item.model}</Text>
-                </Text>
-                <Text
-                  numberOfLines={1}
-                  style={{color: '#015DCF', fontWeight: '800'}}>
-                  Rs. {item.price}
-                </Text>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-
-                    width: '90%',
-                    marginTop: 2,
-                  }}>
-                  <Text style={styles.small_text}>{item.ram}GB</Text>
-                  <Text style={styles.small_text}> | </Text>
-
-                  <Text style={styles.small_text}>{item.storage}GB</Text>
-                  <Text style={styles.small_text}> | </Text>
-                  <Text numberOfLines={1} style={styles.small_text}>
-                    {item.pta_status}
-                  </Text>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                  }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-
-                      marginTop: 2,
-                    }}>
-                    <Icon name="location-pin" size={10} />
-                    <Text style={styles.small_text}>{item.user.city}</Text>
-                  </View>
-                  {/* <View>
-                    <Text numberOfLines={1} style={styles.small_text}>
-                      {item.updated_at}
-                    </Text>
-                  </View> */}
-                </View>
-              </View>
-            </TouchableOpacity>
+            <ListItem item={item} image={item.image.img}></ListItem>
           )}
         />
-      </View>
+      )}
     </SafeAreaView>
   );
 };

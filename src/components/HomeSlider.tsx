@@ -1,5 +1,5 @@
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import Carousel from 'react-native-snap-carousel';
 import axios from 'axios';
 import {HOME_SLIDER_IMAGES} from '@env';
@@ -11,8 +11,8 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 const HomeSlider = () => {
   const [sliderImages, setSliderImages] = useState([]);
-  const image_url = 'https://www.mobilezmarket.com/images/';
 
+  const image_url = 'https://www.mobilezmarket.com/images/';
   useEffect(() => {
     const fetchSliderImages = async () => {
       let images = [];
@@ -29,7 +29,7 @@ const HomeSlider = () => {
       // setSliderImages(images)
     };
     fetchSliderImages();
-  }, []);
+  }, [HOME_SLIDER_IMAGES]);
   console.log(HOME_SLIDER_IMAGES);
   const _renderItem = ({item, index}) => {
     return (

@@ -11,11 +11,11 @@ const PrivacyPolicy = () => {
       <View
         style={{
           borderBottomWidth: 1,
-          borderBottomColor: 'red',
+          borderBottomColor: '#2B67F6',
           width: width,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'lightgrey',
+          backgroundColor: '#2B67F6',
           height: 50,
         }}>
         <Text
@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
             justifyContent: 'center',
             fontSize: 20,
             fontWeight: '500',
-            color: 'black',
+            color: 'white',
             flexDirection: 'row',
             padding: 8,
             alignItems: 'center',

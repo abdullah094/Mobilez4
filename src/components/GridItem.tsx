@@ -5,7 +5,7 @@ import tw from 'twrnc';
 import {color} from '../constants/Colors';
 import Icon from 'react-native-vector-icons/Entypo';
 
-const GridItem = ({item}) => {
+const GridItem = ({item, image}) => {
   const navigation = useNavigation();
   const route = useRoute();
   const props = route.params as any;
@@ -37,7 +37,7 @@ const GridItem = ({item}) => {
 
         elevation: 5,
       }}
-      onPress={() => navigation.navigate('ProductPage', {id: props.id})}>
+      onPress={() => navigation.navigate('ProductPage', {id: item.id})}>
       <View style={tw`flex items-center justify-center w-32`}>
         <Image
           style={{
@@ -47,7 +47,7 @@ const GridItem = ({item}) => {
             backgroundColor: color.black,
             borderRadius: 10,
           }}
-          source={{uri: image_url + item?.image?.img}}
+          source={{uri: image_url + image}}
           resizeMode="contain"
         />
 

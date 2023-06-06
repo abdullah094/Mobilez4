@@ -24,11 +24,17 @@ const Header = ({header = null, onPress}) => {
         position: 'absolute',
         zIndex: 999,
       }}>
-      <TouchableOpacity
-        style={{padding: 5, position: 'absolute', left: 20}}
-        onPress={onPress}>
-        <MaterialIcon name="arrow-back-ios" size={25} color={color.black} />
-      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: 'row',
+          backgroundColor: color.orange,
+          width: width - 30,
+        }}>
+        <TouchableOpacity style={{padding: 5}} onPress={onPress}>
+          <MaterialIcon name="arrow-back-ios" size={25} color={color.black} />
+        </TouchableOpacity>
+      </View>
+
       <Text style={{fontWeight: 'bold', color: color.black, fontSize: 20}}>
         {header}
       </Text>

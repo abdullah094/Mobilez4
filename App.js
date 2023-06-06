@@ -38,6 +38,7 @@ import {
   Surface,
   ThemeProvider,
 } from 'react-native-paper';
+import AboutUs from './src/screens/AboutUs';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -247,6 +248,11 @@ const App = () => {
                 options={{headerShown: false}}
                 name="Images"
                 component={Images}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="AboutUs"
+                component={AboutUs}
               />
             </Stack.Navigator>
           </NavigationContainer>

@@ -13,11 +13,28 @@ import Header from '../components/Header';
 import {color} from '../constants/Colors';
 import Email from 'react-native-vector-icons/Zocial';
 import Location from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 const {width, height} = Dimensions.get('window');
 const ContactUs = ({navigation}) => {
   return (
     <>
-      <Header onPress={() => navigation.goBack()} />
+      <View
+        style={[
+          styles.header,
+          {
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            width: '100%',
+            alignItems: 'center',
+            height: 50,
+          },
+        ]}>
+        <TouchableOpacity onPress={navigation.goBack}>
+          <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
+        </TouchableOpacity>
+      </View>
+
       <ScrollView
         contentContainerStyle={{paddingVertical: 100, alignItems: 'center'}}>
         <Text style={{fontWeight: 'bold', color: color.black, fontSize: 25}}>
@@ -37,13 +54,14 @@ const ContactUs = ({navigation}) => {
         </View>
 
         <View style={styles.box}>
-          <Text
-            placeholder="Email"
-            placeholderTextColor={'grey'}
-            style={styles.box_name}>
+          <Text placeholder="Email" style={styles.box_name}>
             Email
           </Text>
-          <TextInput style={styles.box_input} />
+          <TextInput
+            placeholder="Email"
+            placeholderTextColor={'grey'}
+            style={styles.box_input}
+          />
         </View>
         <View style={styles.box}>
           <Text style={styles.box_name}>Your Message</Text>
@@ -137,5 +155,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderRadius: 10,
     paddingHorizontal: 15,
+  },
+  header: {
+    width: width,
+    paddingHorizontal: 24,
+
+    backgroundColor: '#015dcf',
+    zIndex: 10,
   },
 });

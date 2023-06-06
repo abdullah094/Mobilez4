@@ -135,6 +135,11 @@ const Settings = ({navigation}) => {
             onPress={() => navigation.navigate('ContactUs')}>
             <Text style={[styles.button_text]}>Contact Us</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('AboutUs')}>
+            <Text style={[styles.button_text]}>About Us</Text>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
             <Text style={[styles.button_text, {color: 'red'}]}>Logout</Text>
           </TouchableOpacity>
@@ -167,6 +172,11 @@ const Settings = ({navigation}) => {
             style={styles.button}
             onPress={() => navigation.navigate('Videos')}>
             <Text style={[styles.button_text]}>Videos</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate('AboutUs')}>
+            <Text style={[styles.button_text]}>About Us</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}

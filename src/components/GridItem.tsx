@@ -4,6 +4,11 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import tw from 'twrnc';
 import {color} from '../constants/Colors';
 import Icon from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import axios from 'axios';
+import {ADD_WISHLIST} from '@env';
+import {useSelector} from 'react-redux';
+import {selectAccessToken} from '../Redux/Slices';
 
 const GridItem = ({item, image}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
@@ -14,6 +19,23 @@ const GridItem = ({item, image}) => {
     month: 'long',
     day: 'numeric',
   });
+  const _accessToken = useSelector(selectAccessToken);
+  let headers = {
+    Authorization: `Bearer ${_accessToken}`,
+    'Content-Type': 'multipart/form-data',
+  };
+  const AddToFavorite = () => {
+    axios
+      .post(
+        ADD_WISHLIST + `/${item.id}`,
+        {product_id: item.id},
+        {
+          headers: headers,
+        },
+      )
+      .then(response => console.log(response))
+      .catch(error => console.log(error));
+  };
 
   return (
     <TouchableOpacity
@@ -48,6 +70,11 @@ const GridItem = ({item, image}) => {
           source={{uri: image_url + image}}
           resizeMode="contain"
         />
+        <TouchableOpacity
+          onPress={() => AddToFavorite()}
+          style={tw`absolute w-10 h-10 flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}>
+          <AntDesign name="hearto" size={30} color={'red'}></AntDesign>
+        </TouchableOpacity>
 
         <View style={{justifyContent: 'flex-start', width: 135}}>
           <Text

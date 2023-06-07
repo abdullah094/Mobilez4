@@ -1,37 +1,16 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {color} from '../constants/Colors';
 import {ScrollView, Dimensions} from 'react-native';
+import Header from '../components/Header';
 
 const PrivacyPolicy = () => {
   const {width, height} = Dimensions.get('window');
 
   return (
-    <>
-      <View
-        style={{
-          borderBottomWidth: 1,
-          borderBottomColor: '#2B67F6',
-          width: width,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#2B67F6',
-          height: 50,
-        }}>
-        <Text
-          style={{
-            justifyContent: 'center',
-            fontSize: 20,
-            fontWeight: '500',
-            color: 'white',
-            flexDirection: 'row',
-            padding: 8,
-            alignItems: 'center',
-          }}>
-          Privacy And Policy
-        </Text>
-      </View>
+    <SafeAreaView>
       <ScrollView>
+        <Header title="Privacy And Policy" />
         <View
           style={{
             justifyContent: 'center',
@@ -368,7 +347,7 @@ const PrivacyPolicy = () => {
           </View>
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 

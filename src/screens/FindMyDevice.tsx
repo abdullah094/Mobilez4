@@ -13,7 +13,6 @@ import {
   SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import Header from '../components/Header';
 import {FILTER} from '@env';
 import axios from 'axios';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
@@ -23,6 +22,7 @@ import Loading from '../components/Loading';
 import {useIsFocused} from '@react-navigation/native';
 import ListItem from '../components/ListItem';
 import {Appbar} from 'react-native-paper';
+import {NewDevice} from '../../type';
 
 const {width, height} = Dimensions.get('window');
 const FindMyDevice = ({navigation, route}) => {
@@ -31,7 +31,7 @@ const FindMyDevice = ({navigation, route}) => {
   let filterData = route.params?._form || null;
 
   console.log(filterData);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<NewDevice[]>([]);
 
   const [form, setForm] = useState({
     search: '',
@@ -60,9 +60,6 @@ const FindMyDevice = ({navigation, route}) => {
   if (!data) return <Loading />;
   return (
     <SafeAreaView>
-      {/* <Appbar.Header>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-      </Appbar.Header> */}
       <View
         style={{
           flexDirection: 'row',

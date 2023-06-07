@@ -10,29 +10,17 @@ import {
   SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect, useCallback} from 'react';
-import Menu from 'react-native-vector-icons/Entypo';
 import tw from 'twrnc';
-import DeviceInfo from 'react-native-device-info';
 import {useIsFocused} from '@react-navigation/native';
 import {color} from '../constants/Colors';
-import Icon from 'react-native-vector-icons/Entypo';
 import {SelectList} from 'react-native-dropdown-select-list';
 import Slider from 'rn-range-slider';
 
-import RangeSlider from 'rn-range-slider';
-import {useDispatch, useSelector} from 'react-redux';
 import Thumb from '../components/Thumb';
 import Rail from '../components/Rail';
 import RailSelected from '../components/RailSelected';
 import Notch from '../components/Notch';
 import Label from '../components/Label';
-import style from './style';
-import {
-  reduxSetAccessToken,
-  setProfileData,
-  reduxRemoveAccessToken,
-} from '../Redux/Slices';
-import {GET_PROFILE_DATA} from '@env';
 import {
   Ram,
   Storage,
@@ -41,14 +29,8 @@ import {
   Warranty,
   City,
 } from '../constants/Data';
-import Header from '../components/Header';
-import {Appbar, Searchbar} from 'react-native-paper';
-import SearchScreen from './SearchScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-const {width, height} = Dimensions.get('window');
 const Filter = ({navigation}) => {
-  const [accessToken, setAccessToken] = useState();
-  const [profile, setProfile] = useState();
   const isFocused = useIsFocused();
   const [value, setValue] = useState(0);
 
@@ -80,18 +62,6 @@ const Filter = ({navigation}) => {
     () => setFloatingLabel(!floatingLabel),
     [floatingLabel],
   );
-
-  const _accesstoken = useSelector(state => state.todo.accessToken);
-  // const name = DeviceInfo.getBrand();
-  // setTimeout(() => {
-  //   setHeading(`${name}'s ${deviceName}`);
-  // }, 5000);
-  // DeviceInfo.getDeviceName().then(res => {
-  //   setDeviceName(res);
-  // });
-  let _accessToken;
-  _accessToken = useSelector(state => state.todo.accessToken);
-  const dispatch = useDispatch();
   const [ramData, setRamData] = useState({
     ram: ' ',
     storage: '',
@@ -113,22 +83,6 @@ const Filter = ({navigation}) => {
     max_price: '',
     min_price: '',
   });
-  const image_url = 'https://www.mobilezmarket.com/images/';
-  const fetchProfileData = async () => {
-    await axios
-      .get(GET_PROFILE_DATA, {
-        headers: {Authorization: `Bearer ${accessToken}`},
-      })
-      .then(response => {
-        const _profile = response.data.profile;
-        setProfile(_profile);
-        dispatch(setProfileData(_profile));
-      })
-      .catch(error => {
-        console.log('ProfileData ' + error);
-      });
-  };
-
   useEffect(() => {
     setForm({
       ...form,
@@ -142,33 +96,6 @@ const Filter = ({navigation}) => {
       ],
     });
   }, [ramData]);
-  useEffect(() => {
-    console.log('fetch access token HOme useeffect');
-    let user_token;
-    setTimeout(async () => {
-      user_token = null;
-      console.log(user_token);
-      try {
-        user_token = await AsyncStorage.getItem('@user_token');
-        setAccessToken(user_token);
-        dispatch(reduxSetAccessToken(user_token));
-      } catch (e) {
-        if (user_token === null) {
-          setAccessToken();
-          dispatch(reduxRemoveAccessToken());
-        }
-        console.log(e);
-      }
-    }, 200);
-  }, [isFocused]);
-
-  useEffect(() => {
-    if (accessToken) fetchProfileData();
-  }, [accessToken]);
-
-  console.log(form);
-  console.log('heloooo', accessToken);
-  console.log('min ' + min + ' ' + 'max' + max);
   return (
     <SafeAreaView>
       <ScrollView

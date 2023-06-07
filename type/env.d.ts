@@ -24,4 +24,5 @@ declare module '@env' {
   export const FILTER: string;
   export const MYADS: string;
   export const CATEGORY: string;
+  export const ADD_WISHLIST: string;
 }

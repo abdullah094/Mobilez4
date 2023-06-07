@@ -12,6 +12,9 @@ export const todosSlice = createSlice({
   },
 
   reducers: {
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload;
+    },
     addItem(state = null, action) {
       const value = action.payload;
 
@@ -21,10 +24,7 @@ export const todosSlice = createSlice({
     getItem(state = null, action) {
       console.log('getItem');
     },
-    reduxSetAccessToken(state = null, action) {
-      state.accessToken = action.payload;
-    },
-    reduxRemoveAccessToken(state = null) {
+    logoutUser(state = null) {
       state.accessToken = '';
     },
     setProfileData(state = null, action) {
@@ -36,11 +36,15 @@ export const todosSlice = createSlice({
   },
 });
 
+// Selectors
+export const selectAccessToken = state => state.todo.accessToken;
+export const selectProfileData = state => state.todo.profile;
+
 export const {
   addItem,
   getItem,
-  reduxSetAccessToken,
-  reduxRemoveAccessToken,
+  setAccessToken,
+  logoutUser,
   setProfileData,
   removeProfileData,
 } = todosSlice.actions;

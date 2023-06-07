@@ -22,11 +22,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import DeviceInfo from 'react-native-device-info';
 
-import {
-  reduxSetAccessToken,
-  setProfileData,
-  reduxRemoveAccessToken,
-} from '../Redux/Slices';
+import {selectAccessToken} from '../Redux/Slices';
 const {width, height} = Dimensions.get('window');
 const SearchScreen = () => {
   const navigation = useNavigation();
@@ -37,7 +33,6 @@ const SearchScreen = () => {
   const isFocused = useIsFocused();
   const [deviceName, setDeviceName] = useState();
 
-  const _accesstoken = useSelector(state => state.todo.accessToken);
   const dispatch = useDispatch();
   const name = DeviceInfo.getBrand();
   setTimeout(() => {
@@ -46,8 +41,7 @@ const SearchScreen = () => {
   DeviceInfo.getDeviceName().then(res => {
     setDeviceName(res);
   });
-  let _accessToken;
-  _accessToken = useSelector(state => state.todo.accessToken);
+  const _accessToken = useSelector(selectAccessToken);
 
   const getSearchedItemsFunc = () => {
     axios
@@ -72,24 +66,6 @@ const SearchScreen = () => {
         console.log(response);
       });
   };
-  useEffect(() => {
-    console.log('fetch access token HOme useeffect');
-    let user_token;
-    setTimeout(async () => {
-      user_token = null;
-      try {
-        user_token = await AsyncStorage.getItem('@user_token');
-        setAccessToken(user_token);
-        dispatch(reduxSetAccessToken(user_token));
-      } catch (e) {
-        if (user_token === null) {
-          setAccessToken();
-          dispatch(reduxRemoveAccessToken());
-        }
-        console.log(e);
-      }
-    }, 200);
-  }, [isFocused]);
 
   const clear = () => {
     setSearchText('');

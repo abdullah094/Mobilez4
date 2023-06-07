@@ -12,38 +12,16 @@ import React, {useEffect, useState, useContext} from 'react';
 import {color} from '../constants/Colors';
 import {LOGOUT} from '@env';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Context from '../data/Context';
-import {useIsFocused} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
-import {reduxRemoveAccessToken} from '../Redux/Slices';
+import {reduxRemoveAccessToken, selectAccessToken} from '../Redux/Slices';
 
 const {width, height} = Dimensions.get('window');
 const Settings = ({navigation}) => {
-  const {signIn} = useContext(Context);
-  const isFocused = useIsFocused();
-  const [accessToken, setAccessToken] = useState();
-  const {signOut} = useContext(Context);
-  const _accessToken = useSelector(state => state.todo.accessToken);
+  const _accessToken = useSelector(selectAccessToken);
   const _profile = useSelector(state => state.todo.profile);
   const dispatch = useDispatch();
-  console.log(_profile);
+  console.log('_profile', _profile);
 
-  useEffect(() => {
-    let user_token;
-    setTimeout(async () => {
-      user_token = null;
-      try {
-        user_token = await AsyncStorage.getItem('@user_token');
-        setAccessToken(user_token);
-      } catch (e) {
-        setAccessToken('');
-        console.log(e);
-      }
-    }, 200);
-  }, [isFocused]);
-
-  // console.log(LOGOUT)
   const LogoutFunc = () => {
     axios
       .post(
@@ -102,9 +80,6 @@ const Settings = ({navigation}) => {
             onPress={() => navigation.navigate('Profile')}>
             <Text style={[styles.button_text]}>Profile</Text>
           </TouchableOpacity>
-          {/* <TouchableOpacity style={styles.button} >
-  <Text style={[styles.button_text]}>Account details</Text>
-</TouchableOpacity> */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('MyWishlist')}>

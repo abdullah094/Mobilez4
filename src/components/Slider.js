@@ -13,15 +13,12 @@ import {color} from '../constants/Colors';
 const {height, width} = Dimensions.get('window');
 const Slider = ({data}) => {
   const [scrollPosition, setscrollPosition] = useState(0);
-  // const inputEl = useRef(0);
-  // console.log(scrollPosition)
   const image_url = 'https://www.mobilezmarket.com/images/';
 
   const scroll_value = () => {
     //spits out value of index of image currently displayed
 
     let index = 0;
-    // console.log(scrollPosition)
     for (let i = 0; i < data.length; i++) {
       if (Math.floor(scrollPosition) >= Math.floor(width) * i) {
         index = i + 1;

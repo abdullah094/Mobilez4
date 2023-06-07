@@ -7,24 +7,28 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  SafeAreaView,
 } from 'react-native';
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {color} from '../constants/Colors';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Header from '../components/Header';
+import tw from 'twrnc';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {selectProfileData} from '../Redux/Slices';
 
 const {width, height} = Dimensions.get('window');
 const Profile = ({navigation}) => {
-  const profile = useSelector(state => state.todo.profile);
+  const profile = useSelector(selectProfileData);
   const image_dimension = 120;
   const base_url = 'https://mobilezmarket.com/images/';
   return (
-    <>
-      <Header onPress={() => navigation.goBack()} />
+    <SafeAreaView>
       <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+        <Header title="Profile" />
         <View
-          style={{width: width, height: 150, backgroundColor: color.orange}}
+          style={{width: width, height: 50, backgroundColor: color.orange}}
         />
         <Image
           source={{uri: base_url + profile.photo}}
@@ -40,22 +44,38 @@ const Profile = ({navigation}) => {
         <Text style={styles.h1}>{profile.last_name}</Text>
         <View style={styles.box}>
           <Text style={styles.h2}>First name</Text>
-          <TextInput style={styles.input} placeholder={profile.first_name} />
+          <TextInput
+            style={styles.input}
+            editable={false}
+            value={profile.first_name}
+          />
         </View>
 
         <View style={styles.box}>
           <Text style={styles.h2}>Last name</Text>
-          <TextInput style={styles.input} placeholder={profile.last_name} />
+          <TextInput
+            style={styles.input}
+            editable={false}
+            value={profile.last_name}
+          />
         </View>
 
         <View style={styles.box}>
           <Text style={styles.h2}>Email</Text>
-          <TextInput style={styles.input} placeholder={profile.email} />
+          <TextInput
+            style={styles.input}
+            editable={false}
+            value={profile.email}
+          />
         </View>
 
         <View style={styles.box}>
           <Text style={styles.h2}>City</Text>
-          <TextInput style={styles.input} placeholder={profile.city} />
+          <TextInput
+            style={styles.input}
+            editable={false}
+            value={profile.city}
+          />
         </View>
 
         <TouchableOpacity
@@ -73,7 +93,7 @@ const Profile = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 
@@ -97,5 +117,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     paddingTop: 0,
     padding: 0,
+    color: color.black,
   },
 });

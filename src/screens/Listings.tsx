@@ -26,7 +26,7 @@ import ListIcon from 'react-native-vector-icons/Feather';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {Category} from '../../type';
+import {Category, NewDevice} from '../../type';
 
 const {width, height} = Dimensions.get('window');
 const Listings = ({params}) => {
@@ -36,7 +36,7 @@ const Listings = ({params}) => {
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('created_at');
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<NewDevice[]>([]);
 
   const [Grid, setGrid] = useState(false);
   const clear = () => {};
@@ -47,7 +47,6 @@ const Listings = ({params}) => {
       .then(response => {
         setData(response.data.data);
       });
-    console.log(query);
   }, [query, sort]);
 
   if (!data) return <Loading />;

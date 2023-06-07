@@ -24,9 +24,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
 import {useIsFocused} from '@react-navigation/native';
 import {
-  reduxSetAccessToken,
+  setAccessToken,
   setProfileData,
-  reduxRemoveAccessToken,
+  logoutUser,
+  selectAccessToken,
 } from '../Redux/Slices';
 import tw from 'twrnc';
 import SearchScreen from './SearchScreen';
@@ -37,12 +38,11 @@ import RecentList from '../components/RecentList';
 
 const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {
-  const [accessToken, setAccessToken] = useState();
   const [profile, setProfile] = useState<Profile>();
   const [deviceName, setDeviceName] = useState<string>();
   const [heading, setHeading] = useState('Home');
   const image_url = 'https:/www.mobilezmarket.com/images/';
-  const _accesstoken = useSelector(state => state.todo.accessToken);
+  const accessToken = useSelector(selectAccessToken);
   const dispatch = useDispatch();
   const name = DeviceInfo.getBrand();
   setTimeout(() => {
@@ -53,17 +53,15 @@ const Home = ({navigation}) => {
   });
 
   useEffect(() => {
-    console.log('fetch access token HOme useEffect');
+    console.log('Getting Token From AsyncStorage');
     const getUserToken = async () => {
       try {
         const user_token = await AsyncStorage.getItem('@user_token');
-        setAccessToken(user_token);
-        dispatch(reduxSetAccessToken(user_token));
+        dispatch(setAccessToken(user_token));
+        fetchProfileData(user_token);
       } catch (e) {
-        if (user_token === null) {
-          setAccessToken();
-          dispatch(reduxRemoveAccessToken());
-        }
+        console.log("Token Don't Exist Logout User", e);
+        dispatch(logoutUser());
       }
     };
     getUserToken();
@@ -166,7 +164,7 @@ const Home = ({navigation}) => {
     },
   ];
   console.log('accessToken', accessToken);
-  const fetchProfileData = async () => {
+  const fetchProfileData = async accessToken => {
     await axios
       .get(GET_PROFILE_DATA, {
         headers: {Authorization: `Bearer ${accessToken}`},
@@ -182,10 +180,6 @@ const Home = ({navigation}) => {
         console.log('ProfileData ' + error);
       });
   };
-
-  useEffect(() => {
-    if (accessToken) fetchProfileData();
-  }, []);
   return (
     <SafeAreaView>
       <ScrollView
@@ -216,7 +210,7 @@ const Home = ({navigation}) => {
             </Text>
 
             {/* login Register */}
-            {accessToken ? (
+            {profile ? (
               <TouchableOpacity
                 disabled
                 onPress={() => navigation.navigate('Profile')}>

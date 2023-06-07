@@ -173,6 +173,11 @@ const App = () => {
               name="AboutUs"
               component={AboutUs}
             />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="Chat"
+              component={ChatScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Paper>

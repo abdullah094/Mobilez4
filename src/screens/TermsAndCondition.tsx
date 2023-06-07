@@ -17,29 +17,7 @@ const TermsAndCondition = () => {
   return (
     <SafeAreaView>
       <Header title="Terms and Conditions" />
-      <View
-        style={{
-          borderBottomWidth: 1,
-          borderBottomColor: '#2B67F6',
-          width: width,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#2B67F6',
-          height: 50,
-        }}>
-        <Text
-          style={{
-            justifyContent: 'center',
-            fontSize: 20,
-            fontWeight: '500',
-            color: 'white',
-            flexDirection: 'row',
-            padding: 8,
-            alignItems: 'center',
-          }}>
-          Terms and Conditions
-        </Text>
-      </View>
+
       <ScrollView>
         <View
           style={{

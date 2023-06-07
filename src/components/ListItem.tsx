@@ -21,7 +21,6 @@ const ListItem = ({item, image}) => {
     month: 'long',
     day: 'numeric',
   });
-  console.log(item.city);
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('ProductPage', {id: item.id})}
@@ -74,7 +73,7 @@ const ListItem = ({item, image}) => {
               marginTop: 6,
             }}
             numberOfLines={1}>
-            {item.brand} {item?.model}
+            {item?.brand} {item?.model}
           </Text>
           <Text
             style={{
@@ -84,7 +83,7 @@ const ListItem = ({item, image}) => {
               fontWeight: '700',
             }}
             numberOfLines={1}>
-            Rs. {item.price.toLocaleString()}
+            Rs. {item?.price?.toLocaleString()}
           </Text>
           {item.ram && item.storage ? (
             <Text
@@ -93,7 +92,7 @@ const ListItem = ({item, image}) => {
               {item?.ram} GB | {item?.storage} GB | {item?.pta_status}
             </Text>
           ) : (
-            item.ram && item.storage === null
+            <></>
           )}
 
           {/* <Text
@@ -127,7 +126,7 @@ const ListItem = ({item, image}) => {
             }}>
             <Icon name="location-pin" size={15} color={color.red} />
             <Text style={{color: 'black', marginTop: 1, fontSize: 12}}>
-              {item.city}
+              {item?.user?.city}
             </Text>
           </View>
         </View>

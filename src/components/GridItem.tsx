@@ -6,17 +6,15 @@ import {color} from '../constants/Colors';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const GridItem = ({item, image}) => {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const props = route.params as any;
   const image_url = 'https://www.mobilezmarket.com/images/';
+  const navigation = useNavigation();
   const dateString = item.created_at;
   const date = new Date(dateString);
-
   const formattedDate = date.toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
   });
+
   return (
     <TouchableOpacity
       style={{
@@ -44,7 +42,7 @@ const GridItem = ({item, image}) => {
             height: 120,
             width: '100%',
             marginBottom: 5,
-            backgroundColor: color.black,
+            // backgroundColor: color.black,
             borderRadius: 10,
           }}
           source={{uri: image_url + image}}
@@ -65,7 +63,7 @@ const GridItem = ({item, image}) => {
             Rs. {item.price}
           </Text>
 
-          {props.type === 'phones' && (
+          {item.category === 'Mobile' && (
             <>
               <View
                 style={{
@@ -99,7 +97,7 @@ const GridItem = ({item, image}) => {
                 marginTop: 2,
               }}>
               <Icon name="location-pin" size={10} color={'red'} />
-              <Text style={styles.small_text}>{item.user.city}</Text>
+              <Text style={styles.small_text}>{item?.user?.city}</Text>
             </View>
             <View>
               <Text numberOfLines={1} style={styles.small_text}>

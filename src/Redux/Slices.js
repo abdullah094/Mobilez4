@@ -2,7 +2,6 @@ import {createSlice} from '@reduxjs/toolkit';
 
 export const todosSlice = createSlice({
   name: 'todo',
-
   initialState: {
     _name: 'abdullah',
     accessToken: '',
@@ -23,18 +22,15 @@ export const todosSlice = createSlice({
       console.log('getItem');
     },
     reduxSetAccessToken(state = null, action) {
-      let token = action.payload;
-
-      state.accessToken = token;
+      state.accessToken = action.payload;
     },
-    reduxRemoveAccessToken(state = null, action) {
+    reduxRemoveAccessToken(state = null) {
       state.accessToken = '';
     },
     setProfileData(state = null, action) {
-      let profile = action.payload;
-      state.profile = {...profile};
+      state.profile = {...action.payload};
     },
-    removeProfileData(state = 0, action) {
+    removeProfileData(state = 0) {
       state.profile = {};
     },
   },

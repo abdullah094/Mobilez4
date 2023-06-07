@@ -15,13 +15,7 @@ import {
 import React, {useContext, useEffect, useState} from 'react';
 import {color} from '../constants/Colors';
 import FlatListBox from '../components/Flatbox';
-import {
-  RECENTLY_ADDED_MOBILES,
-  RECENTLY_ADDED_WATCHES,
-  GET_PROFILE_DATA,
-  RECENTLY_ADDED_TABLETS,
-  HOME_SLIDER_IMAGES,
-} from '@env';
+import {GET_PROFILE_DATA} from '@env';
 import axios from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,21 +32,16 @@ import tw from 'twrnc';
 import SearchScreen from './SearchScreen';
 import Slider from '../components/Slider';
 import HomeSlider from '../components/HomeSlider';
-import {Profile} from '../../type/type';
+import {Category, Profile} from '../../type';
+import RecentList from '../components/RecentList';
 
 const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {
-  const isFocused = useIsFocused();
-
-  const [recentMobiles, setRecentMobiles] = useState();
-  const [recentWatches, setRecentWatches] = useState();
-  const [recentTablets, setRecentTablets] = useState();
-
   const [accessToken, setAccessToken] = useState();
   const [profile, setProfile] = useState<Profile>();
   const [deviceName, setDeviceName] = useState<string>();
   const [heading, setHeading] = useState('Home');
-  const image_url = 'https:/www./mobilezmarket.com/images/';
+  const image_url = 'https:/www.mobilezmarket.com/images/';
   const _accesstoken = useSelector(state => state.todo.accessToken);
   const dispatch = useDispatch();
   const name = DeviceInfo.getBrand();
@@ -62,16 +51,12 @@ const Home = ({navigation}) => {
   DeviceInfo.getDeviceName().then((res: string) => {
     setDeviceName(res);
   });
-  let _accessToken;
-  _accessToken = useSelector(state => state.todo.accessToken);
 
   useEffect(() => {
     console.log('fetch access token HOme useEffect');
-    let user_token;
-    setTimeout(async () => {
-      user_token = null;
+    const getUserToken = async () => {
       try {
-        user_token = await AsyncStorage.getItem('@user_token');
+        const user_token = await AsyncStorage.getItem('@user_token');
         setAccessToken(user_token);
         dispatch(reduxSetAccessToken(user_token));
       } catch (e) {
@@ -79,10 +64,10 @@ const Home = ({navigation}) => {
           setAccessToken();
           dispatch(reduxRemoveAccessToken());
         }
-        console.log(e);
       }
-    }, 200);
-  }, [isFocused]);
+    };
+    getUserToken();
+  }, []);
 
   const entries = [
     require('../assets/ads/1.png'),
@@ -180,40 +165,7 @@ const Home = ({navigation}) => {
       image: require('../assets/brand_logos/22.png'),
     },
   ];
-  const fetchRecentMobileData = async () => {
-    axios
-      .get(RECENTLY_ADDED_MOBILES)
-      .then(response => {
-        setRecentMobiles(response.data.mobiles);
-      })
-      .catch(error => {
-        console.log('mobileData' + error);
-      });
-  };
-  const fetchTabletData = async () => {
-    axios
-      .get(RECENTLY_ADDED_TABLETS)
-      .then(response => {
-        setRecentTablets(response.data.tablets);
-        console.log(RECENTLY_ADDED_TABLETS);
-      })
-      .catch(error => {
-        console.log('Tablet' + error);
-      });
-  };
-
-  const fetchRecentWatches = () => {
-    axios
-      .get(RECENTLY_ADDED_WATCHES)
-      .then(response => {
-        setRecentWatches(response.data.watches);
-      })
-      .catch(error => {
-        console.log('Watches' + error);
-      });
-  };
-
-  console.log(accessToken);
+  console.log('accessToken', accessToken);
   const fetchProfileData = async () => {
     await axios
       .get(GET_PROFILE_DATA, {
@@ -232,33 +184,8 @@ const Home = ({navigation}) => {
   };
 
   useEffect(() => {
-    fetchRecentMobileData();
-    fetchRecentWatches();
-    fetchTabletData();
     if (accessToken) fetchProfileData();
-  }, [accessToken]);
-  // console.log(sliderImages)
-
-  const _renderItem = ({item, index}) => {
-    return (
-      <View
-        style={{
-          zIndex: 1,
-          width: '100%',
-          height: 110,
-          backgroundColor: color.white,
-          borderRadius: 20,
-        }}>
-        <Image
-          style={{width: '100%', height: '100%', borderRadius: 20}}
-          source={{uri: image_url + item}}
-          resizeMode="cover"
-        />
-      </View>
-    );
-  };
-
-  if (!recentMobiles || !recentWatches) return <Loading />;
+  }, []);
   return (
     <SafeAreaView>
       <ScrollView
@@ -319,73 +246,72 @@ const Home = ({navigation}) => {
         </View>
         {/* /header finsihes here */}
 
-        <View style={tw`w-full items-center top-[50px] mb-10`}>
-          {/* row1 */}
-          <View style={styles.tab_box_rows}>
-            {/* box1 */}
-            <TouchableOpacity
-              style={styles.tab_box}
-              onPress={() =>
-                navigation.navigate('Listings', {name: 'New Phones'})
-              }>
-              <View style={tw`flex items-center justify-center `}>
-                <Image
-                  style={styles.category_image}
-                  source={require('../assets/smartphone.png')}
-                  resizeMode="contain"
-                />
-                <Text style={tw`text-white mt-1 text-[10px]`}>Phone</Text>
-              </View>
-            </TouchableOpacity>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={tw`mt-20`}>
+          {/* box1 */}
+          <TouchableOpacity
+            style={styles.tab_box}
+            onPress={() =>
+              navigation.navigate('Listings', {
+                name: Category.PHONE,
+              })
+            }>
+            <View style={tw`flex items-center justify-center `}>
+              <Image
+                style={styles.category_image}
+                source={require('../assets/smartphone.png')}
+                resizeMode="contain"
+              />
+              <Text style={tw`text-white mt-1 text-[10px]`}>Phone</Text>
+            </View>
+          </TouchableOpacity>
 
-            {/* box2 */}
-            <TouchableOpacity
-              style={styles.tab_box}
-              onPress={() =>
-                navigation.navigate('Listings', {name: 'Used Phones'})
-              }>
-              <View style={tw`flex items-center justify-center `}>
-                <Image
-                  style={styles.category_image}
-                  source={require('../assets/smartwatch.png')}
-                  resizeMode="contain"
-                />
-                <Text style={tw`text-white mt-1 text-[10px]`}>Smart Watch</Text>
-              </View>
-            </TouchableOpacity>
-            {/* box3 */}
-            <TouchableOpacity
-              style={styles.tab_box}
-              onPress={() => navigation.navigate('FindMyDevice')}>
-              <View style={tw`flex items-center justify-center `}>
-                <Image
-                  style={styles.category_image}
-                  source={require('../assets/Tablets.png')}
-                  resizeMode="contain"
-                />
-                <Text style={tw`text-white mt-1 text-[10px]`}>Tablets</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+          {/* box2 */}
+          <TouchableOpacity
+            style={styles.tab_box}
+            onPress={() =>
+              navigation.navigate('Listings', {
+                name: Category.SMARTWATCH,
+              })
+            }>
+            <View style={tw`flex items-center justify-center `}>
+              <Image
+                style={styles.category_image}
+                source={require('../assets/smartwatch.png')}
+                resizeMode="contain"
+              />
+              <Text style={tw`text-white mt-1 text-[10px]`}>Smart Watch</Text>
+            </View>
+          </TouchableOpacity>
+          {/* box3 */}
+          <TouchableOpacity
+            style={styles.tab_box}
+            onPress={() =>
+              navigation.navigate('Listings', {
+                name: Category.TABLET,
+              })
+            }>
+            <View style={tw`flex items-center justify-center `}>
+              <Image
+                style={styles.category_image}
+                source={require('../assets/Tablets.png')}
+                resizeMode="contain"
+              />
+              <Text style={tw`text-white mt-1 text-[10px]`}>Tablets</Text>
+            </View>
+          </TouchableOpacity>
+        </ScrollView>
+        <View style={tw`w-full items-center pt-4 mb-10`}>
+          {/* row1 */}
+
           {/* row2 */}
 
-          <FlatListBox
-            header={'Recent Phones'}
-            data={recentMobiles}
-            type={'phones'}
-          />
-          {/* used phones */}
-          <FlatListBox
-            header={'Recent Watches'}
-            data={recentWatches}
-            type={'watches'}
-          />
+          <RecentList name={Category.PHONE} />
+          <RecentList name={Category.SMARTWATCH} />
+          <RecentList name={Category.TABLET} />
 
-          <FlatListBox
-            header={'Recent Tablets'}
-            data={recentTablets}
-            type={'tablets'}
-          />
           <View style={styles.company_box}>
             <FlatList
               horizontal
@@ -453,7 +379,6 @@ const styles = StyleSheet.create({
     // borderWidth:1,
     borderRadius: 13,
     backgroundColor: '#015DCF',
-
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -461,7 +386,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
-
+    marginHorizontal: 8,
     elevation: 6,
   },
   tab_text: {

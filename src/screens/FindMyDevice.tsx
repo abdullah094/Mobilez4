@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Keyboard,
   Pressable,
+  SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Header from '../components/Header';
@@ -30,7 +31,7 @@ const FindMyDevice = ({navigation, route}) => {
   let filterData = route.params?._form || null;
 
   console.log(filterData);
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
 
   const [form, setForm] = useState({
     search: '',
@@ -40,7 +41,7 @@ const FindMyDevice = ({navigation, route}) => {
 
   const image_url = 'https://www.mobilezmarket.com/images/';
   const fetchResults = async () => {
-    setData();
+    setData([]);
     await axios
       .post(FILTER, JSON.stringify(filterData))
       .then(response => {
@@ -58,7 +59,7 @@ const FindMyDevice = ({navigation, route}) => {
 
   if (!data) return <Loading />;
   return (
-    <>
+    <SafeAreaView>
       {/* <Appbar.Header>
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       </Appbar.Header> */}
@@ -116,7 +117,7 @@ const FindMyDevice = ({navigation, route}) => {
           renderItem={({item}) => <ListItem item={item} image={item.img} />}
         />
       </View>
-    </>
+    </SafeAreaView>
   );
 };
 

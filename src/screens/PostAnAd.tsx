@@ -27,6 +27,8 @@ import Header from '../components/Header';
 const {width, height} = Dimensions.get('window');
 import FormData from 'form-data';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import tw from 'twrnc';
 
 // require the module
 var RNFS = require('react-native-fs');
@@ -49,7 +51,7 @@ const PostAnAd = ({navigation}) => {
     kit_only: false,
   });
   const [images, setImages] = useState([]);
-  const [brand, setBrand] = useState();
+  const [brand, setBrand] = useState<string>();
   const [model, setModel] = useState();
   const [button, setButton] = useState('Save Product');
   const [uploadbtn, setuploadbtn] = useState('Upload Image');
@@ -181,7 +183,6 @@ const PostAnAd = ({navigation}) => {
   };
   const options = {
     mediaType: 'photo',
-
     quality: 0.5,
     selectionLimit: 10,
   };
@@ -195,9 +196,11 @@ const PostAnAd = ({navigation}) => {
 
     result.assets.forEach(element => {
       // images.push(element.base64);
+      console.log('element', element);
       images.push(element);
     });
     setForm({...form, image: images});
+    setuploadbtn('Upload Image');
   };
   const customStyles = {
     option: provided => ({
@@ -283,80 +286,68 @@ const PostAnAd = ({navigation}) => {
       : Alert.alert('Please Login First');
   };
   return (
-    <ScrollView
-      contentContainerStyle={{
-        alignItems: 'center',
-        paddingBottom: 200,
-        // backgroundColor: '#015DCF',
-      }}
-      keyboardShouldPersistTaps="handled">
-      <View
-        style={{
-          backgroundColor: '#015DCF',
-          width: width,
+    <SafeAreaView>
+      <ScrollView
+        contentContainerStyle={{
           alignItems: 'center',
-          padding: 10,
-          height: 80,
-          justifyContent: 'center',
-        }}>
-        <View>
-          <Text style={{fontSize: 15, fontWeight: 'bold', color: 'white'}}>
+          paddingBottom: 200,
+          // backgroundColor: '#015DCF',
+        }}
+        keyboardShouldPersistTaps="handled">
+        <View
+          style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
+          <TouchableOpacity onPress={navigation.goBack}>
+            <Ionicons
+              name="ios-arrow-back-sharp"
+              color={color.white}
+              size={25}
+            />
+          </TouchableOpacity>
+          <Text
+            style={{
+              color: color.white,
+              textAlign: 'center',
+              fontWeight: '500',
+              flex: 1,
+            }}>
             Post An Ad
           </Text>
         </View>
-      </View>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: 250,
-          paddingBottom: 20,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: 100,
-            width: width,
-            padding: 10,
-          }}>
-          <View style={{marginTop: 17, width: 150}}>
-            <SelectList
-              placeholder="Category"
-              inputStyles={{color: 'grey'}}
-              setSelected={val => setForm({...form, category: val})}
-              data={Category}
-              save="value"
-            />
-          </View>
-          <View style={styles.box}>
-            <View style={{marginTop: 10}}>
-              <SelectList
-                placeholder="Choose Brands"
-                inputStyles={{
-                  color: 'grey',
-                  fontFamily: 'Geologica_Auto-Black',
-                }}
-                setSelected={val => setForm({...form, brand: val})}
-                data={brands}
-                save="value"
-              />
+        <View style={tw` w-full items-start justify-center px-4`}>
+          <View style={tw`w-full`}>
+            <View style={tw`flex-row pt-2 items-center justify-between`}>
+              <View style={tw`w-1/2  pr-2`}>
+                <SelectList
+                  boxStyles={styles.box}
+                  placeholder="Category"
+                  inputStyles={{color: 'grey'}}
+                  setSelected={val => setForm({...form, category: val})}
+                  data={Category}
+                  save="value"
+                />
+              </View>
+              <View style={tw`w-1/2 pl-2`}>
+                <SelectList
+                  boxStyles={styles.box}
+                  placeholder="Choose Brands"
+                  inputStyles={{
+                    color: 'grey',
+                    // fontFamily: 'Geologica_Auto-Black',
+                  }}
+                  setSelected={val => setForm({...form, brand: val})}
+                  data={brands}
+                  save="value"
+                />
+              </View>
             </View>
-            {otherBrand ? (
+            {otherBrand && (
               <TextInput
                 placeholder="Choose brand"
-                inputStyles={{color: 'grey'}}
                 style={styles.box_input}
                 value={brand}
                 onChangeText={text => setBrand(text)}
               />
-            ) : null}
-          </View>
-        </View>
-
-        <View style={{width: width, padding: 10}}>
-          <View style={styles.box}>
+            )}
             {otherBrand ? (
               <TextInput
                 placeholder="Choose Model"
@@ -365,84 +356,70 @@ const PostAnAd = ({navigation}) => {
                 onChangeText={text => setForm({...form, model: text})}
               />
             ) : (
-              <View style={{marginTop: 10}}>
-                <SelectList
-                  placeholder="Choose model"
-                  inputStyles={{color: 'grey'}}
-                  setSelected={val => setForm({...form, model: val})}
-                  data={models}
-                  save="value"
-                />
-              </View>
+              <SelectList
+                boxStyles={styles.box}
+                placeholder="Choose model"
+                inputStyles={{color: 'black'}}
+                setSelected={val => setForm({...form, model: val})}
+                data={models}
+                save="value"
+              />
             )}
-          </View>
-          {console.log(form.price)}
-          <View style={styles.box}>
             <TextInput
               style={styles.box_input}
               keyboardType="number-pad"
               placeholder="Enter Price"
-              inputStyles={{color: 'black'}}
               value={form.price}
               onChangeText={text => setForm({...form, price: text})}
             />
-          </View>
 
-          <View style={styles.box}>
-            <View style={{marginTop: 10}}>
-              <SelectList
-                placeholder="Choose Ram"
-                inputStyles={{color: 'grey'}}
-                setSelected={val =>
-                  setForm({...form, ram: val.replace(' GB', '')})
-                }
-                data={Ram}
-                save="value"
-              />
-            </View>
-          </View>
+            <SelectList
+              boxStyles={styles.box}
+              // inputStyles={styles.box}
+              placeholder="Choose Ram"
+              inputStyles={{color: 'black'}}
+              setSelected={val =>
+                setForm({...form, ram: val.replace(' GB', '')})
+              }
+              data={Ram}
+              save="value"
+            />
 
-          <View style={styles.box}>
-            <View style={{marginTop: 10}}>
-              <SelectList
-                placeholder="Choose Storage"
-                inputStyles={{color: 'grey'}}
-                setSelected={val =>
-                  setForm({...form, storage: val.replace(' GB', '')})
-                }
-                data={Storage}
-                save="value"
-              />
-            </View>
-          </View>
+            <SelectList
+              boxStyles={styles.box}
+              placeholder="PTA Status"
+              inputStyles={{color: 'black'}}
+              setSelected={val => setForm({...form, pta_status: val})}
+              data={approved}
+              save="value"
+            />
+            <SelectList
+              boxStyles={styles.box}
+              placeholder="Choose Storage"
+              inputStyles={{color: 'black'}}
+              setSelected={val =>
+                setForm({...form, storage: val.replace(' GB', '')})
+              }
+              data={Storage}
+              save="value"
+            />
+            <SelectList
+              boxStyles={styles.box}
+              placeholder="Product Condition"
+              inputStyles={{color: 'black'}}
+              setSelected={val => setForm({...form, product_type: val})}
+              data={Condition}
+              save="value"
+            />
 
-          <View style={styles.box}>
-            <View style={{marginTop: 10}}>
-              <SelectList
-                placeholder="PTA Status"
-                styles={{}}
-                inputStyles={{color: 'grey'}}
-                setSelected={val => setForm({...form, pta_status: val})}
-                data={approved}
-                save="value"
-              />
-            </View>
-          </View>
-
-          <View style={styles.box}>
-            <View style={{marginTop: 10}}>
-              <SelectList
-                placeholder="Product Condition"
-                inputStyles={{color: 'grey'}}
-                setSelected={val => setForm({...form, product_type: val})}
-                data={Condition}
-                save="value"
-              />
-            </View>
             {condition ? (
               <View style={{padding: 5, paddingVertical: 15}}>
                 <Text
-                  style={{color: color.black, fontWeight: '500', fontSize: 15}}>
+                  style={{
+                    color: color.black,
+                    fontWeight: '500',
+                    fontSize: 15,
+                  }}>
                   Accessories
                 </Text>
 
@@ -451,7 +428,10 @@ const PostAnAd = ({navigation}) => {
                     disabled={false}
                     value={toggleAccesories.box}
                     onValueChange={newValue =>
-                      setToggleAccesories({...toggleAccesories, box: newValue})
+                      setToggleAccesories({
+                        ...toggleAccesories,
+                        box: newValue,
+                      })
                     }
                   />
                   <Text style={styles.check_box_text}>Box</Text>
@@ -514,104 +494,95 @@ const PostAnAd = ({navigation}) => {
                 </View>
               </View>
             ) : null}
-          </View>
-
-          <View style={styles.box}>
-            <View style={{marginTop: 10}}>
-              <SelectList
-                placeholder="Warrenty"
-                inputStyles={{color: 'grey'}}
-                setSelected={val => setForm({...form, warranty: val})}
-                data={Warranty}
-                save="value"
-              />
-            </View>
-          </View>
-
-          <View style={styles.box}>
-            <Text style={{color: 'black', fontWeight: '700'}}>
-              Product Image
-            </Text>
-            <FlatList
-              horizontal
-              data={form?.image}
-              contentContainerStyle={{paddingVertical: 10, zIndex: 999}}
-              renderItem={({item}) => (
-                <Image
-                  style={{
-                    width: 100,
-                    height: 100,
-                    marginRight: 15,
-                    zIndex: 999,
-                    marginVertical: 5,
-                  }}
-                  source={{uri: item.uri}}
-                />
-              )}
+            <SelectList
+              boxStyles={styles.box}
+              placeholder="Warrenty"
+              inputStyles={{color: 'black'}}
+              setSelected={val => setForm({...form, warranty: val})}
+              data={Warranty}
+              save="value"
             />
-            <Text
-              style={{marginVertical: 5, color: 'black', fontWeight: '700'}}>
-              Upload upto 20 images
-            </Text>
-            {/* <Button title="Upload image" onPress={ImageUpload} /> */}
-            <TouchableOpacity
-              onPress={ImageUpload}
-              style={{
-                backgroundColor: color.orange,
-                width: width - 50,
-                height: 50,
-                borderRadius: 20,
-                marginTop: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginLeft: 12,
-              }}>
-              <Text
-                style={{color: color.white, fontWeight: 'bold', fontSize: 15}}>
-                {uploadbtn}
-              </Text>
-            </TouchableOpacity>
           </View>
-        </View>
-        <View style={{flex: 2, flexDirection: 'row', width: width - 20}}>
-          <Text style={{fontWeight: '600', color: 'black', fontSize: 15}}>
+          <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>
+            Product Image
+          </Text>
+          <FlatList
+            horizontal
+            data={form?.image}
+            contentContainerStyle={{paddingVertical: 10, zIndex: 999}}
+            renderItem={({item}) => (
+              <Image
+                style={{
+                  width: 100,
+                  height: 100,
+                  marginRight: 15,
+                  zIndex: 999,
+                  marginVertical: 5,
+                }}
+                source={{uri: item.uri}}
+              />
+            )}
+          />
+          <Text style={{marginVertical: 5, color: 'black', fontWeight: '700'}}>
+            Upload upto 20 images
+          </Text>
+          {/* <Button title="Upload image" onPress={ImageUpload} /> */}
+          <TouchableOpacity
+            onPress={ImageUpload}
+            style={{
+              backgroundColor: color.orange,
+              width: width - 50,
+              height: 50,
+              borderRadius: 20,
+              marginTop: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 12,
+            }}>
+            <Text
+              style={{
+                color: color.white,
+                fontWeight: 'bold',
+                fontSize: 15,
+              }}>
+              {uploadbtn}
+            </Text>
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontWeight: '600',
+              color: 'black',
+              fontSize: 15,
+              marginVertical: 16,
+            }}>
             Description
           </Text>
-        </View>
 
-        <View
-          style={{
-            flexDirection: 'row',
-            padding: 5,
-            width: width,
-            height: 230,
-            justifyContent: 'center',
-          }}>
           <TextInput
             style={styles.description}
             multiline={true}
             value={form.description}
             onChangeText={text => setForm({...form, description: text})}
           />
+          <TouchableOpacity
+            onPress={() => PostAdFunc()}
+            style={{
+              backgroundColor: color.orange,
+              width: width - 50,
+              height: 50,
+              borderRadius: 20,
+              marginTop: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{color: color.white, fontWeight: 'bold', fontSize: 15}}>
+              {button}
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          onPress={() => PostAdFunc()}
-          style={{
-            backgroundColor: color.orange,
-            width: width - 50,
-            height: 50,
-            borderRadius: 20,
-            marginTop: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text style={{color: color.white, fontWeight: 'bold', fontSize: 15}}>
-            {button}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -619,20 +590,22 @@ export default PostAnAd;
 
 const styles = StyleSheet.create({
   box: {
-    paddingTop: 10,
-    color: 'red',
+    marginTop: 10,
+    width: '100%',
   },
 
   box_input: {
     height: 50,
-    borderColor: color.black,
+    width: '100%',
+    borderColor: 'grey',
     borderRadius: 10,
     color: color.black,
-
     borderWidth: 1,
+    marginTop: 10,
+    padding: 8,
   },
   check_box_box: {flexDirection: 'row', alignItems: 'center', marginTop: 5},
-  check_box_text: {color: color.black},
+  check_box_text: {color: color.black, paddingLeft: 5},
   selectList: {
     color: 'black',
   },
@@ -641,7 +614,7 @@ const styles = StyleSheet.create({
     borderColor: color.black,
     borderRadius: 10,
     color: color.black,
-    width: width - 10,
+    width: '100%',
     borderWidth: 1,
   },
 });

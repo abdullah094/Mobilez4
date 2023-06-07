@@ -23,4 +23,5 @@ declare module '@env' {
   export const BLOGS: string;
   export const FILTER: string;
   export const MYADS: string;
+  export const CATEGORY: string;
 }

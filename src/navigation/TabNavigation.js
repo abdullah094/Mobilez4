@@ -12,6 +12,7 @@ import MyAds from '../screens/MyAds';
 import {color} from '../constants/Styles';
 import More from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
+import ChatScreen from '../screens/Chat';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -108,6 +109,7 @@ export default function App() {
 
       <Tab.Screen
         name="Chat"
+        component={ChatScreen}
         options={{
           tabBarLabel: 'Chat',
           tabBarIcon: ({color, size}) => (
@@ -117,7 +119,6 @@ export default function App() {
             />
           ),
         }}
-        component={MyAds}
       />
       <Tab.Screen
         name="More"

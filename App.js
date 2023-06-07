@@ -39,6 +39,7 @@ import {
   ThemeProvider,
 } from 'react-native-paper';
 import AboutUs from './src/screens/AboutUs';
+import ChatScreen from './src/screens/Chat';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -253,6 +254,11 @@ const App = () => {
                 options={{headerShown: false}}
                 name="AboutUs"
                 component={AboutUs}
+              />
+              <Stack.Screen
+                options={{headerShown: false}}
+                name="Chat"
+                component={ChatScreen}
               />
             </Stack.Navigator>
           </NavigationContainer>

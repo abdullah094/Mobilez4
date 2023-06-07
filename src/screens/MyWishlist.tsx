@@ -13,62 +13,23 @@ import React, {useState, useEffect} from 'react';
 import {color} from '../constants/Colors';
 import axios, {AxiosError} from 'axios';
 import {WISHLIST_GET} from '@env';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Sort from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
+import {logoutUser, selectAccessToken} from '../Redux/Slices';
+import {NewDevice} from '../../type';
+import Header from '../components/Header';
 
 const {width, height} = Dimensions.get('window');
 const MyWishlist = ({navigation}) => {
   const [Grid, setGrid] = useState(false);
-  const [data, setData] = useState([]);
-  const accessToken = useSelector(state => state.todo.accessToken);
-  const initialLoginState = {
-    isloading: true,
-    userName: null,
-    userToken: null,
-  };
-  const loginReducer = (prevState, action) => {
-    switch (action.type) {
-      case 'RETRIEVE_TOKEN':
-        return {
-          ...prevState,
-          userToken: action.token,
-          isloading: false,
-        };
-      case 'LOGIN':
-        return {
-          ...prevState,
-          userName: action.id,
-          userToken: action.token,
-          isloading: false,
-        };
-      case 'LOGOUT':
-        return {
-          ...prevState,
-          userName: null,
-          userToken: null,
-          isloading: false,
-        };
-      case 'REGISTER':
-        return {
-          ...prevState,
-          userName: action.id,
-          userToken: action.token,
-          isloading: false,
-        };
-    }
-  };
-
-  const [loginState, dispatch] = React.useReducer(
-    loginReducer,
-    initialLoginState,
-  );
-
+  const [data, setData] = useState<NewDevice[]>([]);
+  const accessToken = useSelector(selectAccessToken);
+  const dispatch = useDispatch();
   console.log('accessToken', accessToken);
 
   useEffect(() => {
@@ -77,12 +38,11 @@ const MyWishlist = ({navigation}) => {
         headers: {Authorization: `Bearer ${accessToken}`},
       })
       .then(response => {
-        console.log(response.data.data);
         setData(response.data.data);
       })
       .catch((reason: AxiosError) => {
         if (reason.response!.status === 401) {
-          dispatch({type: 'LOGOUT'});
+          dispatch(logoutUser);
           navigation.navigate('Login');
         }
         console.log(reason.message);
@@ -91,21 +51,7 @@ const MyWishlist = ({navigation}) => {
 
   return (
     <SafeAreaView style={tw`flex-1`}>
-      <View
-        style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
-        <TouchableOpacity onPress={navigation.goBack}>
-          <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
-        </TouchableOpacity>
-        <Text
-          style={{
-            color: color.white,
-            textAlign: 'center',
-            fontWeight: '500',
-            flex: 1,
-          }}>
-          WishList
-        </Text>
-      </View>
+      <Header title="My Wishlist" />
       <View style={tw`flex-row items-center justify-end px-4  h-10`}>
         <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
           <ListIcon

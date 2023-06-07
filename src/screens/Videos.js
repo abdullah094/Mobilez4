@@ -10,6 +10,7 @@ import {
   Image,
   Linking,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Header from '../components/Header';
@@ -39,8 +40,8 @@ const Videos = ({navigation}) => {
   }, []);
   if (!data) return <Loading />;
   return (
-    <View style={{width: width, alignItems: 'center'}}>
-      <Header header={'Videos'} onPress={() => navigation.goBack()} />
+    <SafeAreaView style={{width: width, alignItems: 'center'}}>
+      <Header title={'Videos'} />
       <FlatList
         data={data}
         contentContainerStyle={{
@@ -77,7 +78,7 @@ const Videos = ({navigation}) => {
           </TouchableOpacity>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

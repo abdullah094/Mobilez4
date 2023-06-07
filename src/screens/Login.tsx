@@ -18,17 +18,21 @@ import {LOGIN} from '@env';
 import axios from 'axios';
 import Context from '../data/Context';
 import {useDispatch, useSelector} from 'react-redux';
-import {reduxSetAccessToken} from '../Redux/Slices';
+import {setAccessToken, selectAccessToken} from '../Redux/Slices';
 import tw from 'twrnc';
+import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
-const Login = ({navigation}) => {
+const Login = () => {
+  const navigation = useNavigation();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loginLoader, setLoginLoader] = useState('Sign In');
   const {signIn} = useContext(Context);
-  const accesstoken = useSelector(state => state.todo.accessToken);
+  const accessToken = useSelector(selectAccessToken);
 
+  if (accessToken) navigation.navigate('Home');
   const dispatch = useDispatch();
 
   const fetchLogin = () => {
@@ -70,15 +74,24 @@ const Login = ({navigation}) => {
           setLoginLoader('Login');
         } else if (response.data?.status) {
           signIn('', response.data.token),
-            dispatch(reduxSetAccessToken(response.data.token)),
+            dispatch(setAccessToken(response.data.token)),
             setLoginLoader('Login'),
-            navigation.navigate('TabNavigation', {screen: 'Home'});
+            PutAccessTokenToAsync();
         }
       })
       .catch(error => {
         setLoginLoader('Login'),
           Alert.alert('Unsuccessful', 'Please try again');
       });
+  };
+
+  const PutAccessTokenToAsync = async () => {
+    try {
+      await AsyncStorage.setItem('@user_token', accessToken);
+      navigation.navigate('TabNavigation', {screen: 'Home'});
+    } catch (e) {
+      console.log('Error saving Data to AsyncStorage:', e);
+    }
   };
 
   return (

@@ -1,12 +1,22 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React from 'react';
 import {ScrollView, Dimensions} from 'react-native';
 import {color} from '../constants/Colors';
+import tw from 'twrnc';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import Header from '../components/Header';
 
 const TermsAndCondition = () => {
   const {width, height} = Dimensions.get('window');
   return (
-    <>
+    <SafeAreaView>
+      <Header title="Terms and Conditions" />
       <View
         style={{
           borderBottomWidth: 1,
@@ -212,7 +222,7 @@ const TermsAndCondition = () => {
           </View>
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 

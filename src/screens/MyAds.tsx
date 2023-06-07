@@ -24,16 +24,16 @@ import GridItem from '../components/GridItem';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ListItem from '../components/ListItem';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {selectAccessToken} from '../Redux/Slices';
 
 const {width, height} = Dimensions.get('window');
 const MyAds = ({navigation}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
-  const isFocused = useIsFocused();
   const [data, setData] = useState();
-  const _accessToken = useSelector(state => state.todo.accessToken);
+  const _accessToken = useSelector(selectAccessToken);
   const [Grid, setGrid] = useState(false);
 
-  const fetchData = () => {
+  useEffect(() => {
     axios
       .get(MYADS, {
         headers: {Authorization: `Bearer ${_accessToken}`},
@@ -44,12 +44,7 @@ const MyAds = ({navigation}) => {
       .catch(error => {
         console.log(error);
       });
-  };
-  useEffect(() => {
-    console.log('useeffect');
-    fetchData();
-  }, [isFocused, _accessToken]);
-  console.log(data);
+  }, [_accessToken]);
   return (
     <SafeAreaView style={tw`flex-1`}>
       <View

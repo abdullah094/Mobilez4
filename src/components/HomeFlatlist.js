@@ -11,8 +11,6 @@ import {color} from '../constants/Colors';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Entypo';
 import tw from 'twrnc';
-import {width} from 'deprecated-react-native-prop-types/DeprecatedImagePropType';
-import GridItem from './GridItem';
 
 const HomeFlatlist = props => {
   const navigation = useNavigation();
@@ -27,8 +25,6 @@ const HomeFlatlist = props => {
       month: 'long',
       day: 'numeric',
     });
-    console.log(formattedDate);
-    // console.log(id);
     return (
       <TouchableOpacity
         style={{

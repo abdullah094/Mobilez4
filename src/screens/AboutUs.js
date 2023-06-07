@@ -1,36 +1,14 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {ScrollView, Dimensions} from 'react-native';
 import {color} from '../constants/Colors';
+import Header from '../components/Header';
 
 const AboutUs = () => {
-  const {width, height} = Dimensions.get('window');
   return (
-    <>
-      <View
-        style={{
-          borderBottomWidth: 1,
-          borderBottomColor: '#2B67F6',
-          width: width,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#2B67F6',
-          height: 50,
-        }}>
-        <Text
-          style={{
-            justifyContent: 'center',
-            fontSize: 20,
-            fontWeight: '500',
-            color: 'white',
-            flexDirection: 'row',
-            padding: 8,
-            alignItems: 'center',
-          }}>
-          AboutUs
-        </Text>
-      </View>
+    <SafeAreaView>
       <ScrollView>
+        <Header title="About Us" />
         <View
           style={{
             justifyContent: 'center',
@@ -83,7 +61,7 @@ const AboutUs = () => {
           </View>
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 

@@ -7,6 +7,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  SafeAreaView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
@@ -36,8 +37,8 @@ const Blogs = ({navigation}) => {
 
   if (!data) return <Loading />;
   return (
-    <>
-      <Header header={'BLOGS'} onPress={() => navigation.goBack()} />
+    <SafeAreaView>
+      <Header title={'BLOGS'} />
       <FlatList
         data={data}
         contentContainerStyle={{
@@ -63,7 +64,7 @@ const Blogs = ({navigation}) => {
           </TouchableOpacity>
         )}
       />
-    </>
+    </SafeAreaView>
   );
 };
 

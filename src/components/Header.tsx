@@ -9,31 +9,29 @@ import {
 import React from 'react';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {color} from '../constants/Colors';
+import tw from 'twrnc';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
-const Header = ({header = null, onPress}) => {
+const Header = ({title = ''}) => {
+  const navigation = useNavigation();
   return (
-    <SafeAreaView
-      style={{
-        width: width,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 10,
-        marginBottom: 50,
-        position: 'absolute',
-        zIndex: 999,
-      }}>
-      <TouchableOpacity
-        style={{padding: 5, position: 'absolute', left: 20}}
-        onPress={onPress}>
-        <MaterialIcon name="arrow-back-ios" size={25} color={color.black} />
+    <View
+      style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
+      <TouchableOpacity onPress={navigation.goBack}>
+        <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
       </TouchableOpacity>
-
-      <Text style={{fontWeight: 'bold', color: color.black, fontSize: 20}}>
-        {header}
+      <Text
+        style={{
+          color: color.white,
+          textAlign: 'center',
+          fontWeight: '500',
+          flex: 1,
+        }}>
+        {title}
       </Text>
-    </SafeAreaView>
+    </View>
   );
 };
 

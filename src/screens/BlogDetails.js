@@ -1,6 +1,7 @@
 import {
   Dimensions,
   Image,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -21,8 +22,8 @@ const BlogDetails = ({navigation, route}) => {
     html: data.description,
   };
   return (
-    <>
-      <Header header={'Blog'} onPress={() => navigation.goBack()} />
+    <SafeAreaView>
+      <Header title="Blog" />
       <ScrollView
         contentContainerStyle={{
           alignItems: 'center',
@@ -47,7 +48,7 @@ const BlogDetails = ({navigation, route}) => {
           <RenderHtml contentWidth={width} source={source} />
         </View>
       </ScrollView>
-    </>
+    </SafeAreaView>
   );
 };
 

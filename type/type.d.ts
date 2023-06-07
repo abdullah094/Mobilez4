@@ -168,3 +168,46 @@ export enum Category {
   RELATED_AD = 'related',
   MORE_AD = 'more_ad',
 }
+
+export interface Contacts {
+  contacts: Contact[];
+  total: number;
+  last_page: number;
+}
+
+export interface Contact {
+  id: number;
+  name: string;
+  first_name: string;
+  last_name: null | string;
+  city: string;
+  area: null | string;
+  phone: null | string;
+  email: string;
+  email_verified_at: null;
+  password: string;
+  conf_password: null | string;
+  user_type: null | string;
+  shop_name: null | string;
+  shop_address: null | string;
+  is_verified: number | null;
+  type: number;
+  fb_id: null;
+  nic_number: null;
+  cnic_front_image: null;
+  cnic_back_image: null;
+  shop_visiting_card: null | string;
+  whatsapp_num: null;
+  social_login: null | string;
+  is_agree: number | null;
+  account_status: string;
+  photo: string;
+  remember_token: null | string;
+  created_at: Date;
+  updated_at: Date;
+  active_status: number;
+  avatar: string;
+  dark_mode: number;
+  messenger_color: null | string;
+  max_created_at: Date;
+}

@@ -26,4 +26,7 @@ declare module '@env' {
   export const CATEGORY: string;
   export const ADD_WISHLIST: string;
   export const REMOVE_WISHLIST: string;
+  export const FETCHMESSAGES: string;
+  export const SENDMESSAGES: string;
+  export const CONTACTS: string;
 }

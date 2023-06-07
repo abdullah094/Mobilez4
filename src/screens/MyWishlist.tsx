@@ -20,7 +20,12 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
-import {logoutUser, selectAccessToken, setWishList} from '../Redux/Slices';
+import {
+  logoutUser,
+  selectAccessToken,
+  selectWishlist,
+  setWishList,
+} from '../Redux/Slices';
 import {NewDevice} from '../../type';
 import Header from '../components/Header';
 
@@ -29,6 +34,7 @@ const MyWishlist = ({navigation}) => {
   const [Grid, setGrid] = useState(false);
   const [data, setData] = useState<NewDevice[]>([]);
   const accessToken = useSelector(selectAccessToken);
+  const wishlistItemsExist = useSelector(selectWishlist);
   const dispatch = useDispatch();
   useEffect(() => {
     axios
@@ -37,7 +43,7 @@ const MyWishlist = ({navigation}) => {
       })
       .then(response => {
         dispatch(setWishList(response.data.data.map(x => x.id)));
-        setData(response.data.data);
+        setData(response.data.data.sort(x => x.created_at));
       })
       .catch((reason: AxiosError) => {
         if (reason.response!.status === 401) {
@@ -46,7 +52,7 @@ const MyWishlist = ({navigation}) => {
         }
         console.log(reason.message);
       });
-  }, []);
+  }, [wishlistItemsExist]);
 
   return (
     <SafeAreaView style={tw`flex-1`}>

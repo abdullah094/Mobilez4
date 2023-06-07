@@ -79,6 +79,10 @@ const Home = ({navigation}) => {
       })
       .then(response => {
         dispatch(setWishList(response.data.data.map(x => x.id)));
+        console.log(
+          'Wishlist',
+          response.data.data.map(x => x.id),
+        );
       })
       .catch((reason: AxiosError) => {
         // if (reason.response!.status === 401) {

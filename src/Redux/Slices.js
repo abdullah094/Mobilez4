@@ -39,6 +39,9 @@ export const todosSlice = createSlice({
     AddToWishlist(state = null, action) {
       state.wishList.push(action.payload);
     },
+    RemoveFromWishList(state = null, action) {
+      state.wishList = state.wishList.filter(x => x != action.payload);
+    },
   },
 });
 
@@ -56,5 +59,6 @@ export const {
   removeProfileData,
   setWishList,
   AddToWishlist,
+  RemoveFromWishList,
 } = todosSlice.actions;
 export default todosSlice.reducer;

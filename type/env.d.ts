@@ -25,4 +25,5 @@ declare module '@env' {
   export const MYADS: string;
   export const CATEGORY: string;
   export const ADD_WISHLIST: string;
+  export const REMOVE_WISHLIST: string;
 }

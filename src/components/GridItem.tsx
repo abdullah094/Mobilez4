@@ -13,12 +13,13 @@ import {color} from '../constants/Colors';
 import Icon from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
-import {ADD_WISHLIST} from '@env';
+import {ADD_WISHLIST, REMOVE_WISHLIST} from '@env';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   selectAccessToken,
   selectWishlist,
   AddToWishlist,
+  RemoveFromWishList,
 } from '../Redux/Slices';
 
 const GridItem = ({item, image}) => {
@@ -40,19 +41,38 @@ const GridItem = ({item, image}) => {
     'Content-Type': 'multipart/form-data',
   };
   const AddToFavorite = () => {
-    axios
-      .post(
-        ADD_WISHLIST + `/${item.id}`,
-        {product_id: item.id},
-        {
-          headers: headers,
-        },
-      )
-      .then(response => {
-        dispatch(AddToWishlist(item.id));
-        Alert.alert(response.data.message);
-      })
-      .catch(error => console.log(error));
+    if (_accessToken == null) {
+      Alert.alert('You must be logged in to add to favorite');
+      return;
+    }
+    if (exist) {
+      axios
+        .post(
+          REMOVE_WISHLIST + `/${item.id}`,
+          {product_id: item.id},
+          {
+            headers: headers,
+          },
+        )
+        .then(response => {
+          dispatch(RemoveFromWishList(item.id));
+          Alert.alert(response.data.message);
+        })
+        .catch(error => console.log(error));
+    } else
+      axios
+        .post(
+          ADD_WISHLIST + `/${item.id}`,
+          {product_id: item.id},
+          {
+            headers: headers,
+          },
+        )
+        .then(response => {
+          dispatch(AddToWishlist(item.id));
+          Alert.alert(response.data.message);
+        })
+        .catch(error => console.log(error));
   };
 
   return (

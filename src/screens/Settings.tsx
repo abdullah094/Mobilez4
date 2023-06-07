@@ -13,15 +13,24 @@ import {color} from '../constants/Colors';
 import {LOGOUT} from '@env';
 import axios from 'axios';
 import {useSelector, useDispatch} from 'react-redux';
-import {reduxRemoveAccessToken, selectAccessToken} from '../Redux/Slices';
+import {logoutUser, selectAccessToken} from '../Redux/Slices';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
 const Settings = ({navigation}) => {
   const _accessToken = useSelector(selectAccessToken);
   const _profile = useSelector(state => state.todo.profile);
   const dispatch = useDispatch();
-  console.log('_profile', _profile);
+  console.log('_accessToken', _accessToken);
 
+  const PutAccessTokenToAsync = async () => {
+    try {
+      await AsyncStorage.removeItem('@user_token');
+      dispatch(logoutUser());
+    } catch (e) {
+      console.log('Error removing Data to AsyncStorage:', e);
+    }
+  };
   const LogoutFunc = () => {
     axios
       .post(
@@ -35,12 +44,12 @@ const Settings = ({navigation}) => {
       )
       .then(response => {
         console.log(response.data); //working logout
-        signOut();
-        dispatch(reduxRemoveAccessToken());
+        PutAccessTokenToAsync();
         Alert.alert(response.data?.message);
       })
       .catch(error => {
         console.log('e' + error);
+        PutAccessTokenToAsync();
       });
   };
   return (

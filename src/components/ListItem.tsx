@@ -1,4 +1,5 @@
 import {
+  Alert,
   Dimensions,
   Image,
   StyleSheet,
@@ -10,7 +11,17 @@ import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {color} from '../constants/Colors';
 import Icon from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  AddToWishlist,
+  selectAccessToken,
+  selectWishlist,
+} from '../Redux/Slices';
+import axios from 'axios';
 const {width, height} = Dimensions.get('window');
+import {ADD_WISHLIST} from '@env';
+import tw from 'twrnc';
 
 const ListItem = ({item, image}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
@@ -21,6 +32,30 @@ const ListItem = ({item, image}) => {
     month: 'long',
     day: 'numeric',
   });
+  const _accessToken = useSelector(selectAccessToken);
+  const wishlistItemsExit: Number[] = useSelector(selectWishlist);
+  const exist = wishlistItemsExit.includes(item.id);
+  const dispatch = useDispatch();
+
+  let headers = {
+    Authorization: `Bearer ${_accessToken}`,
+    'Content-Type': 'multipart/form-data',
+  };
+  const AddToFavorite = () => {
+    axios
+      .post(
+        ADD_WISHLIST + `/${item.id}`,
+        {product_id: item.id},
+        {
+          headers: headers,
+        },
+      )
+      .then(response => {
+        dispatch(AddToWishlist(item.id));
+        Alert.alert(response.data.message);
+      })
+      .catch(error => console.log(error));
+  };
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('ProductPage', {id: item.id})}
@@ -36,32 +71,40 @@ const ListItem = ({item, image}) => {
         },
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
-
         elevation: 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-evenly',
-        padding: 5,
+        padding: 10,
         borderRadius: 15,
       }}>
-      <Image
-        style={[
-          {height: '90%', width: '30%', borderRadius: 10},
-          image || {tintColor: 'gray'},
-        ]}
-        resizeMode="contain"
-        source={
-          !image
-            ? require('../assets/mobile-logo.png')
-            : {uri: image_url + image}
-        }
-      />
+      <View style={{height: '100%', width: '35%'}}>
+        <Image
+          style={[
+            {height: '100%', width: '100%', borderRadius: 10},
+            image || {tintColor: 'gray'},
+          ]}
+          resizeMode="cover"
+          source={
+            !image
+              ? require('../assets/mobile-logo.png')
+              : {uri: image_url + image}
+          }
+        />
+        <TouchableOpacity
+          onPress={() => AddToFavorite()}
+          style={tw`absolute w-10 h-10 flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}>
+          <AntDesign
+            name={exist ? 'heart' : 'hearto'}
+            size={30}
+            color={'red'}></AntDesign>
+        </TouchableOpacity>
+      </View>
+
       <View
         style={{
-          height: '90%',
-          padding: 6,
-          width: '60%',
-
+          paddingHorizontal: 16,
+          width: '65%',
           justifyContent: 'space-between',
         }}>
         <View>

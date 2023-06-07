@@ -16,7 +16,6 @@ import Header from '../components/Header';
 import {color} from '../constants/Colors';
 import {LOGIN} from '@env';
 import axios from 'axios';
-import Context from '../data/Context';
 import {useDispatch, useSelector} from 'react-redux';
 import {setAccessToken, selectAccessToken} from '../Redux/Slices';
 import tw from 'twrnc';
@@ -29,7 +28,6 @@ const Login = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loginLoader, setLoginLoader] = useState('Sign In');
-  const {signIn} = useContext(Context);
   const accessToken = useSelector(selectAccessToken);
 
   if (accessToken) navigation.navigate('Home');
@@ -73,19 +71,18 @@ const Login = () => {
           }
           setLoginLoader('Login');
         } else if (response.data?.status) {
-          signIn('', response.data.token),
-            dispatch(setAccessToken(response.data.token)),
-            setLoginLoader('Login'),
-            PutAccessTokenToAsync();
+          dispatch(setAccessToken(response.data.token));
+          setLoginLoader('Login');
+          PutAccessTokenToAsync(response.data.token);
         }
       })
       .catch(error => {
-        setLoginLoader('Login'),
-          Alert.alert('Unsuccessful', 'Please try again');
+        setLoginLoader('Login');
+        Alert.alert('Unsuccessful', 'Please try again');
       });
   };
 
-  const PutAccessTokenToAsync = async () => {
+  const PutAccessTokenToAsync = async accessToken => {
     try {
       await AsyncStorage.setItem('@user_token', accessToken);
       navigation.navigate('TabNavigation', {screen: 'Home'});
@@ -98,7 +95,7 @@ const Login = () => {
     <SafeAreaView style={tw`flex-1`}>
       <ScrollView contentContainerStyle={tw`flex-1`}>
         <View style={tw`h-full`}>
-          <Header onPress={() => navigation.goBack()} />
+          <Header title="Login" />
           <View style={tw` flex-1 items-center justify-center`}>
             <Image
               style={{width: 200, height: 80, marginBottom: 30}}

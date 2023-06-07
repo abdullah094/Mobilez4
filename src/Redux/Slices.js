@@ -25,7 +25,7 @@ export const todosSlice = createSlice({
       console.log('getItem');
     },
     logoutUser(state = null) {
-      state.accessToken = '';
+      state.accessToken = null;
     },
     setProfileData(state = null, action) {
       state.profile = {...action.payload};
@@ -33,12 +33,19 @@ export const todosSlice = createSlice({
     removeProfileData(state = 0) {
       state.profile = {};
     },
+    setWishList(state = null, action) {
+      state.wishList = action.payload;
+    },
+    AddToWishlist(state = null, action) {
+      state.wishList.push(action.payload);
+    },
   },
 });
 
 // Selectors
 export const selectAccessToken = state => state.todo.accessToken;
 export const selectProfileData = state => state.todo.profile;
+export const selectWishlist = state => state.todo.wishList;
 
 export const {
   addItem,
@@ -47,5 +54,7 @@ export const {
   logoutUser,
   setProfileData,
   removeProfileData,
+  setWishList,
+  AddToWishlist,
 } = todosSlice.actions;
 export default todosSlice.reducer;

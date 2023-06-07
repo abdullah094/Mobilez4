@@ -18,7 +18,6 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {REGISTER} from '@env';
 import axios from 'axios';
-import Context from '../data/Context';
 import DropDown from 'react-native-paper-dropdown';
 import tw from 'twrnc';
 import {TextInput} from 'react-native-paper';
@@ -76,12 +75,11 @@ const SignUp = ({navigation, route}) => {
         setRegisterButtonText('Register');
       });
   };
-  console.log(formData);
   return (
     <SafeAreaView style={tw`flex-1`}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={tw`h-full items-center `}>
-          <Header onPress={() => navigation.goBack()} />
+          <Header title="SignUp" />
           <Text style={tw`py-10 pt-20  text-black text-2xl  mx-10`}>
             Create your <Text style={tw`font-bold`}>Account</Text>
           </Text>

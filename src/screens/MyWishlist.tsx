@@ -20,7 +20,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
-import {logoutUser, selectAccessToken} from '../Redux/Slices';
+import {logoutUser, selectAccessToken, setWishList} from '../Redux/Slices';
 import {NewDevice} from '../../type';
 import Header from '../components/Header';
 
@@ -30,14 +30,13 @@ const MyWishlist = ({navigation}) => {
   const [data, setData] = useState<NewDevice[]>([]);
   const accessToken = useSelector(selectAccessToken);
   const dispatch = useDispatch();
-  console.log('accessToken', accessToken);
-
   useEffect(() => {
     axios
       .get(WISHLIST_GET, {
         headers: {Authorization: `Bearer ${accessToken}`},
       })
       .then(response => {
+        dispatch(setWishList(response.data.data.map(x => x.id)));
         setData(response.data.data);
       })
       .catch((reason: AxiosError) => {

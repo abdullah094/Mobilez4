@@ -165,4 +165,6 @@ export enum Category {
   PHONE = 'mobile',
   SMARTWATCH = 'watch',
   TABLET = 'tablet',
+  RELATED_AD = 'related',
+  MORE_AD = 'more_ad',
 }

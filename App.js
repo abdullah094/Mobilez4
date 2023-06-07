@@ -2,7 +2,6 @@ import React, {useContext, useEffect} from 'react';
 import Home from './src/screens/Home';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Context from './src/data/Context';
 import Description from './src/screens/Description';
 import CityList from './src/screens/CityList';
 import ProductPage from './src/screens/ProductPage';

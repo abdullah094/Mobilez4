@@ -7,13 +7,19 @@ import axios from 'axios';
 import tw from 'twrnc';
 import {Category, NewDevice} from '../../type';
 
-const RecentList = ({name}) => {
+const RecentList = ({name, products = []}) => {
   const [data, setData] = useState([]);
   let Title = 'Recent Phones';
   if (name == Category.SMARTWATCH) Title = 'Recent Watches';
   if (name == Category.PHONE) Title = 'Recent Tablets';
+  if (name == Category.RELATED_AD) Title = 'Related Ads';
+  if (name == Category.MORE_AD) Title = 'More Ads';
   useEffect(() => {
     setData([]);
+    if (name == Category.MORE_AD || name == Category.RELATED_AD) {
+      setData(products);
+      return;
+    }
     axios
       .post(CATEGORY, {category: name, sort: 'created_at'})
       .then(response => {

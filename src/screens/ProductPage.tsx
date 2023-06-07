@@ -26,6 +26,10 @@ import {useSelector} from 'react-redux';
 import {Image} from 'react-native';
 import Flatbox from '../components/Flatbox';
 import DropDown from 'react-native-paper-dropdown';
+import Header from '../components/Header';
+import {setAccessToken} from '../Redux/Slices';
+import RecentList from '../components/RecentList';
+import {Category} from '../../type';
 
 const {height, width} = Dimensions.get('window');
 const ProductPage = ({navigation, route}) => {
@@ -37,7 +41,7 @@ const ProductPage = ({navigation, route}) => {
   const [recentTablets, setRecentTablets] = useState();
   const [seemore, setSeemore] = useState(3);
   const [like, setLike] = useState(false);
-  const accessToken = useSelector(state => state.todo.accessToken);
+  const accessToken = useSelector(setAccessToken);
   const profile = useSelector(state => state.todo.profile);
   const {id} = route.params;
   const image_url = 'https://www.mobilezmarket.com/images/';
@@ -61,8 +65,6 @@ const ProductPage = ({navigation, route}) => {
     day: 'numeric',
   });
 
-  console.log('=====', formattedDate);
-
   const fetchData = () => {
     const api = DESCRIPTION + id;
     // console.log(api)
@@ -82,15 +84,10 @@ const ProductPage = ({navigation, route}) => {
       .get(api)
       .then(response => {
         setImages(response?.data.details.productimages);
-        console.log(response?.data.details.productimages);
-
-        // console.log('=================', response?.data.details.productimages);
-        // console.log('Response======', response.data.related_ads);
       })
       .catch(error => {
         console.log(error);
       });
-    console.log('Images');
   };
   useEffect(() => {
     fetchData();
@@ -177,51 +174,7 @@ const ProductPage = ({navigation, route}) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{alignItems: 'center', paddingBottom: 150}}>
-        <View
-          style={{
-            marginTop: 10,
-
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: width,
-            backgroundColor: 'white',
-
-            height: 70,
-            zIndex: 999,
-            shadowColor: '#FFFFFF',
-            shadowOffset: {
-              width: 10,
-              height: 12,
-            },
-            shadowOpacity: 0.58,
-            shadowRadius: 16.0,
-
-            elevation: 24,
-
-            backgroundColor: 'white',
-          }}>
-          <Pressable style={{margin: 15}} onPress={() => navigation.goBack()}>
-            <MaterialIcon
-              name="keyboard-arrow-left"
-              size={40}
-              color={color.black}
-            />
-          </Pressable>
-          <View style={{flex: 1, alignItems: 'center'}}>
-            <Text
-              style={{
-                fontSize: 16,
-                fontWeight: 'bold',
-                display: 'flex',
-                right: 20,
-                color: '#1E2022',
-              }}>
-              Home
-            </Text>
-          </View>
-        </View>
-
+        <Header title="Product Details" />
         <View
           flexDirection="row"
           style={{width: width, paddingHorizontal: 16}}
@@ -296,7 +249,6 @@ const ProductPage = ({navigation, route}) => {
             Rs. {data.details.price.toLocaleString()}
           </Text>
         </View>
-
         <View
           style={{
             flexDirection: 'row',
@@ -534,14 +486,12 @@ const ProductPage = ({navigation, route}) => {
                       color: 'black',
                     }}>
                     {data?.details.user.city}
-                    {console.log('===========', data.details.user.created_at)}
                   </Text>
                 </View>
               </View>
             </View>
           </View>
         </View>
-
         {/* Description */}
         <View style={{width: width - 30, flexWrap: 'wrap', marginTop: 7}}>
           <Text style={styles.description}>Description</Text>
@@ -557,23 +507,11 @@ const ProductPage = ({navigation, route}) => {
             {/* {console.log(data.description)} */}
             {data.details.description}
           </Text>
-          {/* See less see more button */}
-          {/* <TouchableOpacity onPress={() => setSeemore(30)}>
-            {seemore === 3 ? (
-              <Text>See more</Text>
-            ) : (
-              <TouchableOpacity onPress={() => setSeemore(3)}>
-                <Text>See less</Text>
-              </TouchableOpacity>
-            )}
-          </TouchableOpacity> */}
         </View>
-
-        <Flatbox header={'Realted Ads'} onPress={() => {}} data={relatedAds} />
-        <Flatbox header={'More Ads'} onPress={() => {}} data={moreAds} />
+        <RecentList name={Category.RELATED_AD} products={relatedAds} />
+        <RecentList name={Category.MORE_AD} products={moreAds} />
       </ScrollView>
       <CallWhatsappSms />
-      {/* call whatsapp sms button */}
     </SafeAreaView>
   );
 };

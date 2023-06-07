@@ -15,8 +15,8 @@ import {
 import React, {useContext, useEffect, useState} from 'react';
 import {color} from '../constants/Colors';
 import FlatListBox from '../components/Flatbox';
-import {GET_PROFILE_DATA} from '@env';
-import axios from 'axios';
+import {GET_PROFILE_DATA, WISHLIST_GET} from '@env';
+import axios, {AxiosError} from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '../components/Loading';
@@ -28,6 +28,7 @@ import {
   setProfileData,
   logoutUser,
   selectAccessToken,
+  setWishList,
 } from '../Redux/Slices';
 import tw from 'twrnc';
 import SearchScreen from './SearchScreen';
@@ -38,7 +39,7 @@ import RecentList from '../components/RecentList';
 
 const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {
-  const [profile, setProfile] = useState<Profile>();
+  const [profile, setProfile] = useState<Profile | null>();
   const [deviceName, setDeviceName] = useState<string>();
   const [heading, setHeading] = useState('Home');
   const image_url = 'https:/www.mobilezmarket.com/images/';
@@ -57,22 +58,37 @@ const Home = ({navigation}) => {
     const getUserToken = async () => {
       try {
         const user_token = await AsyncStorage.getItem('@user_token');
+        console.log('user_token', user_token);
+        if (user_token == null) {
+          setProfile(null);
+        }
         dispatch(setAccessToken(user_token));
         fetchProfileData(user_token);
+        getWishlistItems(user_token);
       } catch (e) {
         console.log("Token Don't Exist Logout User", e);
-        dispatch(logoutUser());
       }
     };
     getUserToken();
-  }, []);
+  }, [accessToken]);
 
-  const entries = [
-    require('../assets/ads/1.png'),
-    require('../assets/ads/2.png'),
-    require('../assets/ads/3.png'),
-    require('../assets/ads/4.png'),
-  ];
+  const getWishlistItems = accessToken => {
+    axios
+      .get(WISHLIST_GET, {
+        headers: {Authorization: `Bearer ${accessToken}`},
+      })
+      .then(response => {
+        dispatch(setWishList(response.data.data.map(x => x.id)));
+      })
+      .catch((reason: AxiosError) => {
+        // if (reason.response!.status === 401) {
+        //   dispatch(logoutUser);
+        //   navigation.navigate('Login');
+        // }
+        console.log(reason.message);
+      });
+  };
+
   const logos = [
     {
       id: 1,
@@ -163,7 +179,6 @@ const Home = ({navigation}) => {
       image: require('../assets/brand_logos/22.png'),
     },
   ];
-  console.log('accessToken', accessToken);
   const fetchProfileData = async accessToken => {
     await axios
       .get(GET_PROFILE_DATA, {

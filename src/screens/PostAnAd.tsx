@@ -29,11 +29,14 @@ import FormData from 'form-data';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tw from 'twrnc';
+import {selectAccessToken} from '../Redux/Slices';
+import {useNavigation} from '@react-navigation/native';
 
 // require the module
 var RNFS = require('react-native-fs');
 
-const PostAnAd = ({navigation}) => {
+const PostAnAd = () => {
+  const navigation = useNavigation();
   const [brands, setBrands] = useState([]);
   const [otherBrand, setOtherBrand] = useState(false);
   const [condition, setCondition] = useState(false);

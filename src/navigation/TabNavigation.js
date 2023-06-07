@@ -13,7 +13,28 @@ import {color} from '../constants/Styles';
 import More from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
 import ChatScreen from '../screens/Chat';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Login from '../screens/Login';
+import {useSelector} from 'react-redux';
+import {selectAccessToken} from '../Redux/Slices';
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const NavigationSell = () => {
+  const accessToken = useSelector(selectAccessToken);
+
+  return (
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="PostAnAd">
+      {accessToken ? (
+        <Stack.Screen name="PostAnAd" component={PostAnAd} />
+      ) : (
+        <Stack.Screen name="Login" component={Login} />
+      )}
+    </Stack.Navigator>
+  );
+};
 
 export default function App() {
   return (
@@ -69,7 +90,7 @@ export default function App() {
         component={MyAds}
       />
       <Tab.Screen
-        component={PostAnAd}
+        component={NavigationSell}
         name="Sell"
         options={{
           tabBarLabel: '',

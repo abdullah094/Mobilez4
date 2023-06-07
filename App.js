@@ -38,6 +38,7 @@ import {
   ThemeProvider,
 } from 'react-native-paper';
 import AboutUs from './src/screens/AboutUs';
+import ChatScreen from './src/screens/Chat';
 
 const App = () => {
   const Stack = createNativeStackNavigator();

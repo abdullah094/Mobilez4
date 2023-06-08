@@ -9,9 +9,9 @@ import {Category, NewDevice} from '../../type';
 
 const RecentList = ({name, products = []}) => {
   const [data, setData] = useState([]);
-  let Title = 'Recent Phones';
+  let Title = 'Related Ads';
   if (name == Category.SMARTWATCH) Title = 'Recent Watches';
-  if (name == Category.PHONE) Title = 'Recent Tablets';
+  if (name == Category.PHONE) Title = 'Recent Phones';
   if (name == Category.RELATED_AD) Title = 'Related Ads';
   if (name == Category.MORE_AD) Title = 'More Ads';
   useEffect(() => {
@@ -27,7 +27,7 @@ const RecentList = ({name, products = []}) => {
       });
   }, []);
   return (
-    <View style={tw`w-full h-62 mt-4`}>
+    <View style={tw`w-full h-68 mt-4`}>
       {/* bar with heading and view more */}
       <View
         style={{

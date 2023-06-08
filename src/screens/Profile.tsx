@@ -22,7 +22,7 @@ const {width, height} = Dimensions.get('window');
 const Profile = ({navigation}) => {
   const profile = useSelector(selectProfileData);
   const image_dimension = 120;
-  const base_url = 'https://mobilezmarket.com/images/';
+  const base_url = 'https://www.mobilezmarket.com/images/';
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={{alignItems: 'center'}}>

@@ -114,10 +114,10 @@ const ListItem = ({item, image}) => {
         />
         <TouchableOpacity
           onPress={() => AddToFavorite()}
-          style={tw`absolute w-10 h-10 flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}>
+          style={tw`absolute w-7 h-7  flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}>
           <AntDesign
             name={exist ? 'heart' : 'hearto'}
-            size={30}
+            size={15}
             color={'red'}></AntDesign>
         </TouchableOpacity>
       </View>

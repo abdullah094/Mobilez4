@@ -26,30 +26,45 @@ import ListIcon from 'react-native-vector-icons/Feather';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {Category, NewDevice} from '../../type';
+import {Category, Form, NewDevice} from '../../type';
 
 const {width, height} = Dimensions.get('window');
 const Listings = ({params}) => {
   const navigation = useNavigation();
   const route = useRoute();
-  const {name} = route.params;
+  const {name,form} = route.params as {name:string,form:Form};
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('created_at');
 
+  const [repform,setfReporm] =useState ()
+  
   const [data, setData] = useState<NewDevice[]>([]);
 
   const [Grid, setGrid] = useState(false);
   const clear = () => {};
   useEffect(() => {
     setData([]);
+    let filter ={}
+    if(form){
+      if(form.brand){
+        setQuery(form.brand) 
+      }
+      filter = Object.fromEntries(
+        Object.entries(form).filter(([_, value]) => value !== null)
+    )
+  }
     axios
-      .post(CATEGORY, {category: name, search: query, sort: sort})
+      .post(CATEGORY, {category: name, search: query, sort: sort,...filter})
       .then(response => {
+         console.log(response.data.data)
         setData(response.data.data);
       });
-  }, [query, sort]);
+  }, [query, sort,route,name]);
 
   if (!data) return <Loading />;
+
+
+
 
   return (
     <SafeAreaView style={tw`flex-1`}>
@@ -67,7 +82,7 @@ const Listings = ({params}) => {
           </Text>
           <TouchableOpacity
             style={tw`flex-row items-center`}
-            onPress={() => navigation.navigate('Filter')}>
+            onPress={() => navigation.navigate('Filter',{name})}>
             <Ionicons name="filter" color={color.white} size={25} />
             {/* <Text style={{color: color.white, fontWeight: '500'}}>Filter</Text> */}
           </TouchableOpacity>
@@ -115,39 +130,40 @@ const Listings = ({params}) => {
 
       <View style={tw` flex-row items-center justify-between m-6`}>
         <Sort st name="sort" color={color.black} size={30} />
-        <Text style={tw`px-2 font-bold text-lg`}>Sort</Text>
+        <Text style={tw`px-2 font-bold text-lg text-black`} >Sort</Text>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           style={tw`px-2 flex-1`}>
           <Chip
             icon={sort == 'price' ? 'check' : ''}
-            style={tw`mr-2`}
+            style={tw`mr-2 bg-blue-600`}
+            textStyle={{color:'white'}}
             onPress={() => setSort('price')}>
             Price
           </Chip>
           <Chip
             icon={sort == 'ram' ? 'check' : ''}
-            style={tw`mr-2`}
+            style={tw`mr-2  bg-blue-600`}
             onPress={() => setSort('ram')}>
             Ram
           </Chip>
           <Chip
             icon={sort == 'storage' ? 'check' : ''}
-            style={tw`mr-2`}
+            style={tw`mr-2  bg-blue-600`}
             onPress={() => setSort('storage')}>
             Storage
           </Chip>
           <Chip
             icon={sort == 'warranty' ? 'check' : ''}
-            style={tw`mr-2`}
+            style={tw`mr-2  bg-blue-600`}
             onPress={() => setSort('warranty')}>
-            Warrant
+            Warranty
           </Chip>
           <Chip
             selected={sort == 'pta_status'}
             icon={sort == 'pta_status' ? 'check' : ''}
-            style={tw`mr-2`}
+            style={tw`mr-2  bg-blue-600`}
             onPress={() => setSort('pta_status')}>
             PTA
           </Chip>
@@ -173,7 +189,9 @@ const Listings = ({params}) => {
           key={'_'}
           keyExtractor={item => '_' + item.id}
           contentContainerStyle={{
+            
             justifyContent: 'space-between',
+            alignItems:'center',
             marginHorizontal: 15,
             paddingBottom: 100,
           }}

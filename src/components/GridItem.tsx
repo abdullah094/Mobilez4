@@ -83,7 +83,7 @@ const GridItem = ({item, image}) => {
         backgroundColor: 'white',
         borderRadius: 20,
         padding: 10,
-        margin: 8,
+        margin: 5,
         shadowOffset: {
           width: 0,
           height: 2,
@@ -92,8 +92,8 @@ const GridItem = ({item, image}) => {
         shadowRadius: 3.84,
         elevation: 5,
       }}
-      onPress={() => navigation.navigate('ProductPage', {id: item.id})}>
-      <View style={tw`w-36`}>
+      onPress={() => navigation.push('ProductPage', {id: item.id})}>
+      <View style={tw`w-35`}>
         <Image
           style={{
             height: 120,
@@ -106,14 +106,14 @@ const GridItem = ({item, image}) => {
         />
         <TouchableOpacity
           onPress={() => AddToFavorite()}
-          style={tw` absolute w-10 h-10 flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}>
+          style={tw` absolute w-7 h-7 flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}>
           <AntDesign
             name={exist ? 'heart' : 'hearto'}
-            size={30}
+            size={15}
             color={'red'}></AntDesign>
         </TouchableOpacity>
-
-        <Text
+          <View style={tw``}> 
+            <Text
           numberOfLines={1}
           style={{
             fontSize: 15,
@@ -125,6 +125,9 @@ const GridItem = ({item, image}) => {
         <Text numberOfLines={1} style={{color: '#015DCF', fontWeight: '800'}}>
           Rs. {item.price}
         </Text>
+        </View>
+      
+       
 
         {item.category === 'Mobile' && (
           <>
@@ -133,7 +136,7 @@ const GridItem = ({item, image}) => {
                 flexDirection: 'row',
                 alignItems: 'center',
 
-                width: '90%',
+              
                 marginTop: 2,
               }}>
               <Text style={styles.small_text}>{item.ram}GB</Text>
@@ -147,28 +150,20 @@ const GridItem = ({item, image}) => {
             </View>
           </>
         )}
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-
-              marginTop: 2,
+              justifyContent:"space-between"
             }}>
-            <Icon name="location-pin" size={10} color={'red'} />
-            <Text style={styles.small_text}>{item?.user?.city}</Text>
-          </View>
-          <View>
+            
             <Text numberOfLines={1} style={styles.small_text}>
               {formattedDate}
             </Text>
+           
+            <Text style={styles.small_text}> <Icon name="location-pin" size={10} color={'red'} />{item?.user?.city}</Text>
           </View>
         </View>
-      </View>
     </TouchableOpacity>
   );
 };

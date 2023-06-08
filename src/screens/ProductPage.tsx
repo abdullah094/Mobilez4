@@ -48,6 +48,8 @@ const ProductPage = ({navigation, route}) => {
   const [recentWatches, setRecentWatches] = useState();
   const [recentTablets, setRecentTablets] = useState();
   const [seemore, setSeemore] = useState(3);
+
+  const numberOfLines = seemore ? null : 3;
   const [like, setLike] = useState(false);
   const accessToken = useSelector(setAccessToken);
   const profile = useSelector(state => state.todo.profile);
@@ -552,21 +554,19 @@ const ProductPage = ({navigation, route}) => {
             </View>
           </View>
           {/* Description */}
-          <View style={{width: width - 30, flexWrap: 'wrap', marginTop: 7}}>
             <Text style={styles.description}>Description</Text>
-            <Text
-              style={{
-                fontWeight: '500',
-                color: color.grey,
-
-                flexWrap: 'wrap',
-                alignItems: 'center',
-              }}
-              numberOfLines={seemore}>
-              {/* {console.log(data.description)} */}
-              {data.details.description}
-            </Text>
-          </View>
+            <View style={styles.container}>
+      <View style={styles.descriptionContainer}>
+        <Text style={styles.descriptionText} numberOfLines={numberOfLines}>
+          {data.details.description}
+        </Text>
+      </View>
+      {!seemore && (
+        <TouchableOpacity onPress={() => setSeemore(true)}>
+          <Text style={styles.showMoreText}>Show more</Text>
+        </TouchableOpacity>
+      )}
+    </View>
           <RecentList name={Category.RELATED_AD} products={relatedAds} />
           <RecentList name={Category.MORE_AD} products={moreAds} />
         </View>
@@ -579,6 +579,23 @@ const ProductPage = ({navigation, route}) => {
 export default ProductPage;
 
 const styles = StyleSheet.create({
+  container: {
+    marginVertical: 7,
+  },
+  descriptionContainer: {
+    width: width - 30,
+    
+    padding: 5,
+  },
+  descriptionText: {
+    fontWeight: '500',
+    color: 'black',
+  },
+  showMoreText: {
+    marginTop: 10,
+    color: 'blue',
+    fontWeight: 'bold',
+  },
   heading: {
     color: '#2B67F6',
     fontSize: 20,
@@ -588,7 +605,7 @@ const styles = StyleSheet.create({
     color: '#2B67F6',
     fontSize: 20,
     fontWeight: 'bold',
-    borderBottomWidth: 2,
+    
 
     borderBottomColor: '#2B67F6',
   },

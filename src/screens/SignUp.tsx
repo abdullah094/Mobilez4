@@ -46,7 +46,7 @@ const SignUp = ({navigation, route}) => {
   });
   // console.log(formData)
 
-  const {signUp} = useContext(Context);
+ 
   const data = [
     {label: 'individual', value: 'individual'},
     {label: 'business', value: 'business'},
@@ -64,7 +64,7 @@ const SignUp = ({navigation, route}) => {
           Alert.alert('email or phone is already present or missing fields');
           setRegisterButtonText('Register');
         } else {
-          signUp('', response.data.token);
+         
           console.log(response.data);
           navigation.navigate('OTPScreen', {phone: formData.phone});
           setRegisterButtonText('Register');

@@ -327,6 +327,7 @@ const PostAnAd = () => {
                   setSelected={val => setForm({...form, category: val})}
                   data={Category}
                   save="value"
+                  dropdownTextStyles={{color:'black'}}
                 />
               </View>
               <View style={tw`w-1/2 pl-2`}>
@@ -340,6 +341,7 @@ const PostAnAd = () => {
                   setSelected={val => setForm({...form, brand: val})}
                   data={brands}
                   save="value"
+                  dropdownTextStyles={{color:'black'}}
                 />
               </View>
             </View>
@@ -366,6 +368,7 @@ const PostAnAd = () => {
                 setSelected={val => setForm({...form, model: val})}
                 data={models}
                 save="value"
+                dropdownTextStyles={{color:'black'}}
               />
             )}
             <TextInput
@@ -386,6 +389,7 @@ const PostAnAd = () => {
               }
               data={Ram}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
 
             <SelectList
@@ -395,6 +399,7 @@ const PostAnAd = () => {
               setSelected={val => setForm({...form, pta_status: val})}
               data={approved}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
             <SelectList
               boxStyles={styles.box}
@@ -405,6 +410,7 @@ const PostAnAd = () => {
               }
               data={Storage}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
             <SelectList
               boxStyles={styles.box}
@@ -413,6 +419,7 @@ const PostAnAd = () => {
               setSelected={val => setForm({...form, product_type: val})}
               data={Condition}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
 
             {condition ? (
@@ -504,6 +511,7 @@ const PostAnAd = () => {
               setSelected={val => setForm({...form, warranty: val})}
               data={Warranty}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
           </View>
           <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>

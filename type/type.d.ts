@@ -211,3 +211,15 @@ export interface Contact {
   messenger_color: null | string;
   max_created_at: Date;
 }
+
+export interface Form {
+  brand: string| null,
+  ram: string| null,
+  storage: string| null,
+  pta_status: string| null,
+  condition: string| null,
+  Warranty: string| null,
+  city: string| null,
+  max_price: string| null,
+  min_price: string| null,
+}

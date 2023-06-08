@@ -10,6 +10,7 @@ import {
   ActivityIndicator,
   Alert,
   SafeAreaView,
+  Pressable,
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import Header from '../components/Header';
@@ -21,15 +22,18 @@ import {setAccessToken, selectAccessToken} from '../Redux/Slices';
 import tw from 'twrnc';
 import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import CheckBox from '@react-native-community/checkbox';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 const {width, height} = Dimensions.get('window');
 const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState<string>('');
+  const [check, setCheck] = useState(false);
   const [password, setPassword] = useState<string>('');
   const [loginLoader, setLoginLoader] = useState('Sign In');
   const accessToken = useSelector(selectAccessToken);
-
+  const [toggleCheckBox, setToggleCheckBox] = useState(false)
   if (accessToken) navigation.navigate('Home');
   const dispatch = useDispatch();
 
@@ -121,17 +125,34 @@ const Login = () => {
                 />
               </View>
 
-              <View style={tw`flex-row justify-end mt-3`}>
-                {/* <TouchableOpacity
-              style={{padding: 5}}
-              onPress={() => navigation.navigate('ForgotPassword')}>
-              <Text>Remember Me</Text>
-            </TouchableOpacity> */}
+              <View style={tw`flex-row justify-between mt-3`}>
+              <View style={{flexDirection:'row',alignItems:'center'}}>  
+              <Pressable
+                onPress={() => setCheck(!check)}
+                style={{
+                  marginLeft: 10,
+                  borderWidth: 1,
+                  width: 20,
+                  height: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 5,
+                  marginHorizontal:3
+                }}>
+                {check && (
+                  <MaterialIcon name="check" color={color.orange} size={18} />
+                )}
+              </Pressable>
+                
+                  <Text style={{color:'black',fontSize:12}}>Remember me</Text>
+                  </View>
+               
+
 
                 <TouchableOpacity
                   style={{padding: 5}}
                   onPress={() => navigation.navigate('ForgotPassword')}>
-                  <Text>Forgot your password?</Text>
+                  <Text style={{color:'black',fontSize:12}}>Forgot your password?</Text>
                 </TouchableOpacity>
               </View>
 
@@ -162,7 +183,7 @@ const Login = () => {
                   justifyContent: 'center',
                   // backgroundColor: 'black',
                 }}>
-                <Text>Or</Text>
+                <Text style={{color:'black'}}>Or</Text>
               </View>
             </View>
 
@@ -187,7 +208,7 @@ const Login = () => {
             </View>
 
             <View style={tw`w-full flex-row mt-14 items-center justify-center`}>
-              <Text>Don't have and account? </Text>
+              <Text style={{color:'black'}}>Don't have and account? </Text>
               <TouchableOpacity
                 onPress={() =>
                   navigation.navigate('SignUp', {city: 'Karachi'})
@@ -195,6 +216,7 @@ const Login = () => {
                 <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
               </TouchableOpacity>
             </View>
+
           </View>
         </View>
       </ScrollView>

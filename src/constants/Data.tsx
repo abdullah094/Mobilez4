@@ -50,3 +50,9 @@ export const City = [
   {key: 2, value: 'Lahore'},
   {key: 3, value: 'Faislabad'},
 ];
+
+export const CategoryList = [
+  {key: 1, value: 'Mobile'},
+  {key: 1, value: 'Tablet'},
+  {key: 1, value: 'Watch'},
+];

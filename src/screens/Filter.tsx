@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import React, {useState, useEffect, useCallback} from 'react';
 import tw from 'twrnc';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useRoute} from '@react-navigation/native';
 import {color} from '../constants/Colors';
 import {SelectList} from 'react-native-dropdown-select-list';
 import Slider from 'rn-range-slider';
@@ -28,11 +28,22 @@ import {
   Condition,
   Warranty,
   City,
+  CategoryList,
 } from '../constants/Data';
+
+import {BRANDSNOAUTH,MODELS} from '@env';
+import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Category, Form } from '../../type';
+
+
 const Filter = ({navigation}) => {
+  const route =useRoute();
   const isFocused = useIsFocused();
   const [value, setValue] = useState(0);
+  const [otherBrand, setOtherBrand] = useState(false);
+  const [brand, setBrand] = useState<Array<{key:string,value:string}>>([]);
+const [category,setCategory]= useState<string>(route.params?.name===Category.PHONE ?"Mobile"  : route.params?.name=== Category.TABLET ?"Tablet" : "Watch")
 
   const [rangeDisabled, setRangeDisabled] = useState(false);
   const [low, setLow] = useState(0);
@@ -49,6 +60,7 @@ const Filter = ({navigation}) => {
   const handleValueChange = useCallback((lowValue, highValue) => {
     setLow(lowValue);
     setHigh(highValue);
+    setForm({...form , max_price: highValue , min_price :lowValue})
   }, []);
   const toggleRangeEnabled = useCallback(
     () => setRangeDisabled(!rangeDisabled),
@@ -62,40 +74,82 @@ const Filter = ({navigation}) => {
     () => setFloatingLabel(!floatingLabel),
     [floatingLabel],
   );
-  const [ramData, setRamData] = useState({
+  
+
+  const [form, setForm] = useState<Form>({
+    brand: null,
     ram: ' ',
-    storage: '',
-    pta_status: '',
-    condition: '',
-    Warranty: '',
-    city: '',
+    storage: null,
+    pta_status: null,
+    condition: null,
+    Warranty: null,
+    city: null,
+   
+    max_price: null,
+    min_price: null,
   });
 
-  const [form, setForm] = useState({
-    search: [
-      ramData.ram,
-      ramData.storage,
-      ramData.pta_status,
-      ramData.condition,
-      ramData.Warranty,
-      ramData.city,
-    ],
-    max_price: '',
-    min_price: '',
-  });
-  useEffect(() => {
-    setForm({
-      ...form,
-      search: [
-        ramData.ram,
-        ramData.storage,
-        ramData.pta_status,
-        ramData.condition,
-        ramData.Warranty,
-        ramData.city,
-      ],
-    });
-  }, [ramData]);
+  if (form.brand === 'Other') {
+    setTimeout(() => {
+      setOtherBrand(true);
+    }, 300);
+  } else {
+    setTimeout(() => {
+      setOtherBrand(false);
+    }, 300);
+  }
+
+  const getBrandFunc = () => {
+    //Get brands with this function
+    axios
+      .get(BRANDSNOAUTH, {
+
+      })
+      .then(response => {
+        let brand_array:Array<{key:string,value:string}> = [];
+        response.data.product_brands.forEach(element => {
+          brand_array.push({
+            key: element.id,
+            value: element.title,
+          });
+        });
+        setBrand(brand_array);
+       
+      })
+      .catch(error => {
+        console.log('Brands ' + error);
+      });
+      
+  };
+  const getModelFunc = () => {
+    //Get models with this function
+
+    const api = MODELS + form.brand;
+    axios
+      .get(api, {
+        headers: {Authorization: `Bearer ${_accessToken}`},
+      })
+      .then(response => {
+        let brand_array = [];
+        response.data.models.forEach(element => {
+          brand_array.push({
+            key: element.id,
+            value: element.model_name,
+          });
+        });
+        setModels(brand_array);
+      })
+      .catch(error => {
+        console.log('Brands ' + error);
+      });
+  };
+
+
+
+console.log("form...............................",form)
+  useEffect(()=>{
+getBrandFunc()
+  },[])
   return (
     <SafeAreaView>
       <ScrollView
@@ -201,23 +255,28 @@ const Filter = ({navigation}) => {
                 inputStyles={{color: 'grey'}}
                 search={false}
                 placeholder="Category"
-                setSelected={val => setRamData({...ramData, ram: val})}
-                data={Ram}
+                setSelected={val => setCategory(val)}
+                data={CategoryList}
                 save="value"
+                defaultOption={CategoryList.find(x=>x.value==category)}
+                dropdownTextStyles={{color:'black'}}
               />
-              <SelectList
-                boxStyles={{
-                  backgroundColor: color.white,
-                  borderColor: '#D3D3D3',
-                  marginTop: 16,
-                }}
-                inputStyles={{color: 'grey'}}
-                search={false}
-                placeholder="Brands"
-                setSelected={val => setRamData({...ramData, storage: val})}
-                data={Storage}
-                save="value"
-              />
+               <SelectList
+                  boxStyles={{
+                    backgroundColor: color.white,
+                    borderColor: '#D3D3D3',
+                    marginTop: 16,
+                  }}
+                  placeholder="Choose Brands"
+                  inputStyles={{
+                    color: 'grey',
+                    // fontFamily: 'Geologica_Auto-Black',
+                  }}
+                  setSelected={val => setForm({...form, brand: val})}
+                  data={brand}
+                  save="value"
+                  dropdownTextStyles={{color:'black'}}
+                />
             </View>
 
             <SelectList
@@ -229,9 +288,10 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="RAM"
-              setSelected={val => setRamData({...ramData, ram: val})}
+              setSelected={val => setForm({...form, ram: val})}
               data={Ram}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
 
             <SelectList
@@ -243,9 +303,10 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="Storage"
-              setSelected={val => setRamData({...ramData, storage: val})}
+              setSelected={val => setForm({...form, storage: val})}
               data={Storage}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
 
             <SelectList
@@ -257,9 +318,10 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="PTA Status"
-              setSelected={val => setRamData({...ramData, pta_status: val})}
+              setSelected={val => setForm({...form, pta_status: val})}
               data={Pta_status}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
 
             <SelectList
@@ -271,9 +333,10 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="Condition"
-              setSelected={val => setRamData({...ramData, condition: val})}
+              setSelected={val => setForm({...form, condition: val})}
               data={Condition}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
 
             <SelectList
@@ -285,9 +348,10 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="Warranty"
-              setSelected={val => setRamData({...ramData, Warranty: val})}
+              setSelected={val => setForm({...form, Warranty: val})}
               data={Warranty}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
 
             <SelectList
@@ -299,12 +363,16 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="City"
-              setSelected={val => setRamData({...ramData, city: val})}
+              setSelected={val => setForm({...form, city: val})}
               data={City}
               save="value"
+              dropdownTextStyles={{color:'black'}}
             />
             <TouchableOpacity
-              onPress={() => navigation.navigate('FindMyDevice', {_form: form})}
+              onPress={() => navigation.navigate('Listings', {
+                name: category ==="Mobile"? Category.PHONE : category==="Tablet" ? Category.TABLET : Category.SMARTWATCH,
+                form:form
+              })}
               style={{
                 backgroundColor: color.orange,
                 marginTop: 40,
@@ -312,6 +380,7 @@ const Filter = ({navigation}) => {
                 alignItems: 'center',
                 height: 50,
                 borderRadius: 20,
+                
               }}>
               <Text
                 style={{

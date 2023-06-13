@@ -574,6 +574,7 @@ const PostAnAd = () => {
             multiline={true}
             value={form.description}
             onChangeText={text => setForm({...form, description: text})}
+            numberOfLines={5}
           />
           <TouchableOpacity
             onPress={() => PostAdFunc()}
@@ -627,5 +628,8 @@ const styles = StyleSheet.create({
     color: color.black,
     width: '100%',
     borderWidth: 1,
+    alignContent:'flex-start',
+    textAlignVertical:'top'
+
   },
 });

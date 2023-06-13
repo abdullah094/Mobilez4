@@ -90,10 +90,11 @@ const OTPScreen = ({route, navigation}) => {
             borderWidth: 1,
             height: 60,
             paddingHorizontal: 15,
+            color:color.black,
             width: 200,
             borderRadius: 10,
             borderColor: color.black,
-            backgroundColor: color.white,
+       
             marginTop: 15,
             textAlign: 'center',
           }}
@@ -111,7 +112,7 @@ const OTPScreen = ({route, navigation}) => {
             alignItems: 'center',
             marginTop: 10,
           }}>
-          <Text style={{fontWeight: 'bold', color: color.white, fontSize: 20}}>
+          <Text style={{fontWeight: 'bold', color: color.black, fontSize: 20}}>
             {submitText}
           </Text>
         </TouchableOpacity>

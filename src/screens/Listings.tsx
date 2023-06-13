@@ -9,7 +9,9 @@ import {
   Image,
   ScrollView,
   TextInput,
+  Modal
 } from 'react-native';
+import { RadioButton } from 'react-native-paper';
 import React, {useState, useEffect} from 'react';
 import {color} from '../constants/Colors';
 import {CATEGORY} from '@env';
@@ -26,7 +28,7 @@ import ListIcon from 'react-native-vector-icons/Feather';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {Category, Form, NewDevice} from '../../type';
+import {Category, Form, NewDevice, Pagination} from '../../type';
 
 const {width, height} = Dimensions.get('window');
 const Listings = ({params}) => {
@@ -34,13 +36,16 @@ const Listings = ({params}) => {
   const route = useRoute();
   const {name,form} = route.params as {name:string,form:Form};
   const [query, setQuery] = useState('');
-  const [sort, setSort] = useState('created_at');
+  const [sort, setSort] = useState('price');
+  const [order, setOrder] = useState('desc');
 
   const [repform,setfReporm] =useState ()
   
   const [data, setData] = useState<NewDevice[]>([]);
 
   const [Grid, setGrid] = useState(false);
+
+  const [modalVisible, setModalVisible] = useState(false);
   const clear = () => {};
   useEffect(() => {
     setData([]);
@@ -54,22 +59,21 @@ const Listings = ({params}) => {
     )
   }
     axios
-      .post(CATEGORY, {category: name, search: query, sort: sort,...filter})
+      .post(CATEGORY, {category: name, search: query, sort: sort ,order :order,...filter})
       .then(response => {
-         console.log(response.data.data)
-        setData(response.data.data);
+        const pagination:Pagination = response.data.data ;
+        setData(pagination.data);
       });
-  }, [query, sort,route,name]);
+  }, [query, sort,route,name,order]);
 
   if (!data) return <Loading />;
-
-
 
 
   return (
     <SafeAreaView style={tw`flex-1`}>
       <View style={styles.header}>
-        <View style={tw`h-16 flex-row items-center justify-between px-2`}>
+       
+        <View style={tw`h-16  flex-row items-center justify-between  px-2`}>
           <TouchableOpacity onPress={navigation.goBack}>
             <Ionicons
               name="ios-arrow-back-sharp"
@@ -80,12 +84,9 @@ const Listings = ({params}) => {
           <Text style={{color: color.white, fontWeight: '500'}}>
             {String(name).toUpperCase()}
           </Text>
-          <TouchableOpacity
-            style={tw`flex-row items-center`}
-            onPress={() => navigation.navigate('Filter',{name})}>
-            <Ionicons name="filter" color={color.white} size={25} />
-            {/* <Text style={{color: color.white, fontWeight: '500'}}>Filter</Text> */}
-          </TouchableOpacity>
+    <View>
+
+    </View>
         </View>
         {/* // price/ location /model/modelyear */}
         <View style={tw`relative rounded-md flex-1`}>
@@ -129,8 +130,61 @@ const Listings = ({params}) => {
       </View>
 
       <View style={tw` flex-row items-center justify-between m-6`}>
-        <Sort st name="sort" color={color.black} size={30} />
-        <Text style={tw`px-2 font-bold text-lg text-black`} >Sort</Text>
+      <View>
+      <TouchableOpacity style={{flexDirection:'row'}} onPress={() => setModalVisible(true)}>
+        <Sort name="sort" color="black" size={20} />
+        <Text style={{paddingHorizontal:5,fontWeight:'700',color:'black'}}>Sort</Text>
+
+      </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={{color:'black'}}>Sort Order by:</Text>
+            <View style={styles.radioContainer}>
+             
+                <View style={styles.radioButton}>
+                  <RadioButton value='first'
+                  status={ order === 'desc' ? 'checked' : 'unchecked' }
+                   onPress={() =>{ setOrder('desc') 
+                   setModalVisible(false)}} />
+                  <Text style={{color:'black'}}>Highest to lowest</Text>
+                </View>
+                <View style={styles.radioButton}>
+                <RadioButton value='false'
+                 status={ order === 'asc' ? 'checked' : 'unchecked' }
+                   onPress={() =>{ setOrder('asc') 
+                   setModalVisible(false)}} />
+                  <Text style={{color:'black'}}>lowest to highest</Text>
+                </View>
+                <View style={styles.radioButton}>
+                {/* <RadioButton value='false'
+                   onPress={() =>{   
+                   setModalVisible(false)}} />
+                  <Text style={{color:'black'}}>Most Recent</Text> */}
+                </View>
+            </View>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={{color:'black'}}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+            
+    </View>
+    <TouchableOpacity
+            style={tw`flex-row items-center`}
+            onPress={() => navigation.navigate('Filter',{name})}>
+            <Ionicons name="filter" color={color.black} size={20} />
+       <Text style={{paddingHorizontal:5,fontWeight:'700',color:'black'}}>Filter</Text>
+          </TouchableOpacity> 
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -139,47 +193,32 @@ const Listings = ({params}) => {
             icon={sort == 'price' ? 'check' : ''}
             style={tw`mr-2 bg-blue-600`}
             textStyle={{color:'white'}}
-            onPress={() => setSort('price')}>
+            onPress={() => setSort('price')}
+           selectedColor={'black'}
+            >
             Price
           </Chip>
           <Chip
-            icon={sort == 'ram' ? 'check' : ''}
+            icon={sort == 'City' ? 'check' : ''}
             style={tw`mr-2  bg-blue-600`}
-            onPress={() => setSort('ram')}>
-            Ram
+            textStyle={{color:'white'}}
+            onPress={() => setSort('City')}>
+            City
           </Chip>
-          <Chip
-            icon={sort == 'storage' ? 'check' : ''}
-            style={tw`mr-2  bg-blue-600`}
-            onPress={() => setSort('storage')}>
-            Storage
-          </Chip>
-          <Chip
-            icon={sort == 'warranty' ? 'check' : ''}
-            style={tw`mr-2  bg-blue-600`}
-            onPress={() => setSort('warranty')}>
-            Warranty
-          </Chip>
-          <Chip
-            selected={sort == 'pta_status'}
-            icon={sort == 'pta_status' ? 'check' : ''}
-            style={tw`mr-2  bg-blue-600`}
-            onPress={() => setSort('pta_status')}>
-            PTA
-          </Chip>
+          
         </ScrollView>
         <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
           <ListIcon
             name="list"
             color={Grid ? color.black : color.red}
-            size={30}
+            size={20}
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setGrid(true)}>
           <Entypo
             name="grid"
             color={Grid ? color.red : color.black}
-            size={30}
+            size={20}
           />
         </TouchableOpacity>
       </View>
@@ -223,8 +262,33 @@ const Listings = ({params}) => {
 export default Listings;
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+  },
+  radioContainer: {
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 20,
+    
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+    padding: 10,
+  },
   small_text: {
-    color: 'gray',
+    color: 'black',
     fontSize: 10,
     fontWeight: '700',
   },

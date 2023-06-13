@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,23 +8,22 @@ import {
   Dimensions,
   Pressable,
   SafeAreaView,
-  Touchable,
+  TouchableWithoutFeedback,
+  Keyboard,
   TouchableOpacity,
+  
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import Header from '../components/Header';
-import {color} from '../constants/Colors';
-import {SEARCH} from '@env';
-import axios from 'axios';
-import {useNavigation} from '@react-navigation/native';
-import tw from 'twrnc';
-import {useIsFocused} from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
+import { useIsFocused } from '@react-navigation/native';
+import { SEARCH } from '@env';
+import tw from 'twrnc';
+import { useDispatch, useSelector } from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
-
-import {selectAccessToken} from '../Redux/Slices';
-const {width, height} = Dimensions.get('window');
+import {color} from '../constants/Colors';
+import { selectAccessToken } from '../Redux/Slices';
+const { width, height } = Dimensions.get('window');
 const SearchScreen = () => {
   const navigation = useNavigation();
   const [searchedItems, setSearchedItems] = useState();
@@ -51,8 +51,8 @@ const SearchScreen = () => {
           search: searchText,
         },
         {
-          headers: {'Content-Type': 'application/json'},
-        },
+          headers: { 'Content-Type': 'application/json' },
+        }
       )
       .then(function (response) {
         //handle success
@@ -72,70 +72,79 @@ const SearchScreen = () => {
   };
 
   useEffect(() => {
-    if (searchText == '') setSearchedItems();
+    if (searchText === '') setSearchedItems();
 
     getSearchedItemsFunc();
   }, [searchText]);
-  return (
-    <View style={tw`flex-1 z-10`}>
-      <TextInput
-        value={searchText}
-        clearTextOnFocus={() => setSearchText('')}
-        onChangeText={text => setSearchText(text)}
-        placeholder="Search"
-        placeholderTextColor={'white'}
-        style={{
-          width: '100%',
-          height: 43,
-          borderRadius: 4,
-          backgroundColor: '#4894F1',
-          paddingLeft: 32,
-          paddingHorizontal: 8,
-          marginTop: 25,
-          alignItems: 'center',
-          justifyContent: 'center',
-          display: 'flex',
-          color: 'white',
-        }}
-      />
-      <Icon
-        style={tw`absolute top-9 left-2`}
-        name="magnifying-glass"
-        size={20}
-        color={'white'}
-      />
-      <TouchableOpacity style={tw`absolute top-9 right-2`} onPress={clear}>
-        <Icon name="cross" size={20} color={'white'} />
-      </TouchableOpacity>
 
-      <View style={tw`bg-white z-10`}>
-        {searchedItems ? (
-          <FlatList
-            keyboardShouldPersistTaps="handled"
-            data={searchedItems}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => (
-              <Pressable
-                onPress={() =>
-                  navigation.navigate('ProductPage', {id: item.id})
+  const hideDropdownAndKeyboard = () => {
+
+    Keyboard.dismiss();
+  };
+  return (
+    <TouchableWithoutFeedback onPress={hideDropdownAndKeyboard}>
+      <View style={tw`flex-1 z-10`}>
+        <TextInput
+          value={searchText}
+          onChangeText={text => setSearchText(text)}
+          placeholder="Search"
+          placeholderTextColor={'white'}
+          style={{
+            width: '100%',
+            height: 43,
+            borderRadius: 4,
+            backgroundColor: '#4894F1',
+            paddingLeft: 32,
+            paddingHorizontal: 8,
+            marginTop: 25,
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            color: 'white',
+          }}
+        />
+        <Icon
+          style={tw`absolute top-9 left-2`}
+          name="magnifying-glass"
+          size={20}
+          color={'white'}
+        />
+        <TouchableOpacity style={tw`absolute top-9 right-2`} onPress={clear}>
+          <Icon name="cross" size={20} color={'white'} />
+        </TouchableOpacity>
+
+        <View style={tw`bg-white z-10`}>
+          {searchedItems ? (
+            <FlatList
+              keyboardShouldPersistTaps="handled"
+              data={searchedItems}
+              keyExtractor={item => item.id}
+              renderItem={({ item }) => (
+                <Pressable
+                  onPress={() =>
+                  {  navigation.navigate('ProductPage', { id: item.id })
+                setSearchedItems(null)
                 }
-                style={{
-                  width: width - 50,
-                  borderBottomWidth: 1,
-                  paddingTop: 20,
-                  borderColor: color.white,
-                  paddingVertical: 2,
-                  padding: 2,
-                }}>
-                <Text style={{color: color.black}}>
-                  {item.brand} <Text>{item.model}</Text>
-                </Text>
-              </Pressable>
-            )}
-          />
-        ) : null}
+                  }
+                  style={{
+                    width: width - 50,
+                    borderBottomWidth: 1,
+                    paddingTop: 20,
+                    borderColor: color.white,
+                    paddingVertical: 2,
+                    padding: 2,
+                  }}
+                >
+                  <Text style={{ color: color.black }}>
+                    {item.brand} <Text>{item.model}</Text>
+                  </Text>
+                </Pressable>
+              )}
+            />
+          ) : null}
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

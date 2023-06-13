@@ -54,7 +54,7 @@ const ForgotPassword = ({navigation}) => {
       </View>
       <Text
         style={{
-          color: color.orange,
+         color:color.black,
           fontWeight: 'bold',
           fontSize: 25,
           marginTop: 200,
@@ -67,6 +67,7 @@ const ForgotPassword = ({navigation}) => {
           width: 290,
           textAlign: 'center',
           borderWidth: 1,
+          color:color.black,
           height: 50,
           borderColor: color.black,
           marginTop: 10,

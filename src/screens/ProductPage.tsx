@@ -11,6 +11,7 @@ import {
   Vibration,
   Platform,
   Linking,
+  Share
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import Slider from '../components/Slider';
@@ -56,7 +57,7 @@ const ProductPage = ({navigation, route}) => {
   const {id} = route.params;
   const image_url = 'https://www.mobilezmarket.com/images/';
   let slider_data = [];
-  const link = 'https://api.whatsapp.com/send?phone=+';
+  const link = 'https://wa.me/';
   const relatedAds = data?.related_ads.map((element, index) => {
     let {productimages: image, ...rest} = element;
 
@@ -135,17 +136,43 @@ const ProductPage = ({navigation, route}) => {
         console.log(error);
       });
   };
+  const api = DESCRIPTION + id;
   const fetchImages = () => {
-    const api = DESCRIPTION + id;
     axios
       .get(api)
       .then(response => {
         setImages(response?.data.details.productimages);
+        console.log("=============aplleeeee",response.data.url)
       })
       .catch(error => {
         console.log(error);
       });
   };
+// console.log("================",api)
+  const handleShare = async () => {
+    try {
+      const result = await Share.share({
+        message: 'Check out this product!',
+        // url:data
+      });
+      
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // Shared successfully
+          console.log('Product shared successfully');
+        } else {
+          // Shared cancelled
+          console.log('Product sharing cancelled');
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // Dismissed the share sheet
+        console.log('Product sharing dismissed');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to share the product');
+    }
+  };
+
   useEffect(() => {
     fetchData();
     fetchImages();
@@ -217,7 +244,7 @@ const ProductPage = ({navigation, route}) => {
         <FontAwsome name={'whatsapp'} size={25} color={'white'} />
         <Text style={styles.communication_buttons_text}>Whatsapp</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.commmunication_buttons}>
+      <TouchableOpacity style={styles.commmunication_buttons} onPress={()=>{navigation.navigate('Chat',{to:data.details.user})}}>
         <Ionicons name={'ios-chatbubbles-outline'} size={25} color={'white'} />
 
         <Text style={styles.communication_buttons_text}>Chat</Text>
@@ -308,13 +335,9 @@ const ProductPage = ({navigation, route}) => {
                 <Text> {data.details.model}</Text>
               </Text>
 
-              <Pressable>
-                <Ionicons
-                  name={'share-social-sharp'}
-                  size={30}
-                  color={'#0167E6'}
-                />
-              </Pressable>
+              <Pressable onPress={handleShare}>
+  <Ionicons name="share-social-sharp" size={30} color="#0167E6" />
+</Pressable>
             </View>
             <Text style={{color: '#015DCF', fontSize: 20, fontWeight: '700'}}>
               Rs. {data.details.price.toLocaleString()}

@@ -223,3 +223,45 @@ export interface Form {
   max_price: string| null,
   min_price: string| null,
 }
+
+
+
+export interface FetchMessage {
+  last_message_id: string;
+  last_page:       number;
+  messages:        IMessage[];
+  total:           number;
+}
+
+export interface IMessage {
+  attachment: null;
+  body:       string;
+  created_at: Date;
+  from_id:    number;
+  id:         string;
+  seen:       number;
+  to_id:      number;
+  updated_at: Date;
+}
+
+export interface Pagination {
+  current_page:   number;
+  data:           NewDevice[];
+  first_page_url: string;
+  from:           number;
+  last_page:      number;
+  last_page_url:  string;
+  links:          Link[];
+  next_page_url:  string;
+  path:           string;
+  per_page:       number;
+  prev_page_url:  null;
+  to:             number;
+  total:          number;
+}
+
+export interface Link {
+  url:    null | string;
+  label:  string;
+  active: boolean;
+}

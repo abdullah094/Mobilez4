@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   FlatList,
   Image,
@@ -5,85 +6,234 @@ import {
   StyleSheet,
   Text,
   View,
+  Dimensions,
+  TouchableOpacity,
 } from 'react-native';
-import {useState, useEffect} from 'react';
-import React from 'react';
-import {FETCHMESSAGES, SENDMESSAGES, CONTACTS} from '@env';
-import {selectAccessToken} from '../Redux/Slices';
-import axios, {AxiosError} from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
-import {Contact, Contacts, NewDevice} from '../../type';
-import {logoutUser} from '../Redux/Slices';
-
-import {GiftedChat} from 'react-native-gifted-chat';
 import tw from 'twrnc';
+import { useSelector, useDispatch } from 'react-redux';
+import axios, { AxiosError } from 'axios';
+import { selectAccessToken } from '../Redux/Slices';
+import { CONTACTS,SENDMESSAGES,FETCHMESSAGES } from '@env';
+import { Contacts, Contact, IMessage, FetchMessage } from '../../type';
+import { logoutUser } from '../Redux/Slices';
+import {GiftedChat} from 'react-native-gifted-chat';
+import { useRoute } from '@react-navigation/native';
+const { width, height } = Dimensions.get('window');
 const base_url = 'https://www.mobilezmarket.com/images/';
-const ChatScreen = ({navigation}) => {
-  const [messages, setMessages] = useState([]);
+interface User { id: number; name: string; photo: string; }
+interface messages{
+  _id: string,
+  text: string,
+  createdAt: Date,
+  user: {
+    _id: number,
+    name: string,
+    avatar: string |null,
+  },
+
+}
+const ChatScreen = ({ navigation }) => {
+  const route = useRoute()
+  const [messages, setMessages] = useState<messages[]>([]);
   const accessToken = useSelector(selectAccessToken);
-  const [data, setData] = useState<Contact[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const params  =route.params as {to:User};
+
+
+  const [from_id, setFrom_id] = useState(1);
+  const [to_id, setTo_id] = useState(2)
   const dispatch = useDispatch();
 
-  const handleSend = newMessages => {
+  const onSend = useCallback((messages = []) => {
     setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, newMessages),
-    );
-  };
+      GiftedChat.append(previousMessages, messages),
+    )
+  }, [])
 
-  useEffect(() => {
+  const sendMessageToServer =(body:messages[])=>{
+    if(!body) return;
     axios
-      .post(
-        CONTACTS,
-        {
-          key: 'YW1Gb1lXNTZZV2xpTG1GemJHRnRMbTFsYUdGeVFHZHRZV2xzTG1OdmJUcG1iMjlrWjJoaGNnPT0=',
-        },
-        {
-          headers: {Authorization: `Bearer ${accessToken}`},
-        },
-      )
-      .then(response => {
-        const data: Contacts = response.data;
-        setData(data.contacts);
-      })
-      .catch((reason: AxiosError) => {
-        if (reason.response!.status === 401) {
-          dispatch(logoutUser);
-          navigation.navigate('Login');
-        }
-        console.log(reason.message);
-      });
-  }, []);
+    .post(
+      SENDMESSAGES,
+      {
+        key: 'YW1Gb 1lXNTZZV2xpTG1GemJHRnRMbTFsYUdGeVFHZHRZV2xzTG1OdmJUcG1iMjlrWjJoaGNnPT0=',
+        type:"sender",
+        from_id:from_id,
+        to_id:to_id,
+        // body:messages[messages?.length-1]
+        body : body[0].text
+      },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+    )
+    .then(response => {
+      const data = response.data;
+      // setMessages(data.c);
+      console.log("data from api",data)
+      fetchMessages();
+    })
+    .catch((reason: AxiosError) => {
+      if (reason.response!.status === 401) {
+        dispatch(logoutUser);
+        navigation.navigate('Login');
+      }
+      console.log(reason.message);
+    });
+  }
+  
+  
+ 
+  useEffect(() => {
+    fetchMessages()
+  }, [to_id])
+
+  setTimeout(()=>{
+    console.log("Fetching new Messages");
+    fetchMessages()
+  },60000)
+
+  const fetchMessages=()=>{
+   
+    // setMessages([])
+    axios
+    .post(
+      FETCHMESSAGES,
+      {
+        key: 'YW1Gb 1lXNTZZV2xpTG1GemJHRnRMbTFsYUdGeVFHZHRZV2xzTG1OdmJUcG1iMjlrWjJoaGNnPT0=',
+        id:to_id,
+      },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+    )
+    .then(response => {
+      const data :FetchMessage= response.data;
+      const existingId =messages.map(x=>x._id);
+      const newID = data.messages.filter(x=> !existingId.includes(x.id))
+      if(newID.length==0) return
+        setMessages(data.messages.map((x,index)=>  {
+          if(index ==0){
+            setFrom_id(to_id==x.from_id? x.from_id:x.from_id)
+          }
+          return {
+            _id: x.id,
+            text: x.body ,
+            createdAt: new Date(x.created_at),
+            user: {
+              _id:x.from_id,
+              name: "",
+              avatar: 'https://placeimg.com/140/140/any',
+            },
+            sent : x.seen !=0
+
+          }
+        }))
+    })
+    .catch((reason: AxiosError) => {
+      if (reason.response!.status === 401) {
+        dispatch(logoutUser);
+        navigation.navigate('Login');
+      }
+      console.log(reason.message);
+    });
+  }
+
+
+useEffect(()=>{
+  axios
+  .post(
+    CONTACTS,
+    {
+      key: 'YW1Gb1lXNTZZV2xpTG1GemJHRnRMbTFsYUdGeVFHZHRZV2xzTG1OdmJUcG1iMjlrWjJoaGNnPT0=',
+      
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  )
+  .then(response => {
+    const data: Contacts = response.data;
+    
+  if(params?.to){
+
+    console.log("params here",([...data.contacts,{ id: params.to.id,
+      name: params.to.name,photo :params.to.phone  }]))
+      const contact = [...data.contacts,{ id: params.to.id,
+        first_name: params.to.name,photo :params.to.photo  }]
+      const arrayUniqueByKey = [...new Map(contact.map(item =>
+        [item.id, item])).values()];
+ 
+     
+
+    setContacts(arrayUniqueByKey)
+      setTo_id(params.to.id)
+  }
+  else{
+    console.log("params not here")
+    setContacts(data.contacts);
+    if(data.contacts.length>0){
+      setTo_id(data.contacts[0].id)
+    }
+  }
+    // 
+   
+  
+  })
+  .catch((reason: AxiosError) => {
+    if (reason.response!.status === 401) {
+      dispatch(logoutUser);
+      navigation.navigate('Login');
+    }
+    console.log(reason.message);
+  });
+},[])
+
   return (
     <SafeAreaView style={tw`flex-1`}>
-      <View style={{flex: 1}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'center'}}>
         <FlatList
-          data={data}
-          key={'#'}
-          keyExtractor={item => '#' + item.id}
+          data={contacts}
+          keyExtractor={item => item.id.toString()}
           horizontal
-          renderItem={({item}) => (
-            <View style={tw`w-20 `}>
-              <Image
-                style={tw`w-10 h-10 rounded-full`}
-                source={{uri: base_url + item.photo}}></Image>
-              <Text numberOfLines={1}>{item.first_name}</Text>
-            </View>
+          renderItem={({ item, index }) => (
+            <TouchableOpacity
+            onPress={() => setTo_id(item.id)}
+            >
+            <View style={tw`w-[70px]  items-center justify-center m-2   p-2`}>
+           
+              <Image style={tw`w-10  h-10 rounded-full border-red-600 ${ to_id === item.id ? "border-2" : "border-0"}`} source={{ uri:item.photo.includes("http") ?item.photo :  base_url + item.photo }} />
+              
+              <Text style={{ fontSize: 12, fontWeight: '500', color: 'black' }} numberOfLines={1}>
+                {item.first_name}
+              </Text>
+             
+              </View>
+              </TouchableOpacity>
           )}
         />
-        <GiftedChat
-          messages={messages}
-          // isTyping={true}
-          showUserAvatar={false}
-          onSend={newMessages => handleSend(newMessages)}
-          user={{
-            _id: 1,
-            name: 'Abdullah',
-          }}
-        />
       </View>
+
+      <GiftedChat
+        messages={messages}
+        showUserAvatar={false}
+        placeholder='Type text here'
+        alwaysShowSend={true}
+        optionTintColor='black'
+        // loadEarlier={true}
+        isKeyboardInternallyHandled={true}
+        // isLoadingEarlier={true}
+        // isTyping={true}
+        textInputStyle={tw`text-black`}
+        onSend={newMessages => {onSend(newMessages),sendMessageToServer(newMessages)}}
+        user={{
+          _id: from_id,
+        }}
+      />
     </SafeAreaView>
   );
 };
+
 export default ChatScreen;
 
 const styles = StyleSheet.create({});

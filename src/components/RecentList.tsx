@@ -5,7 +5,7 @@ import GridItem from './GridItem';
 import {CATEGORY} from '@env';
 import axios from 'axios';
 import tw from 'twrnc';
-import {Category, NewDevice} from '../../type';
+import {Category, NewDevice, Pagination} from '../../type';
 
 const RecentList = ({name, products = []}) => {
   const [data, setData] = useState([]);
@@ -23,17 +23,19 @@ const RecentList = ({name, products = []}) => {
     axios
       .post(CATEGORY, {category: name, sort: 'created_at'})
       .then(response => {
-        setData(response.data.data);
+        const pagination:Pagination = response.data.data ;
+        setData(pagination.data);
       });
   }, []);
   return (
-    <View style={tw`w-full h-68 mt-4`}>
+    <View style={tw`w-full h-70 mt-4`}>
       {/* bar with heading and view more */}
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
+          paddingTop:9
         }}>
         <Text style={styles.heading}>{Title}</Text>
       </View>

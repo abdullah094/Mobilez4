@@ -1,5 +1,6 @@
 import {
   Alert,
+  Dimensions,
   Image,
   StyleSheet,
   Text,
@@ -15,6 +16,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import {ADD_WISHLIST, REMOVE_WISHLIST} from '@env';
 import {useDispatch, useSelector} from 'react-redux';
+const {width,height} = Dimensions.get("window")
 import {
   selectAccessToken,
   selectWishlist,
@@ -81,7 +83,7 @@ const GridItem = ({item, image}) => {
         overflow: 'hidden',
         shadowColor: '#000',
         backgroundColor: 'white',
-        borderRadius: 20,
+        borderRadius: 15,
         padding: 10,
         margin: 5,
         shadowOffset: {
@@ -91,16 +93,19 @@ const GridItem = ({item, image}) => {
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        width:width * 0.45
       }}
       onPress={() => navigation.push('ProductPage', {id: item.id})}>
-      <View style={tw`w-35`}>
+      <View style={tw`w-full h-full justify-between `}>
         <Image
           style={{
             height: 120,
             width: '100%',
-            marginBottom: 5,
+            marginBottom: 6,
+            // aspectRatio:1.25,
             borderRadius: 10,
           }}
+          
           source={{uri: image_url + image}}
           resizeMode="cover"
         />
@@ -112,58 +117,62 @@ const GridItem = ({item, image}) => {
             size={15}
             color={'red'}></AntDesign>
         </TouchableOpacity>
-          <View style={tw``}> 
+
+        <View>
+          <View>
             <Text
-          numberOfLines={1}
-          style={{
-            fontSize: 15,
-            color: '#252B5C',
-            fontWeight: '800',
-          }}>
-          {item.brand} <Text>{item.model}</Text>
-        </Text>
-        <Text numberOfLines={1} style={{color: '#015DCF', fontWeight: '800'}}>
-          Rs. {item.price}
-        </Text>
-        </View>
-      
-       
-
-        {item.category === 'Mobile' && (
-          <>
-            <View
+              numberOfLines={1}
               style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-
-              
-                marginTop: 2,
+                fontSize: 15,
+                color: '#252B5C',
+                fontWeight: '800',
               }}>
-              <Text style={styles.small_text}>{item.ram}GB</Text>
-              <Text style={styles.small_text}> | </Text>
+              {item.brand} <Text>{item.model}</Text>
+            </Text>
+            <Text
+              numberOfLines={1}
+              style={{color: '#015DCF', fontWeight: '800'}}>
+              Rs. {item.price}
+            </Text>
+          </View>
+          {item.category === 'Mobile' && (
+            <>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                 
+                }}>
+                <Text style={styles.small_text}>{item.ram}GB</Text>
+                <Text style={styles.small_text}> | </Text>
 
-              <Text style={styles.small_text}>{item.storage}GB</Text>
-              <Text style={styles.small_text}> | </Text>
-              <Text numberOfLines={1} style={styles.small_text}>
-                {item.pta_status}
-              </Text>
-            </View>
-          </>
-        )}
+                <Text style={styles.small_text}>{item.storage}GB</Text>
+                <Text style={styles.small_text}> | </Text>
+                <Text numberOfLines={1} style={styles.small_text}>
+                  {item.pta_status}
+                </Text>
+              </View>
+            </>
+          )}
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent:"space-between"
+              justifyContent: 'space-between',
+              
             }}>
-            
             <Text numberOfLines={1} style={styles.small_text}>
               {formattedDate}
             </Text>
-           
-            <Text style={styles.small_text}> <Icon name="location-pin" size={10} color={'red'} />{item?.user?.city}</Text>
+
+            <Text style={styles.small_text}>
+        
+              <Icon name="location-pin" size={10} color={'red'} />
+              {item?.user?.city}
+            </Text>
           </View>
         </View>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -176,4 +185,5 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '700',
   },
+  last_View: {},
 });

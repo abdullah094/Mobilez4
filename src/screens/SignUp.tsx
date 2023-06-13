@@ -83,11 +83,12 @@ const SignUp = ({navigation, route}) => {
           <Text style={tw`py-10 pt-20  text-black text-2xl  mx-10`}>
             Create your <Text style={tw`font-bold`}>Account</Text>
           </Text>
-          <View style={tw`bg-white rounded-3xl p-2 m-4 pb-12 `}>
+          <View style={tw`bg-white rounded-3x1 p-2 m-4 pb-12 `}>
             <TextInput
               style={styles.box_input}
               value={formData.first_name}
               placeholder="First name"
+              textColor='black'
               onChangeText={text =>
                 setFormData({...formData, first_name: text})
               }
@@ -97,6 +98,8 @@ const SignUp = ({navigation, route}) => {
               style={styles.box_input}
               value={formData.last_name}
               placeholder="Last name"
+              textColor='black'
+
               onChangeText={text => setFormData({...formData, last_name: text})}
             />
 
@@ -104,6 +107,8 @@ const SignUp = ({navigation, route}) => {
               style={styles.box_input}
               keyboardType="number-pad"
               placeholder="Phone number"
+              textColor='black'
+
               value={formData.phone}
               onChangeText={text => setFormData({...formData, phone: text})}
             />
@@ -112,6 +117,8 @@ const SignUp = ({navigation, route}) => {
               style={styles.box_input}
               keyboardType="email-address"
               placeholder="Email"
+              textColor='black'
+
               value={formData.email}
               onChangeText={text =>
                 setFormData({...formData, email: text.toLowerCase()})
@@ -123,6 +130,8 @@ const SignUp = ({navigation, route}) => {
               value={formData.password}
               placeholder="password"
               secureTextEntry={true}
+              textColor='black'
+
               onChangeText={text =>
                 setFormData({...formData, password: text.toLowerCase()})
               }
@@ -133,15 +142,17 @@ const SignUp = ({navigation, route}) => {
               secureTextEntry={true}
               value={formData.conf_password}
               placeholder="confirm password"
+              textColor='black'
+
               onChangeText={text =>
                 setFormData({...formData, conf_password: text.toLowerCase()})
               }
             />
 
-            <View style={tw`mt-3 `}>
+            <View style={tw`mt-1 `}>
               <DropDown
                 inputProps={tw`bg-white w-full `}
-                dropDownItemStyle={tw`bg-white`}
+                dropDownItemStyle={tw`bg-black`}
                 placeholder="Account type"
                 visible={showDropDown}
                 showDropDown={() => setShowDropDown(true)}
@@ -158,6 +169,7 @@ const SignUp = ({navigation, route}) => {
                   style={styles.box_input}
                   value={formData.shop_name}
                   placeholder="shop name"
+                  textColor='black'
                   onChangeText={text =>
                     setFormData({...formData, shop_name: text})
                   }
@@ -167,6 +179,7 @@ const SignUp = ({navigation, route}) => {
                   style={styles.box_input}
                   value={formData.shop_address}
                   placeholder="shop address"
+                  textColor='black'
                   onChangeText={text =>
                     setFormData({...formData, shop_address: text})
                   }
@@ -193,7 +206,7 @@ const SignUp = ({navigation, route}) => {
                   borderRadius: 5,
                 }}>
                 {check && (
-                  <MaterialIcon name="check" color={color.orange} size={24} />
+                  <MaterialIcon name="check" color={color.orange} size={23} />
                 )}
               </Pressable>
               <Text style={{marginLeft: 5, color: color.black}}>
@@ -236,7 +249,7 @@ const SignUp = ({navigation, route}) => {
           <View style={tw`flex-row items-center my-5`}>
             <Text style={tw`text-gray-500`}>Already have account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={tw`text-blue-800 mx-1`}>Sign In</Text>
+              <Text style={tw`text-white mx-1`}>Sign In</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -260,12 +273,12 @@ const styles = StyleSheet.create({
   box_heading: {
     color: color.black,
     fontWeight: '500',
-    fontSize: 15,
+    fontSize: 12,
     marginLeft: 5,
   },
   box_input: {
     height: 50,
-    borderBottomWidth: 1,
+    fontSize: 12,
     borderColor: 'gray',
     backgroundColor: 'white',
     marginTop: 5,

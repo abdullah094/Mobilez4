@@ -11,6 +11,7 @@ import {
   Alert,
   SafeAreaView,
   Pressable,
+  Button
 } from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import Header from '../components/Header';
@@ -94,6 +95,8 @@ const Login = () => {
       console.log('Error saving Data to AsyncStorage:', e);
     }
   };
+
+
 
   return (
     <SafeAreaView style={tw`flex-1`}>
@@ -216,6 +219,23 @@ const Login = () => {
                 <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
               </TouchableOpacity>
             </View>
+            <Button title={'Sign in with Google'} onPress={() =>  {
+    GoogleSignin.configure({
+        androidClientId: '1054360665178-hbojd2aj076ksbvcuhgntrpv1683s0fa.apps.googleusercontent.com'
+       
+    });
+GoogleSignin.hasPlayServices().then((hasPlayService) => {
+        if (hasPlayService) {
+             GoogleSignin.signIn().then((userInfo) => {
+                       console.log(JSON.stringify(userInfo))
+             }).catch((e) => {
+             console.log("ERROR IS: " + JSON.stringify(e));
+             })
+        }
+}).catch((e) => {
+    console.log("ERROR IS: " + JSON.stringify(e));
+})
+}} />
 
           </View>
         </View>

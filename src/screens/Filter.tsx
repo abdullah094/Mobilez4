@@ -35,6 +35,7 @@ import {BRANDSNOAUTH,MODELS} from '@env';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Category, Form } from '../../type';
+import { useSelector } from 'react-redux';
 
 
 const Filter = ({navigation}) => {
@@ -51,6 +52,7 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
   const [min, setMin] = useState(0);
   const [max, setMax] = useState(1000000);
   const [floatingLabel, setFloatingLabel] = useState(false);
+  const [models, setModels] = useState([]);
 
   const renderThumb = useCallback(name => <Thumb name={name} />, []);
   const renderRail = useCallback(() => <Rail />, []);
@@ -74,7 +76,8 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
     () => setFloatingLabel(!floatingLabel),
     [floatingLabel],
   );
-  
+  const _accessToken = useSelector(state => state.todo.accessToken);
+
 
   const [form, setForm] = useState<Form>({
     brand: null,
@@ -89,15 +92,7 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
     min_price: null,
   });
 
-  if (form.brand === 'Other') {
-    setTimeout(() => {
-      setOtherBrand(true);
-    }, 300);
-  } else {
-    setTimeout(() => {
-      setOtherBrand(false);
-    }, 300);
-  }
+  
 
   const getBrandFunc = () => {
     //Get brands with this function
@@ -123,13 +118,13 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
   };
   const getModelFunc = () => {
     //Get models with this function
-
     const api = MODELS + form.brand;
     axios
       .get(api, {
         headers: {Authorization: `Bearer ${_accessToken}`},
       })
       .then(response => {
+        console.log("bhia ya error ni day raha hay ")
         let brand_array = [];
         response.data.models.forEach(element => {
           brand_array.push({
@@ -138,18 +133,16 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
           });
         });
         setModels(brand_array);
+      
       })
       .catch(error => {
         console.log('Brands ' + error);
       });
   };
-
-
-
-console.log("form...............................",form)
-  useEffect(()=>{
-getBrandFunc()
-  },[])
+useEffect(()=>{
+  getBrandFunc()
+  getModelFunc()
+},[form.brand])
   return (
     <SafeAreaView>
       <ScrollView
@@ -272,13 +265,46 @@ getBrandFunc()
                     color: 'grey',
                     // fontFamily: 'Geologica_Auto-Black',
                   }}
-                  setSelected={val => setForm({...form, brand: val})}
+                  setSelected={val =>{
+                    if(val==="Other"){
+                      setOtherBrand(true)
+                      setForm({...form, brand: ""})
+                    }
+                    else{
+                      setOtherBrand(false)
+                      setForm({...form, brand: val})
+                    }
+                  }}
                   data={brand}
                   save="value"
                   dropdownTextStyles={{color:'black'}}
                 />
             </View>
-
+            
+           {otherBrand ? (
+              <TextInput
+                placeholder="Choose Model"
+                style={styles.box_input}
+                value={form.brand}
+                onChangeText={text => setForm({...form, model: text})}
+              />
+            ) : (
+              <SelectList
+              boxStyles={{
+                backgroundColor: color.white,
+                borderColor: '#D3D3D3',
+                marginTop: 16,
+              }}
+                placeholder="Choose model"
+                inputStyles={{color: 'black'}}
+                setSelected={val => {
+                  setForm({...form, model: val})
+                }}
+                data={models}
+                save="value"
+                dropdownTextStyles={{color:'black'}}
+              />
+            )}
             <SelectList
               boxStyles={{
                 backgroundColor: color.white,
@@ -401,6 +427,21 @@ getBrandFunc()
 export default Filter;
 
 const styles = StyleSheet.create({
+  box: {
+    marginTop: 10,
+    width: '100%',
+  },
+
+  box_input: {
+    height: 50,
+    width: '100%',
+    borderColor: 'grey',
+    borderRadius: 10,
+    color: color.black,
+    borderWidth: 1,
+    marginTop: 10,
+    padding: 8,
+  },
   min_max_input: {
     borderWidth: 1,
     borderColor: 'white',

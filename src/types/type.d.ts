@@ -34,30 +34,7 @@ export interface Profile {
 
 export interface NewDevices {
   status: number;
-  new_devices: NewDevice[];
-}
-
-export interface NewDevice {
-  id: number;
-  brand: string;
-  model: string;
-  description: string;
-  price: number;
-  storage: number | null;
-  ram: number | null;
-  accessories: null | string;
-  warranty: string;
-  product_type: string;
-  pta_status: string;
-  category: string;
-  sell_status: string;
-  seller_id: number;
-  feature_add: null | string;
-  status: number | null;
-  created_at: Date;
-  updated_at: Date;
-  image: Image;
-  user: User;
+  new_devices: Product[];
 }
 
 export interface User {
@@ -213,55 +190,107 @@ export interface Contact {
 }
 
 export interface Form {
-  brand: string| null,
-  ram: string| null,
-  storage: string| null,
-  pta_status: string| null,
-  condition: string| null,
-  Warranty: string| null,
-  city: string| null,
-  max_price: string| null,
-  min_price: string| null,
+  brand: string | null;
+  ram: string | null;
+  storage: string | null;
+  pta_status: string | null;
+  condition: string | null;
+  Warranty: string | null;
+  city: string | null;
+  max_price: string | null;
+  min_price: string | null;
 }
-
-
 
 export interface FetchMessage {
   last_message_id: string;
-  last_page:       number;
-  messages:        IMessage[];
-  total:           number;
+  last_page: number;
+  messages: IMessage[];
+  total: number;
 }
 
 export interface IMessage {
   attachment: null;
-  body:       string;
+  body: string;
   created_at: Date;
-  from_id:    number;
-  id:         string;
-  seen:       number;
-  to_id:      number;
+  from_id: number;
+  id: string;
+  seen: number;
+  to_id: number;
   updated_at: Date;
 }
 
 export interface Pagination {
-  current_page:   number;
-  data:           NewDevice[];
+  current_page: number;
+  data: Product[];
   first_page_url: string;
-  from:           number;
-  last_page:      number;
-  last_page_url:  string;
-  links:          Link[];
-  next_page_url:  string;
-  path:           string;
-  per_page:       number;
-  prev_page_url:  null;
-  to:             number;
-  total:          number;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: string;
+  path: string;
+  per_page: number;
+  prev_page_url: null;
+  to: number;
+  total: number;
 }
 
 export interface Link {
-  url:    null | string;
-  label:  string;
+  url: null | string;
+  label: string;
   active: boolean;
+}
+
+export interface ProductDetails {
+  status: boolean;
+  details: ProductDetail;
+  related_ads: Product[];
+  more_ads: Product[];
+  url: string;
+}
+
+export interface ProductDetail {
+  id: number;
+  brand: string;
+  model: string;
+  description: string;
+  price: number;
+  storage: number | null;
+  ram: number | null;
+  accessories: null | string;
+  warranty: string;
+  product_type: string;
+  pta_status: string;
+  category: string;
+  sell_status: string;
+  seller_id: number;
+  feature_add: null | string;
+  status: number | null;
+  created_at: Date;
+  updated_at: Date;
+  productimages: Image[];
+  user: User;
+}
+
+export interface Product {
+  id: number;
+  brand: string;
+  model: string;
+  description: string;
+  price: number;
+  storage: number | null;
+  ram: number | null;
+  accessories: null | string;
+  warranty: string;
+  product_type: string;
+  pta_status: string;
+  category: string;
+  sell_status: string;
+  seller_id: number;
+  feature_add: null | string;
+  status: number | null;
+  created_at: Date;
+  updated_at: Date;
+  image: Image;
+  user: User;
 }

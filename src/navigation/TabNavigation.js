@@ -1,22 +1,17 @@
-import * as React from 'react';
-import {Text, View, Image} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Home from '../screens/Home';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import HomeIcon from 'react-native-vector-icons/Feather';
-import ChatIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Sell from '../screens/Sell';
-import Settings from '../screens/Settings';
-import PostAnAd from '../screens/PostAnAd';
-import MyAds from '../screens/MyAds';
-import {color} from '../constants/Styles';
-import More from 'react-native-vector-icons/MaterialIcons';
-import tw from 'twrnc';
-import ChatScreen from '../screens/Chat';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Login from '../screens/Login';
+import * as React from 'react';
+import {Image, Text, View} from 'react-native';
+import HomeIcon from 'react-native-vector-icons/Feather';
+import More from 'react-native-vector-icons/MaterialIcons';
 import {useSelector} from 'react-redux';
 import {selectAccessToken} from '../Redux/Slices';
+import ChatScreen from '../screens/Chat';
+import Home from '../screens/Home';
+import Login from '../screens/Login';
+import MyAds from '../screens/MyAds';
+import PostAnAd from '../screens/PostAnAd';
+import Settings from '../screens/Settings';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -41,25 +36,6 @@ export default function App() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={({route}) => ({
-        // tabBarIcon: ({focused, color, size}) => {
-        //   let iconName;
-
-        //   if (route.name === 'Home') {
-        //     iconName = focused ? 'ios-home' : 'ios-home-outline';
-        //   } else if (route.name === 'Sell') {
-        //     iconName = focused ? 'albums' : 'albums-outline';
-        //   } else if (route.name === 'More') {
-        //     iconName = focused ? 'menu' : 'menu';
-        //   } else if (route.name === 'MyAds') {
-        //     iconName = focused ? 'megaphone' : 'megaphone';
-        //   }
-
-        //   // You can return any component that you like here!
-        //   return(
-        //     <View > <Ionicons name={iconName} size={size} color={color} /></View>
-        //   )
-
-        // },
         tabBarActiveTintColor: '#015DCF',
         tabBarInactiveTintColor: 'gray',
         headerShown: false,

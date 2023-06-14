@@ -1,12 +1,8 @@
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useMemo, useState} from 'react';
-import Carousel from 'react-native-snap-carousel';
-import axios from 'axios';
 import {HOME_SLIDER_IMAGES} from '@env';
-import Sort from 'react-native-vector-icons/MaterialIcons';
-import Grid from 'react-native-vector-icons/Entypo';
-import ListIcon from 'react-native-vector-icons/Feather';
-import {color} from '../constants/Colors';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {Dimensions, Image, StyleSheet, View} from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 
 const {width, height} = Dimensions.get('window');
 const HomeSlider = () => {
@@ -15,7 +11,6 @@ const HomeSlider = () => {
   const image_url = 'https://www.mobilezmarket.com/images/';
   useEffect(() => {
     const fetchSliderImages = async () => {
-      let images = [];
       await axios
         .get(HOME_SLIDER_IMAGES)
         .then(response => {
@@ -30,7 +25,6 @@ const HomeSlider = () => {
     };
     fetchSliderImages();
   }, [HOME_SLIDER_IMAGES]);
-  console.log(HOME_SLIDER_IMAGES);
   const _renderItem = ({item, index}) => {
     return (
       <View

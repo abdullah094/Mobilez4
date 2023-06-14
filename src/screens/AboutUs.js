@@ -1,7 +1,5 @@
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {ScrollView, Dimensions} from 'react-native';
-import {color} from '../constants/Colors';
+import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
 import Header from '../components/Header';
 
 const AboutUs = () => {

@@ -1,26 +1,25 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  Pressable,
-  TouchableOpacity,
-  Alert,
-  ActivityIndicator,
-  Image,
-  SafeAreaView,
-} from 'react-native';
-import React, {useState, useContext} from 'react';
-import Header from '../components/Header';
-import {color} from '../constants/Colors';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {SelectList} from 'react-native-dropdown-select-list';
 import {REGISTER} from '@env';
 import axios from 'axios';
-import DropDown from 'react-native-paper-dropdown';
-import tw from 'twrnc';
+import React, {useState} from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Image,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import DropDown from 'react-native-paper-dropdown';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import tw from 'twrnc';
+import Header from '../components/Header';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const SignUp = ({navigation, route}) => {
@@ -46,7 +45,6 @@ const SignUp = ({navigation, route}) => {
   });
   // console.log(formData)
 
- 
   const data = [
     {label: 'individual', value: 'individual'},
     {label: 'business', value: 'business'},
@@ -64,7 +62,6 @@ const SignUp = ({navigation, route}) => {
           Alert.alert('email or phone is already present or missing fields');
           setRegisterButtonText('Register');
         } else {
-         
           console.log(response.data);
           navigation.navigate('OTPScreen', {phone: formData.phone});
           setRegisterButtonText('Register');
@@ -88,7 +85,7 @@ const SignUp = ({navigation, route}) => {
               style={styles.box_input}
               value={formData.first_name}
               placeholder="First name"
-              textColor='black'
+              textColor="black"
               onChangeText={text =>
                 setFormData({...formData, first_name: text})
               }
@@ -98,8 +95,7 @@ const SignUp = ({navigation, route}) => {
               style={styles.box_input}
               value={formData.last_name}
               placeholder="Last name"
-              textColor='black'
-
+              textColor="black"
               onChangeText={text => setFormData({...formData, last_name: text})}
             />
 
@@ -107,8 +103,7 @@ const SignUp = ({navigation, route}) => {
               style={styles.box_input}
               keyboardType="number-pad"
               placeholder="Phone number"
-              textColor='black'
-
+              textColor="black"
               value={formData.phone}
               onChangeText={text => setFormData({...formData, phone: text})}
             />
@@ -117,8 +112,7 @@ const SignUp = ({navigation, route}) => {
               style={styles.box_input}
               keyboardType="email-address"
               placeholder="Email"
-              textColor='black'
-
+              textColor="black"
               value={formData.email}
               onChangeText={text =>
                 setFormData({...formData, email: text.toLowerCase()})
@@ -130,8 +124,7 @@ const SignUp = ({navigation, route}) => {
               value={formData.password}
               placeholder="password"
               secureTextEntry={true}
-              textColor='black'
-
+              textColor="black"
               onChangeText={text =>
                 setFormData({...formData, password: text.toLowerCase()})
               }
@@ -142,8 +135,7 @@ const SignUp = ({navigation, route}) => {
               secureTextEntry={true}
               value={formData.conf_password}
               placeholder="confirm password"
-              textColor='black'
-
+              textColor="black"
               onChangeText={text =>
                 setFormData({...formData, conf_password: text.toLowerCase()})
               }
@@ -169,7 +161,7 @@ const SignUp = ({navigation, route}) => {
                   style={styles.box_input}
                   value={formData.shop_name}
                   placeholder="shop name"
-                  textColor='black'
+                  textColor="black"
                   onChangeText={text =>
                     setFormData({...formData, shop_name: text})
                   }
@@ -179,7 +171,7 @@ const SignUp = ({navigation, route}) => {
                   style={styles.box_input}
                   value={formData.shop_address}
                   placeholder="shop address"
-                  textColor='black'
+                  textColor="black"
                   onChangeText={text =>
                     setFormData({...formData, shop_address: text})
                   }

@@ -1,41 +1,33 @@
+import {GET_PROFILE_DATA, WISHLIST_GET} from '@env';
+import axios, {AxiosError} from 'axios';
+import React, {useEffect, useState} from 'react';
 import {
+  Dimensions,
+  FlatList,
+  Image,
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  Image,
-  Dimensions,
-  SafeAreaView,
-  Platform,
-  ScrollView,
-  TextInput,
-  FlatList,
-  Alert,
 } from 'react-native';
-import React, {useContext, useEffect, useState} from 'react';
 import {color} from '../constants/Colors';
-import FlatListBox from '../components/Flatbox';
-import {GET_PROFILE_DATA, WISHLIST_GET} from '@env';
-import axios, {AxiosError} from 'axios';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Loading from '../components/Loading';
-import {useDispatch, useSelector} from 'react-redux';
 import DeviceInfo from 'react-native-device-info';
-import {useIsFocused} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import tw from 'twrnc';
 import {
+  selectAccessToken,
   setAccessToken,
   setProfileData,
-  logoutUser,
-  selectAccessToken,
   setWishList,
 } from '../Redux/Slices';
-import tw from 'twrnc';
-import SearchScreen from './SearchScreen';
-import Slider from '../components/Slider';
 import HomeSlider from '../components/HomeSlider';
-import {Category, Profile} from '../../type';
 import RecentList from '../components/RecentList';
+import {Category, Profile} from '../types';
+import SearchScreen from './SearchScreen';
 
 const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {

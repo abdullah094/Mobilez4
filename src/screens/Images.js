@@ -1,28 +1,19 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  Image,
-  SafeAreaView,
-} from 'react-native';
 import React from 'react';
+import {Dimensions, Image, SafeAreaView, StyleSheet, View} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {color} from '../constants/Colors';
 
 import {FlatList, Pressable} from 'react-native';
-import Carousel from 'react-native-snap-carousel';
 import tw from 'twrnc';
 const Images = ({navigation, route}) => {
   const {images} = route.params;
   const image_url = 'https://www.mobilezmarket.com/images/';
   const {width, height} = Dimensions.get('window');
   const _renderItem = ({item}) => {
-    
     return (
       <Image
         style={{
-          width:width
+          width: width,
         }}
         source={{uri: image_url + item.img}}
       />
@@ -60,17 +51,17 @@ const Images = ({navigation, route}) => {
               sliderWidth={width}
               itemWidth={width}
             /> */}
-           <FlatList
-      horizontal
-      data={images}
-      keyExtractor={item => item.id}
-      renderItem={_renderItem}
-      showsHorizontalScrollIndicator={false}
-      snapToAlignment="start"
-      decelerationRate="fast"
-      snapToInterval={width}
-      scrollEventThrottle={23} // Adjust the value for speed control
-    />
+            <FlatList
+              horizontal
+              data={images}
+              keyExtractor={item => item.id}
+              renderItem={_renderItem}
+              showsHorizontalScrollIndicator={false}
+              snapToAlignment="start"
+              decelerationRate="fast"
+              snapToInterval={width}
+              scrollEventThrottle={23} // Adjust the value for speed control
+            />
           </View>
         </View>
       </View>

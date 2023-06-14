@@ -1,78 +1,75 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  SafeAreaView,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  TextInput,
-  Modal
-} from 'react-native';
-import { RadioButton } from 'react-native-paper';
-import React, {useState, useEffect} from 'react';
-import {color} from '../constants/Colors';
 import {CATEGORY} from '@env';
 import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {
+  Dimensions,
+  FlatList,
+  Modal,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Chip, RadioButton} from 'react-native-paper';
+import Entypo from 'react-native-vector-icons/Entypo';
+import ListIcon from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Sort from 'react-native-vector-icons/MaterialIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Loading from '../components/Loading';
 import tw from 'twrnc';
-import HomeSlider from '../components/HomeSlider';
-import {Button, Chip} from 'react-native-paper';
-import ListIcon from 'react-native-vector-icons/Feather';
+import Loading from '../components/Loading';
+import {color} from '../constants/Colors';
 
+import {useNavigation, useRoute} from '@react-navigation/native';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {Category, Form, NewDevice, Pagination} from '../../type';
+import {Form, Pagination, Product} from '../types';
 
 const {width, height} = Dimensions.get('window');
-const Listings = ({params}) => {
+const Listings = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const {name,form} = route.params as {name:string,form:Form};
+  const {name, form} = route.params as {name: string; form: Form};
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('price');
   const [order, setOrder] = useState('desc');
-
-  const [repform,setfReporm] =useState ()
-  
-  const [data, setData] = useState<NewDevice[]>([]);
-
+  const [data, setData] = useState<Product[]>([]);
   const [Grid, setGrid] = useState(false);
-
   const [modalVisible, setModalVisible] = useState(false);
+
   const clear = () => {};
   useEffect(() => {
     setData([]);
-    let filter ={}
-    if(form){
-      if(form.brand){
-        setQuery(form.brand) 
+    let filter = {};
+    if (form) {
+      if (form.brand) {
+        setQuery(form.brand);
       }
       filter = Object.fromEntries(
-        Object.entries(form).filter(([_, value]) => value !== null)
-    )
-  }
+        Object.entries(form).filter(([_, value]) => value !== null),
+      );
+    }
     axios
-      .post(CATEGORY, {category: name, search: query, sort: sort ,order :order,...filter})
+      .post(CATEGORY, {
+        category: name,
+        search: query,
+        sort: sort,
+        order: order,
+        ...filter,
+      })
       .then(response => {
-        const pagination:Pagination = response.data.data ;
+        const pagination: Pagination = response.data.data;
         setData(pagination.data);
       });
-  }, [query, sort,route,name,order]);
+  }, [query, sort, route, name, order]);
 
   if (!data) return <Loading />;
-
 
   return (
     <SafeAreaView style={tw`flex-1`}>
       <View style={styles.header}>
-       
         <View style={tw`h-16  flex-row items-center justify-between  px-2`}>
           <TouchableOpacity onPress={navigation.goBack}>
             <Ionicons
@@ -84,9 +81,7 @@ const Listings = ({params}) => {
           <Text style={{color: color.white, fontWeight: '500'}}>
             {String(name).toUpperCase()}
           </Text>
-    <View>
-
-    </View>
+          <View></View>
         </View>
         {/* // price/ location /model/modelyear */}
         <View style={tw`relative rounded-md flex-1`}>
@@ -130,61 +125,72 @@ const Listings = ({params}) => {
       </View>
 
       <View style={tw` flex-row items-center justify-between m-6`}>
-      <View>
-      <TouchableOpacity style={{flexDirection:'row'}} onPress={() => setModalVisible(true)}>
-        <Sort name="sort" color="black" size={20} />
-        <Text style={{paddingHorizontal:5,fontWeight:'700',color:'black'}}>Sort</Text>
-
-      </TouchableOpacity>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={{color:'black'}}>Sort Order by:</Text>
-            <View style={styles.radioContainer}>
-             
-                <View style={styles.radioButton}>
-                  <RadioButton value='first'
-                  status={ order === 'desc' ? 'checked' : 'unchecked' }
-                   onPress={() =>{ setOrder('desc') 
-                   setModalVisible(false)}} />
-                  <Text style={{color:'black'}}>Highest to lowest</Text>
-                </View>
-                <View style={styles.radioButton}>
-                <RadioButton value='false'
-                 status={ order === 'asc' ? 'checked' : 'unchecked' }
-                   onPress={() =>{ setOrder('asc') 
-                   setModalVisible(false)}} />
-                  <Text style={{color:'black'}}>lowest to highest</Text>
-                </View>
-                <View style={styles.radioButton}>
-                {/* <RadioButton value='false'
+        <View>
+          <TouchableOpacity
+            style={{flexDirection: 'row'}}
+            onPress={() => setModalVisible(true)}>
+            <Sort name="sort" color="black" size={20} />
+            <Text
+              style={{paddingHorizontal: 5, fontWeight: '700', color: 'black'}}>
+              Sort
+            </Text>
+          </TouchableOpacity>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text style={{color: 'black'}}>Sort Order by:</Text>
+                <View style={styles.radioContainer}>
+                  <View style={styles.radioButton}>
+                    <RadioButton
+                      value="first"
+                      status={order === 'desc' ? 'checked' : 'unchecked'}
+                      onPress={() => {
+                        setOrder('desc');
+                        setModalVisible(false);
+                      }}
+                    />
+                    <Text style={{color: 'black'}}>Highest to lowest</Text>
+                  </View>
+                  <View style={styles.radioButton}>
+                    <RadioButton
+                      value="false"
+                      status={order === 'asc' ? 'checked' : 'unchecked'}
+                      onPress={() => {
+                        setOrder('asc');
+                        setModalVisible(false);
+                      }}
+                    />
+                    <Text style={{color: 'black'}}>lowest to highest</Text>
+                  </View>
+                  <View style={styles.radioButton}>
+                    {/* <RadioButton value='false'
                    onPress={() =>{   
                    setModalVisible(false)}} />
                   <Text style={{color:'black'}}>Most Recent</Text> */}
+                  </View>
                 </View>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setModalVisible(false)}>
+                  <Text style={{color: 'black'}}>Close</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={{color:'black'}}>Close</Text>
-            </TouchableOpacity>
-          </View>
+          </Modal>
         </View>
-      </Modal>
-            
-    </View>
-    <TouchableOpacity
-            style={tw`flex-row items-center`}
-            onPress={() => navigation.navigate('Filter',{name})}>
-            <Ionicons name="filter" color={color.black} size={20} />
-       <Text style={{paddingHorizontal:5,fontWeight:'700',color:'black'}}>Filter</Text>
-          </TouchableOpacity> 
+        <TouchableOpacity
+          style={tw`flex-row items-center`}
+          onPress={() => navigation.navigate('Filter', {name})}>
+          <Ionicons name="filter" color={color.black} size={20} />
+          <Text
+            style={{paddingHorizontal: 5, fontWeight: '700', color: 'black'}}>
+            Filter
+          </Text>
+        </TouchableOpacity>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -192,20 +198,18 @@ const Listings = ({params}) => {
           <Chip
             icon={sort == 'price' ? 'check' : ''}
             style={tw`mr-2 bg-blue-600`}
-            textStyle={{color:'white'}}
+            textStyle={{color: 'white'}}
             onPress={() => setSort('price')}
-           selectedColor={'black'}
-            >
+            selectedColor={'black'}>
             Price
           </Chip>
           <Chip
             icon={sort == 'City' ? 'check' : ''}
             style={tw`mr-2  bg-blue-600`}
-            textStyle={{color:'white'}}
+            textStyle={{color: 'white'}}
             onPress={() => setSort('City')}>
             City
           </Chip>
-          
         </ScrollView>
         <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
           <ListIcon
@@ -228,9 +232,8 @@ const Listings = ({params}) => {
           key={'_'}
           keyExtractor={item => '_' + item.id}
           contentContainerStyle={{
-            
             justifyContent: 'space-between',
-            alignItems:'center',
+            alignItems: 'center',
             marginHorizontal: 15,
             paddingBottom: 100,
           }}
@@ -281,7 +284,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginRight: 20,
-    
   },
   closeButton: {
     alignSelf: 'flex-end',

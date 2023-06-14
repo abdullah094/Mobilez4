@@ -1,30 +1,24 @@
+import {MYADS} from '@env';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {
+  Dimensions,
+  FlatList,
+  SafeAreaView,
   StyleSheet,
   Text,
-  View,
-  ScrollView,
-  FlatList,
   TouchableOpacity,
-  Pressable,
-  Dimensions,
-  Image,
-  SafeAreaView,
+  View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {color} from '../constants/Colors';
-import axios from 'axios';
-import {MYADS} from '@env';
-import {useSelector} from 'react-redux';
-import {useIsFocused} from '@react-navigation/native';
-import tw from 'twrnc';
-import {Chip} from 'react-native-paper';
-import Sort from 'react-native-vector-icons/MaterialIcons';
-import ListIcon from 'react-native-vector-icons/Feather';
-import GridItem from '../components/GridItem';
 import Entypo from 'react-native-vector-icons/Entypo';
-import ListItem from '../components/ListItem';
+import ListIcon from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
+import tw from 'twrnc';
 import {selectAccessToken} from '../Redux/Slices';
+import GridItem from '../components/GridItem';
+import ListItem from '../components/ListItem';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const MyAds = ({navigation}) => {

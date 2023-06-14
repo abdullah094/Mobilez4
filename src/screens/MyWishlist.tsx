@@ -1,38 +1,34 @@
+import {WISHLIST_GET} from '@env';
+import axios, {AxiosError} from 'axios';
+import React, {useEffect, useState} from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
   Dimensions,
   FlatList,
-  Image,
-  TouchableOpacity,
   SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {color} from '../constants/Colors';
-import axios, {AxiosError} from 'axios';
-import {WISHLIST_GET} from '@env';
-import {useDispatch, useSelector} from 'react-redux';
-import tw from 'twrnc';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
-import GridItem from '../components/GridItem';
-import ListItem from '../components/ListItem';
+import {useDispatch, useSelector} from 'react-redux';
+import tw from 'twrnc';
+import {Product} from '../../type';
 import {
   logoutUser,
   selectAccessToken,
   selectWishlist,
   setWishList,
 } from '../Redux/Slices';
-import {NewDevice} from '../../type';
+import GridItem from '../components/GridItem';
 import Header from '../components/Header';
+import ListItem from '../components/ListItem';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const MyWishlist = ({navigation}) => {
   const [Grid, setGrid] = useState(false);
-  const [data, setData] = useState<NewDevice[]>([]);
+  const [data, setData] = useState<Product[]>([]);
   const accessToken = useSelector(selectAccessToken);
   const wishlistItemsExist = useSelector(selectWishlist);
   const dispatch = useDispatch();

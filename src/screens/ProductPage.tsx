@@ -1,128 +1,39 @@
+import {DESCRIPTION} from '@env';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {
+  Alert,
+  Dimensions,
+  Image,
+  Linking,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  Share,
   StyleSheet,
   Text,
-  View,
-  SafeAreaView,
-  Pressable,
-  Dimensions,
-  ScrollView,
   TouchableOpacity,
-  Alert,
-  Vibration,
-  Platform,
-  Linking,
-  Share
+  View,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import Slider from '../components/Slider';
-import {color} from '../constants/Colors';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwsome from 'react-native-vector-icons/FontAwesome';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import axios from 'axios';
-import {ADD_WISHLIST, DESCRIPTION, REMOVE_WISHLIST, WISHLIST} from '@env';
-import Loading from '../components/Loading';
 import call from 'react-native-phone-call';
-import {useDispatch, useSelector} from 'react-redux';
-import {Image} from 'react-native';
-import Flatbox from '../components/Flatbox';
-import DropDown from 'react-native-paper-dropdown';
-import Header from '../components/Header';
-import {
-  AddToWishlist,
-  RemoveFromWishList,
-  selectAccessToken,
-  selectWishlist,
-  setAccessToken,
-} from '../Redux/Slices';
-import RecentList from '../components/RecentList';
-import {Category} from '../../type';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import tw from 'twrnc';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import AddToWishList from '../components/AddToWishList';
+import Header from '../components/Header';
+import Loading from '../components/Loading';
+import RecentList from '../components/RecentList';
+import {color} from '../constants/Colors';
+import {Category, ProductDetails} from '../types';
 
 const {height, width} = Dimensions.get('window');
 const ProductPage = ({navigation, route}) => {
-  const [data, setData] = useState();
-  const [recentMobiles, setRecentMobiles] = useState();
-  const [images, setImages] = useState();
-
-  const [recentWatches, setRecentWatches] = useState();
-  const [recentTablets, setRecentTablets] = useState();
-  const [seemore, setSeemore] = useState(3);
-
-  const numberOfLines = seemore ? null : 3;
-  const [like, setLike] = useState(false);
-  const accessToken = useSelector(setAccessToken);
-  const profile = useSelector(state => state.todo.profile);
+  const [data, setData] = useState<ProductDetails>();
   const {id} = route.params;
   const image_url = 'https://www.mobilezmarket.com/images/';
-  let slider_data = [];
   const link = 'https://wa.me/';
-  const relatedAds = data?.related_ads.map((element, index) => {
-    let {productimages: image, ...rest} = element;
-
-    return (element = {image: image[0], ...rest, index});
-  });
-  const moreAds = data?.more_ads.map(element => {
-    let {productimages: image, ...rest} = element;
-
-    return (element = {image: image[0], ...rest});
-  });
-
-  const dateString = data?.details.created_at;
-  const date = new Date(dateString);
-  const formattedDate = date.toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-  });
-
-  const _accessToken = useSelector(selectAccessToken);
-  const wishlistItemsExit: Number[] = useSelector(selectWishlist);
-  const exist = wishlistItemsExit.includes(data?.details?.id);
-
-  const dispatch = useDispatch();
-
-  let headers = {
-    Authorization: `Bearer ${_accessToken}`,
-    'Content-Type': 'multipart/form-data',
-  };
-  const AddToFavorite = () => {
-    if (_accessToken == null) {
-      Alert.alert('You must be logged in to add to favorite');
-      return;
-    }
-    console.log(data.details.id);
-
-    if (exist) {
-      axios
-        .post(
-          REMOVE_WISHLIST + `/${data?.details?.id}`,
-          {product_id: data?.details?.id},
-          {
-            headers: headers,
-          },
-        )
-        .then(response => {
-          dispatch(RemoveFromWishList(data?.details?.id));
-          Alert.alert(response.data.message);
-        })
-        .catch(error => console.log(error));
-    } else
-      axios
-        .post(
-          ADD_WISHLIST + `/${data?.details?.id}`,
-          {product_id: data?.details?.id},
-          {
-            headers: headers,
-          },
-        )
-        .then(response => {
-          dispatch(AddToWishlist(data?.details?.id));
-          Alert.alert(response.data.message);
-        })
-        .catch(error => console.log(error));
-  };
-
   const fetchData = () => {
     const api = DESCRIPTION + id;
     // console.log(api)
@@ -136,26 +47,29 @@ const ProductPage = ({navigation, route}) => {
         console.log(error);
       });
   };
-  const api = DESCRIPTION + id;
-  const fetchImages = () => {
-    axios
-      .get(api)
-      .then(response => {
-        setImages(response?.data.details.productimages);
-        console.log("=============aplleeeee",response.data.url)
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
-// console.log("================",api)
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (!data) return <Loading />;
+  const {details, related_ads, more_ads} = data;
+  const dateString = details.created_at;
+
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+  });
+
+  // console.log("================",api)
   const handleShare = async () => {
     try {
       const result = await Share.share({
         message: 'Check out this product!',
         // url:data
       });
-      
+
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           // Shared successfully
@@ -173,38 +87,13 @@ const ProductPage = ({navigation, route}) => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-    fetchImages();
-  }, []);
-
-  const Add_to_Wishlist = () => {
-    const api = WISHLIST + id;
-    axios
-      .post(
-        api,
-        {
-          seller_id: profile.id,
-          product_id: id,
-        },
-        {
-          headers: {Authorization: `Bearer ${accessToken}`},
-        },
-      )
-      .then(response => {
-        Alert.alert(response.data?.message);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
   const args = {
     number: '', // String value with the number to call
     prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
     skipCanOpen: true, // Skip the canOpenURL check
   };
   if (data) {
-    args.number = data?.details.user.phone;
+    args.number = details.user.phone;
   }
 
   const CallWhatsappSms = () => (
@@ -241,10 +130,14 @@ const ProductPage = ({navigation, route}) => {
             })
             .catch(err => console.error('An error occurred', err));
         }}>
-        <FontAwsome name={'whatsapp'} size={25} color={'white'} />
+        <FontAwesome name={'whatsapp'} size={25} color={'white'} />
         <Text style={styles.communication_buttons_text}>Whatsapp</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.commmunication_buttons} onPress={()=>{navigation.navigate('Chat',{to:data.details.user})}}>
+      <TouchableOpacity
+        style={styles.commmunication_buttons}
+        onPress={() => {
+          navigation.navigate('Chat', {to: data.details.user});
+        }}>
         <Ionicons name={'ios-chatbubbles-outline'} size={25} color={'white'} />
 
         <Text style={styles.communication_buttons_text}>Chat</Text>
@@ -252,7 +145,6 @@ const ProductPage = ({navigation, route}) => {
     </View>
   );
 
-  if (!data || !images) return <Loading />;
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: color.white}}>
       <ScrollView
@@ -273,35 +165,37 @@ const ProductPage = ({navigation, route}) => {
                   height: 300,
                   borderRadius: 10,
                 }}
-                onPress={() => navigation.navigate('Images', {images: images})}>
+                onPress={() =>
+                  navigation.navigate('Images', {
+                    images: data.details.productimages,
+                  })
+                }>
                 <Image
                   style={{
                     width: '100%',
                     height: '100%',
                     borderRadius: 10,
                   }}
-                  source={{uri: image_url + data?.details.productimages[0].img}}
+                  source={{uri: image_url + details.productimages[0].img}}
                 />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => AddToFavorite()}
-                style={tw` absolute w-10 h-10 flex items-center justify-center top-3 right-2 bg-gray-100 rounded-full`}>
-                <AntDesign
-                  name={exist ? 'heart' : 'hearto'}
-                  size={30}
-                  color={'red'}></AntDesign>
-              </TouchableOpacity>
+              <AddToWishList
+                ProductId={details.id}
+                style={tw` absolute w-10 h-10 flex items-center justify-center top-3 right-2 bg-gray-100 rounded-full`}
+              />
             </View>
             <View
               style={{
                 width: '30%',
                 height: 300,
               }}>
-              {data?.details.productimages?.slice(0, 3).map(({img, index}) => (
+              {details.productimages?.slice(0, 3).map(({img, index}) => (
                 <TouchableOpacity
                   key={index}
                   onPress={() =>
-                    navigation.navigate('Images', {images: images})
+                    navigation.navigate('Images', {
+                      images: data.details.productimages,
+                    })
                   }>
                   <Image
                     key={index}
@@ -336,8 +230,8 @@ const ProductPage = ({navigation, route}) => {
               </Text>
 
               <Pressable onPress={handleShare}>
-  <Ionicons name="share-social-sharp" size={30} color="#0167E6" />
-</Pressable>
+                <Ionicons name="share-social-sharp" size={30} color="#0167E6" />
+              </Pressable>
             </View>
             <Text style={{color: '#015DCF', fontSize: 20, fontWeight: '700'}}>
               Rs. {data.details.price.toLocaleString()}
@@ -570,28 +464,28 @@ const ProductPage = ({navigation, route}) => {
                       marginLeft: 1,
                       color: 'black',
                     }}>
-                    {data?.details.user.city}
+                    {details.user.city}
                   </Text>
                 </View>
               </View>
             </View>
           </View>
           {/* Description */}
-            <Text style={styles.description}>Description</Text>
-            <View style={styles.container}>
-      <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText} numberOfLines={numberOfLines}>
-          {data.details.description}
-        </Text>
-      </View>
-      {!seemore && (
-        <TouchableOpacity onPress={() => setSeemore(true)}>
-          <Text style={styles.showMoreText}>Show more</Text>
-        </TouchableOpacity>
-      )}
-    </View>
-          <RecentList name={Category.RELATED_AD} products={relatedAds} />
-          <RecentList name={Category.MORE_AD} products={moreAds} />
+          <Text style={styles.description}>Description</Text>
+          <View style={styles.container}>
+            <View style={styles.descriptionContainer}>
+              <Text style={styles.descriptionText} numberOfLines={3}>
+                {data.details.description}
+              </Text>
+            </View>
+            {/* {!seemore && (
+              <TouchableOpacity onPress={() => setSeemore(true)}>
+                <Text style={styles.showMoreText}>Show more</Text>
+              </TouchableOpacity>
+            )} */}
+          </View>
+          <RecentList name={Category.RELATED_AD} products={related_ads} />
+          <RecentList name={Category.MORE_AD} products={more_ads} />
         </View>
       </ScrollView>
       <CallWhatsappSms />
@@ -607,7 +501,7 @@ const styles = StyleSheet.create({
   },
   descriptionContainer: {
     width: width - 30,
-    
+
     padding: 5,
   },
   descriptionText: {
@@ -628,7 +522,6 @@ const styles = StyleSheet.create({
     color: '#2B67F6',
     fontSize: 20,
     fontWeight: 'bold',
-    
 
     borderBottomColor: '#2B67F6',
   },

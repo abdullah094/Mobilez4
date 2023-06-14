@@ -1,5 +1,6 @@
+import {useNavigation} from '@react-navigation/native';
+import React from 'react';
 import {
-  Alert,
   Dimensions,
   Image,
   StyleSheet,
@@ -7,22 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
-import {useNavigation} from '@react-navigation/native';
-import {color} from '../constants/Colors';
 import Icon from 'react-native-vector-icons/Entypo';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  AddToWishlist,
-  RemoveFromWishList,
-  selectAccessToken,
-  selectWishlist,
-} from '../Redux/Slices';
-import axios from 'axios';
-const {width, height} = Dimensions.get('window');
-import {ADD_WISHLIST, REMOVE_WISHLIST} from '@env';
 import tw from 'twrnc';
+import {color} from '../constants/Colors';
+import AddToWishList from './AddToWishList';
+const {width, height} = Dimensions.get('window');
 
 const ListItem = ({item, image}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
@@ -33,49 +23,6 @@ const ListItem = ({item, image}) => {
     month: 'long',
     day: 'numeric',
   });
-  const _accessToken = useSelector(selectAccessToken);
-  const wishlistItemsExit: Number[] = useSelector(selectWishlist);
-  const exist = wishlistItemsExit.includes(item.id);
-  const dispatch = useDispatch();
-
-  let headers = {
-    Authorization: `Bearer ${_accessToken}`,
-    'Content-Type': 'multipart/form-data',
-  };
-  const AddToFavorite = () => {
-    if (_accessToken == null) {
-      Alert.alert('You must be logged in to add to favorite');
-      return;
-    }
-    if (exist) {
-      axios
-        .post(
-          REMOVE_WISHLIST + `/${item.id}`,
-          {product_id: item.id},
-          {
-            headers: headers,
-          },
-        )
-        .then(response => {
-          dispatch(RemoveFromWishList(item.id));
-          Alert.alert(response.data.message);
-        })
-        .catch(error => console.log(error));
-    } else
-      axios
-        .post(
-          ADD_WISHLIST + `/${item.id}`,
-          {product_id: item.id},
-          {
-            headers: headers,
-          },
-        )
-        .then(response => {
-          dispatch(AddToWishlist(item.id));
-          Alert.alert(response.data.message);
-        })
-        .catch(error => console.log(error));
-  };
 
   return (
     <TouchableOpacity
@@ -112,14 +59,11 @@ const ListItem = ({item, image}) => {
               : {uri: image_url + image}
           }
         />
-        <TouchableOpacity
-          onPress={() => AddToFavorite()}
-          style={tw`absolute w-7 h-7  flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}>
-          <AntDesign
-            name={exist ? 'heart' : 'hearto'}
-            size={15}
-            color={'red'}></AntDesign>
-        </TouchableOpacity>
+        <AddToWishList
+          ProductId={item.id}
+          size={15}
+          style={tw`absolute w-7 h-7  flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}
+        />
       </View>
 
       <View

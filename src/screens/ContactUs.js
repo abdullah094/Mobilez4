@@ -1,21 +1,20 @@
+import React from 'react';
 import {
+  Alert,
+  Dimensions,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  View,
-  Dimensions,
   TouchableOpacity,
-  Alert,
-  SafeAreaView,
+  View,
 } from 'react-native';
-import React from 'react';
+import Location from 'react-native-vector-icons/Entypo';
+import Email from 'react-native-vector-icons/Zocial';
+import tw from 'twrnc';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
-import Email from 'react-native-vector-icons/Zocial';
-import Location from 'react-native-vector-icons/Entypo';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import tw from 'twrnc';
 
 const {width, height} = Dimensions.get('window');
 const ContactUs = ({navigation}) => {

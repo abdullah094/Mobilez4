@@ -1,28 +1,24 @@
+import {FILTER} from '@env';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
   Dimensions,
-  ScrollView,
-  TextInput,
   FlatList,
-  Image,
-  TouchableOpacity,
   Keyboard,
   Pressable,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {FILTER} from '@env';
-import axios from 'axios';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
-import {color} from '../constants/Colors';
-import Loading from '../components/Loading';
 import {useIsFocused} from '@react-navigation/native';
 import ListItem from '../components/ListItem';
-import {Appbar} from 'react-native-paper';
-import {NewDevice} from '../../type';
+import Loading from '../components/Loading';
+import {color} from '../constants/Colors';
+import {Product} from '../types';
 
 const {width, height} = Dimensions.get('window');
 const FindMyDevice = ({navigation, route}) => {
@@ -31,7 +27,7 @@ const FindMyDevice = ({navigation, route}) => {
   let filterData = route.params?._form || null;
 
   console.log(filterData);
-  const [data, setData] = useState<NewDevice[]>([]);
+  const [data, setData] = useState<Product[]>([]);
 
   const [form, setForm] = useState({
     search: '',

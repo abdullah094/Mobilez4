@@ -1,17 +1,16 @@
+import {BLOGS} from '@env';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
   Alert,
+  Dimensions,
   FlatList,
-  TouchableOpacity,
   Image,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
-import {BLOGS} from '@env';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import {color} from '../constants/Colors';

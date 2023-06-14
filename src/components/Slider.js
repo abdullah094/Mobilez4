@@ -1,13 +1,12 @@
+import React, {useState} from 'react';
 import {
+  Dimensions,
+  FlatList,
+  Image,
   StyleSheet,
   Text,
   View,
-  Image,
-  FlatList,
-  Dimensions,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
-import pix from '../assets/slider-pics/1.jpg';
 import {color} from '../constants/Colors';
 
 const {height, width} = Dimensions.get('window');

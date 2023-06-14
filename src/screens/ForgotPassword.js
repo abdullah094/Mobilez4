@@ -1,19 +1,19 @@
+import {FORGOT_PASSWORD} from '@env';
+import axios from 'axios';
+import React, {useState} from 'react';
 import {
+  Alert,
+  Dimensions,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  Dimensions,
-  Pressable,
-  Alert,
 } from 'react-native';
-import React, {useState} from 'react';
-import {color} from '../constants/Colors';
-import axios from 'axios';
-import {SUBMITOTP, FORGOT_PASSWORD} from '@env';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const ForgotPassword = ({navigation}) => {
@@ -54,7 +54,7 @@ const ForgotPassword = ({navigation}) => {
       </View>
       <Text
         style={{
-         color:color.black,
+          color: color.black,
           fontWeight: 'bold',
           fontSize: 25,
           marginTop: 200,
@@ -67,7 +67,7 @@ const ForgotPassword = ({navigation}) => {
           width: 290,
           textAlign: 'center',
           borderWidth: 1,
-          color:color.black,
+          color: color.black,
           height: 50,
           borderColor: color.black,
           marginTop: 10,

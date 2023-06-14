@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Dimensions,
   Image,
@@ -7,10 +8,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import RenderHtml from 'react-native-render-html';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
-import RenderHtml from 'react-native-render-html';
 
 const {width, height} = Dimensions.get('window');
 const BlogDetails = ({navigation, route}) => {

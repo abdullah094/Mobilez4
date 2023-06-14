@@ -1,14 +1,20 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import GridItem from './GridItem';
 
 import {CATEGORY} from '@env';
 import axios from 'axios';
 import tw from 'twrnc';
-import {Category, NewDevice, Pagination} from '../../type';
+import {Category, Pagination, Product} from '../types';
 
-const RecentList = ({name, products = []}) => {
-  const [data, setData] = useState([]);
+const RecentList = ({
+  name,
+  products = [],
+}: {
+  name: Category;
+  products?: Product[];
+}) => {
+  const [data, setData] = useState<Product[]>([]);
   let Title = 'Related Ads';
   if (name == Category.SMARTWATCH) Title = 'Recent Watches';
   if (name == Category.PHONE) Title = 'Recent Phones';
@@ -23,7 +29,7 @@ const RecentList = ({name, products = []}) => {
     axios
       .post(CATEGORY, {category: name, sort: 'created_at'})
       .then(response => {
-        const pagination:Pagination = response.data.data ;
+        const pagination: Pagination = response.data.data;
         setData(pagination.data);
       });
   }, []);
@@ -35,7 +41,7 @@ const RecentList = ({name, products = []}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          paddingTop:9
+          paddingTop: 9,
         }}>
         <Text style={styles.heading}>{Title}</Text>
       </View>
@@ -50,7 +56,7 @@ const RecentList = ({name, products = []}) => {
           paddingBottom: 10,
         }}
         horizontal
-        renderItem={({item}: {item: NewDevice}) => (
+        renderItem={({item}: {item: Product}) => (
           <GridItem item={item} image={item.image.img}></GridItem>
         )}
       />

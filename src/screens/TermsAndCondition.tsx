@@ -1,16 +1,14 @@
+import React from 'react';
 import {
+  Dimensions,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
-import {ScrollView, Dimensions} from 'react-native';
-import {color} from '../constants/Colors';
-import tw from 'twrnc';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import Header from '../components/Header';
+import {color} from '../constants/Colors';
 
 const TermsAndCondition = () => {
   const {width, height} = Dimensions.get('window');

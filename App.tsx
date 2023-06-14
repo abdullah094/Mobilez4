@@ -1,44 +1,33 @@
-import React, {useContext, useEffect} from 'react';
-import Home from './src/screens/Home';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Description from './src/screens/Description';
-import CityList from './src/screens/CityList';
-import ProductPage from './src/screens/ProductPage';
-import TabNavigation from './src/navigation/TabNavigation';
-import Login from './src/screens/Login';
-import SearchScreen from './src/screens/SearchScreen';
-import HomeFlatlist from './src/components/HomeFlatlist';
-import ForgotPassword from './src/screens/ForgotPassword';
-import SignUp from './src/screens/SignUp';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import Store from './src/Redux/Store';
+import React from 'react';
+import {Provider as Paper} from 'react-native-paper';
 import {Provider} from 'react-redux';
+import Store from './src/Redux/Store';
+import TabNavigation from './src/navigation/TabNavigation';
+import AboutUs from './src/screens/AboutUs';
+import BlogDetails from './src/screens/BlogDetails';
+import Blogs from './src/screens/Blogs';
+import ChatScreen from './src/screens/Chat';
+import CityList from './src/screens/CityList';
+import ContactUs from './src/screens/ContactUs';
+import Filter from './src/screens/Filter';
+import FindMyDevice from './src/screens/FindMyDevice';
+import ForgotPassword from './src/screens/ForgotPassword';
+import Images from './src/screens/Images';
 import Listings from './src/screens/Listings';
-import Profile from './src/screens/Profile';
+import Login from './src/screens/Login';
+import MyWishlist from './src/screens/MyWishlist';
 import OTPScreen from './src/screens/OTPScreen';
 import OtpVerify from './src/screens/OtpVerify';
 import PostAnAd from './src/screens/PostAnAd';
-import ContactUs from './src/screens/ContactUs';
-import MyWishlist from './src/screens/MyWishlist';
-import TermsAndCondition from './src/screens/TermsAndCondition';
 import PrivacyPolicy from './src/screens/PrivacyPolicy';
-import Blogs from './src/screens/Blogs';
+import ProductPage from './src/screens/ProductPage';
+import Profile from './src/screens/Profile';
+import SearchScreen from './src/screens/SearchScreen';
+import SignUp from './src/screens/SignUp';
+import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
-import BlogDetails from './src/screens/BlogDetails';
-import FindMyDevice from './src/screens/FindMyDevice';
-import Filter from './src/screens/Filter';
-import Images from './src/screens/Images';
-import {
-  Appbar,
-  DarkTheme,
-  DefaultTheme,
-  Provider as Paper,
-  Surface,
-  ThemeProvider,
-} from 'react-native-paper';
-import AboutUs from './src/screens/AboutUs';
-import ChatScreen from './src/screens/Chat';
 
 const App = () => {
   const Stack = createNativeStackNavigator();
@@ -60,11 +49,6 @@ const App = () => {
             />
             <Stack.Screen
               options={{headerShown: false}}
-              name="Description"
-              component={Description}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
               name="ProductPage"
               component={ProductPage}
             />
@@ -77,11 +61,6 @@ const App = () => {
               options={{headerShown: false}}
               name="SearchScreen"
               component={SearchScreen}
-            />
-            <Stack.Screen
-              options={{headerShown: false}}
-              name="HomeFlatlist"
-              component={HomeFlatlist}
             />
             <Stack.Screen
               options={{headerShown: false}}

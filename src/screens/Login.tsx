@@ -1,36 +1,33 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  ActivityIndicator,
-  Alert,
-  SafeAreaView,
-  Pressable,
-  Button,
-} from 'react-native';
-import React, {useState, useEffect, useContext} from 'react';
-import Header from '../components/Header';
-import {color} from '../constants/Colors';
 import {LOGIN, SOCIALLOGIN} from '@env';
-import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
-import {setAccessToken, selectAccessToken} from '../Redux/Slices';
-import tw from 'twrnc';
-import {useNavigation} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CheckBox from '@react-native-community/checkbox';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {
   GoogleSignin,
-  GoogleSigninButton,
   NativeModuleError,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  Image,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch, useSelector} from 'react-redux';
+import tw from 'twrnc';
+import {selectAccessToken, setAccessToken} from '../Redux/Slices';
+import Header from '../components/Header';
+import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 const Login = () => {
   const navigation = useNavigation();

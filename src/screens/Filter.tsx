@@ -1,50 +1,53 @@
+import {useIsFocused, useRoute} from '@react-navigation/native';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
-  View,
-  ScrollView,
-  Dimensions,
   TextInput,
   TouchableOpacity,
-  Image,
-  SafeAreaView,
+  View,
 } from 'react-native';
-import React, {useState, useEffect, useCallback} from 'react';
-import tw from 'twrnc';
-import {useIsFocused, useRoute} from '@react-navigation/native';
-import {color} from '../constants/Colors';
 import {SelectList} from 'react-native-dropdown-select-list';
 import Slider from 'rn-range-slider';
+import tw from 'twrnc';
+import {color} from '../constants/Colors';
 
-import Thumb from '../components/Thumb';
+import Label from '../components/Label';
+import Notch from '../components/Notch';
 import Rail from '../components/Rail';
 import RailSelected from '../components/RailSelected';
-import Notch from '../components/Notch';
-import Label from '../components/Label';
+import Thumb from '../components/Thumb';
 import {
+  CategoryList,
+  City,
+  Condition,
+  Pta_status,
   Ram,
   Storage,
-  Pta_status,
-  Condition,
   Warranty,
-  City,
-  CategoryList,
 } from '../constants/Data';
 
-import {BRANDSNOAUTH,MODELS} from '@env';
+import {BRANDSNOAUTH, MODELS} from '@env';
 import axios from 'axios';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Category, Form } from '../../type';
-import { useSelector } from 'react-redux';
-
+import {useSelector} from 'react-redux';
+import {Category, Form} from '../types';
 
 const Filter = ({navigation}) => {
-  const route =useRoute();
+  const route = useRoute();
   const isFocused = useIsFocused();
   const [value, setValue] = useState(0);
   const [otherBrand, setOtherBrand] = useState(false);
-  const [brand, setBrand] = useState<Array<{key:string,value:string}>>([]);
-const [category,setCategory]= useState<string>(route.params?.name===Category.PHONE ?"Mobile"  : route.params?.name=== Category.TABLET ?"Tablet" : "Watch")
+  const [brand, setBrand] = useState<Array<{key: string; value: string}>>([]);
+  const [category, setCategory] = useState<string>(
+    route.params?.name === Category.PHONE
+      ? 'Mobile'
+      : route.params?.name === Category.TABLET
+      ? 'Tablet'
+      : 'Watch',
+  );
 
   const [rangeDisabled, setRangeDisabled] = useState(false);
   const [low, setLow] = useState(0);
@@ -62,7 +65,7 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
   const handleValueChange = useCallback((lowValue, highValue) => {
     setLow(lowValue);
     setHigh(highValue);
-    setForm({...form , max_price: highValue , min_price :lowValue})
+    setForm({...form, max_price: highValue, min_price: lowValue});
   }, []);
   const toggleRangeEnabled = useCallback(
     () => setRangeDisabled(!rangeDisabled),
@@ -78,7 +81,6 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
   );
   const _accessToken = useSelector(state => state.todo.accessToken);
 
-
   const [form, setForm] = useState<Form>({
     brand: null,
     ram: ' ',
@@ -87,21 +89,17 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
     condition: null,
     Warranty: null,
     city: null,
-   
+
     max_price: null,
     min_price: null,
   });
 
-  
-
   const getBrandFunc = () => {
     //Get brands with this function
     axios
-      .get(BRANDSNOAUTH, {
-
-      })
+      .get(BRANDSNOAUTH, {})
       .then(response => {
-        let brand_array:Array<{key:string,value:string}> = [];
+        let brand_array: Array<{key: string; value: string}> = [];
         response.data.product_brands.forEach(element => {
           brand_array.push({
             key: element.id,
@@ -109,12 +107,10 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
           });
         });
         setBrand(brand_array);
-       
       })
       .catch(error => {
         console.log('Brands ' + error);
       });
-      
   };
   const getModelFunc = () => {
     //Get models with this function
@@ -124,7 +120,7 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
         headers: {Authorization: `Bearer ${_accessToken}`},
       })
       .then(response => {
-        console.log("bhia ya error ni day raha hay ")
+        console.log('bhia ya error ni day raha hay ');
         let brand_array = [];
         response.data.models.forEach(element => {
           brand_array.push({
@@ -133,16 +129,15 @@ const [category,setCategory]= useState<string>(route.params?.name===Category.PHO
           });
         });
         setModels(brand_array);
-      
       })
       .catch(error => {
         console.log('Brands ' + error);
       });
   };
-useEffect(()=>{
-  getBrandFunc()
-  getModelFunc()
-},[form.brand])
+  useEffect(() => {
+    getBrandFunc();
+    getModelFunc();
+  }, [form.brand]);
   return (
     <SafeAreaView>
       <ScrollView
@@ -251,37 +246,36 @@ useEffect(()=>{
                 setSelected={val => setCategory(val)}
                 data={CategoryList}
                 save="value"
-                defaultOption={CategoryList.find(x=>x.value==category)}
-                dropdownTextStyles={{color:'black'}}
+                defaultOption={CategoryList.find(x => x.value == category)}
+                dropdownTextStyles={{color: 'black'}}
               />
-               <SelectList
-                  boxStyles={{
-                    backgroundColor: color.white,
-                    borderColor: '#D3D3D3',
-                    marginTop: 16,
-                  }}
-                  placeholder="Choose Brands"
-                  inputStyles={{
-                    color: 'grey',
-                    // fontFamily: 'Geologica_Auto-Black',
-                  }}
-                  setSelected={val =>{
-                    if(val==="Other"){
-                      setOtherBrand(true)
-                      setForm({...form, brand: ""})
-                    }
-                    else{
-                      setOtherBrand(false)
-                      setForm({...form, brand: val})
-                    }
-                  }}
-                  data={brand}
-                  save="value"
-                  dropdownTextStyles={{color:'black'}}
-                />
+              <SelectList
+                boxStyles={{
+                  backgroundColor: color.white,
+                  borderColor: '#D3D3D3',
+                  marginTop: 16,
+                }}
+                placeholder="Choose Brands"
+                inputStyles={{
+                  color: 'grey',
+                  // fontFamily: 'Geologica_Auto-Black',
+                }}
+                setSelected={val => {
+                  if (val === 'Other') {
+                    setOtherBrand(true);
+                    setForm({...form, brand: ''});
+                  } else {
+                    setOtherBrand(false);
+                    setForm({...form, brand: val});
+                  }
+                }}
+                data={brand}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
+              />
             </View>
-            
-           {otherBrand ? (
+
+            {otherBrand ? (
               <TextInput
                 placeholder="Choose Model"
                 style={styles.box_input}
@@ -290,19 +284,19 @@ useEffect(()=>{
               />
             ) : (
               <SelectList
-              boxStyles={{
-                backgroundColor: color.white,
-                borderColor: '#D3D3D3',
-                marginTop: 16,
-              }}
+                boxStyles={{
+                  backgroundColor: color.white,
+                  borderColor: '#D3D3D3',
+                  marginTop: 16,
+                }}
                 placeholder="Choose model"
                 inputStyles={{color: 'black'}}
                 setSelected={val => {
-                  setForm({...form, model: val})
+                  setForm({...form, model: val});
                 }}
                 data={models}
                 save="value"
-                dropdownTextStyles={{color:'black'}}
+                dropdownTextStyles={{color: 'black'}}
               />
             )}
             <SelectList
@@ -317,7 +311,7 @@ useEffect(()=>{
               setSelected={val => setForm({...form, ram: val})}
               data={Ram}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
 
             <SelectList
@@ -332,7 +326,7 @@ useEffect(()=>{
               setSelected={val => setForm({...form, storage: val})}
               data={Storage}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
 
             <SelectList
@@ -347,7 +341,7 @@ useEffect(()=>{
               setSelected={val => setForm({...form, pta_status: val})}
               data={Pta_status}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
 
             <SelectList
@@ -362,7 +356,7 @@ useEffect(()=>{
               setSelected={val => setForm({...form, condition: val})}
               data={Condition}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
 
             <SelectList
@@ -377,7 +371,7 @@ useEffect(()=>{
               setSelected={val => setForm({...form, Warranty: val})}
               data={Warranty}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
 
             <SelectList
@@ -392,13 +386,20 @@ useEffect(()=>{
               setSelected={val => setForm({...form, city: val})}
               data={City}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
             <TouchableOpacity
-              onPress={() => navigation.navigate('Listings', {
-                name: category ==="Mobile"? Category.PHONE : category==="Tablet" ? Category.TABLET : Category.SMARTWATCH,
-                form:form
-              })}
+              onPress={() =>
+                navigation.navigate('Listings', {
+                  name:
+                    category === 'Mobile'
+                      ? Category.PHONE
+                      : category === 'Tablet'
+                      ? Category.TABLET
+                      : Category.SMARTWATCH,
+                  form: form,
+                })
+              }
               style={{
                 backgroundColor: color.orange,
                 marginTop: 40,
@@ -406,7 +407,6 @@ useEffect(()=>{
                 alignItems: 'center',
                 height: 50,
                 borderRadius: 20,
-                
               }}>
               <Text
                 style={{

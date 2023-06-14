@@ -1,23 +1,20 @@
+import {VIDEOS} from '@env';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
+  Alert,
   Dimensions,
   FlatList,
-  TouchableOpacity,
-  WebView,
   Image,
   Linking,
-  Alert,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
 import Header from '../components/Header';
-import axios from 'axios';
-import {VIDEOS} from '@env';
-import {color} from '../constants/Colors';
 import Loading from '../components/Loading';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const Videos = ({navigation}) => {

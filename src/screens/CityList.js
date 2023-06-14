@@ -1,17 +1,15 @@
+import React from 'react';
 import {
   Dimensions,
   FlatList,
   SafeAreaView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
-import {const_styles} from '../constants/Styles';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {color} from '../constants/Colors';
+import {const_styles} from '../constants/Styles';
 import {cities} from '../data/test';
 const {width, heigth} = Dimensions.get('window');
 const CityList = ({navigation}) => {

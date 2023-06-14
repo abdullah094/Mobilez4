@@ -139,9 +139,9 @@ export interface Tablet {
 }
 
 export enum Category {
-  PHONE = 'mobile',
-  SMARTWATCH = 'watch',
-  TABLET = 'tablet',
+  PHONE = 'Mobile',
+  SMARTWATCH = 'Watch',
+  TABLET = 'Tablet',
   RELATED_AD = 'related',
   MORE_AD = 'more_ad',
 }
@@ -190,15 +190,17 @@ export interface Contact {
 }
 
 export interface Form {
-  brand: string | null;
-  ram: string | null;
-  storage: string | null;
-  pta_status: string | null;
-  condition: string | null;
-  Warranty: string | null;
-  city: string | null;
-  max_price: string | null;
-  min_price: string | null;
+  category?: Category;
+  brand?: string | null;
+  ram?: string | null;
+  storage?: string | null;
+  pta_status?: string | null;
+  condition?: string | null;
+  Warranty?: string | null;
+  city?: string | null;
+  max_price?: string | null;
+  min_price?: string | null;
+  model?: string | null;
 }
 
 export interface FetchMessage {
@@ -294,3 +296,21 @@ export interface Product {
   image: Image;
   user: User;
 }
+
+import {RouteProp} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+export type IndexParamList = {
+  TabNavigation: undefined;
+  Login: undefined;
+  Listings: {form: Form};
+  Filter: {form: Form};
+};
+
+export type IndexRouteProps<RouteName extends keyof IndexParamList> = RouteProp<
+  IndexParamList,
+  RouteName
+>;
+
+export type IndexNavigationProps<RouteName extends keyof IndexParamList> =
+  NativeStackNavigationProp<IndexParamList, RouteName>;

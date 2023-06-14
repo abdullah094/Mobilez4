@@ -1,7 +1,8 @@
 import {CATEGORY} from '@env';
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Modal,
@@ -24,66 +25,104 @@ import {color} from '../constants/Colors';
 
 import {useNavigation, useRoute} from '@react-navigation/native';
 import GridItem from '../components/GridItem';
+import Header from '../components/Header';
 import ListItem from '../components/ListItem';
-import {Form, Pagination, Product} from '../types';
+import PriceRange from '../components/PriceRange';
+import {
+  Form,
+  IndexNavigationProps,
+  IndexRouteProps,
+  Pagination,
+  Product,
+} from '../types';
 
 const {width, height} = Dimensions.get('window');
 const Listings = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const {name, form} = route.params as {name: string; form: Form};
+  const navigation = useNavigation<IndexNavigationProps<'Listings'>>();
+  const route = useRoute<IndexRouteProps<'Listings'>>();
+  // const {name, form} = route.params as {name: string; form: Form};
+
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('price');
   const [order, setOrder] = useState('desc');
   const [data, setData] = useState<Product[]>([]);
   const [Grid, setGrid] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [priceModalVisible, setPriceModalVisible] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  useEffect(() => {
+    setForm(route.params.form);
+  }, [route.params.form]);
+
+  const [form, setForm] = useState<Form>({});
+  console.log({form});
 
   const clear = () => {};
   useEffect(() => {
-    setData([]);
-    let filter = {};
-    if (form) {
-      if (form.brand) {
-        setQuery(form.brand);
-      }
-      filter = Object.fromEntries(
-        Object.entries(form).filter(([_, value]) => value !== null),
-      );
+    // setData([]);
+    if (form.brand) {
+      setQuery(form.brand);
     }
+    // let filter = {};
+    // if (form) {
+
+    //   filter = Object.fromEntries(
+    //     Object.entries(form).filter(([_, value]) => value !== null),
+    //   );
+    // }
     axios
-      .post(CATEGORY, {
-        category: name,
+      .post(CATEGORY + `?page=${pageNumber}`, {
         search: query,
         sort: sort,
         order: order,
-        ...filter,
+
+        ...form,
       })
       .then(response => {
         const pagination: Pagination = response.data.data;
-        setData(pagination.data);
+        console.log(pagination);
+        // setPageNumber(pagination.current_page);
+        setData([...data, ...pagination.data]);
+        setIsRefreshing(false);
       });
-  }, [query, sort, route, name, order]);
+  }, [query, sort, route, pageNumber, form, order]);
 
+  const handleValueChange = useCallback((lowValue, highValue) => {
+    setForm({...form, max_price: highValue, min_price: lowValue});
+  }, []);
+
+  const onRefresh = () => {
+    //set isRefreshing to true
+    setIsRefreshing(true);
+    setQuery('');
+    // and set isRefreshing to false at the end of your callApiMethod()
+  };
   if (!data) return <Loading />;
+
+  const renderFooter = () => {
+    return (
+      //Footer View with Load More button
+      <View style={styles.footer}>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => setPageNumber(pageNumber + 1)}
+          //On Click of button calling getData function to load more data
+          style={styles.loadMoreBtn}>
+          <Text style={styles.btnText}>Load More</Text>
+          {isRefreshing ? (
+            <ActivityIndicator color="white" style={{marginLeft: 8}} />
+          ) : null}
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={tw`flex-1`}>
       <View style={styles.header}>
-        <View style={tw`h-16  flex-row items-center justify-between  px-2`}>
-          <TouchableOpacity onPress={navigation.goBack}>
-            <Ionicons
-              name="ios-arrow-back-sharp"
-              color={color.white}
-              size={25}
-            />
-          </TouchableOpacity>
-          <Text style={{color: color.white, fontWeight: '500'}}>
-            {String(name).toUpperCase()}
-          </Text>
-          <View></View>
-        </View>
-        {/* // price/ location /model/modelyear */}
+        <Header title={String(form.category).toUpperCase()}></Header>
         <View style={tw`relative rounded-md flex-1`}>
           <View style={tw`flex-1 z-10`}>
             <TextInput
@@ -117,24 +156,28 @@ const Listings = () => {
               <Entypo name="cross" size={20} color={'white'} />
             </TouchableOpacity>
           </View>
-          {/* <View
-              style={tw`w-full px-6 top-[90px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
-              <HomeSlider />
-            </View> */}
         </View>
       </View>
 
       <View style={tw` flex-row items-center justify-between m-6`}>
+        <TouchableOpacity
+          style={tw`flex-row items-center`}
+          onPress={() => navigation.navigate('Filter', {form})}>
+          <Ionicons name="filter" color={color.black} size={20} />
+          <Text
+            style={{paddingHorizontal: 5, fontWeight: '700', color: 'black'}}>
+            Filter
+          </Text>
+        </TouchableOpacity>
         <View>
-          <TouchableOpacity
-            style={{flexDirection: 'row'}}
-            onPress={() => setModalVisible(true)}>
+          <TouchableOpacity style={{flexDirection: 'row'}}>
             <Sort name="sort" color="black" size={20} />
             <Text
               style={{paddingHorizontal: 5, fontWeight: '700', color: 'black'}}>
               Sort
             </Text>
           </TouchableOpacity>
+
           <Modal
             animationType="slide"
             transparent={true}
@@ -144,34 +187,32 @@ const Listings = () => {
               <View style={styles.modalContent}>
                 <Text style={{color: 'black'}}>Sort Order by:</Text>
                 <View style={styles.radioContainer}>
-                  <View style={styles.radioButton}>
-                    <RadioButton
-                      value="first"
-                      status={order === 'desc' ? 'checked' : 'unchecked'}
-                      onPress={() => {
-                        setOrder('desc');
-                        setModalVisible(false);
-                      }}
-                    />
-                    <Text style={{color: 'black'}}>Highest to lowest</Text>
-                  </View>
-                  <View style={styles.radioButton}>
-                    <RadioButton
-                      value="false"
-                      status={order === 'asc' ? 'checked' : 'unchecked'}
-                      onPress={() => {
-                        setOrder('asc');
-                        setModalVisible(false);
-                      }}
-                    />
-                    <Text style={{color: 'black'}}>lowest to highest</Text>
-                  </View>
-                  <View style={styles.radioButton}>
-                    {/* <RadioButton value='false'
-                   onPress={() =>{   
-                   setModalVisible(false)}} />
-                  <Text style={{color:'black'}}>Most Recent</Text> */}
-                  </View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setOrder('desc');
+                      setModalVisible(false);
+                    }}>
+                    <View style={styles.radioButton}>
+                      <RadioButton
+                        value="first"
+                        status={order === 'desc' ? 'checked' : 'unchecked'}
+                      />
+                      <Text style={{color: 'black'}}>Price High to low</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setOrder('asc');
+                      setModalVisible(false);
+                    }}>
+                    <View style={styles.radioButton}>
+                      <RadioButton
+                        value="second"
+                        status={order === 'asc' ? 'checked' : 'unchecked'}
+                      />
+                      <Text style={{color: 'black'}}>Price High to low</Text>
+                    </View>
+                  </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                   style={styles.closeButton}
@@ -182,15 +223,7 @@ const Listings = () => {
             </View>
           </Modal>
         </View>
-        <TouchableOpacity
-          style={tw`flex-row items-center`}
-          onPress={() => navigation.navigate('Filter', {name})}>
-          <Ionicons name="filter" color={color.black} size={20} />
-          <Text
-            style={{paddingHorizontal: 5, fontWeight: '700', color: 'black'}}>
-            Filter
-          </Text>
-        </TouchableOpacity>
+
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -199,7 +232,7 @@ const Listings = () => {
             icon={sort == 'price' ? 'check' : ''}
             style={tw`mr-2 bg-blue-600`}
             textStyle={{color: 'white'}}
-            onPress={() => setSort('price')}
+            onPress={() => setModalVisible(true)}
             selectedColor={'black'}>
             Price
           </Chip>
@@ -207,10 +240,11 @@ const Listings = () => {
             icon={sort == 'City' ? 'check' : ''}
             style={tw`mr-2  bg-blue-600`}
             textStyle={{color: 'white'}}
-            onPress={() => setSort('City')}>
-            City
+            onPress={() => setPriceModalVisible(true)}>
+            Price Range
           </Chip>
         </ScrollView>
+
         <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
           <ListIcon
             name="list"
@@ -237,10 +271,11 @@ const Listings = () => {
             marginHorizontal: 15,
             paddingBottom: 100,
           }}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          ListFooterComponent={renderFooter}
           numColumns={2}
-          renderItem={({item}) => (
-            <GridItem item={item} image={item.image.img}></GridItem>
-          )}
+          renderItem={({item}) => <GridItem item={item}></GridItem>}
         />
       ) : (
         <FlatList
@@ -252,12 +287,33 @@ const Listings = () => {
             marginHorizontal: 15,
             paddingBottom: 100,
           }}
+          onRefresh={onRefresh}
+          refreshing={isRefreshing}
+          ListFooterComponent={renderFooter}
           numColumns={1}
-          renderItem={({item}) => (
-            <ListItem item={item} image={item.image.img}></ListItem>
-          )}
+          renderItem={({item}) => <ListItem item={item}></ListItem>}
         />
       )}
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={priceModalVisible}
+          onRequestClose={() => setPriceModalVisible(false)}>
+          <View style={styles.modalContainer}>
+            <View style={[styles.modalContent, tw`bg-[#015DCF] `]}>
+              <View style={styles.radioContainer}>
+                <PriceRange handleValueChange={handleValueChange} />
+              </View>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setPriceModalVisible(false)}>
+                <Text style={{color: 'black'}}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+      </View>
     </SafeAreaView>
   );
 };
@@ -265,6 +321,21 @@ const Listings = () => {
 export default Listings;
 
 const styles = StyleSheet.create({
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -272,6 +343,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalContent: {
+    width: '80%',
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 10,
@@ -279,6 +351,8 @@ const styles = StyleSheet.create({
   radioContainer: {
     marginTop: 10,
     marginBottom: 20,
+    // width: 200,
+    zIndex: 20,
   },
   radioButton: {
     flexDirection: 'row',
@@ -301,5 +375,24 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     backgroundColor: '#015dcf',
     zIndex: 10,
+  },
+  footer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  loadMoreBtn: {
+    padding: 10,
+    backgroundColor: '#800000',
+    borderRadius: 4,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 15,
+    textAlign: 'center',
   },
 });

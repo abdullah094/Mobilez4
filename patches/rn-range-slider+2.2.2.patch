@@ -1,0 +1,49 @@
+diff --git a/node_modules/rn-range-slider/index.tsx b/node_modules/rn-range-slider/index.tsx
+index 37163ae..80b399a 100644
+--- a/node_modules/rn-range-slider/index.tsx
++++ b/node_modules/rn-range-slider/index.tsx
+@@ -1,11 +1,11 @@
+ import React, {
++  ReactNode,
+   memo,
+-  useState,
+-  useEffect,
+   useCallback,
++  useEffect,
+   useMemo,
+   useRef,
+-  ReactNode,
++  useState,
+ } from 'react';
+ import {
+   Animated,
+@@ -16,15 +16,15 @@ import {
+   ViewProps,
+ } from 'react-native';
+ 
+-import styles from './styles';
++import { clamp, getValueForPosition, isLowCloser } from './helpers';
+ import {
+-  useThumbFollower,
+-  useLowHigh,
+-  useWidthLayout,
+   useLabelContainerProps,
++  useLowHigh,
+   useSelectedRail,
++  useThumbFollower,
++  useWidthLayout,
+ } from './hooks';
+-import {clamp, getValueForPosition, isLowCloser} from './helpers';
++import styles from './styles';
+ 
+ const trueFunc = () => true;
+ const falseFunc = () => false;
+@@ -188,7 +188,7 @@ const Slider: React.FC<SliderProps> = ({
+   const {panHandlers} = useMemo(
+     () =>
+       PanResponder.create({
+-        onStartShouldSetPanResponderCapture: falseFunc,
++        onStartShouldSetPanResponderCapture: trueFunc,
+         onMoveShouldSetPanResponderCapture: falseFunc,
+         onPanResponderTerminationRequest: falseFunc,
+         onPanResponderTerminate: trueFunc,

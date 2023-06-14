@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 const THUMB_RADIUS_LOW = 12;
 const THUMB_RADIUS_HIGH = 16;

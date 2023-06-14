@@ -260,7 +260,7 @@ const Home = ({navigation}) => {
             style={styles.tab_box}
             onPress={() =>
               navigation.navigate('Listings', {
-                name: Category.PHONE,
+                form: {category: Category.PHONE},
               })
             }>
             <View style={tw`flex items-center justify-center `}>
@@ -278,7 +278,7 @@ const Home = ({navigation}) => {
             style={styles.tab_box}
             onPress={() =>
               navigation.navigate('Listings', {
-                name: Category.SMARTWATCH,
+                form: {category: Category.SMARTWATCH},
               })
             }>
             <View style={tw`flex items-center justify-center `}>
@@ -295,7 +295,7 @@ const Home = ({navigation}) => {
             style={styles.tab_box}
             onPress={() =>
               navigation.navigate('Listings', {
-                name: Category.TABLET,
+                form: {category: Category.TABLET},
               })
             }>
             <View style={tw`flex items-center justify-center `}>

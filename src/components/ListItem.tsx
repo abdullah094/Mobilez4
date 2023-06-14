@@ -11,10 +11,11 @@ import {
 import Icon from 'react-native-vector-icons/Entypo';
 import tw from 'twrnc';
 import {color} from '../constants/Colors';
+import {Product} from '../types';
 import AddToWishList from './AddToWishList';
 const {width, height} = Dimensions.get('window');
 
-const ListItem = ({item, image}) => {
+const ListItem = ({item}: {item: Product}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
   const navigation = useNavigation();
   const dateString = item.created_at;
@@ -50,13 +51,13 @@ const ListItem = ({item, image}) => {
         <Image
           style={[
             {height: '100%', width: '100%', borderRadius: 10},
-            image || {tintColor: 'gray'},
+            item.image.img || {tintColor: 'gray'},
           ]}
           resizeMode="cover"
           source={
-            !image
+            !item.image.img
               ? require('../assets/mobile-logo.png')
-              : {uri: image_url + image}
+              : {uri: image_url + item.image.img}
           }
         />
         <AddToWishList

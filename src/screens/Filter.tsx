@@ -1,4 +1,4 @@
-import {useIsFocused, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   SafeAreaView,
@@ -10,15 +10,9 @@ import {
   View,
 } from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
-import Slider from 'rn-range-slider';
 import tw from 'twrnc';
 import {color} from '../constants/Colors';
 
-import Label from '../components/Label';
-import Notch from '../components/Notch';
-import Rail from '../components/Rail';
-import RailSelected from '../components/RailSelected';
-import Thumb from '../components/Thumb';
 import {
   CategoryList,
   City,
@@ -31,69 +25,30 @@ import {
 
 import {BRANDSNOAUTH, MODELS} from '@env';
 import axios from 'axios';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
-import {Category, Form} from '../types';
+import {selectAccessToken} from '../Redux/Slices';
+import Header from '../components/Header';
+import PriceRange from '../components/PriceRange';
+import {Form, IndexNavigationProps, IndexRouteProps} from '../types';
 
-const Filter = ({navigation}) => {
-  const route = useRoute();
-  const isFocused = useIsFocused();
-  const [value, setValue] = useState(0);
+const Filter = () => {
+  const navigation = useNavigation<IndexNavigationProps<'Filter'>>();
+  const route = useRoute<IndexRouteProps<'Filter'>>();
   const [otherBrand, setOtherBrand] = useState(false);
   const [brand, setBrand] = useState<Array<{key: string; value: string}>>([]);
-  const [category, setCategory] = useState<string>(
-    route.params?.name === Category.PHONE
-      ? 'Mobile'
-      : route.params?.name === Category.TABLET
-      ? 'Tablet'
-      : 'Watch',
-  );
+  const [models, setModels] = useState<Array<{key: string; value: string}>>([]);
+  const [open, setOpen] = useState(false);
 
-  const [rangeDisabled, setRangeDisabled] = useState(false);
-  const [low, setLow] = useState(0);
-  const [high, setHigh] = useState(100);
-  const [min, setMin] = useState(0);
-  const [max, setMax] = useState(1000000);
-  const [floatingLabel, setFloatingLabel] = useState(false);
-  const [models, setModels] = useState([]);
-
-  const renderThumb = useCallback(name => <Thumb name={name} />, []);
-  const renderRail = useCallback(() => <Rail />, []);
-  const renderRailSelected = useCallback(() => <RailSelected />, []);
-  const renderLabel = useCallback(value => <Label text={value} />, []);
-  const renderNotch = useCallback(() => <Notch />, []);
   const handleValueChange = useCallback((lowValue, highValue) => {
-    setLow(lowValue);
-    setHigh(highValue);
     setForm({...form, max_price: highValue, min_price: lowValue});
   }, []);
-  const toggleRangeEnabled = useCallback(
-    () => setRangeDisabled(!rangeDisabled),
-    [rangeDisabled],
-  );
-  const setMinTo50 = useCallback(() => setMin(50), []);
-  const setMinTo0 = useCallback(() => setMin(0), []);
-  const setMaxTo100 = useCallback(() => setMax(100), []);
-  const setMaxTo500 = useCallback(() => setMax(500), []);
-  const toggleFloatingLabel = useCallback(
-    () => setFloatingLabel(!floatingLabel),
-    [floatingLabel],
-  );
-  const _accessToken = useSelector(state => state.todo.accessToken);
+  const _accessToken = useSelector(selectAccessToken);
 
-  const [form, setForm] = useState<Form>({
-    brand: null,
-    ram: ' ',
-    storage: null,
-    pta_status: null,
-    condition: null,
-    Warranty: null,
-    city: null,
-
-    max_price: null,
-    min_price: null,
-  });
-
+  useEffect(() => {
+    setForm(route.params.form);
+  }, [route.params.form]);
+  const [form, setForm] = useState<Form>({});
+  console.log({form});
   const getBrandFunc = () => {
     //Get brands with this function
     axios
@@ -120,8 +75,7 @@ const Filter = ({navigation}) => {
         headers: {Authorization: `Bearer ${_accessToken}`},
       })
       .then(response => {
-        console.log('bhia ya error ni day raha hay ');
-        let brand_array = [];
+        let brand_array: Array<{key: string; value: string}> = [];
         response.data.models.forEach(element => {
           brand_array.push({
             key: element.id,
@@ -147,76 +101,9 @@ const Filter = ({navigation}) => {
           paddingBottom: 100,
         }}>
         <View style={tw`w-full mx-4  bg-[#015DCF]`}>
+          <Header title="Filters" />
           <View style={tw` p-4`}>
-            <View style={tw`flex-row items-center justify-between  p-2`}>
-              <TouchableOpacity onPress={navigation.goBack}>
-                <Ionicons
-                  name="ios-arrow-back-sharp"
-                  color={color.white}
-                  size={25}
-                />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  fontSize: 15,
-                  flex: 1,
-                  fontWeight: 'bold',
-                  color: 'white',
-                  textAlign: 'center',
-                }}>
-                Filters
-              </Text>
-            </View>
-
-            <View style={tw`flex-row `}>
-              <Text
-                style={{
-                  color: color.white,
-                  fontWeight: '400',
-                  fontSize: 15,
-                  paddingVertical: 16,
-                }}>
-                Price Range
-              </Text>
-            </View>
-            <View style={tw`flex-row justify-between`}>
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  alignItems: 'center',
-                  padding: 8,
-                  width: 100,
-                  borderColor: 'white',
-                }}>
-                <Text style={{color: 'white'}}>{low}</Text>
-              </View>
-
-              <View
-                style={{
-                  borderWidth: 1,
-                  borderRadius: 10,
-                  alignItems: 'center',
-                  padding: 8,
-                  width: 100,
-                  borderColor: 'white',
-                }}>
-                <Text style={{color: 'white'}}>{high}</Text>
-              </View>
-            </View>
-            <Slider
-              style={{width: '100%'}}
-              min={min}
-              max={max}
-              step={1}
-              disableRange={rangeDisabled}
-              renderThumb={renderThumb}
-              renderRail={renderRail}
-              renderRailSelected={renderRailSelected}
-              renderLabel={renderLabel}
-              renderNotch={renderNotch}
-              onValueChanged={handleValueChange}
-            />
+            <PriceRange handleValueChange={handleValueChange} />
           </View>
           <View
             style={{
@@ -243,10 +130,10 @@ const Filter = ({navigation}) => {
                 inputStyles={{color: 'grey'}}
                 search={false}
                 placeholder="Category"
-                setSelected={val => setCategory(val)}
+                setSelected={val => setForm({...form, category: val})}
                 data={CategoryList}
                 save="value"
-                defaultOption={CategoryList.find(x => x.value == category)}
+                // defaultOption={CategoryList.find(x => x.value == form.category)}
                 dropdownTextStyles={{color: 'black'}}
               />
               <SelectList
@@ -291,9 +178,10 @@ const Filter = ({navigation}) => {
                 }}
                 placeholder="Choose model"
                 inputStyles={{color: 'black'}}
-                setSelected={val => {
-                  setForm({...form, model: val});
-                }}
+                // setSelected={val => {
+                //   setForm({...form, model: val});
+                // }}
+                defaultOption={models.find(x => x.value == form.model)}
                 data={models}
                 save="value"
                 dropdownTextStyles={{color: 'black'}}
@@ -323,6 +211,7 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="Storage"
+              // defaultOption={Storage.find(x => x.value == form.storage)}
               setSelected={val => setForm({...form, storage: val})}
               data={Storage}
               save="value"
@@ -338,6 +227,7 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="PTA Status"
+              // defaultOption={Pta_status.find(x => x.value == form.pta_status)}
               setSelected={val => setForm({...form, pta_status: val})}
               data={Pta_status}
               save="value"
@@ -353,6 +243,7 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="Condition"
+              // defaultOption={Condition.find(x => x.value == form.condition)}
               setSelected={val => setForm({...form, condition: val})}
               data={Condition}
               save="value"
@@ -368,6 +259,7 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="Warranty"
+              // defaultOption={Warranty.find(x => x.value == form.Warranty)}
               setSelected={val => setForm({...form, Warranty: val})}
               data={Warranty}
               save="value"
@@ -383,6 +275,7 @@ const Filter = ({navigation}) => {
               inputStyles={{color: 'grey'}}
               search={false}
               placeholder="City"
+              // defaultOption={City.find(x => x.value == form.city)}
               setSelected={val => setForm({...form, city: val})}
               data={City}
               save="value"
@@ -390,14 +283,10 @@ const Filter = ({navigation}) => {
             />
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('Listings', {
-                  name:
-                    category === 'Mobile'
-                      ? Category.PHONE
-                      : category === 'Tablet'
-                      ? Category.TABLET
-                      : Category.SMARTWATCH,
-                  form: form,
+                navigation.navigate({
+                  name: 'Listings',
+                  params: {form: form},
+                  merge: true,
                 })
               }
               style={{

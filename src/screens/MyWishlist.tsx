@@ -80,9 +80,7 @@ const MyWishlist = ({navigation}) => {
             paddingBottom: 100,
           }}
           numColumns={2}
-          renderItem={({item}) => (
-            <GridItem item={item} image={item.image.img}></GridItem>
-          )}
+          renderItem={({item}) => <GridItem item={item}></GridItem>}
         />
       ) : (
         <FlatList
@@ -95,9 +93,7 @@ const MyWishlist = ({navigation}) => {
             paddingBottom: 100,
           }}
           numColumns={1}
-          renderItem={({item}) => (
-            <ListItem item={item} image={item.image.img}></ListItem>
-          )}
+          renderItem={({item}) => <ListItem item={item}></ListItem>}
         />
       )}
     </SafeAreaView>

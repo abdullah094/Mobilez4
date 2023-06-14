@@ -28,9 +28,10 @@ import SearchScreen from './src/screens/SearchScreen';
 import SignUp from './src/screens/SignUp';
 import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
+import {IndexParamList} from './src/types';
 
 const App = () => {
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<IndexParamList>();
   return (
     <Provider store={Store}>
       <Paper>

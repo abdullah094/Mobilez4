@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
     height: 4,
     borderRadius: 2,
     backgroundColor: 'white',
-
-    width: 330,
+    width: '100%',
   },
 });

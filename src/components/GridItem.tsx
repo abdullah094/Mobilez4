@@ -10,10 +10,11 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import tw from 'twrnc';
+import {Product} from '../types';
 import AddToWishList from './AddToWishList';
 const {width, height} = Dimensions.get('window');
 
-const GridItem = ({item, image}) => {
+const GridItem = ({item}: {item: Product}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
   const navigation = useNavigation();
   const dateString = item.created_at;
@@ -51,7 +52,7 @@ const GridItem = ({item, image}) => {
             // aspectRatio:1.25,
             borderRadius: 10,
           }}
-          source={{uri: image_url + image}}
+          source={{uri: image_url + item.image.img}}
           resizeMode="cover"
         />
         <AddToWishList

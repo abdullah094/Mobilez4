@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
   root: {
     height: 4,
     backgroundColor: '#EA6535',
-
     borderRadius: 2,
   },
 });

@@ -107,7 +107,7 @@ const FindMyDevice = ({navigation, route}) => {
             alignItems: 'center',
             paddingBottom: 200,
           }}
-          renderItem={({item}) => <ListItem item={item} image={item.img} />}
+          renderItem={({item}) => <ListItem item={item} />}
         />
       </View>
     </SafeAreaView>

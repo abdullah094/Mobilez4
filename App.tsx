@@ -28,6 +28,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import SignUp from './src/screens/SignUp';
 import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
+import WishlistComponent from './src/screens/WhishlistComponent';
 import {IndexParamList} from './src/types';
 
 const App = () => {
@@ -157,6 +158,11 @@ const App = () => {
               options={{headerShown: false}}
               name="Chat"
               component={ChatScreen}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="WhishlistComponent"
+              component={WishlistComponent}
             />
           </Stack.Navigator>
         </NavigationContainer>

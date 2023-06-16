@@ -1,36 +1,30 @@
+import {BRANDS, MODELS, POSTANAD} from '@env';
+import CheckBox from '@react-native-community/checkbox';
+import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import FormData from 'form-data';
+import React, {useEffect, useState} from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
+  ActivityIndicator,
+  Alert,
   Dimensions,
-  TouchableOpacity,
-  Pressable,
-  Button,
   FlatList,
   Image,
-  Alert,
-  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
   TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {color} from '../constants/Colors';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {SelectList} from 'react-native-dropdown-select-list';
-import {POSTANAD, BRANDS, MODELS} from '@env';
-import axios from 'axios';
-import {useSelector, useDispatch} from 'react-redux';
-import CheckBox from '@react-native-community/checkbox';
-import DocumentPicker from 'react-native-document-picker';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import Header from '../components/Header';
-const {width, height} = Dimensions.get('window');
-import FormData from 'form-data';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useSelector} from 'react-redux';
 import tw from 'twrnc';
-import {selectAccessToken} from '../Redux/Slices';
-import {useNavigation} from '@react-navigation/native';
+import {color} from '../constants/Colors';
+const {width, height} = Dimensions.get('window');
 
 // require the module
 var RNFS = require('react-native-fs');
@@ -327,7 +321,7 @@ const PostAnAd = () => {
                   setSelected={val => setForm({...form, category: val})}
                   data={Category}
                   save="value"
-                  dropdownTextStyles={{color:'black'}}
+                  dropdownTextStyles={{color: 'black'}}
                 />
               </View>
               <View style={tw`w-1/2 pl-2`}>
@@ -341,7 +335,7 @@ const PostAnAd = () => {
                   setSelected={val => setForm({...form, brand: val})}
                   data={brands}
                   save="value"
-                  dropdownTextStyles={{color:'black'}}
+                  dropdownTextStyles={{color: 'black'}}
                 />
               </View>
             </View>
@@ -368,7 +362,7 @@ const PostAnAd = () => {
                 setSelected={val => setForm({...form, model: val})}
                 data={models}
                 save="value"
-                dropdownTextStyles={{color:'black'}}
+                dropdownTextStyles={{color: 'black'}}
               />
             )}
             <TextInput
@@ -389,7 +383,7 @@ const PostAnAd = () => {
               }
               data={Ram}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
 
             <SelectList
@@ -399,7 +393,7 @@ const PostAnAd = () => {
               setSelected={val => setForm({...form, pta_status: val})}
               data={approved}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
             <SelectList
               boxStyles={styles.box}
@@ -410,7 +404,7 @@ const PostAnAd = () => {
               }
               data={Storage}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
             <SelectList
               boxStyles={styles.box}
@@ -419,7 +413,7 @@ const PostAnAd = () => {
               setSelected={val => setForm({...form, product_type: val})}
               data={Condition}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
 
             {condition ? (
@@ -506,12 +500,12 @@ const PostAnAd = () => {
             ) : null}
             <SelectList
               boxStyles={styles.box}
-              placeholder="Warrenty"
+              placeholder="Warranty"
               inputStyles={{color: 'black'}}
               setSelected={val => setForm({...form, warranty: val})}
               data={Warranty}
               save="value"
-              dropdownTextStyles={{color:'black'}}
+              dropdownTextStyles={{color: 'black'}}
             />
           </View>
           <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>
@@ -628,8 +622,7 @@ const styles = StyleSheet.create({
     color: color.black,
     width: '100%',
     borderWidth: 1,
-    alignContent:'flex-start',
-    textAlignVertical:'top'
-
+    alignContent: 'flex-start',
+    textAlignVertical: 'top',
   },
 });

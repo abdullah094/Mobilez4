@@ -48,7 +48,7 @@ const Listings = () => {
   const [data, setData] = useState<Product[]>([]);
   const [Grid, setGrid] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [priceModalVisible, setPriceModalVisible] = useState(false);
+  const [priceModalVisible, setPriceModalVisible] = useState<boolean>(false);
   const [totalItems, setTotalItems] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
   const [allLoaded, setAllLoaded] = useState(false);
@@ -73,7 +73,7 @@ const Listings = () => {
   };
   useEffect(() => {
     loadData(1);
-  }, [query, sort, order]);
+  }, [query, sort, order, form]);
 
   const loadData = pageNumber => {
     console.log(CATEGORY + `?page=${pageNumber}`);
@@ -190,7 +190,7 @@ const Listings = () => {
             onRequestClose={() => setModalVisible(false)}>
             <View style={styles.modalContainer}>
               <View style={styles.modalContent}>
-                <Text style={{color: 'black'}}>Sort Order by:</Text>
+                <Text style={{color: 'black'}}> Sort Order by: {sort}</Text>
                 <View style={styles.radioContainer}>
                   <TouchableOpacity
                     onPress={() => {
@@ -202,7 +202,7 @@ const Listings = () => {
                         value="first"
                         status={order === 'desc' ? 'checked' : 'unchecked'}
                       />
-                      <Text style={{color: 'black'}}>Price low to high</Text>
+                      <Text style={{color: 'black'}}>{sort} low to high</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -215,7 +215,7 @@ const Listings = () => {
                         value="second"
                         status={order === 'asc' ? 'checked' : 'unchecked'}
                       />
-                      <Text style={{color: 'black'}}>Price High to low</Text>
+                      <Text style={{color: 'black'}}>{sort} High to low</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -236,7 +236,11 @@ const Listings = () => {
           <Chip
             style={tw`mr-2 bg-blue-600`}
             textStyle={{color: 'white'}}
-            onPress={() => setModalVisible(true)}
+            icon={sort == 'Price' ? 'check' : ''}
+            onPress={() => {
+              setSort('Price');
+              setModalVisible(true);
+            }}
             selectedColor={'black'}>
             Price
           </Chip>
@@ -245,6 +249,16 @@ const Listings = () => {
             textStyle={{color: 'white'}}
             onPress={() => setPriceModalVisible(true)}>
             Price Range
+          </Chip>
+          <Chip
+            style={tw`mr-2  bg-blue-600`}
+            icon={sort == 'ram' ? 'check' : ''}
+            textStyle={{color: 'white'}}
+            onPress={() => {
+              setSort('ram');
+              setModalVisible(true);
+            }}>
+            ram
           </Chip>
         </ScrollView>
 
@@ -349,7 +363,7 @@ const Listings = () => {
               <TouchableOpacity
                 style={styles.closeButton}
                 onPress={() => setPriceModalVisible(false)}>
-                <Text style={{color: 'black'}}>Close</Text>
+                <Text style={{color: 'white'}}>Close</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -438,16 +452,21 @@ const styles = StyleSheet.create({
   },
   listheader: {
     paddingHorizontal: 10,
-    paddingVertical: 20,
+    paddingVertical: 2,
   },
   title: {
-    fontSize: 26,
+    fontSize: 15,
     fontWeight: '600',
+    color: 'black',
   },
   listfooter: {
     padding: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   footerText: {
     fontWeight: '600',
+    color: 'black',
   },
 });

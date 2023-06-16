@@ -241,7 +241,7 @@ const SignUp = ({navigation, route}) => {
           <View style={tw`flex-row items-center my-5`}>
             <Text style={tw`text-gray-500`}>Already have account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={tw`text-white mx-1`}>Sign In</Text>
+              <Text style={tw`text-black mx-1`}>Sign In</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -297,14 +297,16 @@ export interface Product {
   user: User;
 }
 
-import {RouteProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export type IndexParamList = {
+  Home:undefined,
   TabNavigation: undefined;
   Login: undefined;
   Listings: {form: Form};
   Filter: {form: Form};
+  ProductPage:{id:string};
 };
 
 export type IndexRouteProps<RouteName extends keyof IndexParamList> = RouteProp<
@@ -314,3 +316,27 @@ export type IndexRouteProps<RouteName extends keyof IndexParamList> = RouteProp<
 
 export type IndexNavigationProps<RouteName extends keyof IndexParamList> =
   NativeStackNavigationProp<IndexParamList, RouteName>;
+
+
+  export interface ISearch {
+    accessories:  string;
+    brand:        string;
+    category:     string;
+    created_at:   Date;
+    description:  string;
+    feature_add:  null | string;
+    id:           string;
+    image:        Image;
+    model:        string;
+    price:        number;
+    product_type: string;
+    pta_status:   string;
+    ram:          number | null;
+    sell_status:  string;
+    seller_id:    number;
+    status:       number | null;
+    storage:      number | null;
+    updated_at:   Date;
+    user:         User;
+    warranty:     string;
+}

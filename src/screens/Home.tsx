@@ -193,68 +193,72 @@ const Home = ({navigation}) => {
   };
   return (
     <SafeAreaView>
+      <View style={styles.header}>
+        <View
+          style={[
+            {
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: '100%',
+              alignItems: 'center',
+              marginTop: 25,
+            },
+          ]}>
+          <Text
+            style={{fontSize: 15, color: 'white', fontWeight: '600'}}
+            numberOfLines={1}>
+            {heading}
+          </Text>
+
+          {/* login Register */}
+          {profile ? (
+            <TouchableOpacity
+              disabled
+              onPress={() => navigation.navigate('Profile')}>
+              {profile && (
+                <Image
+                  style={tw`h-12 w-12 rounded-full`}
+                  source={{uri: image_url + profile.photo}}
+                />
+              )}
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text
+                style={{
+                  color: color.white,
+                  fontSize: 14,
+                  fontWeight: '600',
+                }}>
+                {'Login/Register'}
+              </Text>
+            </TouchableOpacity>
+          )}
+        </View>
+        <View style={tw`relative rounded-md flex-1`}>
+          <SearchScreen />
+          <View
+            style={tw`w-full px-6 top-[100px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
+            <HomeSlider />
+          </View>
+        </View>
+      </View>
+
       <ScrollView
+        style={{marginTop: 24}}
         contentContainerStyle={{
           alignItems: 'center',
           backgroundColor: color.white,
-          paddingHorizontal: 24,
+          paddingBottom: 100,
         }}
         showsVerticalScrollIndicator={false}
         stickyHeaderHiddenOnScroll={false}
         // stickyHeaderIndices={[0]}
       >
-        <View style={styles.header}>
-          <View
-            style={[
-              {
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: '100%',
-                alignItems: 'center',
-                marginTop: 25,
-              },
-            ]}>
-            <Text
-              style={{fontSize: 15, color: 'white', fontWeight: '600'}}
-              numberOfLines={1}>
-              {heading}
-            </Text>
-
-            {/* login Register */}
-            {profile ? (
-              <TouchableOpacity
-                disabled
-                onPress={() => navigation.navigate('Profile')}>
-                {profile && (
-                  <Image
-                    style={tw`h-12 w-12 rounded-full`}
-                    source={{uri: image_url + profile.photo}}
-                  />
-                )}
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text
-                  style={{color: color.white, fontSize: 14, fontWeight: '600'}}>
-                  {'Login/Register'}
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-          <View style={tw`relative rounded-md flex-1`}>
-            <SearchScreen />
-            <View
-              style={tw`w-full px-6 top-[100px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
-              <HomeSlider />
-            </View>
-          </View>
-        </View>
-        {/* /header finsihes here */}
-
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={tw`mt-20`}>
+          style={tw`mt-10`}>
           {/* box1 */}
           <TouchableOpacity
             style={styles.tab_box}
@@ -347,6 +351,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     height: 231,
     borderBottomWidth: 1,
+    marginBottom: 28,
     backgroundColor: '#015dcf',
   },
 

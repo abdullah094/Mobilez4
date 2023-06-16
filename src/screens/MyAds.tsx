@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {Button} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,12 +20,14 @@ import {selectAccessToken} from '../Redux/Slices';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
 import {color} from '../constants/Colors';
+import WishlistComponent from './WhishlistComponent';
 
 const {width, height} = Dimensions.get('window');
 const MyAds = ({navigation}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
   const [data, setData] = useState();
   const _accessToken = useSelector(selectAccessToken);
+  const [isWhishlist, setIsWhishlist] = useState(false);
   const [Grid, setGrid] = useState(false);
 
   useEffect(() => {
@@ -56,54 +59,76 @@ const MyAds = ({navigation}) => {
           My Ads
         </Text>
       </View>
+      <View style={tw`flex-row justify-between p-2 `}>
+        <Button
+          style={tw`w-1/3`}
+          mode={isWhishlist ? 'outlined' : 'contained'}
+          textColor="black"
+          onPress={() => setIsWhishlist(false)}>
+          My Ads
+        </Button>
+        <Button
+          style={tw`w-1/3`}
+          textColor="black"
+          mode={isWhishlist ? 'contained' : 'outlined'}
+          onPress={() => setIsWhishlist(true)}>
+          Whishlist
+        </Button>
+      </View>
       {/* // price/ location /model/modelyear */}
 
-      <View style={tw` flex-row items-center justify-end m-6`}>
-        <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
-          <ListIcon
-            name="list"
-            color={Grid ? color.black : color.red}
-            size={30}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => setGrid(true)}>
-          <Entypo
-            name="grid"
-            color={Grid ? color.red : color.black}
-            size={30}
-          />
-        </TouchableOpacity>
-      </View>
-      {Grid ? (
-        <FlatList
-          data={data}
-          key={'_'}
-          keyExtractor={item => '_' + item.id}
-          contentContainerStyle={{
-            justifyContent: 'space-between',
-            marginHorizontal: 15,
-            paddingBottom: 100,
-          }}
-          numColumns={2}
-          renderItem={({item}) => (
-            <GridItem item={item} image={item.image.img}></GridItem>
+      {!isWhishlist ? (
+        <>
+          <View style={tw` flex-row items-center justify-end m-6`}>
+            <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
+              <ListIcon
+                name="list"
+                color={Grid ? color.black : color.red}
+                size={30}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setGrid(true)}>
+              <Entypo
+                name="grid"
+                color={Grid ? color.red : color.black}
+                size={30}
+              />
+            </TouchableOpacity>
+          </View>
+          {Grid ? (
+            <FlatList
+              data={data}
+              key={'_'}
+              keyExtractor={item => '_' + item.id}
+              contentContainerStyle={{
+                justifyContent: 'space-between',
+                marginHorizontal: 15,
+                paddingBottom: 100,
+              }}
+              numColumns={2}
+              renderItem={({item}) => (
+                <GridItem item={item} image={item.image.img}></GridItem>
+              )}
+            />
+          ) : (
+            <FlatList
+              data={data}
+              key={'#'}
+              keyExtractor={item => '#' + item.id}
+              contentContainerStyle={{
+                justifyContent: 'space-between',
+                marginHorizontal: 15,
+                paddingBottom: 100,
+              }}
+              numColumns={1}
+              renderItem={({item}) => (
+                <ListItem item={item} image={item.image.img} />
+              )}
+            />
           )}
-        />
+        </>
       ) : (
-        <FlatList
-          data={data}
-          key={'#'}
-          keyExtractor={item => '#' + item.id}
-          contentContainerStyle={{
-            justifyContent: 'space-between',
-            marginHorizontal: 15,
-            paddingBottom: 100,
-          }}
-          numColumns={1}
-          renderItem={({item}) => (
-            <ListItem item={item} image={item.image.img} />
-          )}
-        />
+        <WishlistComponent />
       )}
     </SafeAreaView>
   );

@@ -1,19 +1,19 @@
+import {SUBMITOTP} from '@env';
+import axios from 'axios';
+import React, {useState} from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
   ActivityIndicator,
+  Alert,
   Dimensions,
   Pressable,
-  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import {color} from '../constants/Colors';
-import axios from 'axios';
-import {SUBMITOTP} from '@env';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const OTPScreen = ({route, navigation}) => {
@@ -81,7 +81,7 @@ const OTPScreen = ({route, navigation}) => {
             fontSize: 20,
             textAlign: 'center',
           }}>
-          Enter the OTP code we sent on {phone}
+          Enter the OTP code we sent on Email
         </Text>
         <TextInput
           value={otp.otp_code}
@@ -90,11 +90,11 @@ const OTPScreen = ({route, navigation}) => {
             borderWidth: 1,
             height: 60,
             paddingHorizontal: 15,
-            color:color.black,
+            color: color.black,
             width: 200,
             borderRadius: 10,
             borderColor: color.black,
-       
+
             marginTop: 15,
             textAlign: 'center',
           }}

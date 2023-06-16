@@ -1,19 +1,19 @@
+import {VERIFY_OTP} from '@env';
+import axios from 'axios';
+import React, {useState} from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
+  Alert,
   Dimensions,
   Pressable,
   ScrollView,
-  Alert,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {color} from '../constants/Colors';
-import axios from 'axios';
-import {SUBMITOTP, VERIFY_OTP} from '@env';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const OtpVerify = ({navigation, route}) => {
@@ -57,17 +57,18 @@ const OtpVerify = ({navigation, route}) => {
           />
         </Pressable>
       </View>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Text
+          style={{
+            color: color.orange,
+            fontWeight: 'bold',
+            fontSize: 25,
+            marginTop: 100,
+          }}>
+          Enter the code sent on Email
+        </Text>
+      </View>
 
-      <Text
-        style={{
-          color: color.orange,
-          fontWeight: 'bold',
-          fontSize: 20,
-          marginTop: 100,
-          width: width - 70,
-        }}>
-        Enter the code sent on phone#
-      </Text>
       <View style={styles.box}>
         <Text style={styles.box_heading}>OTP</Text>
         <TextInput
@@ -125,6 +126,6 @@ const styles = StyleSheet.create({
     borderColor: color.black,
     paddingHorizontal: 15,
     borderRadius: 20,
-    color:color.black
+    color: color.black,
   },
 });

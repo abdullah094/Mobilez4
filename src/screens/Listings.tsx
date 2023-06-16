@@ -2,7 +2,6 @@ import {CATEGORY} from '@env';
 import axios from 'axios';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-  ActivityIndicator,
   Dimensions,
   FlatList,
   Modal,
@@ -43,81 +42,87 @@ const Listings = () => {
   // const {name, form} = route.params as {name: string; form: Form};
 
   const [query, setQuery] = useState('');
+  const [delayQuery, setDelayQuery] = useState('');
   const [sort, setSort] = useState('price');
   const [order, setOrder] = useState('desc');
   const [data, setData] = useState<Product[]>([]);
   const [Grid, setGrid] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [priceModalVisible, setPriceModalVisible] = useState(false);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [totalItems, setTotalItems] = useState(0);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [allLoaded, setAllLoaded] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
+
+  const [fistTimeRender, setFistTimeRender] = useState(true);
+  useEffect(() => {
+    const timeOutId = setTimeout(() => setQuery(delayQuery), 300);
+    return () => clearTimeout(timeOutId);
+  }, [delayQuery]);
 
   useEffect(() => {
     setForm(route.params.form);
+    if (route.params.form.brand) {
+      setQuery(route.params.form.brand);
+    }
   }, [route.params.form]);
 
   const [form, setForm] = useState<Form>({});
-  console.log({form});
-
-  const clear = () => {};
+  const clear = () => {
+    setDelayQuery('');
+  };
   useEffect(() => {
-    // setData([]);
-    if (form.brand) {
-      setQuery(form.brand);
-    }
-    // let filter = {};
-    // if (form) {
+    loadData(1);
+  }, [query, sort, order]);
 
-    //   filter = Object.fromEntries(
-    //     Object.entries(form).filter(([_, value]) => value !== null),
-    //   );
-    // }
+  const loadData = pageNumber => {
+    console.log(CATEGORY + `?page=${pageNumber}`);
     axios
       .post(CATEGORY + `?page=${pageNumber}`, {
         search: query,
         sort: sort,
         order: order,
-
         ...form,
       })
       .then(response => {
         const pagination: Pagination = response.data.data;
-        console.log(pagination);
-        // setPageNumber(pagination.current_page);
-        setData([...data, ...pagination.data]);
-        setIsRefreshing(false);
+        console.log({pagination});
+        setTotalItems(pagination.total);
+        setPageNumber(pagination.current_page);
+        // if no new items were fetched, set all loaded to true to prevent further requests
+        setAllLoaded(pagination.next_page_url == null);
+        // process the newly fetched items
+        // setData([...new Set([...data, ...pagination.data])]);
+        if (pageNumber == 1) {
+          setData(pagination.data);
+        } else {
+          const alreadloadeditemsID = data.map(x => x.id);
+          const newItems = pagination.data.filter(
+            y => !alreadloadeditemsID.includes(y.id),
+          );
+          setData([...data, ...newItems]);
+        }
+        // setData(pagination.data);
+        // load more complete, set loading more to false
+        setLoadingMore(false);
       });
-  }, [query, sort, route, pageNumber, form, order]);
+  };
+
+  const loadMoreResults = async info => {
+    console.log('loading more data');
+    // if already loading more, or all loaded, return
+    if (loadingMore || allLoaded) return;
+    // set loading more (also updates footer text)
+    setLoadingMore(true);
+
+    loadData(pageNumber + 1);
+  };
 
   const handleValueChange = useCallback((lowValue, highValue) => {
     setForm({...form, max_price: highValue, min_price: lowValue});
   }, []);
 
-  const onRefresh = () => {
-    //set isRefreshing to true
-    setIsRefreshing(true);
-    setQuery('');
-    // and set isRefreshing to false at the end of your callApiMethod()
-  };
   if (!data) return <Loading />;
-
-  const renderFooter = () => {
-    return (
-      //Footer View with Load More button
-      <View style={styles.footer}>
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() => setPageNumber(pageNumber + 1)}
-          //On Click of button calling getData function to load more data
-          style={styles.loadMoreBtn}>
-          <Text style={styles.btnText}>Load More</Text>
-          {isRefreshing ? (
-            <ActivityIndicator color="white" style={{marginLeft: 8}} />
-          ) : null}
-        </TouchableOpacity>
-      </View>
-    );
-  };
 
   return (
     <SafeAreaView style={tw`flex-1`}>
@@ -127,8 +132,8 @@ const Listings = () => {
           <View style={tw`flex-1 z-10`}>
             <TextInput
               placeholder="Search"
-              onChangeText={setQuery}
-              value={query}
+              onChangeText={setDelayQuery}
+              value={delayQuery}
               placeholderTextColor={'white'}
               style={{
                 width: '100%',
@@ -197,7 +202,7 @@ const Listings = () => {
                         value="first"
                         status={order === 'desc' ? 'checked' : 'unchecked'}
                       />
-                      <Text style={{color: 'black'}}>Price High to low</Text>
+                      <Text style={{color: 'black'}}>Price low to high</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -229,7 +234,6 @@ const Listings = () => {
           showsHorizontalScrollIndicator={false}
           style={tw`px-2 flex-1`}>
           <Chip
-            icon={sort == 'price' ? 'check' : ''}
             style={tw`mr-2 bg-blue-600`}
             textStyle={{color: 'white'}}
             onPress={() => setModalVisible(true)}
@@ -237,7 +241,6 @@ const Listings = () => {
             Price
           </Chip>
           <Chip
-            icon={sort == 'City' ? 'check' : ''}
             style={tw`mr-2  bg-blue-600`}
             textStyle={{color: 'white'}}
             onPress={() => setPriceModalVisible(true)}>
@@ -269,11 +272,31 @@ const Listings = () => {
             justifyContent: 'space-between',
             alignItems: 'center',
             marginHorizontal: 15,
-            paddingBottom: 100,
+            // paddingBottom: 100,
           }}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
-          ListFooterComponent={renderFooter}
+          // onRefresh={() => setQuery('')}
+          // refreshing={loadingMore}
+          ListHeaderComponent={
+            <View style={styles.listheader}>
+              <Text style={styles.title}>
+                Displaying {data.length} Items out of {totalItems}
+              </Text>
+            </View>
+          }
+          ListFooterComponent={
+            <View style={styles.listfooter}>
+              {loadingMore && (
+                <Text style={styles.title}>
+                  <Text style={styles.footerText}>Loading More...</Text>
+                </Text>
+              )}
+            </View>
+          }
+          scrollEventThrottle={250}
+          onEndReachedThreshold={0.01}
+          onEndReached={info => {
+            loadMoreResults(info);
+          }}
           numColumns={2}
           renderItem={({item}) => <GridItem item={item}></GridItem>}
         />
@@ -285,11 +308,29 @@ const Listings = () => {
           contentContainerStyle={{
             justifyContent: 'space-between',
             marginHorizontal: 15,
-            paddingBottom: 100,
+            // paddingBottom: 100,
           }}
-          onRefresh={onRefresh}
-          refreshing={isRefreshing}
-          ListFooterComponent={renderFooter}
+          // onRefresh={() => setQuery('')}
+          // refreshing={loadingMore}
+          ListHeaderComponent={
+            <View style={styles.listheader}>
+              <Text style={styles.title}>
+                Displaying {data.length} Items out of {totalItems}
+              </Text>
+            </View>
+          }
+          ListFooterComponent={
+            <View style={styles.listfooter}>
+              {loadingMore && (
+                <Text style={styles.footerText}>Loading More...</Text>
+              )}
+            </View>
+          }
+          scrollEventThrottle={250}
+          onEndReachedThreshold={0.01}
+          onEndReached={info => {
+            loadMoreResults(info);
+          }}
           numColumns={1}
           renderItem={({item}) => <ListItem item={item}></ListItem>}
         />
@@ -394,5 +435,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 15,
     textAlign: 'center',
+  },
+  listheader: {
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: '600',
+  },
+  listfooter: {
+    padding: 15,
+  },
+  footerText: {
+    fontWeight: '600',
   },
 });

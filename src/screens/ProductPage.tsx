@@ -189,20 +189,29 @@ const ProductPage = ({navigation, route}) => {
                 width: '30%',
                 height: 300,
               }}>
-              {details.productimages?.slice(0, 3).map(({img, index}) => (
+              {details.productimages?.slice(0, 3).map(({img, id}, index) => (
                 <TouchableOpacity
-                  key={index}
+                  key={id}
                   onPress={() =>
                     navigation.navigate('Images', {
                       images: data.details.productimages,
                     })
                   }>
                   <Image
-                    key={index}
                     style={styles.productImage}
                     resizeMode="contain"
                     source={{uri: image_url + img}}
                   />
+                  {index == 2 && details.productimages.length - 3 != 0 && (
+                    <View
+                      // margin: 4,
+                      // marginHorizontal: 8,
+                      style={tw`absolute inset-0 bg-black/20  ml-2 my-1 -mr-2 rounded-[10px] items-center justify-center`}>
+                      <Text style={tw`text-white text-2xl`}>
+                        +{details.productimages.length - 3}
+                      </Text>
+                    </View>
+                  )}
                 </TouchableOpacity>
               ))}
             </View>

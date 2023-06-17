@@ -1,9 +1,10 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Provider as Paper} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import Store from './src/Redux/Store';
+import Welcome from './src/components/Welcome';
 import TabNavigation from './src/navigation/TabNavigation';
 import AboutUs from './src/screens/AboutUs';
 import BlogDetails from './src/screens/BlogDetails';
@@ -33,6 +34,18 @@ import {IndexParamList} from './src/types';
 
 const App = () => {
   const Stack = createNativeStackNavigator<IndexParamList>();
+  const [loading, setLoading] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
+  useEffect(() => {
+    // Simulating app initialization process
+    setTimeout(() => {
+      setLoading(false);
+    }, 800); // Change the delay to match your actual app initialization
+  }, []);
+  if (loading) {
+    return <Welcome />;
+  }
+
   return (
     <Provider store={Store}>
       <Paper>

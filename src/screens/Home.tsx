@@ -245,11 +245,11 @@ const Home = ({navigation}) => {
       </View>
 
       <ScrollView
-        style={{marginTop: 24}}
+        style={{}}
         contentContainerStyle={{
           alignItems: 'center',
           backgroundColor: color.white,
-          paddingBottom: 100,
+          paddingBottom: 230,
         }}
         showsVerticalScrollIndicator={false}
         stickyHeaderHiddenOnScroll={false}

@@ -1,8 +1,14 @@
-import {BRANDS, MODELS, POSTANAD} from '@env';
+import {BRANDS, MODELS, POSTANAD, SUBMITOTP} from '@env';
 import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import FormData from 'form-data';
+import {
+  selectProfileData,
+  selectSocialLogin,
+  setSocialLgin,
+} from '../Redux/Slices';
+
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -19,17 +25,25 @@ import {
 } from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {Button} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {color} from '../constants/Colors';
+import {Profile} from '../types';
+
 const {width, height} = Dimensions.get('window');
 
 // require the module
 var RNFS = require('react-native-fs');
 
 const PostAnAd = () => {
+  const profileData = useSelector(selectProfileData) as Profile;
+  const sociallogin = useSelector(selectSocialLogin) as Profile;
+  console.log('toppo', sociallogin);
+  const [submitText, setSubmitText] = useState('Submit');
+  const [otp, setOtp] = useState('');
   const navigation = useNavigation();
   const [brands, setBrands] = useState([]);
   const [otherBrand, setOtherBrand] = useState(false);
@@ -50,8 +64,21 @@ const PostAnAd = () => {
   const [images, setImages] = useState([]);
   const [brand, setBrand] = useState<string>();
   const [model, setModel] = useState();
+  const [accountStatus, setAccountStatus] = useState(false);
   const [button, setButton] = useState('Save Product');
   const [uploadbtn, setuploadbtn] = useState('Upload Image');
+  const [phoneNumber, setPhonenumber] = useState('');
+  const [isPhoneNumber, setIsPhoneNumber] = useState(false);
+  const [isOtp, setOTP] = useState(false);
+  const [verifed, setVerfied] = useState(false);
+  const [timer, setTimer] = useState(null);
+  const [disabled, setDisabled] = useState(false);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!sociallogin) {
+      setVerfied(true);
+    }
+  }, []);
   const [form, setForm] = useState({
     brand: '',
     model: '',
@@ -65,6 +92,7 @@ const PostAnAd = () => {
     warranty: '',
     category: '',
     accessories: ['box'],
+    account_status: '',
   });
   const Ram = [
     {key: 1, value: '1 GB'},
@@ -89,7 +117,7 @@ const PostAnAd = () => {
     {key: 11, value: '1 TB'},
   ];
   const Warranty = [
-    {key: 1, value: 'No Warrenty'},
+    {key: 1, value: 'No Warranty'},
     {key: 2, value: '1 month'},
     {key: 3, value: '2 months'},
     {key: 4, value: '3 months'},
@@ -113,6 +141,10 @@ const PostAnAd = () => {
     {key: 1, value: 'Tablet'},
     {key: 1, value: 'Watch'},
   ];
+  const AccountStatus = [
+    {key: 1, value: 'Verified'},
+    {key: 1, value: 'NON-Verified'},
+  ];
 
   if (form.brand === 'Other') {
     setTimeout(() => {
@@ -135,6 +167,7 @@ const PostAnAd = () => {
     }, 300);
   }
   const _accessToken = useSelector(state => state.todo.accessToken);
+  // console.log('acessssssstoken Post and aAd', _accessToken);
 
   const getBrandFunc = () => {
     //Get brands with this function
@@ -178,6 +211,49 @@ const PostAnAd = () => {
         console.log('Brands ' + error);
       });
   };
+  console.log('==========', otp);
+
+  const startTimer = () => {
+    setDisabled(true);
+
+    const timerId = setTimeout(() => {
+      setDisabled(false);
+    }, 30000);
+    setTimer(timerId);
+  };
+
+  const OTPVerify = () => {
+    axios
+      .post(SUBMITOTP, {
+        otp_code: otp,
+        phone_number: phoneNumber,
+      })
+      .then(response => {
+        console.log(response.data);
+
+        if (response.data.errors) {
+          Alert.alert('Try again');
+          setSubmitText('Submit');
+          setOtp('');
+        } else if (response.data.message) {
+          if (response.data.status === 419) {
+            Alert.alert('Wrong Otp', 'Try again');
+          } else if (response.data.status) {
+            setVerfied(true);
+            setSubmitText('Submit');
+            setOTP(false);
+            setOtp('');
+            Alert.alert(response.data.message);
+            // navigation.navigate('TabNavigation', {screen: 'Home'});
+          }
+        }
+      })
+      .catch(error => {
+        Alert.alert('Failed', 'Try again');
+        setSubmitText('Submit');
+        setOtp('');
+      });
+  };
   const options = {
     mediaType: 'photo',
     quality: 0.5,
@@ -204,6 +280,22 @@ const PostAnAd = () => {
       ...provided,
       color: 'red', // Change the color value to your desired text color
     }),
+  };
+
+  const SendOTP = () => {
+    axios
+      .post('https://www.mobilezmarket.com/api/send-otp', {
+        phone_number: phoneNumber,
+      })
+      .then(response => {
+        console.log(JSON.stringify(response.data));
+        setOTP(true);
+        startTimer();
+        dispatch(setSocialLgin(false));
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
   };
 
   useEffect(() => {
@@ -267,6 +359,7 @@ const PostAnAd = () => {
                 warranty: '',
                 category: '',
                 accessories: ['box'],
+                account_status: '',
               });
               navigation.navigate('TabNavigation', {screen: 'Home'});
               Alert.alert(response.data.message);
@@ -282,6 +375,12 @@ const PostAnAd = () => {
           })
       : Alert.alert('Please Login First');
   };
+
+  const cancelTimer = () => {
+    clearTimeout(timer); // Cancel the timer
+    setDisabled(false); // Enable the button immediately
+  };
+  console.log('===================account', profileData.account_status);
   return (
     <SafeAreaView>
       <ScrollView
@@ -342,6 +441,7 @@ const PostAnAd = () => {
             {otherBrand && (
               <TextInput
                 placeholder="Choose brand"
+                placeholderTextColor={'black'}
                 style={styles.box_input}
                 value={brand}
                 onChangeText={text => setBrand(text)}
@@ -369,6 +469,7 @@ const PostAnAd = () => {
               style={styles.box_input}
               keyboardType="number-pad"
               placeholder="Enter Price"
+              placeholderTextColor={'lightgrey'}
               value={form.price}
               onChangeText={text => setForm({...form, price: text})}
             />
@@ -431,6 +532,7 @@ const PostAnAd = () => {
                   <CheckBox
                     disabled={false}
                     value={toggleAccesories.box}
+                    tintColors={color.black}
                     onValueChange={newValue =>
                       setToggleAccesories({
                         ...toggleAccesories,
@@ -444,6 +546,7 @@ const PostAnAd = () => {
                 <View style={styles.check_box_box}>
                   <CheckBox
                     disabled={false}
+                    tintColors={color.black}
                     value={toggleAccesories.charger}
                     onValueChange={newValue =>
                       setToggleAccesories({
@@ -458,6 +561,7 @@ const PostAnAd = () => {
                 <View style={styles.check_box_box}>
                   <CheckBox
                     disabled={false}
+                    tintColors={color.black}
                     value={toggleAccesories.data_cable}
                     onValueChange={newValue =>
                       setToggleAccesories({
@@ -472,6 +576,7 @@ const PostAnAd = () => {
                 <View style={styles.check_box_box}>
                   <CheckBox
                     disabled={false}
+                    tintColors={color.black}
                     value={toggleAccesories.handfree}
                     onValueChange={newValue =>
                       setToggleAccesories({
@@ -486,6 +591,7 @@ const PostAnAd = () => {
                 <View style={styles.check_box_box}>
                   <CheckBox
                     disabled={false}
+                    tintColors={color.black}
                     value={toggleAccesories.kit_only}
                     onValueChange={newValue =>
                       setToggleAccesories({
@@ -507,6 +613,87 @@ const PostAnAd = () => {
               save="value"
               dropdownTextStyles={{color: 'black'}}
             />
+
+            {/* {profileData?.social_login !== null && (
+              <View style={{paddingVertical: 20}}>
+                <Button
+                  color={color.orange}
+                  title="Verify"
+                  onPress={OTPVerify}
+                />
+            
+              </View>
+
+          
+
+            )} */}
+            {sociallogin ? (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginVertical: 10,
+                  justifyContent: 'space-between',
+                }}>
+                <TextInput
+                  style={{
+                    borderWidth: 1,
+                    width: 200,
+                    borderRadius: 5,
+                    color: 'black',
+                  }}
+                  keyboardType="number-pad"
+                  placeholder="Enter your number"
+                  placeholderTextColor={'lightgrey'}
+                  inputMode="numeric"
+                  value={phoneNumber}
+                  onChangeText={e => {
+                    setPhonenumber(e);
+                  }}
+                />
+
+                <Button
+                  theme={{colors: {primary: color.orange}, roundness: 90}}
+                  mode={'contained'}
+                  onPress={SendOTP}
+                  textColor="white">
+                  SEND OTP
+                </Button>
+              </View>
+            ) : null}
+            {isOtp ? (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  marginVertical: 5,
+                  justifyContent: 'space-between',
+                }}>
+                <TextInput
+                  style={{borderWidth: 1, borderRadius: 5, color: 'black'}}
+                  keyboardType="number-pad"
+                  placeholder="Enter OTP"
+                  placeholderTextColor={'lightgrey'}
+                  value={otp}
+                  onChangeText={e => setOtp(e)}
+                />
+
+                <Button
+                  theme={{colors: {primary: color.orange}, roundness: 90}}
+                  mode={'contained'}
+                  onPress={OTPVerify}
+                  textColor="white">
+                  VERIFY OTP
+                </Button>
+
+                <Button
+                  theme={{colors: {primary: color.orange}, roundness: 90}}
+                  mode={'contained'}
+                  textColor="white"
+                  onPress={SendOTP}
+                  disabled={disabled}>
+                  Resend OTP
+                </Button>
+              </View>
+            ) : null}
           </View>
           <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>
             Product Image
@@ -528,64 +715,75 @@ const PostAnAd = () => {
               />
             )}
           />
+
           <Text style={{marginVertical: 5, color: 'black', fontWeight: '700'}}>
             Upload upto 20 images
           </Text>
           {/* <Button title="Upload image" onPress={ImageUpload} /> */}
-          <TouchableOpacity
-            onPress={ImageUpload}
-            style={{
-              backgroundColor: color.orange,
-              width: width - 50,
-              height: 50,
-              borderRadius: 20,
-              marginTop: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginLeft: 12,
-            }}>
-            <Text
-              style={{
-                color: color.white,
-                fontWeight: 'bold',
-                fontSize: 15,
-              }}>
-              {uploadbtn}
-            </Text>
-          </TouchableOpacity>
-          <Text
-            style={{
-              fontWeight: '600',
-              color: 'black',
-              fontSize: 15,
-              marginVertical: 16,
-            }}>
-            Description
-          </Text>
+          {/* {verifed ? console.log('t') : console.log('f')} */}
+          {verifed ? (
+            <>
+              <TouchableOpacity
+                onPress={ImageUpload}
+                style={{
+                  backgroundColor: color.orange,
+                  width: width - 50,
+                  height: 50,
+                  borderRadius: 20,
+                  marginTop: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginLeft: 12,
+                }}>
+                <Text
+                  style={{
+                    color: color.white,
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                  }}>
+                  {uploadbtn}
+                </Text>
+              </TouchableOpacity>
+              <Text
+                style={{
+                  fontWeight: '600',
+                  color: 'black',
+                  fontSize: 15,
+                  marginVertical: 16,
+                }}>
+                Description
+              </Text>
 
-          <TextInput
-            style={styles.description}
-            multiline={true}
-            value={form.description}
-            onChangeText={text => setForm({...form, description: text})}
-            numberOfLines={5}
-          />
-          <TouchableOpacity
-            onPress={() => PostAdFunc()}
-            style={{
-              backgroundColor: color.orange,
-              width: width - 50,
-              height: 50,
-              borderRadius: 20,
-              marginTop: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{color: color.white, fontWeight: 'bold', fontSize: 15}}>
-              {button}
-            </Text>
-          </TouchableOpacity>
+              <TextInput
+                style={styles.description}
+                multiline={true}
+                value={form.description}
+                onChangeText={text => setForm({...form, description: text})}
+                numberOfLines={5}
+              />
+              <TouchableOpacity
+                onPress={() => PostAdFunc()}
+                disabled={isOtp ? true : false}
+                style={{
+                  backgroundColor: color.orange,
+                  width: width - 50,
+                  height: 50,
+                  borderRadius: 20,
+                  marginTop: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: color.white,
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                  }}>
+                  {button}
+                </Text>
+              </TouchableOpacity>
+            </>
+          ) : null}
         </View>
       </ScrollView>
     </SafeAreaView>

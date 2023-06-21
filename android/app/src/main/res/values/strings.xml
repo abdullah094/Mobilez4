@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Mobilez</string>
     <string name="server_client_id">1054360665178-hbojd2aj076ksbvcuhgntrpv1683s0fa.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">686223029942369</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">26522b73291a3d1c9a2f81fa437a1f07</string>
+
 </resources>

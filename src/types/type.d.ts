@@ -30,6 +30,8 @@ export interface Profile {
   updated_at: Date;
   user_type: null;
   whatsapp_num: null;
+  socialLogin: boolean
+  
 }
 
 export interface NewDevices {

@@ -72,11 +72,21 @@ const Listings = () => {
     setDelayQuery('');
   };
   useEffect(() => {
+    if (fistTimeRender) {
+      setFistTimeRender(false);
+      return;
+    }
+
     loadData(1);
   }, [query, sort, order, form]);
 
   const loadData = pageNumber => {
-    console.log(CATEGORY + `?page=${pageNumber}`);
+    console.log({
+      search: query,
+      sort: sort,
+      order: order,
+      ...form,
+    });
     axios
       .post(CATEGORY + `?page=${pageNumber}`, {
         search: query,
@@ -86,7 +96,7 @@ const Listings = () => {
       })
       .then(response => {
         const pagination: Pagination = response.data.data;
-        console.log({pagination});
+        // console.log({pagination});
         setTotalItems(pagination.total);
         setPageNumber(pagination.current_page);
         // if no new items were fetched, set all loaded to true to prevent further requests
@@ -174,15 +184,19 @@ const Listings = () => {
             Filter
           </Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={{flexDirection: 'row'}}
+          onPress={() => {
+            console.log('click');
+            setModalVisible(true);
+          }}>
+          <Sort name="sort" color="black" size={20} />
+          <Text
+            style={{paddingHorizontal: 5, fontWeight: '700', color: 'black'}}>
+            Sort
+          </Text>
+        </TouchableOpacity>
         <View>
-          <TouchableOpacity style={{flexDirection: 'row'}}>
-            <Sort name="sort" color="black" size={20} />
-            <Text
-              style={{paddingHorizontal: 5, fontWeight: '700', color: 'black'}}>
-              Sort
-            </Text>
-          </TouchableOpacity>
-
           <Modal
             animationType="slide"
             transparent={true}
@@ -194,28 +208,76 @@ const Listings = () => {
                 <View style={styles.radioContainer}>
                   <TouchableOpacity
                     onPress={() => {
+                      setSort('price');
                       setOrder('desc');
                       setModalVisible(false);
                     }}>
                     <View style={styles.radioButton}>
                       <RadioButton
                         value="first"
-                        status={order === 'desc' ? 'checked' : 'unchecked'}
+                        status={
+                          order === 'desc' && sort === 'price'
+                            ? 'checked'
+                            : 'unchecked'
+                        }
                       />
-                      <Text style={{color: 'black'}}>{sort} low to high</Text>
+                      <Text style={{color: 'black'}}>{sort} high to low</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
+                      setSort('price');
                       setOrder('asc');
                       setModalVisible(false);
                     }}>
                     <View style={styles.radioButton}>
                       <RadioButton
                         value="second"
-                        status={order === 'asc' ? 'checked' : 'unchecked'}
+                        status={
+                          order === 'asc' && sort === 'price'
+                            ? 'checked'
+                            : 'unchecked'
+                        }
                       />
-                      <Text style={{color: 'black'}}>{sort} High to low</Text>
+                      <Text style={{color: 'black'}}>{sort} low to high</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      // setSort('Recently Added')
+                      setSort('created_at');
+                      setOrder('asc');
+                      setModalVisible(false);
+                    }}>
+                    <View style={styles.radioButton}>
+                      <RadioButton
+                        value="third"
+                        status={
+                          order === 'asc' && sort === 'created_at'
+                            ? 'checked'
+                            : 'unchecked'
+                        }
+                      />
+                      <Text style={{color: 'black'}}>Recently Added</Text>
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setSort('created_at');
+                      setOrder('desc');
+                      setModalVisible(false);
+                    }}>
+                    <View style={styles.radioButton}>
+                      <RadioButton
+                        value="fourth"
+                        status={
+                          order === 'desc' && sort === 'created_at'
+                            ? 'checked'
+                            : 'unchecked'
+                        }
+                      />
+
+                      <Text style={{color: 'black'}}>Default</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -234,23 +296,12 @@ const Listings = () => {
           showsHorizontalScrollIndicator={false}
           style={tw`px-2 flex-1`}>
           <Chip
-            style={tw`mr-2 bg-blue-600`}
-            textStyle={{color: 'white'}}
-            icon={sort == 'Price' ? 'check' : ''}
-            onPress={() => {
-              setSort('Price');
-              setModalVisible(true);
-            }}
-            selectedColor={'black'}>
-            Price
-          </Chip>
-          <Chip
             style={tw`mr-2  bg-blue-600`}
             textStyle={{color: 'white'}}
             onPress={() => setPriceModalVisible(true)}>
             Price Range
           </Chip>
-          <Chip
+          {/* <Chip
             style={tw`mr-2  bg-blue-600`}
             icon={sort == 'ram' ? 'check' : ''}
             textStyle={{color: 'white'}}
@@ -259,7 +310,7 @@ const Listings = () => {
               setModalVisible(true);
             }}>
             ram
-          </Chip>
+          </Chip> */}
         </ScrollView>
 
         <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>

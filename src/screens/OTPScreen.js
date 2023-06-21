@@ -81,7 +81,7 @@ const OTPScreen = ({route, navigation}) => {
             fontSize: 20,
             textAlign: 'center',
           }}>
-          Enter the OTP code we sent on Email
+          Enter the OTP code we sent on your Phone
         </Text>
         <TextInput
           value={otp.otp_code}

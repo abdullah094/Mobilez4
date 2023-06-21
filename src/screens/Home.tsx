@@ -15,6 +15,7 @@ import {
 import {color} from '../constants/Colors';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Linking} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
@@ -44,6 +45,43 @@ const Home = ({navigation}) => {
   DeviceInfo.getDeviceName().then((res: string) => {
     setDeviceName(res);
   });
+  useEffect(() => {
+    const handleDeepLink = async () => {
+      // const url1 = 'https://www.mobilezmarket.com/product-detail/180/Apple/4';
+      // const parts = url1.split('/');
+      // const number = parts[parts.length - 3];
+      // console.log({number});
+      // navigation.navigate('ProductPage', {id: number});
+
+      const url = await Linking.getInitialURL();
+
+      if (url) {
+        // Process the deep link URL here
+
+        console.log('Deep link URL:', url);
+        const parts = url.split('/');
+        const number = parts[parts.length - 3];
+        navigation.navigate('ProductPage', {id: number});
+      }
+    };
+
+    const Nav = async (event: {url: string}) => {
+      const url = event.url;
+      if (url) {
+        // Process the deep link URL here
+
+        console.log('Deep link URL:', url);
+        const parts = url.split('/');
+        const number = parts[parts.length - 3];
+        navigation.navigate('ProductPage', {id: number});
+      }
+    };
+
+    handleDeepLink();
+
+    // Register a listener for future deep link events
+    Linking.addEventListener('url', Nav);
+  }, []);
 
   useEffect(() => {
     console.log('Getting Token From AsyncStorage');
@@ -201,7 +239,7 @@ const Home = ({navigation}) => {
               justifyContent: 'space-between',
               width: '100%',
               alignItems: 'center',
-              marginTop: 25,
+              marginTop: 19,
             },
           ]}>
           <Text
@@ -249,7 +287,7 @@ const Home = ({navigation}) => {
         contentContainerStyle={{
           alignItems: 'center',
           backgroundColor: color.white,
-          paddingBottom: 230,
+          paddingBottom: 200,
         }}
         showsVerticalScrollIndicator={false}
         stickyHeaderHiddenOnScroll={false}

@@ -37,10 +37,9 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
   useEffect(() => {
-    // Simulating app initialization process
     setTimeout(() => {
       setLoading(false);
-    }, 800); // Change the delay to match your actual app initialization
+    }, 800);
   }, []);
   if (loading) {
     return <Welcome />;

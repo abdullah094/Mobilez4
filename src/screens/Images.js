@@ -9,9 +9,10 @@ const Images = ({navigation, route}) => {
   const {images} = route.params;
   const image_url = 'https://www.mobilezmarket.com/images/';
   const {width, height} = Dimensions.get('window');
-  const _renderItem = ({item}) => {
+  const _renderItem = ({item, index}) => {
     return (
       <Image
+        key={item.id}
         style={{
           width: width,
         }}
@@ -60,6 +61,7 @@ const Images = ({navigation, route}) => {
               snapToAlignment="start"
               decelerationRate="fast"
               snapToInterval={width}
+              initialNumToRender={20}
               scrollEventThrottle={23} // Adjust the value for speed control
             />
           </View>

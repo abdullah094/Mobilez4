@@ -9,9 +9,14 @@ export const todosSlice = createSlice({
     testing: 'testing',
     docs: [],
     wishList: [],
+    socialLogin: false,
   },
 
   reducers: {
+    setSocialLgin: (state, action) => {
+      state.socialLogin = action.payload;
+    },
+
     setAccessToken: (state, action) => {
       state.accessToken = action.payload;
     },
@@ -49,6 +54,7 @@ export const todosSlice = createSlice({
 export const selectAccessToken = state => state.todo.accessToken;
 export const selectProfileData = state => state.todo.profile;
 export const selectWishlist = state => state.todo.wishList;
+export const selectSocialLogin = state => state.todo.socialLogin;
 
 export const {
   addItem,
@@ -60,5 +66,6 @@ export const {
   setWishList,
   AddToWishlist,
   RemoveFromWishList,
+  setSocialLgin,
 } = todosSlice.actions;
 export default todosSlice.reducer;

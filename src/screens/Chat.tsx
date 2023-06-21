@@ -23,6 +23,7 @@ interface User {
   id: number;
   name: string;
   photo: string;
+  phone: number;
 }
 interface messages {
   _id: string;
@@ -62,7 +63,7 @@ const ChatScreen = ({navigation}) => {
           from_id: from_id,
           to_id: to_id,
           // body:messages[messages?.length-1]
-          body: body[0].text,
+          body: body[0]?.text,
         },
         {
           headers: {Authorization: `Bearer ${accessToken}`},
@@ -168,7 +169,6 @@ const ChatScreen = ({navigation}) => {
           const arrayUniqueByKey = [
             ...new Map(contact.map(item => [item.id, item])).values(),
           ];
-
           setContacts(arrayUniqueByKey);
           setTo_id(params.to.id);
         } else {

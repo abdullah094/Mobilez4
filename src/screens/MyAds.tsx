@@ -29,6 +29,8 @@ const MyAds = ({navigation}) => {
   const _accessToken = useSelector(selectAccessToken);
   const [isWhishlist, setIsWhishlist] = useState(false);
   const [Grid, setGrid] = useState(false);
+  const [backcolor, setbackColor] = useState('#015dcf');
+  const [textColor, setTextColor] = useState('white');
 
   useEffect(() => {
     axios
@@ -42,6 +44,7 @@ const MyAds = ({navigation}) => {
         console.log(error);
       });
   }, [_accessToken]);
+
   return (
     <SafeAreaView style={tw`flex-1`}>
       <View
@@ -59,18 +62,20 @@ const MyAds = ({navigation}) => {
           My Ads
         </Text>
       </View>
-      <View style={tw`flex-row justify-between p-2 `}>
+      <View style={tw`flex-row justify-between p-2 px-19 `}>
         <Button
-          style={tw`w-1/3`}
-          mode={isWhishlist ? 'outlined' : 'contained'}
-          textColor="black"
+          style={[tw`w-30 border border-blue-500`]}
+          mode={isWhishlist ? 'text' : 'contained'}
+          textColor={isWhishlist ? 'black' : 'white'}
+          buttonColor={isWhishlist ? 'white' : '#015dcf'}
           onPress={() => setIsWhishlist(false)}>
           My Ads
         </Button>
         <Button
-          style={tw`w-1/3`}
-          textColor="black"
-          mode={isWhishlist ? 'contained' : 'outlined'}
+          style={tw`w-30 border border-blue-500`}
+          textColor={isWhishlist ? 'white' : 'black'}
+          buttonColor={isWhishlist ? '#015dcf' : 'white'}
+          mode={isWhishlist ? 'contained' : 'text'}
           onPress={() => setIsWhishlist(true)}>
           Whishlist
         </Button>

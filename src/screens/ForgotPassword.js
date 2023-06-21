@@ -42,6 +42,7 @@ const ForgotPassword = ({navigation}) => {
             position: 'absolute',
             left: 20,
             zIndex: 999,
+            top: 15,
             shadowColor: '#FFFFFF',
           }}
           onPress={() => navigation.goBack()}>
@@ -57,7 +58,7 @@ const ForgotPassword = ({navigation}) => {
           color: color.black,
           fontWeight: 'bold',
           fontSize: 25,
-          marginTop: 200,
+          marginTop: 300,
         }}>
         Enter you email
       </Text>

@@ -18,25 +18,34 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {Settings} from 'react-native-fbsdk-next';
+import {TextInput} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
-import {selectAccessToken, setAccessToken} from '../Redux/Slices';
+import {
+  selectAccessToken,
+  setAccessToken,
+  setSocialLgin,
+} from '../Redux/Slices';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
+
+Settings.setAppID('686223029942369');
+Settings.initializeSDK();
 const Login = () => {
   const navigation = useNavigation();
   const [email, setEmail] = useState<string>('');
 
   const [check, setCheck] = useState(false);
-  const [password, setPassword] = useState<string>('');
+  const [password, setPassword] = useState<any>('');
   const [loginLoader, setLoginLoader] = useState('Sign In');
   const accessToken = useSelector(selectAccessToken);
+  const [hidePass, setHidePass] = useState(true);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   if (accessToken) navigation.navigate('Home');
   const dispatch = useDispatch();
@@ -86,6 +95,65 @@ const Login = () => {
       })
       .catch(error => {
         setLoginLoader('Login');
+        Alert.alert('Unsuccessful', 'Please try again');
+      });
+  };
+
+  const fetchFacebookLogin = (fEmail, fid, name, avatar) => {
+    setLoginLoader(<ActivityIndicator size="small" color="white" />);
+    avatar = '';
+    const url = encodeURI(
+      SOCIALLOGIN + `?email=${fEmail}&id=${fid}&first_name=${name}`,
+    );
+    console.log('====================================');
+    console.log({
+      email: fEmail,
+      id: fid,
+      name: name,
+      avatar: avatar,
+    });
+    console.log('====================================');
+    axios
+      .post(SOCIALLOGIN, {
+        email: fEmail,
+        id: fid,
+        name: name,
+        avatar: avatar,
+      })
+      .then(response => {
+        if (response.data.errors) {
+          console.log('response', response);
+          console.log(response.data?.errors);
+          if (response.data.errors) {
+            if (response.data.errors.email && response.data.errors.password) {
+              Alert.alert('Email and password are wrong');
+            } else if (response.data.errors.email) {
+              Alert.alert(response.data.errors.message.email);
+            } else if (response.data.errors.password) {
+              Alert.alert(response.data.errors.password);
+            } else {
+              Alert.alert('Unsuccessful', 'Please try again');
+            }
+          } else {
+            Alert.alert('Unsuccessful', 'Please try again');
+          }
+          setLoginLoader('Login');
+        } else if (response.data?.status === false) {
+          if (response.data.message) {
+            Alert.alert(response.data.message);
+          } else {
+            Alert.alert('Unsuccessful', 'Please try again');
+          }
+          setLoginLoader('Login');
+        } else if (response.data?.status) {
+          dispatch(setAccessToken(response.data.token));
+          setLoginLoader('Login');
+          PutAccessTokenToAsync(response.data.token);
+        }
+      })
+      .catch(error => {
+        setLoginLoader('Login');
+        console.log('error', error);
         Alert.alert('Unsuccessful', 'Please try again');
       });
   };
@@ -139,6 +207,7 @@ const Login = () => {
         } else if (response.data?.status) {
           dispatch(setAccessToken(response.data.token));
           setLoginLoader('Login');
+          dispatch(setSocialLgin(true));
           PutAccessTokenToAsync(response.data.token);
         }
       })
@@ -160,10 +229,27 @@ const Login = () => {
   useEffect(() => {
     GoogleSignin.configure({
       androidClientId:
-        '1054360665178-hbojd2aj076ksbvcuhgntrpv1683s0fa.apps.googleusercontent.com',
+        '1054360665178-s0ha7ki2pt5ainsht0ui2o6l2fv2pu9r.apps.googleusercontent.com',
       profileImageSize: 150,
     });
   }, []);
+
+  // const facebookSignin =async ()=>{
+  //   if (error) {
+  //     //Alert for the Error
+  //     alert('Error fetching data: ' + error.toString());
+  //   } else {
+  //     //response alert
+  //     fetchGoogleLogin()
+  //   }
+  // };
+
+  // const onLogout = () => {
+  //   //Clear the state after logout
+  //   setUserName(null);
+  //   setToken(null);
+  //   setProfilePic(null);
+  // }
 
   const _signIn = async () => {
     try {
@@ -202,6 +288,9 @@ const Login = () => {
       }
     }
   };
+  const togglePasswordVisibility = () => {
+    setHidePass(!hidePass);
+  };
 
   return (
     <SafeAreaView style={tw`flex-1`}>
@@ -220,6 +309,7 @@ const Login = () => {
                   keyboardType="email-address"
                   style={styles.input}
                   value={email}
+                  textColor="black"
                   onChangeText={(text: string) => setEmail(text.toLowerCase())}
                 />
               </View>
@@ -229,7 +319,17 @@ const Login = () => {
                 <TextInput
                   style={styles.input}
                   value={password}
+                  secureTextEntry={hidePass}
+                  textColor="black"
                   onChangeText={text => setPassword(text.toLowerCase())}
+                  right={
+                    <TextInput.Icon
+                      icon={hidePass ? 'eye-off' : 'eye'}
+                      color={'black'}
+                      size={16}
+                      onPress={togglePasswordVisibility}
+                    />
+                  }
                 />
               </View>
 
@@ -302,12 +402,29 @@ const Login = () => {
             </View>
 
             <View style={tw`flex flex-row justify-center w-full   z-20 `}>
-              <TouchableOpacity style={styles.social_buttons}>
+              {/* <TouchableOpacity style={styles.social_buttons}>
                 <Image
                   style={tw`h-4 w-2`}
                   source={require('../assets/F.png')}
                 />
-              </TouchableOpacity>
+
+                <LoginButton
+                  style={{padding: 20}}
+                  onLoginFinished={(error, result) => {
+                    if (error) {
+                      console.log('login has error: ' + result.error);
+                    } else if (result.isCancelled) {
+                      console.log('login is cancelled.');
+                    } else {
+                      AccessToken.getCurrentAccessToken().then(data => {
+                        console.log(data.accessToken.toString());
+                        console.log('Accces token not available');
+                      });
+                    }
+                  }}
+                  onLogoutFinished={() => console.log('logout.')}
+                />
+              </TouchableOpacity> */}
               <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
                 <TouchableOpacity onPress={() => _signIn()}>
                   <Image
@@ -347,10 +464,11 @@ const styles = StyleSheet.create({
     height: 40,
     borderBottomWidth: 1,
     borderColor: color.gray,
+    backgroundColor: 'white',
   },
   box_heading: {
     fontSize: 15,
-    color: 'gray',
+    color: 'black',
     fontWeight: 'bold',
     marginBottom: 5,
     marginLeft: 2,

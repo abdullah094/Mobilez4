@@ -178,9 +178,9 @@ const Filter = () => {
                 }}
                 placeholder="Choose model"
                 inputStyles={{color: 'black'}}
-                // setSelected={val => {
-                //   setForm({...form, model: val});
-                // }}
+                setSelected={val => {
+                  setForm({...form, model: val});
+                }}
                 defaultOption={models.find(x => x.value == form.model)}
                 data={models}
                 save="value"

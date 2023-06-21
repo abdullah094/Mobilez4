@@ -1,6 +1,6 @@
-import { DESCRIPTION } from '@env';
+import {DESCRIPTION} from '@env';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   Dimensions,
@@ -25,8 +25,8 @@ import AddToWishList from '../components/AddToWishList';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import RecentList from '../components/RecentList';
-import { color } from '../constants/Colors';
-import { Category, ProductDetails } from '../types';
+import {color} from '../constants/Colors';
+import {Category, ProductDetails} from '../types';
 
 const {height, width} = Dimensions.get('window');
 const ProductPage = ({navigation, route}) => {
@@ -143,7 +143,7 @@ const ProductPage = ({navigation, route}) => {
       <TouchableOpacity
         style={styles.commmunication_buttons}
         onPress={() => {
-          navigation.navigate('Chat', {to: data?.details? .user});
+          navigation.navigate('Chat', {to: data?.details?.user});
         }}>
         <Ionicons name={'ios-chatbubbles-outline'} size={25} color={'white'} />
 

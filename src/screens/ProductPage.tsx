@@ -1,6 +1,6 @@
-import {DESCRIPTION} from '@env';
+import { DESCRIPTION } from '@env';
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
   Dimensions,
@@ -25,8 +25,8 @@ import AddToWishList from '../components/AddToWishList';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import RecentList from '../components/RecentList';
-import {color} from '../constants/Colors';
-import {Category, ProductDetails} from '../types';
+import { color } from '../constants/Colors';
+import { Category, ProductDetails } from '../types';
 
 const {height, width} = Dimensions.get('window');
 const ProductPage = ({navigation, route}) => {
@@ -66,8 +66,9 @@ const ProductPage = ({navigation, route}) => {
   const handleShare = async () => {
     try {
       const result = await Share.share({
-        message: 'Check out this product!',
-        // url:data
+        message:
+          'Check out this product' +
+          `https://www.mobilezmarket.com/product-detail/${details.id}/${details.brand}/4`,
       });
 
       if (result.action === Share.sharedAction) {
@@ -114,16 +115,22 @@ const ProductPage = ({navigation, route}) => {
         <Ionicons name="call-outline" size={25} color={color.white} />
         <Text style={styles.communication_buttons_text}>Call</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.commmunication_buttons}
         onPress={() => {
+          console.log(args.number);
+          const message = 'Hi';
           const upLink = link + args.number;
+
           Linking.canOpenURL(link)
             .then(supported => {
               if (!supported) {
                 Alert.alert(
                   'Please install whats app to send direct message to students via whats app',
                 );
+                Linking.openURL(`${link}send?phone=${args.number}`);
+                // Linking.openURL('whatsapp://send');
               } else {
                 return Linking.openURL(upLink);
               }
@@ -136,7 +143,7 @@ const ProductPage = ({navigation, route}) => {
       <TouchableOpacity
         style={styles.commmunication_buttons}
         onPress={() => {
-          navigation.navigate('Chat', {to: data.details.user});
+          navigation.navigate('Chat', {to: data?.details? .user});
         }}>
         <Ionicons name={'ios-chatbubbles-outline'} size={25} color={'white'} />
 

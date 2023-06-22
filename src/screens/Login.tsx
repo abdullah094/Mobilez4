@@ -21,7 +21,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Settings} from 'react-native-fbsdk-next';
+import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
 import {TextInput} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -33,6 +33,7 @@ import {
 } from '../Redux/Slices';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
+
 const {width, height} = Dimensions.get('window');
 
 Settings.setAppID('686223029942369');
@@ -402,7 +403,7 @@ const Login = () => {
             </View>
 
             <View style={tw`flex flex-row justify-center w-full   z-20 `}>
-              {/* <TouchableOpacity style={styles.social_buttons}>
+              <TouchableOpacity style={styles.social_buttons}>
                 <Image
                   style={tw`h-4 w-2`}
                   source={require('../assets/F.png')}
@@ -424,7 +425,7 @@ const Login = () => {
                   }}
                   onLogoutFinished={() => console.log('logout.')}
                 />
-              </TouchableOpacity> */}
+              </TouchableOpacity>
               <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
                 <TouchableOpacity onPress={() => _signIn()}>
                   <Image

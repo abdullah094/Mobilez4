@@ -70,5 +70,35 @@
 	<string>Zocial.ttf</string>
 	<string>Fontisto.ttf</string>
 	</array>
+	
+
+
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+  <key>CFBundleURLSchemes</key>
+  <array>
+    <string>fb686223029942369</string>
+  </array>
+  </dict>
+</array>
+<key>FacebookAppID</key>
+<string>686223029942369</string>
+<key>FacebookClientToken</key>
+<string>26522b73291a3d1c9a2f81fa437a1f07</string>
+<key>FacebookDisplayName</key>
+<string>Mobilez Market</string>
+
+<key>GIDClientID</key>
+<string>1054360665178-mol0cdvmjusb0io235ehh58ne2sh8rls.apps.googleusercontent.com</string>
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>com.googleusercontent.apps.1054360665178-mol0cdvmjusb0io235ehh58ne2sh8rls</string>
+    </array>
+  </dict>
+</array>
 </dict>
 </plist>

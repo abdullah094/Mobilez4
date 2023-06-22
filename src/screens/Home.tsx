@@ -256,7 +256,11 @@ const Home = ({navigation}) => {
               {profile && (
                 <Image
                   style={tw`h-12 w-12 rounded-full`}
-                  source={{uri: image_url + profile.photo}}
+                  source={{
+                    uri: profile.photo.includes('https')
+                      ? profile.photo
+                      : image_url + profile.photo,
+                  }}
                 />
               )}
             </TouchableOpacity>

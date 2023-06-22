@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		4F1026EA2A4470F5006B020D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F1026E92A4470F5006B020D /* GoogleService-Info.plist */; };
 		4F664E152A39F6AA0074D042 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E052A39F6AA0074D042 /* Fontisto.ttf */; };
 		4F664E162A39F6AA0074D042 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E062A39F6AA0074D042 /* Octicons.ttf */; };
 		4F664E172A39F6AA0074D042 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E072A39F6AA0074D042 /* Feather.ttf */; };
@@ -54,6 +55,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Mobilez4/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-Mobilez4-Mobilez4Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Mobilez4-Mobilez4Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-Mobilez4.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobilez4.debug.xcconfig"; path = "Target Support Files/Pods-Mobilez4/Pods-Mobilez4.debug.xcconfig"; sourceTree = "<group>"; };
+		4F1026E82A44680D006B020D /* Mobilez4.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Mobilez4.entitlements; path = Mobilez4/Mobilez4.entitlements; sourceTree = "<group>"; };
+		4F1026E92A4470F5006B020D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4F664E052A39F6AA0074D042 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		4F664E062A39F6AA0074D042 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		4F664E072A39F6AA0074D042 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
@@ -118,6 +121,8 @@
 		13B07FAE1A68108700A75B9A /* Mobilez4 */ = {
 			isa = PBXGroup;
 			children = (
+				4F1026E92A4470F5006B020D /* GoogleService-Info.plist */,
+				4F1026E82A44680D006B020D /* Mobilez4.entitlements */,
 				4F664E042A39F6AA0074D042 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -308,6 +313,7 @@
 				4F664E182A39F6AA0074D042 /* Entypo.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				4F664E212A39F6AA0074D042 /* Zocial.ttf in Resources */,
+				4F1026EA2A4470F5006B020D /* GoogleService-Info.plist in Resources */,
 				4F664E232A39F6AA0074D042 /* SimpleLineIcons.ttf in Resources */,
 				4F664E172A39F6AA0074D042 /* Feather.ttf in Resources */,
 				4F664E162A39F6AA0074D042 /* Octicons.ttf in Resources */,
@@ -558,6 +564,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mobilez4/Mobilez4.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Mobilez4/Info.plist;
@@ -585,6 +592,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Mobilez4/Mobilez4.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Mobilez4/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

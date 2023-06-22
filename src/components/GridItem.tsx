@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import tw from 'twrnc';
+import {color} from '../constants/Colors';
 import {Product} from '../types';
 import AddToWishList from './AddToWishList';
 const {width, height} = Dimensions.get('window');
@@ -23,6 +24,8 @@ const GridItem = ({item}: {item: Product}) => {
     month: 'long',
     day: 'numeric',
   });
+  let nowDate = new Date();
+  nowDate.setDate(nowDate.getDate() - 1);
 
   return (
     <TouchableOpacity
@@ -43,6 +46,26 @@ const GridItem = ({item}: {item: Product}) => {
         width: width * 0.45,
       }}
       onPress={() => navigation.push('ProductPage', {id: item.id})}>
+      {nowDate < date && (
+        <View
+          style={{
+            position: 'absolute',
+            left: 5,
+            zIndex: 10,
+            backgroundColor: color.red,
+            borderWidth: 1,
+            borderColor: color.red,
+            width: 50,
+            height: 25,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 10,
+          }}>
+          <Text style={{color: 'white', fontSize: 11, fontWeight: '600'}}>
+            New
+          </Text>
+        </View>
+      )}
       <View style={tw`w-full h-52 justify-between `}>
         <Image
           style={{

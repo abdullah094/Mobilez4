@@ -156,21 +156,21 @@ const ChatScreen = ({navigation}) => {
         if (params?.to) {
           console.log('params here', [
             ...data.contacts,
-            {id: params.to.id, name: params.to.name, photo: params.to.phone},
+            {id: params?.to.id, name: params?.to.name, photo: params?.to.phone},
           ]);
           const contact = [
             ...data.contacts,
             {
-              id: params.to.id,
-              first_name: params.to.name,
-              photo: params.to.photo,
+              id: params?.to.id,
+              first_name: params?.to.name,
+              photo: params?.to.photo,
             },
           ];
           const arrayUniqueByKey = [
             ...new Map(contact.map(item => [item.id, item])).values(),
           ];
           setContacts(arrayUniqueByKey);
-          setTo_id(params.to.id);
+          setTo_id(params?.to.id);
         } else {
           console.log('params not here');
           setContacts(data.contacts);
@@ -188,7 +188,10 @@ const ChatScreen = ({navigation}) => {
         console.log(reason.message);
       });
   }, []);
-
+  console.log(
+    '=============================================',
+    contacts.map(x => x.photo),
+  );
   return (
     <SafeAreaView style={tw`flex-1`}>
       <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -196,20 +199,26 @@ const ChatScreen = ({navigation}) => {
           data={contacts}
           keyExtractor={item => item.id.toString()}
           horizontal
+          showsHorizontalScrollIndicator={false}
           renderItem={({item, index}) => (
             <TouchableOpacity onPress={() => setTo_id(item.id)}>
-              <View style={tw`w-[70px]  items-center justify-center m-2   p-2`}>
+              <View
+                style={tw`w-[70px] items-center justify-center m-2 shadow-md rounded-lg bg-white p-2`}>
                 <Image
-                  style={tw`w-10  h-10 rounded-full border-red-600 ${
+                  style={tw`w-10  h-10  rounded-full border-red-600 ${
                     to_id === item.id ? 'border-2' : 'border-0'
                   }`}
-                  source={{
-                    uri: item.photo.includes('http')
-                      ? item.photo
-                      : base_url + item.photo,
-                  }}
+                  resizeMode="contain"
+                  source={
+                    item.photo
+                      ? {
+                          uri: item.photo.includes('http')
+                            ? item.photo
+                            : base_url + item.photo,
+                        }
+                      : require('../assets/mobile-logo.png')
+                  }
                 />
-
                 <Text
                   style={{fontSize: 12, fontWeight: '500', color: 'black'}}
                   numberOfLines={1}>
@@ -220,7 +229,6 @@ const ChatScreen = ({navigation}) => {
           )}
         />
       </View>
-
       <GiftedChat
         messages={messages}
         showUserAvatar={false}

@@ -180,7 +180,7 @@ export interface Contact {
   social_login: null | string;
   is_agree: number | null;
   account_status: string;
-  photo: string;
+  photo: null | string;
   remember_token: null | string;
   created_at: Date;
   updated_at: Date;

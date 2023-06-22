@@ -204,7 +204,7 @@ const Listings = () => {
             onRequestClose={() => setModalVisible(false)}>
             <View style={styles.modalContainer}>
               <View style={styles.modalContent}>
-                <Text style={{color: 'black'}}> Sort Order by: {sort}</Text>
+                <Text style={{color: 'black'}}> Sort Order by:Price</Text>
                 <View style={styles.radioContainer}>
                   <TouchableOpacity
                     onPress={() => {
@@ -221,7 +221,7 @@ const Listings = () => {
                             : 'unchecked'
                         }
                       />
-                      <Text style={{color: 'black'}}>{sort} high to low</Text>
+                      <Text style={{color: 'black'}}> high to low</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -239,7 +239,7 @@ const Listings = () => {
                             : 'unchecked'
                         }
                       />
-                      <Text style={{color: 'black'}}>{sort} low to high</Text>
+                      <Text style={{color: 'black'}}> low to high</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity

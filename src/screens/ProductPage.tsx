@@ -68,6 +68,7 @@ const ProductPage = ({navigation, route}) => {
       const result = await Share.share({
         message:
           'Check out this product' +
+          ' ' +
           `https://www.mobilezmarket.com/product-detail/${details.id}/${details.brand}/4`,
       });
 
@@ -121,7 +122,7 @@ const ProductPage = ({navigation, route}) => {
         onPress={() => {
           console.log(args.number);
           const message = 'Hi';
-          const upLink = link + args.number;
+          const upLink = link + args.number + `?text=${data.url}`;
 
           Linking.canOpenURL(link)
             .then(supported => {
@@ -129,7 +130,9 @@ const ProductPage = ({navigation, route}) => {
                 Alert.alert(
                   'Please install whats app to send direct message to students via whats app',
                 );
-                Linking.openURL(`${link}send?phone=${args.number}`);
+                Linking.openURL(
+                  `${link}${args.number}?text="I'm%20interested%20in%20your%20car%20for%20sale"`,
+                );
                 // Linking.openURL('whatsapp://send');
               } else {
                 return Linking.openURL(upLink);

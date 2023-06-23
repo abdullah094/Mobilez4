@@ -21,7 +21,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
+
 import {TextInput} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -33,9 +33,9 @@ import {
 } from '../Redux/Slices';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
-
 const {width, height} = Dimensions.get('window');
 
+import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
 Settings.setAppID('686223029942369');
 Settings.initializeSDK();
 const Login = () => {
@@ -100,79 +100,8 @@ const Login = () => {
       });
   };
 
-  const fetchFacebookLogin = (fEmail, fid, name, avatar) => {
-    setLoginLoader(<ActivityIndicator size="small" color="white" />);
-    avatar = '';
-    const url = encodeURI(
-      SOCIALLOGIN + `?email=${fEmail}&id=${fid}&first_name=${name}`,
-    );
-    console.log('====================================');
-    console.log({
-      email: fEmail,
-      id: fid,
-      name: name,
-      avatar: avatar,
-    });
-    console.log('====================================');
-    axios
-      .post(SOCIALLOGIN, {
-        email: fEmail,
-        id: fid,
-        name: name,
-        avatar: avatar,
-      })
-      .then(response => {
-        if (response.data.errors) {
-          console.log('response', response);
-          console.log(response.data?.errors);
-          if (response.data.errors) {
-            if (response.data.errors.email && response.data.errors.password) {
-              Alert.alert('Email and password are wrong');
-            } else if (response.data.errors.email) {
-              Alert.alert(response.data.errors.message.email);
-            } else if (response.data.errors.password) {
-              Alert.alert(response.data.errors.password);
-            } else {
-              Alert.alert('Unsuccessful', 'Please try again');
-            }
-          } else {
-            Alert.alert('Unsuccessful', 'Please try again');
-          }
-          setLoginLoader('Login');
-        } else if (response.data?.status === false) {
-          if (response.data.message) {
-            Alert.alert(response.data.message);
-          } else {
-            Alert.alert('Unsuccessful', 'Please try again');
-          }
-          setLoginLoader('Login');
-        } else if (response.data?.status) {
-          dispatch(setAccessToken(response.data.token));
-          setLoginLoader('Login');
-          PutAccessTokenToAsync(response.data.token);
-        }
-      })
-      .catch(error => {
-        setLoginLoader('Login');
-        console.log('error', error);
-        Alert.alert('Unsuccessful', 'Please try again');
-      });
-  };
   const fetchGoogleLogin = (gEmail, gid, name, avatar) => {
     setLoginLoader(<ActivityIndicator size="small" color="white" />);
-
-    avatar = '';
-    const url = encodeURI(
-      SOCIALLOGIN + `?email=${gEmail}&id=${gid}&first_name=${name}`,
-    );
-    console.log('====================================');
-    console.log({
-      email: gEmail,
-      id: gid,
-      name: name,
-      avatar: avatar,
-    });
-    console.log('====================================');
     axios
       .post(SOCIALLOGIN, {
         email: gEmail,
@@ -230,27 +159,10 @@ const Login = () => {
   useEffect(() => {
     GoogleSignin.configure({
       androidClientId:
-        '1054360665178-s0ha7ki2pt5ainsht0ui2o6l2fv2pu9r.apps.googleusercontent.com',
+        '1054360665178-qpq9cql7ug5afge74i9qqa3ub2pl5kgd.apps.googleusercontent.com',
       profileImageSize: 150,
     });
   }, []);
-
-  // const facebookSignin =async ()=>{
-  //   if (error) {
-  //     //Alert for the Error
-  //     alert('Error fetching data: ' + error.toString());
-  //   } else {
-  //     //response alert
-  //     fetchGoogleLogin()
-  //   }
-  // };
-
-  // const onLogout = () => {
-  //   //Clear the state after logout
-  //   setUserName(null);
-  //   setToken(null);
-  //   setProfilePic(null);
-  // }
 
   const _signIn = async () => {
     try {
@@ -294,160 +206,164 @@ const Login = () => {
   };
 
   return (
-    <SafeAreaView style={tw`flex-1`}>
-      <ScrollView contentContainerStyle={tw`flex-1`}>
-        <View style={tw`h-full`}>
-          <Header title="Login" />
-          <View style={tw` flex-1 items-center justify-center`}>
-            <Image
-              style={{width: 200, height: 80, marginBottom: 30}}
-              source={require('../assets/mobile-logo.png')}
-            />
-            <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>
-              <View style={styles.input_box}>
-                <Text style={styles.box_heading}>Email</Text>
-                <TextInput
-                  keyboardType="email-address"
-                  style={styles.input}
-                  value={email}
-                  textColor="black"
-                  onChangeText={(text: string) => setEmail(text.toLowerCase())}
-                />
-              </View>
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <ScrollView contentContainerStyle={tw`flex-1`}>
+          <View style={tw`h-full`}>
+            <Header title="Login" />
+            <View style={tw` flex-1 items-center justify-center`}>
+              <Image
+                style={{width: 200, height: 80, marginBottom: 30}}
+                source={require('../assets/mobile-logo.png')}
+              />
+              <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>Email</Text>
+                  <TextInput
+                    keyboardType="email-address"
+                    style={styles.input}
+                    value={email}
+                    textColor="black"
+                    onChangeText={(text: string) =>
+                      setEmail(text.toLowerCase())
+                    }
+                  />
+                </View>
 
-              <View style={styles.input_box}>
-                <Text style={styles.box_heading}>Password</Text>
-                <TextInput
-                  style={styles.input}
-                  value={password}
-                  secureTextEntry={hidePass}
-                  textColor="black"
-                  onChangeText={text => setPassword(text.toLowerCase())}
-                  right={
-                    <TextInput.Icon
-                      icon={hidePass ? 'eye-off' : 'eye'}
-                      color={'black'}
-                      size={16}
-                      onPress={togglePasswordVisibility}
-                    />
-                  }
-                />
-              </View>
-
-              <View style={tw`flex-row justify-between mt-3`}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Pressable
-                    onPress={() => setCheck(!check)}
-                    style={{
-                      marginLeft: 10,
-                      borderWidth: 1,
-                      width: 20,
-                      height: 20,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      borderRadius: 5,
-                      marginHorizontal: 3,
-                    }}>
-                    {check && (
-                      <MaterialIcon
-                        name="check"
-                        color={color.orange}
-                        size={18}
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>Password</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={password}
+                    secureTextEntry={hidePass}
+                    textColor="black"
+                    onChangeText={text => setPassword(text.toLowerCase())}
+                    right={
+                      <TextInput.Icon
+                        icon={hidePass ? 'eye-off' : 'eye'}
+                        color={'black'}
+                        size={16}
+                        onPress={togglePasswordVisibility}
                       />
-                    )}
-                  </Pressable>
+                    }
+                  />
+                </View>
 
-                  <Text style={{color: 'black', fontSize: 12}}>
-                    Remember me
-                  </Text>
+                <View style={tw`flex-row justify-between mt-3`}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Pressable
+                      onPress={() => setCheck(!check)}
+                      style={{
+                        marginLeft: 10,
+                        borderWidth: 1,
+                        width: 20,
+                        height: 20,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        borderRadius: 5,
+                        marginHorizontal: 3,
+                      }}>
+                      {check && (
+                        <MaterialIcon
+                          name="check"
+                          color={color.orange}
+                          size={18}
+                        />
+                      )}
+                    </Pressable>
+
+                    <Text style={{color: 'black', fontSize: 12}}>
+                      Remember me
+                    </Text>
+                  </View>
+
+                  <TouchableOpacity
+                    style={{padding: 5}}
+                    onPress={() => navigation.navigate('ForgotPassword')}>
+                    <Text style={{color: 'black', fontSize: 12}}>
+                      Forgot your password?
+                    </Text>
+                  </TouchableOpacity>
                 </View>
 
                 <TouchableOpacity
-                  style={{padding: 5}}
-                  onPress={() => navigation.navigate('ForgotPassword')}>
-                  <Text style={{color: 'black', fontSize: 12}}>
-                    Forgot your password?
+                  onPress={fetchLogin}
+                  style={{
+                    backgroundColor: color.orange,
+                    width: 311,
+                    height: 50,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: 50,
+                    marginTop: 20,
+                  }}>
+                  <Text
+                    style={{
+                      color: color.white,
+                      fontWeight: 'bold',
+                      fontSize: 20,
+                    }}>
+                    {loginLoader}
                   </Text>
                 </TouchableOpacity>
-              </View>
-
-              <TouchableOpacity
-                onPress={fetchLogin}
-                style={{
-                  backgroundColor: color.orange,
-                  width: 311,
-                  height: 50,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 50,
-                  marginTop: 20,
-                }}>
-                <Text
+                <View
                   style={{
-                    color: color.white,
-                    fontWeight: 'bold',
-                    fontSize: 20,
+                    flexDirection: 'row',
+                    marginTop: 15,
+                    justifyContent: 'center',
+                    // backgroundColor: 'black',
                   }}>
-                  {loginLoader}
-                </Text>
-              </TouchableOpacity>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 15,
-                  justifyContent: 'center',
-                  // backgroundColor: 'black',
-                }}>
-                <Text style={{color: 'black'}}>Or</Text>
+                  <Text style={{color: 'black'}}>Or</Text>
+                </View>
               </View>
-            </View>
 
-            <View style={tw`flex flex-row justify-center w-full   z-20 `}>
-              <TouchableOpacity style={styles.social_buttons}>
-                <Image
-                  style={tw`h-4 w-2`}
-                  source={require('../assets/F.png')}
-                />
-
-                <LoginButton
-                  style={{padding: 20}}
-                  onLoginFinished={(error, result) => {
-                    if (error) {
-                      console.log('login has error: ' + result.error);
-                    } else if (result.isCancelled) {
-                      console.log('login is cancelled.');
-                    } else {
-                      AccessToken.getCurrentAccessToken().then(data => {
-                        console.log(data.accessToken.toString());
-                        console.log('Accces token not available');
-                      });
-                    }
-                  }}
-                  onLogoutFinished={() => console.log('logout.')}
-                />
-              </TouchableOpacity>
-              <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
-                <TouchableOpacity onPress={() => _signIn()}>
-                  <Image
-                    style={tw`h-4 w-4`}
-                    source={require('../assets/Gpng.png')}
+              <View style={tw`flex flex-row justify-center w-full  z-20 `}>
+                <View
+                  style={[
+                    styles.social_buttons,
+                    tw`overflow-hidden flex items-center justify-center bg-[#1877f2]`,
+                  ]}>
+                  <LoginButton
+                    style={tw`w-full h-full ml-4`}
+                    onLoginFinished={(error, result) => {
+                      if (error) {
+                        console.log('login has error: ' + error);
+                      } else if (result.isCancelled) {
+                        console.log('login is cancelled.');
+                      } else {
+                        AccessToken.getCurrentAccessToken().then(data => {
+                          console.log(data?.accessToken.toString());
+                          console.log('Access token not available');
+                        });
+                      }
+                    }}
+                    onLogoutFinished={() => console.log('logout.')}
                   />
+                </View>
+                <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
+                  <TouchableOpacity onPress={() => _signIn()}>
+                    <Image
+                      style={tw`h-4 w-4`}
+                      source={require('../assets/Gpng.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View>
+
+              <View
+                style={tw`w-full flex-row mt-14 items-center justify-center`}>
+                <Text style={{color: 'black'}}>Don't have and account? </Text>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('SignUp', {city: 'Karachi'})
+                  }>
+                  <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
                 </TouchableOpacity>
               </View>
             </View>
-
-            <View style={tw`w-full flex-row mt-14 items-center justify-center`}>
-              <Text style={{color: 'black'}}>Don't have and account? </Text>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate('SignUp', {city: 'Karachi'})
-                }>
-                <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
-              </TouchableOpacity>
-            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

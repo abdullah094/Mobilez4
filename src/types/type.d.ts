@@ -15,13 +15,13 @@ export interface Profile {
   first_name: string;
   id: number;
   is_agree: number;
-  is_verified: number;
+  is_verified: number | null;
   last_name: string;
   messenger_color: string;
   name: string;
   nic_number: string;
   phone: string;
-  photo: string;
+  photo: null | string;
   shop_address: string;
   shop_name: string;
   shop_visiting_card: string;
@@ -202,6 +202,16 @@ export interface Form {
   max_price?: string | null;
   min_price?: string | null;
   model?: string | null;
+  price?: string | null;
+  product_type?: '' | 'Used' | 'Refurbished';
+  image?: Asset[];
+  description?: string | null;
+  warranty?: string | null;
+}
+export interface iImages {
+  uri: any;
+  name: any;
+  type: any;
 }
 
 export interface FetchMessage {
@@ -300,6 +310,7 @@ export interface Product {
 
 import {RouteProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Asset} from 'react-native-image-picker';
 
 export type IndexParamList = {
   Home: undefined;
@@ -308,6 +319,7 @@ export type IndexParamList = {
   Listings: {form: Form};
   Filter: {form: Form};
   ProductPage: {id: string};
+  PostAnAd: undefined;
 };
 
 export type IndexRouteProps<RouteName extends keyof IndexParamList> = RouteProp<
@@ -339,4 +351,36 @@ export interface ISearch {
   updated_at: Date;
   user: User;
   warranty: string;
+}
+
+export interface BrandAPI {
+  status: boolean;
+  brands: Brand[];
+}
+export interface Brand {
+  id: string;
+  title: string;
+  category: string;
+  slug: string;
+  img: null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export interface IDropDown {
+  key: string;
+  value: string;
+}
+export interface ModelAPI {
+  models: IModel[];
+  status: boolean;
+}
+
+export interface IModel {
+  brand_id: string;
+  category: null;
+  created_at: string;
+  id: string;
+  model_name: string;
+  updated_at: string;
 }

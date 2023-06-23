@@ -33,7 +33,7 @@ const RecentList = ({
   let Title = 'Related Ads';
   if (name == Category.SMARTWATCH) Title = 'Recent Watches';
   if (name == Category.PHONE) Title = 'Recent Phones';
-  if (name == Category.RELATED_AD) Title = 'Related Ads';
+  if (name == Category.TABLET) Title = 'Recent Tablets';
   if (name == Category.MORE_AD) Title = 'More Ads';
   useEffect(() => {
     setData([]);

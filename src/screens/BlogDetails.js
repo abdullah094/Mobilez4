@@ -22,32 +22,34 @@ const BlogDetails = ({navigation, route}) => {
     html: data.description,
   };
   return (
-    <SafeAreaView>
-      <Header title="Blog" />
-      <ScrollView
-        contentContainerStyle={{
-          alignItems: 'center',
-          marginTop: 100,
-          paddingBottom: 100,
-        }}>
-        <Text
-          style={{
-            color: color.black,
-            fontSize: 18,
-            marginHorizontal: 20,
-            fontWeight: 'bold',
-          }}
-          numberOfLines={1}>
-          {data.title}
-        </Text>
-        <Image
-          style={{width: 300, height: 150, marginTop: 10}}
-          source={{uri: base_url + data.image}}
-        />
-        <View style={{marginHorizontal: 20, marginTop: 10}}>
-          <RenderHtml contentWidth={width} source={source} />
-        </View>
-      </ScrollView>
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <Header title="Blog" />
+        <ScrollView
+          contentContainerStyle={{
+            alignItems: 'center',
+            marginTop: 100,
+            paddingBottom: 100,
+          }}>
+          <Text
+            style={{
+              color: color.black,
+              fontSize: 18,
+              marginHorizontal: 20,
+              fontWeight: 'bold',
+            }}
+            numberOfLines={1}>
+            {data.title}
+          </Text>
+          <Image
+            style={{width: 300, height: 150, marginTop: 10}}
+            source={{uri: base_url + data.image}}
+          />
+          <View style={{marginHorizontal: 20, marginTop: 10}}>
+            <RenderHtml contentWidth={width} source={source} />
+          </View>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

@@ -94,5 +94,17 @@
 	<string>$(PRODUCT_NAME) would like to your microphone (for videos)</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+
+	<key>CFBundleURLTypes</key>
+ 	<array>
+    <dict>
+     <key>CFBundleURLSchemes</key>
+     <array>
+       <string>fb686223029942369</string>
+       <string>com.googleusercontent.apps.1054360665178-mol0cdvmjusb0io235ehh58ne2sh8rls</string>
+     </array>
+   </dict>
+  </array>
+
 </dict>
 </plist>

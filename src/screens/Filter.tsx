@@ -93,34 +93,101 @@ const Filter = () => {
     getModelFunc();
   }, [form.brand]);
   return (
-    <SafeAreaView>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          alignItems: 'center',
-          paddingBottom: 100,
-        }}>
-        <View style={tw`w-full mx-4  bg-[#015DCF]`}>
-          <Header title="Filters" />
-          <View style={tw` p-4`}>
-            <PriceRange handleValueChange={handleValueChange} />
-          </View>
-          <View
-            style={{
-              padding: 16,
-              paddingTop: 32,
-              borderWidth: 1,
-              borderTopLeftRadius: 40,
-              borderTopRightRadius: 40,
-              backgroundColor: 'white',
-              borderColor: 'white',
-            }}>
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            alignItems: 'center',
+            paddingBottom: 100,
+          }}>
+          <View style={tw`w-full mx-4  bg-[#015DCF]`}>
+            <Header title="Filters" />
+            <View style={tw` p-4`}>
+              <PriceRange handleValueChange={handleValueChange} />
+            </View>
             <View
               style={{
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexDirection: 'row',
+                padding: 16,
+                paddingTop: 32,
+                borderWidth: 1,
+                borderTopLeftRadius: 40,
+                borderTopRightRadius: 40,
+                backgroundColor: 'white',
+                borderColor: 'white',
               }}>
+              <View
+                style={{
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <SelectList
+                  boxStyles={{
+                    backgroundColor: color.white,
+                    borderColor: '#D3D3D3',
+                    marginTop: 16,
+                  }}
+                  inputStyles={{color: 'grey'}}
+                  search={false}
+                  placeholder="Category"
+                  setSelected={val => setForm({...form, category: val})}
+                  data={CategoryList}
+                  save="value"
+                  // defaultOption={CategoryList.find(x => x.value == form.category)}
+                  dropdownTextStyles={{color: 'black'}}
+                />
+                <SelectList
+                  boxStyles={{
+                    backgroundColor: color.white,
+                    borderColor: '#D3D3D3',
+                    marginTop: 16,
+                  }}
+                  placeholder="Choose Brands"
+                  inputStyles={{
+                    color: 'grey',
+                    // fontFamily: 'Geologica_Auto-Black',
+                  }}
+                  setSelected={val => {
+                    if (val === 'Other') {
+                      setOtherBrand(true);
+                      setForm({...form, brand: ''});
+                    } else {
+                      setOtherBrand(false);
+                      setForm({...form, brand: val});
+                    }
+                  }}
+                  data={brand}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                />
+              </View>
+
+              {otherBrand ? (
+                <TextInput
+                  placeholder="Choose Model"
+                  style={styles.box_input}
+                  value={form.brand ?? ''}
+                  onChangeText={text => setForm({...form, model: text})}
+                />
+              ) : (
+                <SelectList
+                  boxStyles={{
+                    backgroundColor: color.white,
+                    borderColor: '#D3D3D3',
+                    marginTop: 16,
+                  }}
+                  placeholder="Choose model"
+                  inputStyles={{color: 'black'}}
+                  setSelected={val => {
+                    setForm({...form, model: val});
+                  }}
+                  defaultOption={models.find(x => x.value == form.model)}
+                  data={models}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                />
+              )}
               <SelectList
                 boxStyles={{
                   backgroundColor: color.white,
@@ -129,186 +196,121 @@ const Filter = () => {
                 }}
                 inputStyles={{color: 'grey'}}
                 search={false}
-                placeholder="Category"
-                setSelected={val => setForm({...form, category: val})}
-                data={CategoryList}
+                placeholder="RAM"
+                setSelected={val => setForm({...form, ram: val})}
+                data={Ram}
                 save="value"
-                // defaultOption={CategoryList.find(x => x.value == form.category)}
                 dropdownTextStyles={{color: 'black'}}
               />
+
               <SelectList
                 boxStyles={{
                   backgroundColor: color.white,
                   borderColor: '#D3D3D3',
                   marginTop: 16,
                 }}
-                placeholder="Choose Brands"
-                inputStyles={{
-                  color: 'grey',
-                  // fontFamily: 'Geologica_Auto-Black',
-                }}
-                setSelected={val => {
-                  if (val === 'Other') {
-                    setOtherBrand(true);
-                    setForm({...form, brand: ''});
-                  } else {
-                    setOtherBrand(false);
-                    setForm({...form, brand: val});
-                  }
-                }}
-                data={brand}
+                inputStyles={{color: 'grey'}}
+                search={false}
+                placeholder="Storage"
+                // defaultOption={Storage.find(x => x.value == form.storage)}
+                setSelected={val => setForm({...form, storage: val})}
+                data={Storage}
                 save="value"
                 dropdownTextStyles={{color: 'black'}}
               />
-            </View>
 
-            {otherBrand ? (
-              <TextInput
-                placeholder="Choose Model"
-                style={styles.box_input}
-                value={form.brand}
-                onChangeText={text => setForm({...form, model: text})}
-              />
-            ) : (
               <SelectList
                 boxStyles={{
                   backgroundColor: color.white,
                   borderColor: '#D3D3D3',
                   marginTop: 16,
                 }}
-                placeholder="Choose model"
-                inputStyles={{color: 'black'}}
-                setSelected={val => {
-                  setForm({...form, model: val});
-                }}
-                defaultOption={models.find(x => x.value == form.model)}
-                data={models}
+                inputStyles={{color: 'grey'}}
+                search={false}
+                placeholder="PTA Status"
+                // defaultOption={Pta_status.find(x => x.value == form.pta_status)}
+                setSelected={val => setForm({...form, pta_status: val})}
+                data={Pta_status}
                 save="value"
                 dropdownTextStyles={{color: 'black'}}
               />
-            )}
-            <SelectList
-              boxStyles={{
-                backgroundColor: color.white,
-                borderColor: '#D3D3D3',
-                marginTop: 16,
-              }}
-              inputStyles={{color: 'grey'}}
-              search={false}
-              placeholder="RAM"
-              setSelected={val => setForm({...form, ram: val})}
-              data={Ram}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
 
-            <SelectList
-              boxStyles={{
-                backgroundColor: color.white,
-                borderColor: '#D3D3D3',
-                marginTop: 16,
-              }}
-              inputStyles={{color: 'grey'}}
-              search={false}
-              placeholder="Storage"
-              // defaultOption={Storage.find(x => x.value == form.storage)}
-              setSelected={val => setForm({...form, storage: val})}
-              data={Storage}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
+              <SelectList
+                boxStyles={{
+                  backgroundColor: color.white,
+                  borderColor: '#D3D3D3',
+                  marginTop: 16,
+                }}
+                inputStyles={{color: 'grey'}}
+                search={false}
+                placeholder="Condition"
+                // defaultOption={Condition.find(x => x.value == form.condition)}
+                setSelected={val => setForm({...form, condition: val})}
+                data={Condition}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
+              />
 
-            <SelectList
-              boxStyles={{
-                backgroundColor: color.white,
-                borderColor: '#D3D3D3',
-                marginTop: 16,
-              }}
-              inputStyles={{color: 'grey'}}
-              search={false}
-              placeholder="PTA Status"
-              // defaultOption={Pta_status.find(x => x.value == form.pta_status)}
-              setSelected={val => setForm({...form, pta_status: val})}
-              data={Pta_status}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
+              <SelectList
+                boxStyles={{
+                  backgroundColor: color.white,
+                  borderColor: '#D3D3D3',
+                  marginTop: 16,
+                }}
+                inputStyles={{color: 'grey'}}
+                search={false}
+                placeholder="Warranty"
+                // defaultOption={Warranty.find(x => x.value == form.Warranty)}
+                setSelected={val => setForm({...form, Warranty: val})}
+                data={Warranty}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
+              />
 
-            <SelectList
-              boxStyles={{
-                backgroundColor: color.white,
-                borderColor: '#D3D3D3',
-                marginTop: 16,
-              }}
-              inputStyles={{color: 'grey'}}
-              search={false}
-              placeholder="Condition"
-              // defaultOption={Condition.find(x => x.value == form.condition)}
-              setSelected={val => setForm({...form, condition: val})}
-              data={Condition}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
-
-            <SelectList
-              boxStyles={{
-                backgroundColor: color.white,
-                borderColor: '#D3D3D3',
-                marginTop: 16,
-              }}
-              inputStyles={{color: 'grey'}}
-              search={false}
-              placeholder="Warranty"
-              // defaultOption={Warranty.find(x => x.value == form.Warranty)}
-              setSelected={val => setForm({...form, Warranty: val})}
-              data={Warranty}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
-
-            <SelectList
-              boxStyles={{
-                backgroundColor: color.white,
-                borderColor: '#D3D3D3',
-                marginTop: 16,
-              }}
-              inputStyles={{color: 'grey'}}
-              search={false}
-              placeholder="City"
-              // defaultOption={City.find(x => x.value == form.city)}
-              setSelected={val => setForm({...form, city: val})}
-              data={City}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate({
-                  name: 'Listings',
-                  params: {form: form},
-                  merge: true,
-                })
-              }
-              style={{
-                backgroundColor: color.orange,
-                marginTop: 40,
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 50,
-                borderRadius: 20,
-              }}>
-              <Text
+              <SelectList
+                boxStyles={{
+                  backgroundColor: color.white,
+                  borderColor: '#D3D3D3',
+                  marginTop: 16,
+                }}
+                inputStyles={{color: 'grey'}}
+                search={false}
+                placeholder="City"
+                // defaultOption={City.find(x => x.value == form.city)}
+                setSelected={val => setForm({...form, city: val})}
+                data={City}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
+              />
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate({
+                    name: 'Listings',
+                    params: {form: form},
+                    merge: true,
+                  })
+                }
                 style={{
-                  color: color.white,
-                  fontWeight: 'bold',
-                  fontSize: 20,
+                  backgroundColor: color.orange,
+                  marginTop: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 50,
+                  borderRadius: 20,
                 }}>
-                Search
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    color: color.white,
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                  }}>
+                  Search
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

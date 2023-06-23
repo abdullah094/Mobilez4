@@ -382,239 +382,240 @@ const PostAnAd = () => {
   };
   console.log('===================account', profileData.account_status);
   return (
-    <SafeAreaView>
-      <ScrollView
-        contentContainerStyle={{
-          alignItems: 'center',
-          paddingBottom: 200,
-          // backgroundColor: '#015DCF',
-        }}
-        keyboardShouldPersistTaps="handled">
-        <View
-          style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
-          <TouchableOpacity onPress={navigation.goBack}>
-            <Ionicons
-              name="ios-arrow-back-sharp"
-              color={color.white}
-              size={25}
-            />
-          </TouchableOpacity>
-          <Text
-            style={{
-              color: color.white,
-              textAlign: 'center',
-              fontWeight: '500',
-              flex: 1,
-            }}>
-            Post An Ad
-          </Text>
-        </View>
-        <View style={tw` w-full items-start justify-center px-4`}>
-          <View style={tw`w-full`}>
-            <View style={tw`flex-row pt-2 items-center justify-between`}>
-              <View style={tw`w-1/2  pr-2`}>
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <ScrollView
+          contentContainerStyle={{
+            alignItems: 'center',
+            paddingBottom: 200,
+            // backgroundColor: '#015DCF',
+          }}
+          keyboardShouldPersistTaps="handled">
+          <View
+            style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
+            <TouchableOpacity onPress={navigation.goBack}>
+              <Ionicons
+                name="ios-arrow-back-sharp"
+                color={color.white}
+                size={25}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                color: color.white,
+                textAlign: 'center',
+                fontWeight: '500',
+                flex: 1,
+              }}>
+              Post An Ad
+            </Text>
+          </View>
+          <View style={tw` w-full items-start justify-center px-4`}>
+            <View style={tw`w-full`}>
+              <View style={tw`flex-row pt-2 items-center justify-between`}>
+                <View style={tw`w-1/2  pr-2`}>
+                  <SelectList
+                    boxStyles={styles.box}
+                    placeholder="Category"
+                    inputStyles={{color: 'grey'}}
+                    setSelected={val => setForm({...form, category: val})}
+                    data={Category}
+                    save="value"
+                    dropdownTextStyles={{color: 'black'}}
+                  />
+                </View>
+                <View style={tw`w-1/2 pl-2`}>
+                  <SelectList
+                    boxStyles={styles.box}
+                    placeholder="Choose Brands"
+                    inputStyles={{
+                      color: 'grey',
+                      // fontFamily: 'Geologica_Auto-Black',
+                    }}
+                    setSelected={val => setForm({...form, brand: val})}
+                    data={brands}
+                    save="value"
+                    dropdownTextStyles={{color: 'black'}}
+                  />
+                </View>
+              </View>
+              {otherBrand && (
+                <TextInput
+                  placeholder="Choose brand"
+                  placeholderTextColor={'black'}
+                  style={styles.box_input}
+                  value={brand}
+                  onChangeText={text => setBrand(text)}
+                />
+              )}
+              {otherBrand ? (
+                <TextInput
+                  placeholder="Choose Model"
+                  style={styles.box_input}
+                  value={form.model}
+                  onChangeText={text => setForm({...form, model: text})}
+                />
+              ) : (
                 <SelectList
                   boxStyles={styles.box}
-                  placeholder="Category"
-                  inputStyles={{color: 'grey'}}
-                  setSelected={val => setForm({...form, category: val})}
-                  data={Category}
+                  placeholder="Choose model"
+                  inputStyles={{color: 'black'}}
+                  setSelected={val => setForm({...form, model: val})}
+                  data={models}
                   save="value"
                   dropdownTextStyles={{color: 'black'}}
                 />
-              </View>
-              <View style={tw`w-1/2 pl-2`}>
-                <SelectList
-                  boxStyles={styles.box}
-                  placeholder="Choose Brands"
-                  inputStyles={{
-                    color: 'grey',
-                    // fontFamily: 'Geologica_Auto-Black',
-                  }}
-                  setSelected={val => setForm({...form, brand: val})}
-                  data={brands}
-                  save="value"
-                  dropdownTextStyles={{color: 'black'}}
-                />
-              </View>
-            </View>
-            {otherBrand && (
+              )}
               <TextInput
-                placeholder="Choose brand"
-                placeholderTextColor={'black'}
                 style={styles.box_input}
-                value={brand}
-                onChangeText={text => setBrand(text)}
+                keyboardType="number-pad"
+                placeholder="Enter Price"
+                placeholderTextColor={'lightgrey'}
+                value={form.price}
+                onChangeText={text => setForm({...form, price: text})}
               />
-            )}
-            {otherBrand ? (
-              <TextInput
-                placeholder="Choose Model"
-                style={styles.box_input}
-                value={form.model}
-                onChangeText={text => setForm({...form, model: text})}
-              />
-            ) : (
+
               <SelectList
                 boxStyles={styles.box}
-                placeholder="Choose model"
+                // inputStyles={styles.box}
+                placeholder="Choose Ram"
                 inputStyles={{color: 'black'}}
-                setSelected={val => setForm({...form, model: val})}
-                data={models}
+                setSelected={val =>
+                  setForm({...form, ram: val.replace(' GB', '')})
+                }
+                data={Ram}
                 save="value"
                 dropdownTextStyles={{color: 'black'}}
               />
-            )}
-            <TextInput
-              style={styles.box_input}
-              keyboardType="number-pad"
-              placeholder="Enter Price"
-              placeholderTextColor={'lightgrey'}
-              value={form.price}
-              onChangeText={text => setForm({...form, price: text})}
-            />
 
-            <SelectList
-              boxStyles={styles.box}
-              // inputStyles={styles.box}
-              placeholder="Choose Ram"
-              inputStyles={{color: 'black'}}
-              setSelected={val =>
-                setForm({...form, ram: val.replace(' GB', '')})
-              }
-              data={Ram}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
+              <SelectList
+                boxStyles={styles.box}
+                placeholder="PTA Status"
+                inputStyles={{color: 'black'}}
+                setSelected={val => setForm({...form, pta_status: val})}
+                data={approved}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
+              />
+              <SelectList
+                boxStyles={styles.box}
+                placeholder="Choose Storage"
+                inputStyles={{color: 'black'}}
+                setSelected={val =>
+                  setForm({...form, storage: val.replace(' GB', '')})
+                }
+                data={Storage}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
+              />
+              <SelectList
+                boxStyles={styles.box}
+                placeholder="Product Condition"
+                inputStyles={{color: 'black'}}
+                setSelected={val => setForm({...form, product_type: val})}
+                data={Condition}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
+              />
 
-            <SelectList
-              boxStyles={styles.box}
-              placeholder="PTA Status"
-              inputStyles={{color: 'black'}}
-              setSelected={val => setForm({...form, pta_status: val})}
-              data={approved}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
-            <SelectList
-              boxStyles={styles.box}
-              placeholder="Choose Storage"
-              inputStyles={{color: 'black'}}
-              setSelected={val =>
-                setForm({...form, storage: val.replace(' GB', '')})
-              }
-              data={Storage}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
-            <SelectList
-              boxStyles={styles.box}
-              placeholder="Product Condition"
-              inputStyles={{color: 'black'}}
-              setSelected={val => setForm({...form, product_type: val})}
-              data={Condition}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
+              {condition ? (
+                <View style={{padding: 5, paddingVertical: 15}}>
+                  <Text
+                    style={{
+                      color: color.black,
+                      fontWeight: '500',
+                      fontSize: 15,
+                    }}>
+                    Accessories
+                  </Text>
 
-            {condition ? (
-              <View style={{padding: 5, paddingVertical: 15}}>
-                <Text
-                  style={{
-                    color: color.black,
-                    fontWeight: '500',
-                    fontSize: 15,
-                  }}>
-                  Accessories
-                </Text>
+                  <View style={styles.check_box_box}>
+                    <CheckBox
+                      disabled={false}
+                      value={toggleAccesories.box}
+                      tintColors={color.black}
+                      onValueChange={newValue =>
+                        setToggleAccesories({
+                          ...toggleAccesories,
+                          box: newValue,
+                        })
+                      }
+                    />
+                    <Text style={styles.check_box_text}>Box</Text>
+                  </View>
 
-                <View style={styles.check_box_box}>
-                  <CheckBox
-                    disabled={false}
-                    value={toggleAccesories.box}
-                    tintColors={color.black}
-                    onValueChange={newValue =>
-                      setToggleAccesories({
-                        ...toggleAccesories,
-                        box: newValue,
-                      })
-                    }
-                  />
-                  <Text style={styles.check_box_text}>Box</Text>
+                  <View style={styles.check_box_box}>
+                    <CheckBox
+                      disabled={false}
+                      tintColors={color.black}
+                      value={toggleAccesories.charger}
+                      onValueChange={newValue =>
+                        setToggleAccesories({
+                          ...toggleAccesories,
+                          charger: newValue,
+                        })
+                      }
+                    />
+                    <Text style={styles.check_box_text}>Charger</Text>
+                  </View>
+
+                  <View style={styles.check_box_box}>
+                    <CheckBox
+                      disabled={false}
+                      tintColors={color.black}
+                      value={toggleAccesories.data_cable}
+                      onValueChange={newValue =>
+                        setToggleAccesories({
+                          ...toggleAccesories,
+                          data_cable: newValue,
+                        })
+                      }
+                    />
+                    <Text style={styles.check_box_text}>Data Cable</Text>
+                  </View>
+
+                  <View style={styles.check_box_box}>
+                    <CheckBox
+                      disabled={false}
+                      tintColors={color.black}
+                      value={toggleAccesories.handfree}
+                      onValueChange={newValue =>
+                        setToggleAccesories({
+                          ...toggleAccesories,
+                          handfree: newValue,
+                        })
+                      }
+                    />
+                    <Text style={styles.check_box_text}>Hand Free</Text>
+                  </View>
+
+                  <View style={styles.check_box_box}>
+                    <CheckBox
+                      disabled={false}
+                      tintColors={color.black}
+                      value={toggleAccesories.kit_only}
+                      onValueChange={newValue =>
+                        setToggleAccesories({
+                          ...toggleAccesories,
+                          kit_only: newValue,
+                        })
+                      }
+                    />
+                    <Text style={styles.check_box_text}>Kit-only</Text>
+                  </View>
                 </View>
+              ) : null}
+              <SelectList
+                boxStyles={styles.box}
+                placeholder="Warranty"
+                inputStyles={{color: 'black'}}
+                setSelected={val => setForm({...form, warranty: val})}
+                data={Warranty}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
+              />
 
-                <View style={styles.check_box_box}>
-                  <CheckBox
-                    disabled={false}
-                    tintColors={color.black}
-                    value={toggleAccesories.charger}
-                    onValueChange={newValue =>
-                      setToggleAccesories({
-                        ...toggleAccesories,
-                        charger: newValue,
-                      })
-                    }
-                  />
-                  <Text style={styles.check_box_text}>Charger</Text>
-                </View>
-
-                <View style={styles.check_box_box}>
-                  <CheckBox
-                    disabled={false}
-                    tintColors={color.black}
-                    value={toggleAccesories.data_cable}
-                    onValueChange={newValue =>
-                      setToggleAccesories({
-                        ...toggleAccesories,
-                        data_cable: newValue,
-                      })
-                    }
-                  />
-                  <Text style={styles.check_box_text}>Data Cable</Text>
-                </View>
-
-                <View style={styles.check_box_box}>
-                  <CheckBox
-                    disabled={false}
-                    tintColors={color.black}
-                    value={toggleAccesories.handfree}
-                    onValueChange={newValue =>
-                      setToggleAccesories({
-                        ...toggleAccesories,
-                        handfree: newValue,
-                      })
-                    }
-                  />
-                  <Text style={styles.check_box_text}>Hand Free</Text>
-                </View>
-
-                <View style={styles.check_box_box}>
-                  <CheckBox
-                    disabled={false}
-                    tintColors={color.black}
-                    value={toggleAccesories.kit_only}
-                    onValueChange={newValue =>
-                      setToggleAccesories({
-                        ...toggleAccesories,
-                        kit_only: newValue,
-                      })
-                    }
-                  />
-                  <Text style={styles.check_box_text}>Kit-only</Text>
-                </View>
-              </View>
-            ) : null}
-            <SelectList
-              boxStyles={styles.box}
-              placeholder="Warranty"
-              inputStyles={{color: 'black'}}
-              setSelected={val => setForm({...form, warranty: val})}
-              data={Warranty}
-              save="value"
-              dropdownTextStyles={{color: 'black'}}
-            />
-
-            {/* {profileData?.social_login !== null && (
+              {/* {profileData?.social_login !== null && (
               <View style={{paddingVertical: 20}}>
                 <Button
                   color={color.orange}
@@ -627,165 +628,167 @@ const PostAnAd = () => {
           
 
             )} */}
-            {sociallogin ? (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginVertical: 10,
-                  justifyContent: 'space-between',
-                }}>
-                <TextInput
+              {sociallogin ? (
+                <View
                   style={{
-                    borderWidth: 1,
-                    width: 200,
-                    borderRadius: 5,
+                    flexDirection: 'row',
+                    marginVertical: 10,
+                    justifyContent: 'space-between',
+                  }}>
+                  <TextInput
+                    style={{
+                      borderWidth: 1,
+                      width: 200,
+                      borderRadius: 5,
+                      color: 'black',
+                    }}
+                    keyboardType="number-pad"
+                    placeholder="Enter your number"
+                    placeholderTextColor={'lightgrey'}
+                    inputMode="numeric"
+                    value={phoneNumber}
+                    onChangeText={e => {
+                      setPhonenumber(e);
+                    }}
+                  />
+
+                  <Button
+                    theme={{colors: {primary: color.orange}, roundness: 90}}
+                    mode={'contained'}
+                    onPress={SendOTP}
+                    textColor="white">
+                    SEND OTP
+                  </Button>
+                </View>
+              ) : null}
+              {isOtp ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginVertical: 5,
+                    justifyContent: 'space-between',
+                  }}>
+                  <TextInput
+                    style={{borderWidth: 1, borderRadius: 5, color: 'black'}}
+                    keyboardType="number-pad"
+                    placeholder="Enter OTP"
+                    placeholderTextColor={'lightgrey'}
+                    value={otp}
+                    onChangeText={e => setOtp(e)}
+                  />
+
+                  <Button
+                    theme={{colors: {primary: color.orange}, roundness: 90}}
+                    mode={'contained'}
+                    onPress={OTPVerify}
+                    textColor="white">
+                    VERIFY OTP
+                  </Button>
+
+                  <Button
+                    theme={{colors: {primary: color.orange}, roundness: 90}}
+                    mode={'contained'}
+                    textColor="white"
+                    onPress={SendOTP}
+                    disabled={disabled}>
+                    Resend OTP
+                  </Button>
+                </View>
+              ) : null}
+            </View>
+            <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>
+              Product Image
+            </Text>
+            <FlatList
+              horizontal
+              data={form?.image}
+              contentContainerStyle={{paddingVertical: 10, zIndex: 999}}
+              renderItem={({item}) => (
+                <Image
+                  style={{
+                    width: 100,
+                    height: 100,
+                    marginRight: 15,
+                    zIndex: 999,
+                    marginVertical: 5,
+                  }}
+                  source={{uri: item.uri}}
+                />
+              )}
+            />
+
+            <Text
+              style={{marginVertical: 5, color: 'black', fontWeight: '700'}}>
+              Upload upto 20 images
+            </Text>
+            {/* <Button title="Upload image" onPress={ImageUpload} /> */}
+            {/* {verifed ? console.log('t') : console.log('f')} */}
+            {verifed ? (
+              <>
+                <TouchableOpacity
+                  onPress={ImageUpload}
+                  style={{
+                    backgroundColor: color.orange,
+                    width: width - 50,
+                    height: 50,
+                    borderRadius: 20,
+                    marginTop: 40,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 12,
+                  }}>
+                  <Text
+                    style={{
+                      color: color.white,
+                      fontWeight: 'bold',
+                      fontSize: 15,
+                    }}>
+                    {uploadbtn}
+                  </Text>
+                </TouchableOpacity>
+                <Text
+                  style={{
+                    fontWeight: '600',
                     color: 'black',
-                  }}
-                  keyboardType="number-pad"
-                  placeholder="Enter your number"
-                  placeholderTextColor={'lightgrey'}
-                  inputMode="numeric"
-                  value={phoneNumber}
-                  onChangeText={e => {
-                    setPhonenumber(e);
-                  }}
-                />
+                    fontSize: 15,
+                    marginVertical: 16,
+                  }}>
+                  Description
+                </Text>
 
-                <Button
-                  theme={{colors: {primary: color.orange}, roundness: 90}}
-                  mode={'contained'}
-                  onPress={SendOTP}
-                  textColor="white">
-                  SEND OTP
-                </Button>
-              </View>
-            ) : null}
-            {isOtp ? (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginVertical: 5,
-                  justifyContent: 'space-between',
-                }}>
                 <TextInput
-                  style={{borderWidth: 1, borderRadius: 5, color: 'black'}}
-                  keyboardType="number-pad"
-                  placeholder="Enter OTP"
-                  placeholderTextColor={'lightgrey'}
-                  value={otp}
-                  onChangeText={e => setOtp(e)}
+                  style={styles.description}
+                  multiline={true}
+                  value={form.description}
+                  onChangeText={text => setForm({...form, description: text})}
+                  numberOfLines={5}
                 />
-
-                <Button
-                  theme={{colors: {primary: color.orange}, roundness: 90}}
-                  mode={'contained'}
-                  onPress={OTPVerify}
-                  textColor="white">
-                  VERIFY OTP
-                </Button>
-
-                <Button
-                  theme={{colors: {primary: color.orange}, roundness: 90}}
-                  mode={'contained'}
-                  textColor="white"
-                  onPress={SendOTP}
-                  disabled={disabled}>
-                  Resend OTP
-                </Button>
-              </View>
+                <TouchableOpacity
+                  onPress={() => PostAdFunc()}
+                  disabled={isOtp ? true : false}
+                  style={{
+                    backgroundColor: color.orange,
+                    width: width - 50,
+                    height: 50,
+                    borderRadius: 20,
+                    marginTop: 40,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: color.white,
+                      fontWeight: 'bold',
+                      fontSize: 15,
+                    }}>
+                    {button}
+                  </Text>
+                </TouchableOpacity>
+              </>
             ) : null}
           </View>
-          <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>
-            Product Image
-          </Text>
-          <FlatList
-            horizontal
-            data={form?.image}
-            contentContainerStyle={{paddingVertical: 10, zIndex: 999}}
-            renderItem={({item}) => (
-              <Image
-                style={{
-                  width: 100,
-                  height: 100,
-                  marginRight: 15,
-                  zIndex: 999,
-                  marginVertical: 5,
-                }}
-                source={{uri: item.uri}}
-              />
-            )}
-          />
-
-          <Text style={{marginVertical: 5, color: 'black', fontWeight: '700'}}>
-            Upload upto 20 images
-          </Text>
-          {/* <Button title="Upload image" onPress={ImageUpload} /> */}
-          {/* {verifed ? console.log('t') : console.log('f')} */}
-          {verifed ? (
-            <>
-              <TouchableOpacity
-                onPress={ImageUpload}
-                style={{
-                  backgroundColor: color.orange,
-                  width: width - 50,
-                  height: 50,
-                  borderRadius: 20,
-                  marginTop: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginLeft: 12,
-                }}>
-                <Text
-                  style={{
-                    color: color.white,
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                  }}>
-                  {uploadbtn}
-                </Text>
-              </TouchableOpacity>
-              <Text
-                style={{
-                  fontWeight: '600',
-                  color: 'black',
-                  fontSize: 15,
-                  marginVertical: 16,
-                }}>
-                Description
-              </Text>
-
-              <TextInput
-                style={styles.description}
-                multiline={true}
-                value={form.description}
-                onChangeText={text => setForm({...form, description: text})}
-                numberOfLines={5}
-              />
-              <TouchableOpacity
-                onPress={() => PostAdFunc()}
-                disabled={isOtp ? true : false}
-                style={{
-                  backgroundColor: color.orange,
-                  width: width - 50,
-                  height: 50,
-                  borderRadius: 20,
-                  marginTop: 40,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: color.white,
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                  }}>
-                  {button}
-                </Text>
-              </TouchableOpacity>
-            </>
-          ) : null}
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

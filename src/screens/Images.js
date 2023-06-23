@@ -25,7 +25,7 @@ const Images = ({navigation, route}) => {
   }
   // console.log(images)
   return (
-    <SafeAreaView style={tw`flex-1`}>
+    <SafeAreaView style={tw`flex-1 bg-black`}>
       <View style={tw`flex-1`}>
         <View
           style={{

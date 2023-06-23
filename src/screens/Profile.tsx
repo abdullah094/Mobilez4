@@ -1,22 +1,20 @@
+import React from 'react';
 import {
+  Dimensions,
+  Image,
+  SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
-  View,
-  Dimensions,
-  ScrollView,
-  Image,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
+  View,
 } from 'react-native';
-import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {color} from '../constants/Colors';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import Header from '../components/Header';
+import {useSelector} from 'react-redux';
 import tw from 'twrnc';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {selectProfileData} from '../Redux/Slices';
+import Header from '../components/Header';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const Profile = ({navigation}) => {
@@ -24,75 +22,78 @@ const Profile = ({navigation}) => {
   const image_dimension = 120;
   const base_url = 'https://www.mobilezmarket.com/images/';
   return (
-    <SafeAreaView>
-      <ScrollView contentContainerStyle={{alignItems: 'center'}}>
-        <Header title="Profile" />
-        <View
-          style={{width: width, height: 50, backgroundColor: color.orange}}
-        />
-        <Image
-          source={{uri: base_url + profile.photo}}
-          style={{
-            width: image_dimension,
-            height: image_dimension,
-            borderRadius: image_dimension / 2,
-            borderWidth: 1,
-            bottom: image_dimension / 2 - 20,
-          }}
-        />
-        <Text style={styles.h1}>{profile.first_name}</Text>
-        <Text style={styles.h1}>{profile.last_name}</Text>
-        <View style={styles.box}>
-          <Text style={styles.h2}>First name</Text>
-          <TextInput
-            style={styles.input}
-            editable={false}
-            value={profile.first_name}
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+          <Header title="Profile" />
+          <View
+            style={{width: width, height: 50, backgroundColor: color.orange}}
           />
-        </View>
-
-        <View style={styles.box}>
-          <Text style={styles.h2}>Last name</Text>
-          <TextInput
-            style={styles.input}
-            editable={false}
-            value={profile.last_name}
+          <Image
+            source={{uri: base_url + profile.photo}}
+            style={{
+              width: image_dimension,
+              height: image_dimension,
+              borderRadius: image_dimension / 2,
+              borderWidth: 1,
+              bottom: image_dimension / 2 - 20,
+            }}
           />
-        </View>
+          <Text style={styles.h1}>{profile.first_name}</Text>
+          <Text style={styles.h1}>{profile.last_name}</Text>
+          <View style={styles.box}>
+            <Text style={styles.h2}>First name</Text>
+            <TextInput
+              style={styles.input}
+              editable={false}
+              value={profile.first_name}
+            />
+          </View>
 
-        <View style={styles.box}>
-          <Text style={styles.h2}>Email</Text>
-          <TextInput
-            style={styles.input}
-            editable={false}
-            value={profile.email}
-          />
-        </View>
+          <View style={styles.box}>
+            <Text style={styles.h2}>Last name</Text>
+            <TextInput
+              style={styles.input}
+              editable={false}
+              value={profile.last_name}
+            />
+          </View>
 
-        <View style={styles.box}>
-          <Text style={styles.h2}>City</Text>
-          <TextInput
-            style={styles.input}
-            editable={false}
-            value={profile.city}
-          />
-        </View>
+          <View style={styles.box}>
+            <Text style={styles.h2}>Email</Text>
+            <TextInput
+              style={styles.input}
+              editable={false}
+              value={profile.email}
+            />
+          </View>
 
-        <TouchableOpacity
-          style={{
-            backgroundColor: color.orange,
-            height: 50,
-            width: 200,
-            borderRadius: 25,
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 25,
-          }}>
-          <Text style={{color: color.white, fontWeight: 'bold', fontSize: 18}}>
-            Save Changes
-          </Text>
-        </TouchableOpacity>
-      </ScrollView>
+          <View style={styles.box}>
+            <Text style={styles.h2}>City</Text>
+            <TextInput
+              style={styles.input}
+              editable={false}
+              value={profile.city}
+            />
+          </View>
+
+          <TouchableOpacity
+            style={{
+              backgroundColor: color.orange,
+              height: 50,
+              width: 200,
+              borderRadius: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 25,
+            }}>
+            <Text
+              style={{color: color.white, fontWeight: 'bold', fontSize: 18}}>
+              Save Changes
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

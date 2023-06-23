@@ -153,146 +153,236 @@ const ProductPage = ({navigation, route}) => {
   );
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: color.white}}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{alignItems: 'center', paddingBottom: 150}}>
-        <Header title="Product Details" />
-        <View style={tw`flex-1 px-4`}>
-          <View
-            style={{
-              paddingHorizontal: 16,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            {/* <Slider data={data.productimages} /> */}
-            <View style={tw`w-[70%]`}>
-              <TouchableOpacity
-                style={{
-                  height: 300,
-                  borderRadius: 10,
-                }}
-                onPress={() =>
-                  navigation.navigate('Images', {
-                    images: data.details.productimages,
-                  })
-                }>
-                <Image
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 10,
-                  }}
-                  source={{uri: image_url + details.productimages[0].img}}
-                />
-              </TouchableOpacity>
-              <AddToWishList
-                ProductId={details.id}
-                style={tw` absolute w-10 h-10 flex items-center justify-center top-3 right-2 bg-gray-100 rounded-full`}
-              />
-            </View>
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{alignItems: 'center', paddingBottom: 150}}>
+          <Header title="Product Details" />
+          <View style={tw`flex-1 px-4`}>
             <View
               style={{
-                width: '30%',
-                height: 300,
+                paddingHorizontal: 16,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
               }}>
-              {details.productimages?.slice(0, 3).map(({img, id}, index) => (
+              {/* <Slider data={data.productimages} /> */}
+              <View style={tw`w-[70%]`}>
                 <TouchableOpacity
-                  key={id}
+                  style={{
+                    height: 300,
+                    borderRadius: 10,
+                  }}
                   onPress={() =>
                     navigation.navigate('Images', {
                       images: data.details.productimages,
                     })
                   }>
                   <Image
-                    style={styles.productImage}
-                    resizeMode="contain"
-                    source={{uri: image_url + img}}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 10,
+                    }}
+                    source={{uri: image_url + details.productimages[0].img}}
                   />
-                  {index == 2 && details.productimages.length - 3 != 0 && (
-                    <View
-                      // margin: 4,
-                      // marginHorizontal: 8,
-                      style={tw`absolute inset-0 bg-black/20  ml-2 my-1 -mr-2 rounded-[10px] items-center justify-center`}>
-                      <Text style={tw`text-white text-2xl`}>
-                        +{details.productimages.length - 3}
-                      </Text>
-                    </View>
-                  )}
                 </TouchableOpacity>
-              ))}
+                <AddToWishList
+                  ProductId={details.id}
+                  style={tw` absolute w-10 h-10 flex items-center justify-center top-3 right-2 bg-gray-100 rounded-full`}
+                />
+              </View>
+              <View
+                style={{
+                  width: '30%',
+                  height: 300,
+                }}>
+                {details.productimages?.slice(0, 3).map(({img, id}, index) => (
+                  <TouchableOpacity
+                    key={id}
+                    onPress={() =>
+                      navigation.navigate('Images', {
+                        images: data.details.productimages,
+                      })
+                    }>
+                    <Image
+                      style={styles.productImage}
+                      resizeMode="contain"
+                      source={{uri: image_url + img}}
+                    />
+                    {index == 2 && details.productimages.length - 3 != 0 && (
+                      <View
+                        // margin: 4,
+                        // marginHorizontal: 8,
+                        style={tw`absolute inset-0 bg-black/20  ml-2 my-1 -mr-2 rounded-[10px] items-center justify-center`}>
+                        <Text style={tw`text-white text-2xl`}>
+                          +{details.productimages.length - 3}
+                        </Text>
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
             </View>
-          </View>
-          <View
-            style={{
-              borderBottomWidth: 1,
-              borderColor: color.gray,
-            }}>
+            <View
+              style={{
+                borderBottomWidth: 1,
+                borderColor: color.gray,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: width - 30,
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginTop: 10,
+                }}>
+                <Text
+                  style={[
+                    styles.heading,
+                    {fontSize: 20, color: color.black, marginBottom: 0},
+                  ]}>
+                  <Text>{data.details.brand}</Text>
+                  <Text> {data.details.model}</Text>
+                </Text>
+
+                <Pressable onPress={handleShare}>
+                  <Ionicons
+                    name="share-social-sharp"
+                    size={30}
+                    color="#0167E6"
+                  />
+                </Pressable>
+              </View>
+              <Text style={{color: '#015DCF', fontSize: 20, fontWeight: '700'}}>
+                Rs. {data.details.price.toLocaleString()}
+              </Text>
+            </View>
             <View
               style={{
                 flexDirection: 'row',
-                width: width - 30,
-                alignItems: 'center',
                 justifyContent: 'space-between',
-                marginTop: 10,
-              }}>
-              <Text
-                style={[
-                  styles.heading,
-                  {fontSize: 20, color: color.black, marginBottom: 0},
-                ]}>
-                <Text>{data.details.brand}</Text>
-                <Text> {data.details.model}</Text>
-              </Text>
 
-              <Pressable onPress={handleShare}>
-                <Ionicons name="share-social-sharp" size={30} color="#0167E6" />
-              </Pressable>
-            </View>
-            <Text style={{color: '#015DCF', fontSize: 20, fontWeight: '700'}}>
-              Rs. {data.details.price.toLocaleString()}
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                width: width - 30,
-                marginVertical: 15,
+                alignItems: 'center',
               }}>
-              {data.details.category === 'Mobile' ? (
-                <>
-                  <View
+              <View
+                style={{
+                  width: width - 30,
+                  marginVertical: 15,
+                }}>
+                {data.details.category === 'Mobile' ? (
+                  <>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          color: color.black,
+                          fontSize: 15,
+
+                          fontWeight: '700',
+                        }}>
+                        Storage :
+                      </Text>
+                      <Text
+                        style={{
+                          color: color.black,
+                          fontSize: 15,
+                          alignItems: 'center',
+                          fontWeight: '400',
+                          paddingHorizontal: 5,
+                        }}>
+                        {data.details.storage}GB
+                      </Text>
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginTop: 7,
+                      }}>
+                      <Text
+                        style={{
+                          color: color.black,
+                          fontSize: 15,
+
+                          fontWeight: '700',
+                        }}>
+                        RAM :
+                      </Text>
+                      <Text
+                        style={{
+                          color: color.black,
+                          fontSize: 15,
+
+                          fontWeight: '400',
+                          paddingHorizontal: 5,
+                          alignItems: 'center',
+                        }}>
+                        {data.details.ram}GB
+                      </Text>
+                    </View>
+                  </>
+                ) : null}
+
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 7,
+                  }}>
+                  <Text
                     style={{
-                      flexDirection: 'row',
+                      color: color.black,
+                      fontSize: 15,
+
+                      fontWeight: '700',
+                    }}>
+                    Warrenty :
+                  </Text>
+                  <Text
+                    style={{
+                      color: color.black,
+                      fontSize: 15,
+
+                      fontWeight: '400',
+                      paddingHorizontal: 5,
                       alignItems: 'center',
                     }}>
-                    <Text
-                      style={{
-                        color: color.black,
-                        fontSize: 15,
+                    {data.details.warranty}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginTop: 7,
+                  }}>
+                  <Text
+                    style={{
+                      color: color.black,
+                      fontSize: 15,
 
-                        fontWeight: '700',
-                      }}>
-                      Storage :
-                    </Text>
-                    <Text
-                      style={{
-                        color: color.black,
-                        fontSize: 15,
-                        alignItems: 'center',
-                        fontWeight: '400',
-                        paddingHorizontal: 5,
-                      }}>
-                      {data.details.storage}GB
-                    </Text>
-                  </View>
+                      fontWeight: '700',
+                    }}>
+                    Product Condition :
+                  </Text>
+                  <Text
+                    style={{
+                      color: color.black,
+                      fontSize: 15,
 
+                      fontWeight: '400',
+                      paddingHorizontal: 5,
+                      alignItems: 'center',
+                    }}>
+                    {data.details.product_type}
+                  </Text>
+                </View>
+                {data.details.category === 'Mobile' ? (
                   <View
                     style={{
                       flexDirection: 'row',
@@ -306,7 +396,7 @@ const ProductPage = ({navigation, route}) => {
 
                         fontWeight: '700',
                       }}>
-                      RAM :
+                      PTA Status :
                     </Text>
                     <Text
                       style={{
@@ -317,67 +407,11 @@ const ProductPage = ({navigation, route}) => {
                         paddingHorizontal: 5,
                         alignItems: 'center',
                       }}>
-                      {data.details.ram}GB
+                      {data.details.pta_status}
                     </Text>
                   </View>
-                </>
-              ) : null}
+                ) : null}
 
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 7,
-                }}>
-                <Text
-                  style={{
-                    color: color.black,
-                    fontSize: 15,
-
-                    fontWeight: '700',
-                  }}>
-                  Warrenty :
-                </Text>
-                <Text
-                  style={{
-                    color: color.black,
-                    fontSize: 15,
-
-                    fontWeight: '400',
-                    paddingHorizontal: 5,
-                    alignItems: 'center',
-                  }}>
-                  {data.details.warranty}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 7,
-                }}>
-                <Text
-                  style={{
-                    color: color.black,
-                    fontSize: 15,
-
-                    fontWeight: '700',
-                  }}>
-                  Product Condition :
-                </Text>
-                <Text
-                  style={{
-                    color: color.black,
-                    fontSize: 15,
-
-                    fontWeight: '400',
-                    paddingHorizontal: 5,
-                    alignItems: 'center',
-                  }}>
-                  {data.details.product_type}
-                </Text>
-              </View>
-              {data.details.category === 'Mobile' ? (
                 <View
                   style={{
                     flexDirection: 'row',
@@ -391,75 +425,18 @@ const ProductPage = ({navigation, route}) => {
 
                       fontWeight: '700',
                     }}>
-                    PTA Status :
+                    Posted By :
                   </Text>
                   <Text
                     style={{
-                      color: color.black,
                       fontSize: 15,
+                      color: color.black,
 
                       fontWeight: '400',
                       paddingHorizontal: 5,
                       alignItems: 'center',
                     }}>
-                    {data.details.pta_status}
-                  </Text>
-                </View>
-              ) : null}
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 7,
-                }}>
-                <Text
-                  style={{
-                    color: color.black,
-                    fontSize: 15,
-
-                    fontWeight: '700',
-                  }}>
-                  Posted By :
-                </Text>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: color.black,
-
-                    fontWeight: '400',
-                    paddingHorizontal: 5,
-                    alignItems: 'center',
-                  }}>
-                  {data.details.user.shop_name}
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 7,
-                  justifyContent: 'space-between',
-                }}>
-                <View style={tw`flex-row items-center justify-center`}>
-                  <Text
-                    style={{
-                      color: color.black,
-                      fontSize: 15,
-                      fontWeight: '700',
-                    }}>
-                    Date :
-                  </Text>
-                  <Text
-                    style={{
-                      color: color.black,
-                      fontSize: 15,
-
-                      fontWeight: '400',
-                      paddingHorizontal: 5,
-                      alignItems: 'center',
-                    }}>
-                    {formattedDate}
+                    {data.details.user.shop_name}
                   </Text>
                 </View>
                 <View
@@ -467,44 +444,73 @@ const ProductPage = ({navigation, route}) => {
                     flexDirection: 'row',
                     alignItems: 'center',
                     marginTop: 7,
+                    justifyContent: 'space-between',
                   }}>
-                  <MaterialIcon
-                    name="location-on"
-                    size={18}
-                    color={color.red}
-                  />
-                  <Text
+                  <View style={tw`flex-row items-center justify-center`}>
+                    <Text
+                      style={{
+                        color: color.black,
+                        fontSize: 15,
+                        fontWeight: '700',
+                      }}>
+                      Date :
+                    </Text>
+                    <Text
+                      style={{
+                        color: color.black,
+                        fontSize: 15,
+
+                        fontWeight: '400',
+                        paddingHorizontal: 5,
+                        alignItems: 'center',
+                      }}>
+                      {formattedDate}
+                    </Text>
+                  </View>
+                  <View
                     style={{
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                      marginLeft: 1,
-                      color: 'black',
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: 7,
                     }}>
-                    {details.user.city}
-                  </Text>
+                    <MaterialIcon
+                      name="location-on"
+                      size={18}
+                      color={color.red}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                        marginLeft: 1,
+                        color: 'black',
+                      }}>
+                      {details.user.city}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-          {/* Description */}
-          <Text style={styles.description}>Description</Text>
-          <View style={styles.container}>
-            <View style={styles.descriptionContainer}>
-              <Text style={styles.descriptionText} numberOfLines={3}>
-                {data.details.description}
-              </Text>
-            </View>
-            {/* {!seemore && (
+            {/* Description */}
+            <Text style={styles.description}>Description</Text>
+            <View style={styles.container}>
+              <View style={styles.descriptionContainer}>
+                <Text style={styles.descriptionText} numberOfLines={3}>
+                  {data.details.description}
+                </Text>
+              </View>
+              {/* {!seemore && (
               <TouchableOpacity onPress={() => setSeemore(true)}>
                 <Text style={styles.showMoreText}>Show more</Text>
               </TouchableOpacity>
             )} */}
+            </View>
+            <RecentList name={Category.RELATED_AD} products={related_ads} />
+            <RecentList name={Category.MORE_AD} products={more_ads} />
           </View>
-          <RecentList name={Category.RELATED_AD} products={related_ads} />
-          <RecentList name={Category.MORE_AD} products={more_ads} />
-        </View>
-      </ScrollView>
-      <CallWhatsappSms />
+        </ScrollView>
+        <CallWhatsappSms />
+      </View>
     </SafeAreaView>
   );
 };

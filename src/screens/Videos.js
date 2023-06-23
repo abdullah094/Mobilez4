@@ -37,44 +37,48 @@ const Videos = ({navigation}) => {
   }, []);
   if (!data) return <Loading />;
   return (
-    <SafeAreaView style={{width: width, alignItems: 'center'}}>
-      <Header title={'Videos'} />
-      <FlatList
-        data={data}
-        contentContainerStyle={{
-          marginTop: 100,
-          width: width - 30,
-          alignItems: 'center',
-        }}
-        keyExtractor={item => item.id}
-        numColumns={2}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => Linking.openURL(item.video_link)}
-            style={{
-              width: 140,
-              height: 150,
-              borderWidth: 1,
-              borderRadius: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: 10,
-            }}>
-            <Image
-              style={{width: 50, height: 50}}
-              source={require('../assets/video_logo.png')}
-            />
-            <Text style={{color: color.black, marginTop: 5}} numberOfLines={1}>
-              {item.video_link}
-            </Text>
-            <Text
-              style={{width: '80%', marginTop: 5, color: 'gray'}}
-              numberOfLines={1}>
-              {item.updated_at}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <Header title={'Videos'} />
+        <FlatList
+          data={data}
+          contentContainerStyle={{
+            marginTop: 100,
+            width: width - 30,
+            alignItems: 'center',
+          }}
+          keyExtractor={item => item.id}
+          numColumns={2}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => Linking.openURL(item.video_link)}
+              style={{
+                width: 140,
+                height: 150,
+                borderWidth: 1,
+                borderRadius: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 10,
+              }}>
+              <Image
+                style={{width: 50, height: 50}}
+                source={require('../assets/video_logo.png')}
+              />
+              <Text
+                style={{color: color.black, marginTop: 5}}
+                numberOfLines={1}>
+                {item.video_link}
+              </Text>
+              <Text
+                style={{width: '80%', marginTop: 5, color: 'gray'}}
+                numberOfLines={1}>
+                {item.updated_at}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 };

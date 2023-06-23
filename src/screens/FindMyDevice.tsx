@@ -15,6 +15,7 @@ import {
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 
 import {useIsFocused} from '@react-navigation/native';
+import tw from 'twrnc';
 import ListItem from '../components/ListItem';
 import Loading from '../components/Loading';
 import {color} from '../constants/Colors';
@@ -55,60 +56,66 @@ const FindMyDevice = ({navigation, route}) => {
 
   if (!data) return <Loading />;
   return (
-    <SafeAreaView>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          backgroundColor: '#2B67F6',
-          alignItems: 'center',
-        }}>
-        <Pressable style={{margin: 15}} onPress={() => navigation.goBack()}>
-          <MaterialIcon
-            name="keyboard-arrow-left"
-            size={40}
-            color={color.white}
-          />
-        </Pressable>
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
         <View
-          style={{padding: 10, paddingHorizontal: 30, alignItems: 'flex-end'}}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Filter')}
-            style={{
-              padding: 5,
-              backgroundColor: color.orange,
-              borderRadius: 10,
-              width: 100,
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderWidth: 1,
-              borderColor: 'white',
-            }}>
-            <Text
-              style={{
-                color: color.white,
-                fontSize: 15,
-                fontWeight: 'bold',
-              }}>
-              Filters
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View>
-        {/* Filter */}
-
-        <FlatList
-          data={data}
-          keyExtractor={item => item.id}
-          onScrollBeginDrag={() => Keyboard.dismiss()}
-          contentContainerStyle={{
-            width: width,
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            backgroundColor: '#2B67F6',
             alignItems: 'center',
-            paddingBottom: 200,
-          }}
-          renderItem={({item}) => <ListItem item={item} />}
-        />
+          }}>
+          <Pressable style={{margin: 15}} onPress={() => navigation.goBack()}>
+            <MaterialIcon
+              name="keyboard-arrow-left"
+              size={40}
+              color={color.white}
+            />
+          </Pressable>
+          <View
+            style={{
+              padding: 10,
+              paddingHorizontal: 30,
+              alignItems: 'flex-end',
+            }}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Filter')}
+              style={{
+                padding: 5,
+                backgroundColor: color.orange,
+                borderRadius: 10,
+                width: 100,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderColor: 'white',
+              }}>
+              <Text
+                style={{
+                  color: color.white,
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                }}>
+                Filters
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View>
+          {/* Filter */}
+
+          <FlatList
+            data={data}
+            keyExtractor={item => item.id}
+            onScrollBeginDrag={() => Keyboard.dismiss()}
+            contentContainerStyle={{
+              width: width,
+              alignItems: 'center',
+              paddingBottom: 200,
+            }}
+            renderItem={({item}) => <ListItem item={item} />}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );

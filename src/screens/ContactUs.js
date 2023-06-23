@@ -19,110 +19,113 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 const ContactUs = ({navigation}) => {
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <Header title="Contact Us" />
-        <View style={tw`flex-1 items-center justify-center p-4`}>
-          <Text style={{fontWeight: 'bold', color: color.black, fontSize: 25}}>
-            Tell us about yourself
-          </Text>
-          <Text style={{color: color.black, marginTop: 10}}>
-            Your email address will not be published. Required fields are marked
-            *
-          </Text>
-
-          <View style={[styles.box, {marginTop: 40}]}>
-            <Text style={styles.box_name}>Name</Text>
-            <TextInput
-              placeholder="Name"
-              placeholderTextColor={'grey'}
-              style={styles.box_input}
-            />
-          </View>
-
-          <View style={styles.box}>
-            <Text placeholder="Email" style={styles.box_name}>
-              Email
-            </Text>
-            <TextInput
-              placeholder="Email"
-              placeholderTextColor={'grey'}
-              style={styles.box_input}
-            />
-          </View>
-          <View style={styles.box}>
-            <Text style={styles.box_name}>Your Message</Text>
-            <TextInput style={[styles.box_input, {height: 200}]} />
-          </View>
-
-          <TouchableOpacity
-            onPress={() => {
-              Alert.alert('Message submitted');
-              navigation.goBack();
-            }}
-            style={{
-              width: 200,
-              height: 50,
-              backgroundColor: color.orange,
-              borderRadius: 25,
-              marginTop: 30,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <ScrollView>
+          <Header title="Contact Us" />
+          <View style={tw`flex-1 items-center justify-center p-4`}>
             <Text
-              style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
-              Submit
+              style={{fontWeight: 'bold', color: color.black, fontSize: 25}}>
+              Tell us about yourself
             </Text>
-          </TouchableOpacity>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
+            <Text style={{color: color.black, marginTop: 10}}>
+              Your email address will not be published. Required fields are
+              marked *
+            </Text>
 
-              width: width - 30,
-              flexWrap: 'wrap',
-              paddingTop: 20,
-            }}>
-            <Email name="email" size={35} color={color.orange} />
+            <View style={[styles.box, {marginTop: 40}]}>
+              <Text style={styles.box_name}>Name</Text>
+              <TextInput
+                placeholder="Name"
+                placeholderTextColor={'grey'}
+                style={styles.box_input}
+              />
+            </View>
+
+            <View style={styles.box}>
+              <Text placeholder="Email" style={styles.box_name}>
+                Email
+              </Text>
+              <TextInput
+                placeholder="Email"
+                placeholderTextColor={'grey'}
+                style={styles.box_input}
+              />
+            </View>
+            <View style={styles.box}>
+              <Text style={styles.box_name}>Your Message</Text>
+              <TextInput style={[styles.box_input, {height: 200}]} />
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert('Message submitted');
+                navigation.goBack();
+              }}
+              style={{
+                width: 200,
+                height: 50,
+                backgroundColor: color.orange,
+                borderRadius: 25,
+                marginTop: 30,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
+                Submit
+              </Text>
+            </TouchableOpacity>
             <View
               style={{
-                width: 220,
-                justifyContent: 'center',
-                paddingHorizontal: 10,
-              }}>
-              <Text style={{fontWeight: '400', color: 'black'}}>
-                info@mobilezmarket.com
-              </Text>
-              <Text style={{fontWeight: '400', color: 'black'}}>
-                support@mobilezmarket.com
-              </Text>
-            </View>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
 
-              width: width - 30,
-              flexWrap: 'wrap',
-              paddingTop: 20,
-            }}>
-            <Location name="location" size={35} color={color.red} />
+                width: width - 30,
+                flexWrap: 'wrap',
+                paddingTop: 20,
+              }}>
+              <Email name="email" size={35} color={color.orange} />
+              <View
+                style={{
+                  width: 220,
+                  justifyContent: 'center',
+                  paddingHorizontal: 10,
+                }}>
+                <Text style={{fontWeight: '400', color: 'black'}}>
+                  info@mobilezmarket.com
+                </Text>
+                <Text style={{fontWeight: '400', color: 'black'}}>
+                  support@mobilezmarket.com
+                </Text>
+              </View>
+            </View>
             <View
               style={{
-                width: 220,
-                justifyContent: 'center',
-                paddingHorizontal: 10,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+
+                width: width - 30,
+                flexWrap: 'wrap',
+                paddingTop: 20,
               }}>
-              <Text style={{fontWeight: '400', color: 'black'}}>
-                DHA Karahi, Pakistan
-              </Text>
+              <Location name="location" size={35} color={color.red} />
+              <View
+                style={{
+                  width: 220,
+                  justifyContent: 'center',
+                  paddingHorizontal: 10,
+                }}>
+                <Text style={{fontWeight: '400', color: 'black'}}>
+                  DHA Karahi, Pakistan
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

@@ -230,157 +230,159 @@ const Home = ({navigation}) => {
       });
   };
   return (
-    <SafeAreaView>
-      <View style={styles.header}>
-        <View
-          style={[
-            {
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: '100%',
-              alignItems: 'center',
-              marginTop: 19,
-            },
-          ]}>
-          <Text
-            style={{fontSize: 15, color: 'white', fontWeight: '600'}}
-            numberOfLines={1}>
-            {heading}
-          </Text>
-
-          {/* login Register */}
-          {profile ? (
-            <TouchableOpacity
-              disabled
-              onPress={() => navigation.navigate('Profile')}>
-              {profile && (
-                <Image
-                  style={tw`h-12 w-12 rounded-full`}
-                  source={{
-                    uri: profile.photo.includes('https')
-                      ? profile.photo
-                      : image_url + profile.photo,
-                  }}
-                />
-              )}
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text
-                style={{
-                  color: color.white,
-                  fontSize: 14,
-                  fontWeight: '600',
-                }}>
-                {'Login/Register'}
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
-        <View style={tw`relative rounded-md flex-1`}>
-          <SearchScreen />
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <View style={styles.header}>
           <View
-            style={tw`w-full px-6 top-[100px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
-            <HomeSlider />
+            style={[
+              {
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '100%',
+                alignItems: 'center',
+                marginTop: 19,
+              },
+            ]}>
+            <Text
+              style={{fontSize: 15, color: 'white', fontWeight: '600'}}
+              numberOfLines={1}>
+              {heading}
+            </Text>
+
+            {/* login Register */}
+            {profile ? (
+              <TouchableOpacity
+                disabled
+                onPress={() => navigation.navigate('Profile')}>
+                {profile && (
+                  <Image
+                    style={tw`h-12 w-12 rounded-full`}
+                    source={{
+                      uri: profile.photo.includes('https')
+                        ? profile.photo
+                        : image_url + profile.photo,
+                    }}
+                  />
+                )}
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                <Text
+                  style={{
+                    color: color.white,
+                    fontSize: 14,
+                    fontWeight: '600',
+                  }}>
+                  {'Login/Register'}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+          <View style={tw`relative rounded-md flex-1`}>
+            <SearchScreen />
+            <View
+              style={tw`w-full px-6 top-[100px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
+              <HomeSlider />
+            </View>
           </View>
         </View>
-      </View>
 
-      <ScrollView
-        style={{}}
-        contentContainerStyle={{
-          alignItems: 'center',
-          backgroundColor: color.white,
-          paddingBottom: 200,
-        }}
-        showsVerticalScrollIndicator={false}
-        stickyHeaderHiddenOnScroll={false}
-        // stickyHeaderIndices={[0]}
-      >
         <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={tw`mt-10`}>
-          {/* box1 */}
-          <TouchableOpacity
-            style={styles.tab_box}
-            onPress={() =>
-              navigation.navigate('Listings', {
-                form: {category: Category.PHONE},
-              })
-            }>
-            <View style={tw`flex items-center justify-center `}>
-              <Image
-                style={styles.category_image}
-                source={require('../assets/smartphone.png')}
-                resizeMode="contain"
-              />
-              <Text style={tw`text-white mt-1 text-[10px]`}>Phone</Text>
-            </View>
-          </TouchableOpacity>
-
-          {/* box2 */}
-          <TouchableOpacity
-            style={styles.tab_box}
-            onPress={() =>
-              navigation.navigate('Listings', {
-                form: {category: Category.SMARTWATCH},
-              })
-            }>
-            <View style={tw`flex items-center justify-center `}>
-              <Image
-                style={styles.category_image}
-                source={require('../assets/smartwatch.png')}
-                resizeMode="contain"
-              />
-              <Text style={tw`text-white mt-1 text-[10px]`}>Smart Watch</Text>
-            </View>
-          </TouchableOpacity>
-          {/* box3 */}
-          <TouchableOpacity
-            style={styles.tab_box}
-            onPress={() =>
-              navigation.navigate('Listings', {
-                form: {category: Category.TABLET},
-              })
-            }>
-            <View style={tw`flex items-center justify-center `}>
-              <Image
-                style={styles.category_image}
-                source={require('../assets/Tablets.png')}
-                resizeMode="contain"
-              />
-              <Text style={tw`text-white mt-1 text-[10px]`}>Tablets</Text>
-            </View>
-          </TouchableOpacity>
-        </ScrollView>
-        <View style={tw`w-full items-center pt-4 mb-10`}>
-          {/* row1 */}
-
-          {/* row2 */}
-
-          <RecentList name={Category.PHONE} />
-          <RecentList name={Category.SMARTWATCH} />
-          <RecentList name={Category.TABLET} />
-
-          <View style={styles.company_box}>
-            <FlatList
-              horizontal
-              data={logos}
-              showsHorizontalScrollIndicator={false}
-              key={'#'}
-              keyExtractor={item => '#' + item.id}
-              renderItem={({item}) => (
+          style={{}}
+          contentContainerStyle={{
+            alignItems: 'center',
+            backgroundColor: color.white,
+            paddingBottom: 200,
+          }}
+          showsVerticalScrollIndicator={false}
+          stickyHeaderHiddenOnScroll={false}
+          // stickyHeaderIndices={[0]}
+        >
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={tw`mt-10`}>
+            {/* box1 */}
+            <TouchableOpacity
+              style={styles.tab_box}
+              onPress={() =>
+                navigation.navigate('Listings', {
+                  form: {category: Category.PHONE},
+                })
+              }>
+              <View style={tw`flex items-center justify-center `}>
                 <Image
-                  style={{width: 70, height: 70, marginHorizontal: 20}}
-                  source={item.image}
+                  style={styles.category_image}
+                  source={require('../assets/smartphone.png')}
+                  resizeMode="contain"
                 />
-              )}
-            />
+                <Text style={tw`text-white mt-1 text-[10px]`}>Phone</Text>
+              </View>
+            </TouchableOpacity>
+
+            {/* box2 */}
+            <TouchableOpacity
+              style={styles.tab_box}
+              onPress={() =>
+                navigation.navigate('Listings', {
+                  form: {category: Category.SMARTWATCH},
+                })
+              }>
+              <View style={tw`flex items-center justify-center `}>
+                <Image
+                  style={styles.category_image}
+                  source={require('../assets/smartwatch.png')}
+                  resizeMode="contain"
+                />
+                <Text style={tw`text-white mt-1 text-[10px]`}>Smart Watch</Text>
+              </View>
+            </TouchableOpacity>
+            {/* box3 */}
+            <TouchableOpacity
+              style={styles.tab_box}
+              onPress={() =>
+                navigation.navigate('Listings', {
+                  form: {category: Category.TABLET},
+                })
+              }>
+              <View style={tw`flex items-center justify-center `}>
+                <Image
+                  style={styles.category_image}
+                  source={require('../assets/Tablets.png')}
+                  resizeMode="contain"
+                />
+                <Text style={tw`text-white mt-1 text-[10px]`}>Tablets</Text>
+              </View>
+            </TouchableOpacity>
+          </ScrollView>
+          <View style={tw`w-full items-center pt-4 mb-10`}>
+            {/* row1 */}
+
+            {/* row2 */}
+
+            <RecentList name={Category.PHONE} />
+            <RecentList name={Category.SMARTWATCH} />
+            <RecentList name={Category.TABLET} />
+
+            <View style={styles.company_box}>
+              <FlatList
+                horizontal
+                data={logos}
+                showsHorizontalScrollIndicator={false}
+                key={'#'}
+                keyExtractor={item => '#' + item.id}
+                renderItem={({item}) => (
+                  <Image
+                    style={{width: 70, height: 70, marginHorizontal: 20}}
+                    source={item.image}
+                  />
+                )}
+              />
+            </View>
           </View>
-        </View>
-        {/* Tabs */}
-      </ScrollView>
+          {/* Tabs */}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

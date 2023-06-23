@@ -36,33 +36,37 @@ const Blogs = ({navigation}) => {
 
   if (!data) return <Loading />;
   return (
-    <SafeAreaView>
-      <Header title={'BLOGS'} />
-      <FlatList
-        data={data}
-        contentContainerStyle={{
-          marginTop: 80,
-          width: width,
-          alignItems: 'center',
-          paddingBottom: 150,
-        }}
-        keyExtractor={item => item.id}
-        numColumns={2}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            style={{width: 170, padding: 10, margin: 8}}
-            onPress={() => navigation.navigate('BlogDetails', {data: item})}>
-            <Image
-              style={{width: '100%', height: 100}}
-              source={{uri: base_url + item.image}}
-              resizeMode="contain"
-            />
-            <Text style={{color: color.black, marginTop: 5}} numberOfLines={2}>
-              {item.title}
-            </Text>
-          </TouchableOpacity>
-        )}
-      />
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <Header title={'BLOGS'} />
+        <FlatList
+          data={data}
+          contentContainerStyle={{
+            marginTop: 80,
+            width: width,
+            alignItems: 'center',
+            paddingBottom: 150,
+          }}
+          keyExtractor={item => item.id}
+          numColumns={2}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              style={{width: 170, padding: 10, margin: 8}}
+              onPress={() => navigation.navigate('BlogDetails', {data: item})}>
+              <Image
+                style={{width: '100%', height: 100}}
+                source={{uri: base_url + item.image}}
+                resizeMode="contain"
+              />
+              <Text
+                style={{color: color.black, marginTop: 5}}
+                numberOfLines={2}>
+                {item.title}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </SafeAreaView>
   );
 };

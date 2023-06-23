@@ -21,7 +21,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
+import {Settings} from 'react-native-fbsdk-next';
 import {TextInput} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
@@ -230,7 +230,7 @@ const Login = () => {
   useEffect(() => {
     GoogleSignin.configure({
       androidClientId:
-        '1054360665178-s0ha7ki2pt5ainsht0ui2o6l2fv2pu9r.apps.googleusercontent.com',
+        '1054360665178-qpq9cql7ug5afge74i9qqa3ub2pl5kgd.apps.googleusercontent.com',
       profileImageSize: 150,
     });
   }, []);
@@ -402,15 +402,14 @@ const Login = () => {
               </View>
             </View>
 
-            <View style={tw`flex flex-row justify-center w-full   z-20 `}>
-              <TouchableOpacity style={styles.social_buttons}>
-                <Image
-                  style={tw`h-4 w-2`}
-                  source={require('../assets/F.png')}
-                />
-
+            <View style={tw`flex flex-row justify-center w-full  z-20 `}>
+              {/* <View
+                style={[
+                  styles.social_buttons,
+                  tw`overflow-hidden flex items-center justify-center bg-[#1877f2]`,
+                ]}>
                 <LoginButton
-                  style={{padding: 20}}
+                  style={tw`w-full h-full ml-4`}
                   onLoginFinished={(error, result) => {
                     if (error) {
                       console.log('login has error: ' + result.error);
@@ -425,7 +424,7 @@ const Login = () => {
                   }}
                   onLogoutFinished={() => console.log('logout.')}
                 />
-              </TouchableOpacity>
+              </View> */}
               <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
                 <TouchableOpacity onPress={() => _signIn()}>
                   <Image

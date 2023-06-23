@@ -8,6 +8,7 @@ import {
   selectSocialLogin,
   setSocialLgin,
 } from '../Redux/Slices';
+import {Category, Condition, Ram, Storage, Warranty} from '../data';
 
 import React, {useEffect, useState} from 'react';
 import {
@@ -31,7 +32,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {color} from '../constants/Colors';
-import {Profile} from '../types';
+import {BrandAPI, IDropDown, Profile} from '../types';
 
 const {width, height} = Dimensions.get('window');
 
@@ -45,7 +46,7 @@ const PostAnAd = () => {
   const [submitText, setSubmitText] = useState('Submit');
   const [otp, setOtp] = useState('');
   const navigation = useNavigation();
-  const [brands, setBrands] = useState([]);
+  const [brands, setBrands] = useState<IDropDown[]>([]);
   const [otherBrand, setOtherBrand] = useState(false);
   const [condition, setCondition] = useState(false);
   const [models, setModels] = useState([]);
@@ -73,6 +74,8 @@ const PostAnAd = () => {
   const [verifed, setVerfied] = useState(false);
   const [timer, setTimer] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [isOtherModel, setIsOtherModel] = useState(false);
+  const [isOtherBrand, setIsOtherBrand] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     if (!sociallogin) {
@@ -94,67 +97,6 @@ const PostAnAd = () => {
     accessories: ['box'],
     account_status: '',
   });
-  const Ram = [
-    {key: 1, value: '1 GB'},
-    {key: 2, value: '2 GB'},
-    {key: 3, value: '4 GB'},
-    {key: 4, value: '6 GB'},
-    {key: 5, value: '8 GB'},
-    {key: 6, value: '12 GB'},
-    {key: 7, value: '16 GB'},
-  ];
-  const Storage = [
-    {key: 1, value: '4 GB'},
-    {key: 2, value: '8 GB'},
-    {key: 3, value: '16 GB'},
-    {key: 4, value: '32 GB'},
-    {key: 5, value: '64 GB'},
-    {key: 6, value: '32 GB'},
-    {key: 7, value: '64 GB'},
-    {key: 8, value: '128 GB'},
-    {key: 9, value: '256 GB'},
-    {key: 10, value: '512 GB'},
-    {key: 11, value: '1 TB'},
-  ];
-  const Warranty = [
-    {key: 1, value: 'No Warranty'},
-    {key: 2, value: '1 month'},
-    {key: 3, value: '2 months'},
-    {key: 4, value: '3 months'},
-    {key: 5, value: '4 months'},
-    {key: 6, value: '5 months'},
-    {key: 7, value: '6 months'},
-    {key: 8, value: '7 months'},
-    {key: 9, value: '8 months'},
-    {key: 10, value: '9 months'},
-    {key: 11, value: '10 months'},
-    {key: 12, value: '11 months'},
-    {key: 13, value: '12 months'},
-  ];
-  const Condition = [
-    {key: 1, value: 'New'},
-    {key: 2, value: 'Used'},
-    {key: 3, value: 'Refurbished'},
-  ];
-  const Category = [
-    {key: 1, value: 'Mobile'},
-    {key: 1, value: 'Tablet'},
-    {key: 1, value: 'Watch'},
-  ];
-  const AccountStatus = [
-    {key: 1, value: 'Verified'},
-    {key: 1, value: 'NON-Verified'},
-  ];
-
-  if (form.brand === 'Other') {
-    setTimeout(() => {
-      setOtherBrand(true);
-    }, 300);
-  } else {
-    setTimeout(() => {
-      setOtherBrand(false);
-    }, 300);
-  }
 
   // condition logic
   if (form.product_type === 'Used' || form.product_type === 'Refurbished') {
@@ -176,14 +118,14 @@ const PostAnAd = () => {
         headers: {Authorization: `Bearer ${_accessToken}`},
       })
       .then(response => {
-        let brand_array = [];
-        response.data.brands.forEach(element => {
-          brand_array.push({
-            key: element.id,
-            value: element.title,
+        const data: BrandAPI = response.data;
+        const brands = data.brands
+          .filter(x => x.category == form.category)
+          .map(y => {
+            return {key: y.id, value: y.title};
           });
-        });
-        setBrands(brand_array);
+
+        setBrands(brands);
       })
       .catch(error => {
         console.log('Brands ' + error);
@@ -431,14 +373,21 @@ const PostAnAd = () => {
                     color: 'grey',
                     // fontFamily: 'Geologica_Auto-Black',
                   }}
-                  setSelected={val => setForm({...form, brand: val})}
+                  setSelected={val => {
+                    if (val === 'Other') {
+                      setIsOtherBrand(true);
+                    } else {
+                      setIsOtherBrand(false);
+                      setForm({...form, brand: val});
+                    }
+                  }}
                   data={brands}
                   save="value"
                   dropdownTextStyles={{color: 'black'}}
                 />
               </View>
             </View>
-            {otherBrand && (
+            {isOtherBrand && (
               <TextInput
                 placeholder="Choose brand"
                 placeholderTextColor={'black'}
@@ -447,22 +396,29 @@ const PostAnAd = () => {
                 onChangeText={text => setBrand(text)}
               />
             )}
-            {otherBrand ? (
+
+            <SelectList
+              boxStyles={styles.box}
+              placeholder="Choose model"
+              inputStyles={{color: 'black'}}
+              setSelected={val => {
+                if (val === 'Other') {
+                  setIsOtherModel(true);
+                } else {
+                  setIsOtherModel(false);
+                  setForm({...form, model: val});
+                }
+              }}
+              data={models}
+              save="value"
+              dropdownTextStyles={{color: 'black'}}
+            />
+            {isOtherModel && (
               <TextInput
                 placeholder="Choose Model"
                 style={styles.box_input}
                 value={form.model}
                 onChangeText={text => setForm({...form, model: text})}
-              />
-            ) : (
-              <SelectList
-                boxStyles={styles.box}
-                placeholder="Choose model"
-                inputStyles={{color: 'black'}}
-                setSelected={val => setForm({...form, model: val})}
-                data={models}
-                save="value"
-                dropdownTextStyles={{color: 'black'}}
               />
             )}
             <TextInput
@@ -614,19 +570,6 @@ const PostAnAd = () => {
               dropdownTextStyles={{color: 'black'}}
             />
 
-            {/* {profileData?.social_login !== null && (
-              <View style={{paddingVertical: 20}}>
-                <Button
-                  color={color.orange}
-                  title="Verify"
-                  onPress={OTPVerify}
-                />
-            
-              </View>
-
-          
-
-            )} */}
             {sociallogin ? (
               <View
                 style={{

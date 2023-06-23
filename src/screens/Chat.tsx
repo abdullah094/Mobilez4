@@ -3,6 +3,7 @@ import {useRoute} from '@react-navigation/native';
 import axios, {AxiosError} from 'axios';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
+  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -135,7 +136,7 @@ const ChatScreen = ({navigation}) => {
           dispatch(logoutUser);
           navigation.navigate('Login');
         }
-        console.log(reason.message);
+        console.log(reason?.message);
       });
   };
 
@@ -172,9 +173,10 @@ const ChatScreen = ({navigation}) => {
           setContacts(arrayUniqueByKey);
           setTo_id(params?.to.id);
         } else {
+          Alert.prompt('hellllo chat' + data.contacts);
           console.log('params not here');
           setContacts(data.contacts);
-          if (data.contacts.length > 0) {
+          if (data.contacts?.length > 0) {
             setTo_id(data.contacts[0].id);
           }
         }
@@ -185,9 +187,9 @@ const ChatScreen = ({navigation}) => {
           dispatch(logoutUser);
           navigation.navigate('Login');
         }
-        console.log(reason.message);
+        console.log(reason?.message);
       });
-  }, []);
+  }, [route]);
   console.log(
     '=============================================',
     contacts.map(x => x.photo),

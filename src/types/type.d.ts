@@ -1,3 +1,4 @@
+
 export interface Profile {
   account_status: string;
   active_status: number;
@@ -21,7 +22,7 @@ export interface Profile {
   name: string;
   nic_number: string;
   phone: string;
-  photo: string;
+  photo: null |string;
   shop_address: string;
   shop_name: string;
   shop_visiting_card: string;
@@ -341,4 +342,24 @@ export type IndexNavigationProps<RouteName extends keyof IndexParamList> =
     updated_at:   Date;
     user:         User;
     warranty:     string;
+}
+
+export interface BrandAPI {
+  status: boolean;
+  brands: Brand[];
+}
+export interface Brand {
+  id:         string;
+  title:      string;
+  category:   string;
+  slug:       string;
+  img:        null;
+  created_at: Date;
+  updated_at: Date;
+}
+
+
+export interface IDropDown{
+  key:string ;
+  value:string;
 }

@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
     "postinstall": "patch-package",
-    "generatekey":"keytool -list -v -keystore E:/mobileApps/Mobilez4/android/app/mobilez.keystore -alias mobilez -storepass password -keypass password"
+    "release": "npx react-native run-ios --configuration Release"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.18.1",

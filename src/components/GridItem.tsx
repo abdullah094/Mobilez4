@@ -11,13 +11,13 @@ import {
 import Icon from 'react-native-vector-icons/Entypo';
 import tw from 'twrnc';
 import {color} from '../constants/Colors';
-import {Product} from '../types';
+import {IndexNavigationProps, Product} from '../types';
 import AddToWishList from './AddToWishList';
 const {width, height} = Dimensions.get('window');
 
 const GridItem = ({item}: {item: Product}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
-  const navigation = useNavigation();
+  const navigation = useNavigation<IndexNavigationProps<'Home'>>();
   const dateString = item.created_at;
   const date = new Date(dateString);
   const formattedDate = date.toLocaleDateString('en-US', {

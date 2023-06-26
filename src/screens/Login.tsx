@@ -7,7 +7,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -32,15 +32,16 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
 import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
+import {IndexNavigationProps} from '../types';
 Settings.setAppID('686223029942369');
 Settings.initializeSDK();
 const Login = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<IndexNavigationProps<'Login'>>();
   const [email, setEmail] = useState<string>('');
 
   const [check, setCheck] = useState(false);
   const [password, setPassword] = useState<any>('');
-  const [loginLoader, setLoginLoader] = useState('Sign In');
+  const [loginLoader, setLoginLoader] = useState<ReactNode>('Sign In');
   const accessToken = useSelector(selectAccessToken);
   const [socialLoginLoader, setsocialLoginLoader] = useState(false);
   const [hidePass, setHidePass] = useState(true);
@@ -135,7 +136,7 @@ const Login = () => {
   const PutAccessTokenToAsync = async accessToken => {
     try {
       await AsyncStorage.setItem('@user_token', accessToken);
-      navigation.navigate('TabNavigation', {screen: 'Home'});
+      navigation.navigate('Home');
     } catch (e) {
       console.log('Error saving Data to AsyncStorage:', e);
     }
@@ -147,6 +148,7 @@ const Login = () => {
 
   const _signIn = async () => {
     GoogleSignin.configure({
+      // @ts-ignore
       androidClientId:
         '1054360665178-qpq9cql7ug5afge74i9qqa3ub2pl5kgd.apps.googleusercontent.com',
       profileImageSize: 150,

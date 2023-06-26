@@ -320,7 +320,7 @@ const PostAnAd = () => {
                 category: Category.PHONE,
                 accessories: ['box'],
               });
-              navigation.navigate('TabNavigation', {screen: 'Home'});
+              navigation.navigate('Home');
               Alert.alert(response.data.message);
               setButton('Save Product');
             } else {

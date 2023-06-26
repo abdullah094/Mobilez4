@@ -32,7 +32,7 @@ const Images = ({navigation, route}) => {
             flex: 1,
             backgroundColor: 'black',
             justifyContent: 'center',
-            backgroundColor: 'black',
+
             alignItems: 'center',
           }}>
           <Pressable

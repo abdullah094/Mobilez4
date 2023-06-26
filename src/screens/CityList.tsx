@@ -11,7 +11,7 @@ import {
 import {color} from '../constants/Colors';
 import {const_styles} from '../constants/Styles';
 import {cities} from '../data/test';
-const {width, heigth} = Dimensions.get('window');
+const {width} = Dimensions.get('window');
 const CityList = ({navigation}) => {
   const renderItem = ({item, index}) => (
     <TouchableOpacity
@@ -33,7 +33,7 @@ const CityList = ({navigation}) => {
       <View style={styles.flatlist}>
         <FlatList
           data={cities}
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => String(index)}
           renderItem={renderItem}
         />
       </View>

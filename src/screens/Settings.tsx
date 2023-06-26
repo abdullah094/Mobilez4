@@ -1,25 +1,30 @@
+import {LOGOUT} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
+  Alert,
   Dimensions,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
-  Alert,
+  View,
 } from 'react-native';
-import React, {useEffect, useState, useContext} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  logoutUser,
+  selectAccessToken,
+  selectProfileData,
+  setWishList,
+} from '../Redux/Slices';
 import {color} from '../constants/Colors';
-import {LOGOUT} from '@env';
-import axios from 'axios';
-import {useSelector, useDispatch} from 'react-redux';
-import {logoutUser, selectAccessToken, setWishList} from '../Redux/Slices';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width, height} = Dimensions.get('window');
 const Settings = ({navigation}) => {
   const _accessToken = useSelector(selectAccessToken);
-  const _profile = useSelector(state => state.todo.profile);
+  const _profile = useSelector(selectProfileData);
   const dispatch = useDispatch();
   console.log('_accessToken', _accessToken);
 
@@ -27,7 +32,7 @@ const Settings = ({navigation}) => {
     try {
       await AsyncStorage.removeItem('@user_token');
       dispatch(logoutUser());
-      dispatch(setWishList([]))
+      dispatch(setWishList([]));
     } catch (e) {
       console.log('Error removing Data to AsyncStorage:', e);
     }

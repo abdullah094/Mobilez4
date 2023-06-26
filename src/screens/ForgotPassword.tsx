@@ -17,7 +17,7 @@ import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const ForgotPassword = ({navigation}) => {
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState<string>();
 
   const Submit = () => {
     axios
@@ -77,7 +77,7 @@ const ForgotPassword = ({navigation}) => {
           paddingHorizontal: 15,
         }}
         value={email}
-        onChangeText={text => setEmail(text)}
+        onChangeText={(text: string) => setEmail(text)}
       />
       <TouchableOpacity
         onPress={Submit}

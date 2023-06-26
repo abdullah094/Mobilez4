@@ -1,6 +1,6 @@
 import {SUBMITOTP} from '@env';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -18,7 +18,7 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 const OTPScreen = ({route, navigation}) => {
   const {phone} = route.params;
-  const [submitText, setSubmitText] = useState('Submit');
+  const [submitText, setSubmitText] = useState<ReactNode>('Submit');
   const [otp, setOtp] = useState({
     phone_number: phone,
     otp_code: '',

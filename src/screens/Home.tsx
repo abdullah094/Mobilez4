@@ -5,6 +5,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -34,6 +35,7 @@ const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {
   const [profile, setProfile] = useState<Profile | null>();
   const [deviceName, setDeviceName] = useState<string>();
+  const [refreshing, setRefreshing] = useState(false);
   const [heading, setHeading] = useState('Home');
   const image_url = 'https:/www.mobilezmarket.com/images/';
   const accessToken = useSelector(selectAccessToken);
@@ -229,6 +231,10 @@ const Home = ({navigation}) => {
         console.log('ProfileData ' + error);
       });
   };
+  const _onRefresh = () => {
+    setRefreshing(true);
+    setTimeout(() => setRefreshing(false), 1000);
+  };
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
@@ -292,12 +298,14 @@ const Home = ({navigation}) => {
           contentContainerStyle={{
             alignItems: 'center',
             backgroundColor: color.white,
-            paddingBottom: 200,
+            // paddingBottom: 200,
           }}
           showsVerticalScrollIndicator={false}
           stickyHeaderHiddenOnScroll={false}
           // stickyHeaderIndices={[0]}
-        >
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={_onRefresh} />
+          }>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}

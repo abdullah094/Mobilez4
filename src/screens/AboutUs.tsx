@@ -1,5 +1,6 @@
 import React from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, Text, View} from 'react-native';
+import tw from 'twrnc';
 import Header from '../components/Header';
 
 const AboutUs = () => {

@@ -207,6 +207,7 @@ export interface Form {
   image?: Asset[];
   description?: string | null;
   warranty?: string | null;
+  accessories?: [string];
 }
 export interface iImages {
   uri: any;

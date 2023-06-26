@@ -3,7 +3,7 @@ import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import FormData from 'form-data';
-import React, {useEffect, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -64,8 +64,8 @@ const PostAnAd = () => {
   const navigation = useNavigation<IndexNavigationProps<'PostAnAd'>>();
   const [brands, setBrands] = useState<IDropDown[]>([]);
   const [models, setModels] = useState<IDropDown[]>([]);
-  const [otherBrand, setOtherBrand] = useState(false);
   const [condition, setCondition] = useState(false);
+  const _accessToken = useSelector(selectAccessToken);
   const [approved, setApproved] = useState([
     {key: 1, value: 'Approved'},
     {key: 2, value: 'Non Approved'},
@@ -79,13 +79,12 @@ const PostAnAd = () => {
     kit_only: false,
   });
   const [brand, setBrand] = useState<string>();
-  const [button, setButton] = useState('Save Product');
-  const [uploadButton, setUploadButton] = useState<String | Element>(
+  const [button, setButton] = useState<ReactNode | String>('Save Product');
+  const [uploadButton, setUploadButton] = useState<ReactNode | String>(
     'Upload Image',
   );
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isOtp, setOTP] = useState(false);
-  const [timer, setTimer] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [isOtherModel, setIsOtherModel] = useState(false);
   const [isOtherBrand, setIsOtherBrand] = useState(false);
@@ -113,7 +112,6 @@ const PostAnAd = () => {
     warranty: '',
     category: Category.PHONE,
     accessories: ['box'],
-    account_status: '',
   });
 
   // condition logic
@@ -126,7 +124,6 @@ const PostAnAd = () => {
       setCondition(false);
     }, 300);
   }
-  const _accessToken = useSelector(selectAccessToken);
 
   useEffect(() => {
     getBrandFunc();
@@ -174,11 +171,7 @@ const PostAnAd = () => {
       Alert.alert('OTP is not valid');
       return;
     }
-    console.log({_accessToken});
-    console.log({
-      otp_code: otp,
-      phone_number: phoneNumber,
-    });
+
     axios
       .post(
         SUBMITOTP,
@@ -256,7 +249,6 @@ const PostAnAd = () => {
       )
       .then(response => {
         const data = response.data;
-        console.log(JSON.stringify(data));
         Alert.alert(data.message);
         setOTP(true);
         setTimeout(() => {
@@ -264,7 +256,7 @@ const PostAnAd = () => {
         }, 30000);
       })
       .catch(error => {
-        console.log('error', error);
+        Alert.alert('Failed', error.message);
       });
   };
 
@@ -326,7 +318,6 @@ const PostAnAd = () => {
                 warranty: '',
                 category: Category.PHONE,
                 accessories: ['box'],
-                account_status: '',
               });
               navigation.navigate('TabNavigation', {screen: 'Home'});
               Alert.alert(response.data.message);
@@ -338,7 +329,7 @@ const PostAnAd = () => {
           })
           .catch(error => {
             setButton('Save Product');
-            console.log('error');
+            Alert.alert('error', error);
           })
       : Alert.alert('Please Login First');
   };
@@ -509,7 +500,7 @@ const PostAnAd = () => {
                     <CheckBox
                       disabled={false}
                       value={toggleAccessories.box}
-                      tintColors={color.black}
+                      tintColors={{true: color.black, false: color.black}}
                       onValueChange={newValue =>
                         setToggleAccessories({
                           ...toggleAccessories,
@@ -523,7 +514,7 @@ const PostAnAd = () => {
                   <View style={styles.check_box_box}>
                     <CheckBox
                       disabled={false}
-                      tintColors={color.black}
+                      tintColors={{true: color.black, false: color.black}}
                       value={toggleAccessories.charger}
                       onValueChange={newValue =>
                         setToggleAccessories({
@@ -538,7 +529,8 @@ const PostAnAd = () => {
                   <View style={styles.check_box_box}>
                     <CheckBox
                       disabled={false}
-                      tintColors={color.black}
+                      tintColors={{true: color.black, false: color.black}}
+                      // tintColors={color.black}
                       value={toggleAccessories.data_cable}
                       onValueChange={newValue =>
                         setToggleAccessories({
@@ -553,7 +545,7 @@ const PostAnAd = () => {
                   <View style={styles.check_box_box}>
                     <CheckBox
                       disabled={false}
-                      tintColors={color.black}
+                      tintColors={{true: color.black, false: color.black}}
                       value={toggleAccessories.handfree}
                       onValueChange={newValue =>
                         setToggleAccessories({
@@ -568,7 +560,7 @@ const PostAnAd = () => {
                   <View style={styles.check_box_box}>
                     <CheckBox
                       disabled={false}
-                      tintColors={color.black}
+                      tintColors={{true: color.black, false: color.black}}
                       value={toggleAccessories.kit_only}
                       onValueChange={newValue =>
                         setToggleAccessories({

@@ -7,7 +7,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -40,7 +40,7 @@ const Login = () => {
 
   const [check, setCheck] = useState(false);
   const [password, setPassword] = useState<any>('');
-  const [loginLoader, setLoginLoader] = useState('Sign In');
+  const [loginLoader, setLoginLoader] = useState<ReactNode>('Sign In');
   const accessToken = useSelector(selectAccessToken);
   const [socialLoginLoader, setsocialLoginLoader] = useState(false);
   const [hidePass, setHidePass] = useState(true);

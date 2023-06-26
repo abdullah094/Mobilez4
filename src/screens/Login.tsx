@@ -7,7 +7,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -120,7 +120,7 @@ const Login = () => {
           navigation.navigate('Home');
           // PutAccessTokenToAsync(response.data.token);
         } else {
-          Alert.alert('Unsuccessful');
+          Alert.alert(response.data.message);
         }
       })
       .catch(error => {
@@ -138,15 +138,16 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+
+  // }, []);
+
+  const _signIn = async () => {
     GoogleSignin.configure({
       androidClientId:
         '1054360665178-qpq9cql7ug5afge74i9qqa3ub2pl5kgd.apps.googleusercontent.com',
       profileImageSize: 150,
     });
-  }, []);
-
-  const _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();

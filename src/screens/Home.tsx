@@ -292,7 +292,6 @@ const Home = ({navigation}) => {
           contentContainerStyle={{
             alignItems: 'center',
             backgroundColor: color.white,
-            paddingBottom: 200,
           }}
           showsVerticalScrollIndicator={false}
           stickyHeaderHiddenOnScroll={false}

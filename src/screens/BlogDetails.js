@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import RenderHtml from 'react-native-render-html';
+import tw from 'twrnc';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
 
@@ -28,8 +29,8 @@ const BlogDetails = ({navigation, route}) => {
         <ScrollView
           contentContainerStyle={{
             alignItems: 'center',
-            marginTop: 100,
-            paddingBottom: 100,
+            marginTop: 50,
+            paddingBottom: 50,
           }}>
           <Text
             style={{
@@ -45,7 +46,7 @@ const BlogDetails = ({navigation, route}) => {
             style={{width: 300, height: 150, marginTop: 10}}
             source={{uri: base_url + data.image}}
           />
-          <View style={{marginHorizontal: 20, marginTop: 10}}>
+          <View style={tw` mx-16`}>
             <RenderHtml contentWidth={width} source={source} />
           </View>
         </ScrollView>

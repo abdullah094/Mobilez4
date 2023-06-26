@@ -26,11 +26,7 @@ import {TextInput} from 'react-native-paper';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
-import {
-  selectAccessToken,
-  setAccessToken,
-  setSocialLgin,
-} from '../Redux/Slices';
+import {selectAccessToken, setAccessToken} from '../Redux/Slices';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
@@ -89,6 +85,7 @@ const Login = () => {
           }
           setLoginLoader('Login');
         } else if (response.data?.status) {
+          console.log('================', response.data);
           dispatch(setAccessToken(response.data.token));
           setLoginLoader('Login');
           PutAccessTokenToAsync(response.data.token);
@@ -109,36 +106,19 @@ const Login = () => {
         name: name,
         avatar: avatar,
       })
+
       .then(response => {
-        if (response.data.errors) {
-          console.log('response', response);
-          console.log(response.data?.errors);
-          if (response.data.errors) {
-            if (response.data.errors.email && response.data.errors.password) {
-              Alert.alert('Email and password are wrong');
-            } else if (response.data.errors.email) {
-              Alert.alert(response.data.errors.message.email);
-            } else if (response.data.errors.password) {
-              Alert.alert(response.data.errors.password);
-            } else {
-              Alert.alert('Unsuccessful', 'Please try again');
-            }
-          } else {
-            Alert.alert('Unsuccessful', 'Please try again');
-          }
-          setLoginLoader('Login');
-        } else if (response.data?.status === false) {
-          if (response.data.message) {
-            Alert.alert(response.data.message);
-          } else {
-            Alert.alert('Unsuccessful', 'Please try again');
-          }
-          setLoginLoader('Login');
-        } else if (response.data?.status) {
+        const data = response.data;
+        if (response.data.status) {
+          Alert.alert(response.data.message);
+
           dispatch(setAccessToken(response.data.token));
           setLoginLoader('Login');
-          dispatch(setSocialLgin(true));
           PutAccessTokenToAsync(response.data.token);
+          navigation.navigate('Home');
+          // PutAccessTokenToAsync(response.data.token);
+        } else {
+          Alert.alert('Unsuccessful');
         }
       })
       .catch(error => {

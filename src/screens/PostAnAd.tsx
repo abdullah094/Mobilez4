@@ -89,15 +89,19 @@ const PostAnAd = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getVerifiedFromStorage = async () => {
-      const hello = await AsyncStorage.getItem('Verified');
-      if (hello && profileData.social_login == 1) {
-        setIsVerifiedStorage(true);
-      } else {
-        setIsVerifiedStorage(false);
-      }
-    };
-    getVerifiedFromStorage();
+    if (profileData.account_status == '1') {
+      setIsVerifiedStorage(true);
+    } else {
+      const getVerifiedFromStorage = async () => {
+        const hello = await AsyncStorage.getItem('Verified');
+        if (hello) {
+          setIsVerifiedStorage(true);
+        } else {
+          setIsVerifiedStorage(false);
+        }
+      };
+      getVerifiedFromStorage();
+    }
   }, []);
 
   const [form, setForm] = useState<Form>({
@@ -722,7 +726,9 @@ const PostAnAd = () => {
 
             <TouchableOpacity
               onPress={() => {
-                IsSocialLogin ? Alert.alert('Please Verify OTP') : PostAdFunc();
+                IsVerifiedStorage
+                  ? Alert.alert('Please Verify OTP')
+                  : PostAdFunc();
               }}
               disabled={isOtp ? true : false}
               style={{

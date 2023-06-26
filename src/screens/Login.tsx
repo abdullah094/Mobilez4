@@ -73,9 +73,11 @@ const Login = () => {
               Alert.alert(response.data.errors.password);
             } else {
               Alert.alert('Unsuccessful', 'Please try again');
+              setsocialLoginLoader(false);
             }
           } else {
             Alert.alert('Unsuccessful', 'Please try again');
+            setsocialLoginLoader(false);
           }
           setLoginLoader('Login');
         } else if (response.data?.status === false) {
@@ -124,7 +126,8 @@ const Login = () => {
         }
       })
       .catch(error => {
-        setLoginLoader('Login');
+        setLoginLoader('Sign In');
+        setsocialLoginLoader(false);
         console.log('error', error);
         Alert.alert('Unsuccessful', 'Please try again');
       });

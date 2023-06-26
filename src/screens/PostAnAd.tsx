@@ -1,5 +1,4 @@
 import {BRANDS, MODELS, POSTANAD, SUBMITOTP} from '@env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
@@ -29,7 +28,11 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
-import {selectAccessToken, selectProfileData} from '../Redux/Slices';
+import {
+  selectAccessToken,
+  selectProfileData,
+  setProfileData,
+} from '../Redux/Slices';
 import {color} from '../constants/Colors';
 import {
   CategoryData,
@@ -89,20 +92,13 @@ const PostAnAd = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(profileData.account_status);
     if (profileData.account_status == '1') {
       setIsVerifiedStorage(true);
     } else {
-      const getVerifiedFromStorage = async () => {
-        const hello = await AsyncStorage.getItem('Verified');
-        if (hello) {
-          setIsVerifiedStorage(true);
-        } else {
-          setIsVerifiedStorage(false);
-        }
-      };
-      getVerifiedFromStorage();
+      setIsVerifiedStorage(false);
     }
-  }, []);
+  }, [profileData]);
 
   const [form, setForm] = useState<Form>({
     brand: '',
@@ -178,34 +174,37 @@ const PostAnAd = () => {
       Alert.alert('OTP is not valid');
       return;
     }
+    console.log({_accessToken});
     console.log({
       otp_code: otp,
       phone_number: phoneNumber,
     });
     axios
-      .post(SUBMITOTP, {
-        otp_code: otp,
-        phone_number: phoneNumber,
-      })
+      .post(
+        SUBMITOTP,
+        {
+          otp_code: otp,
+          phone_number: phoneNumber,
+        },
+        {
+          headers: {Authorization: `Bearer ${_accessToken}`},
+        },
+      )
       .then(response => {
-        console.log(response.data);
-
-        if (response.data.errors) {
-          Alert.alert('Try again');
+        const data = response.data;
+        console.log({data});
+        if (data.status === 419) {
+          Alert.alert(response.data.errors);
           setSubmitText('Submit');
-
-          ///oh bhia idhar koe logic likho kay ya yad rakhay kay varified hay
-        } else if (response.data.message) {
-          if (response.data.status === 419) {
-            Alert.alert('Wrong Otp', 'Try again');
-          } else if (response.data.status) {
-            setSubmitText('Submit');
-            setOTP(false);
-            setOtp('');
-            AsyncStorage.setItem('Verified', 'true');
-            Alert.alert(response.data.message);
-            // navigation.navigate('TabNavigation', {screen: 'Home'});
-          }
+          return;
+        }
+        if (data.status) {
+          setSubmitText('Submit');
+          setOTP(false);
+          setOtp('');
+          Alert.alert(data.message);
+          console.log(data.data);
+          dispatch(setProfileData(data.data));
         }
       })
       .catch(error => {
@@ -246,11 +245,19 @@ const PostAnAd = () => {
       return;
     }
     axios
-      .post('https://www.mobilezmarket.com/api/send-otp', {
-        phone_number: phoneNumber,
-      })
+      .post(
+        'https://www.mobilezmarket.com/api/send-otp',
+        {
+          phone_number: phoneNumber,
+        },
+        {
+          headers: {Authorization: `Bearer ${_accessToken}`},
+        },
+      )
       .then(response => {
-        console.log(JSON.stringify(response.data));
+        const data = response.data;
+        console.log(JSON.stringify(data));
+        Alert.alert(data.message);
         setOTP(true);
         setTimeout(() => {
           setDisabled(false);

@@ -465,11 +465,11 @@ const styles = StyleSheet.create({
     color: color.black,
     fontSize: 20,
   },
-  viewmore_text: {
+  viewMore_text: {
     color: color.orange,
     fontSize: 15,
   },
-  _flatlist: {
+  _flatList: {
     marginBottom: 10,
   },
   category_image: {height: 30, width: 30},

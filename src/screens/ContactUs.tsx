@@ -117,7 +117,7 @@ const ContactUs = ({navigation}) => {
                   paddingHorizontal: 10,
                 }}>
                 <Text style={{fontWeight: '400', color: 'black'}}>
-                  DHA Karahi, Pakistan
+                  DHA Karachi, Pakistan
                 </Text>
               </View>
             </View>

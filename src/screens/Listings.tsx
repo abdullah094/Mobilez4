@@ -106,9 +106,9 @@ const Listings = () => {
         if (pageNumber == 1) {
           setData(pagination.data);
         } else {
-          const alreadloadeditemsID = data.map(x => x.id);
+          const alreadyLoadedItemsID = data.map(x => x.id);
           const newItems = pagination.data.filter(
-            y => !alreadloadeditemsID.includes(y.id),
+            y => !alreadyLoadedItemsID.includes(y.id),
           );
           setData([...data, ...newItems]);
         }
@@ -343,14 +343,14 @@ const Listings = () => {
             // onRefresh={() => setQuery('')}
             // refreshing={loadingMore}
             ListHeaderComponent={
-              <View style={styles.listheader}>
+              <View style={styles.listHeader}>
                 <Text style={styles.title}>
                   Displaying {data.length} Items out of {totalItems}
                 </Text>
               </View>
             }
             ListFooterComponent={
-              <View style={styles.listfooter}>
+              <View style={styles.listFooter}>
                 {loadingMore && (
                   <Text style={styles.title}>
                     <Text style={styles.footerText}>Loading More...</Text>
@@ -379,14 +379,14 @@ const Listings = () => {
             // onRefresh={() => setQuery('')}
             // refreshing={loadingMore}
             ListHeaderComponent={
-              <View style={styles.listheader}>
+              <View style={styles.listHeader}>
                 <Text style={styles.title}>
                   Displaying {data.length} Items out of {totalItems}
                 </Text>
               </View>
             }
             ListFooterComponent={
-              <View style={styles.listfooter}>
+              <View style={styles.listFooter}>
                 {loadingMore && (
                   <Text style={styles.footerText}>Loading More...</Text>
                 )}
@@ -503,7 +503,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'center',
   },
-  listheader: {
+  listHeader: {
     paddingHorizontal: 10,
     paddingVertical: 2,
   },
@@ -512,7 +512,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: 'black',
   },
-  listfooter: {
+  listFooter: {
     padding: 15,
     flexDirection: 'row',
     alignItems: 'center',

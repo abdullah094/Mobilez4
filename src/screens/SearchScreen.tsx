@@ -1,5 +1,5 @@
 import {SEARCH} from '@env';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
@@ -15,9 +15,8 @@ import {
 import DeviceInfo from 'react-native-device-info';
 import {Divider, List} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import tw from 'twrnc';
-import {selectAccessToken} from '../Redux/Slices';
 import {ISearch, IndexNavigationProps} from '../types';
 const {width, height} = Dimensions.get('window');
 const SearchScreen = () => {
@@ -27,8 +26,6 @@ const SearchScreen = () => {
   const [delayQuery, setDelayQuery] = useState('');
 
   const [heading, setHeading] = useState('Home');
-  const [accessToken, setAccessToken] = useState();
-  const isFocused = useIsFocused();
   const [deviceName, setDeviceName] = useState<string>('');
 
   const dispatch = useDispatch();
@@ -45,7 +42,6 @@ const SearchScreen = () => {
   DeviceInfo.getDeviceName().then(res => {
     setDeviceName(res);
   });
-  const _accessToken = useSelector(selectAccessToken);
 
   const getSearchedItemsFunc = () => {
     axios
@@ -59,8 +55,6 @@ const SearchScreen = () => {
         },
       )
       .then(function (response) {
-        //handle success
-        console.log('------------------------', response.data.search_data);
         const Search: ISearch[] = response.data.search_data;
         !response.data.message
           ? setSearchedItems(Search)

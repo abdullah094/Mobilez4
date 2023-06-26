@@ -1,17 +1,15 @@
+import {useNavigation} from '@react-navigation/native';
+import React from 'react';
 import {
+  Dimensions,
   StyleSheet,
   Text,
-  View,
-  Dimensions,
   TouchableOpacity,
-  SafeAreaView,
+  View,
 } from 'react-native';
-import React from 'react';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {color} from '../constants/Colors';
-import tw from 'twrnc';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
+import tw from 'twrnc';
+import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const Header = ({title = ''}) => {

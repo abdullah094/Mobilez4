@@ -1,15 +1,15 @@
-import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import {ADD_WISHLIST, REMOVE_WISHLIST} from '@env';
+import axios from 'axios';
+import React from 'react';
+import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   AddToWishlist,
   RemoveFromWishList,
   selectAccessToken,
   selectWishlist,
 } from '../Redux/Slices';
-import axios from 'axios';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const AddToWishList = ({ProductId, style = {}, size = 30}) => {
   const _accessToken = useSelector(selectAccessToken);

@@ -26,7 +26,6 @@ const SignUp = ({navigation, route}) => {
 
   const [check, setCheck] = useState(false);
   const [registerButtonText, setRegisterButtonText] = useState<any>('Register');
-  const [selected, setSelected] = useState('');
   const [showDropDown, setShowDropDown] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
@@ -223,24 +222,9 @@ const SignUp = ({navigation, route}) => {
                   {registerButtonText}
                 </Text>
               </TouchableOpacity>
-              {/* <Text style={tw`my-5 self-center`}>Or</Text> */}
             </View>
             <View
-              style={tw`flex flex-row justify-center w-full bottom-3  z-20 `}>
-              {/* <TouchableOpacity style={styles.social_buttons}>
-              <Image style={tw`h-4 w-2`} source={require('../assets/F.png')} />
-            </TouchableOpacity> */}
-              {/* <TouchableOpacity style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
-              <Image
-                style={tw`h-4 w-4`}
-                source={require('../assets/Gpng.png')}
-              />
-              <Image
-                style={tw`h-2 w-2`}
-                source={require('../assets/plus.png')}
-              />
-            </TouchableOpacity> */}
-            </View>
+              style={tw`flex flex-row justify-center w-full bottom-3  z-20 `}></View>
 
             <View style={tw`flex-row items-center my-5`}>
               <Text style={tw`text-gray-500`}>Already have account?</Text>

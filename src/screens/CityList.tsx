@@ -30,7 +30,7 @@ const CityList = ({navigation}) => {
   );
   return (
     <SafeAreaView style={const_styles.container}>
-      <View style={styles.flatlist}>
+      <View style={styles.flatList}>
         <FlatList
           data={cities}
           keyExtractor={(item, index) => String(index)}
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingLeft: 15,
   },
-  flatlist: {
+  flatList: {
     flex: 0.99,
     marginBottom: 1,
   },

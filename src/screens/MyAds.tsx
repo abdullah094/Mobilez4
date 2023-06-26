@@ -27,10 +27,8 @@ const MyAds = ({navigation}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
   const [data, setData] = useState();
   const _accessToken = useSelector(selectAccessToken);
-  const [isWhishlist, setIsWhishlist] = useState(false);
+  const [isWishlist, setIsWishlist] = useState(false);
   const [Grid, setGrid] = useState(false);
-  const [backcolor, setbackColor] = useState('#015dcf');
-  const [textColor, setTextColor] = useState('white');
 
   useEffect(() => {
     axios
@@ -70,24 +68,22 @@ const MyAds = ({navigation}) => {
         <View style={tw`flex-row justify-between p-2 px-19 `}>
           <Button
             style={[tw`w-30 border border-blue-500`]}
-            mode={isWhishlist ? 'text' : 'contained'}
-            textColor={isWhishlist ? 'black' : 'white'}
-            buttonColor={isWhishlist ? 'white' : '#015dcf'}
-            onPress={() => setIsWhishlist(false)}>
+            mode={isWishlist ? 'text' : 'contained'}
+            textColor={isWishlist ? 'black' : 'white'}
+            buttonColor={isWishlist ? 'white' : '#015dcf'}
+            onPress={() => setIsWishlist(false)}>
             My Ads
           </Button>
           <Button
             style={tw`w-30 border border-blue-500`}
-            textColor={isWhishlist ? 'white' : 'black'}
-            buttonColor={isWhishlist ? '#015dcf' : 'white'}
-            mode={isWhishlist ? 'contained' : 'text'}
-            onPress={() => setIsWhishlist(true)}>
-            Whishlist
+            textColor={isWishlist ? 'white' : 'black'}
+            buttonColor={isWishlist ? '#015dcf' : 'white'}
+            mode={isWishlist ? 'contained' : 'text'}
+            onPress={() => setIsWishlist(true)}>
+            Wishlist
           </Button>
         </View>
-        {/* // price/ location /model/modelyear */}
-
-        {!isWhishlist ? (
+        {!isWishlist ? (
           <>
             <View style={tw` flex-row items-center justify-end m-6`}>
               <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>

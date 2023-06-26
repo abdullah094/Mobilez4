@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {Animated, Easing, Image, StyleSheet, View} from 'react-native';
-import Logo from '../assets/mobile-logo.png';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
@@ -55,7 +54,7 @@ const Welcome = () => {
             height: animatedSize,
           },
         ]}
-        source={Logo}
+        source={require('../assets/mobile-logo.png')}
         resizeMode="contain" // Add this line
       />
     </View>

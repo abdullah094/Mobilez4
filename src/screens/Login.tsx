@@ -1,4 +1,4 @@
-import {LOGIN, SOCIALLOGIN} from '@env';
+import {LOGIN, SOCIAL_LOGIN} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   GoogleSignin,
@@ -43,7 +43,7 @@ const Login = () => {
   const [password, setPassword] = useState<any>('');
   const [loginLoader, setLoginLoader] = useState<ReactNode>('Sign In');
   const accessToken = useSelector(selectAccessToken);
-  const [socialLoginLoader, setsocialLoginLoader] = useState(false);
+  const [socialLoginLoader, setSocialLoginLoader] = useState(false);
   const [hidePass, setHidePass] = useState(true);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   if (accessToken) navigation.navigate('Home');
@@ -74,11 +74,11 @@ const Login = () => {
               Alert.alert(response.data.errors.password);
             } else {
               Alert.alert('Unsuccessful', 'Please try again');
-              setsocialLoginLoader(false);
+              setSocialLoginLoader(false);
             }
           } else {
             Alert.alert('Unsuccessful', 'Please try again');
-            setsocialLoginLoader(false);
+            setSocialLoginLoader(false);
           }
           setLoginLoader('Login');
         } else if (response.data?.status === false) {
@@ -104,7 +104,7 @@ const Login = () => {
   const fetchGoogleLogin = (gEmail, gid, name, avatar) => {
     setLoginLoader(<ActivityIndicator size="small" color="white" />);
     axios
-      .post(SOCIALLOGIN, {
+      .post(SOCIAL_LOGIN, {
         email: gEmail,
         id: gid,
         name: name,
@@ -112,7 +112,7 @@ const Login = () => {
       })
 
       .then(response => {
-        setsocialLoginLoader(false);
+        setSocialLoginLoader(false);
         const data = response.data;
         if (response.data.status) {
           Alert.alert(response.data.message);
@@ -128,7 +128,7 @@ const Login = () => {
       })
       .catch(error => {
         setLoginLoader('Sign In');
-        setsocialLoginLoader(false);
+        setSocialLoginLoader(false);
         console.log('error', error);
         Alert.alert('Unsuccessful', 'Please try again');
       });
@@ -166,7 +166,7 @@ const Login = () => {
 
       // this.setState({ userInfo, error: undefined });
     } catch (error) {
-      setsocialLoginLoader(false);
+      setSocialLoginLoader(false);
       const typedError = error as NativeModuleError;
 
       switch (typedError.code) {
@@ -321,7 +321,7 @@ const Login = () => {
                         console.log('login is cancelled.');
                       } else {
                         AccessToken.getCurrentAccessToken().then(data => {
-                          setsocialLoginLoader(true);
+                          setSocialLoginLoader(true);
                           console.log(data?.accessToken.toString());
                           console.log('Access token not available');
                         });
@@ -334,7 +334,7 @@ const Login = () => {
                 <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
                   <TouchableOpacity
                     onPress={() => {
-                      setsocialLoginLoader(true);
+                      setSocialLoginLoader(true);
                       _signIn();
                     }}>
                     {socialLoginLoader ? (

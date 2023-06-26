@@ -146,7 +146,6 @@ const Filter = () => {
                   placeholder="Choose Brands"
                   inputStyles={{
                     color: 'grey',
-                    // fontFamily: 'Geologica_Auto-Black',
                   }}
                   setSelected={val => {
                     if (val === 'Other') {

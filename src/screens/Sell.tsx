@@ -1,13 +1,12 @@
+import React, {useState} from 'react';
 import {
+  Dimensions,
+  FlatList,
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
 import {color} from '../constants/Colors';
 import {data} from '../data/test';
 
@@ -52,7 +51,7 @@ const Sell = () => {
           }}
           numColumns={2}
           ListHeaderComponent={<Header />}
-          keyExtractor={item => item.id}
+          keyExtractor={item => '#' + item.id}
           renderItem={({item}) => (
             <View
               style={{

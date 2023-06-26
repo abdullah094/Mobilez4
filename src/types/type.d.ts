@@ -155,16 +155,16 @@ export interface Contacts {
 
 export interface Contact {
   id: number;
-  name: string;
+  name?: string;
   first_name: string;
-  last_name: null | string;
-  city: string;
-  area: null | string;
-  phone: null | string;
-  email: string;
-  email_verified_at: null;
-  password: string;
-  conf_password: null | string;
+  last_name?: null | string;
+  city?: string;
+  area?: null | string;
+  phone?: null | string;
+  email?: string;
+  email_verified_at?: null;
+  password?: string;
+  conf_password?: null | string;
   user_type: null | string;
   shop_name: null | string;
   shop_address: null | string;
@@ -309,9 +309,9 @@ export interface Product {
   user: User;
 }
 
-import { RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Asset } from 'react-native-image-picker';
+import {RouteProp} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Asset} from 'react-native-image-picker';
 
 export type IndexParamList = {
   Home: undefined;
@@ -321,8 +321,8 @@ export type IndexParamList = {
   Filter: {form: Form};
   ProductPage: {id: string};
   PostAnAd: undefined;
-  ForgotPassword:undefined;
-  SignUp:{city:string}
+  ForgotPassword: undefined;
+  SignUp: {city: string};
 };
 
 export type IndexRouteProps<RouteName extends keyof IndexParamList> = RouteProp<

@@ -21,7 +21,7 @@ export const Storage = [
   {key: 11, value: '1 TB'},
 ];
 export const Warranty = [
-  {key: 1, value: 'No Warrenty'},
+  {key: 1, value: 'No Warranty'},
   {key: 2, value: '1 month'},
   {key: 3, value: '2 months'},
   {key: 4, value: '3 months'},
@@ -48,7 +48,7 @@ export const Condition = [
 export const City = [
   {key: 1, value: 'Karachi'},
   {key: 2, value: 'Lahore'},
-  {key: 3, value: 'Faislabad'},
+  {key: 3, value: 'Faisalabad'},
 ];
 
 export const CategoryList = [

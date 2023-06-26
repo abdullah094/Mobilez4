@@ -64,9 +64,9 @@ const RecentList = ({
         if (pageNumber == 1) {
           setData(pagination.data);
         } else {
-          const alreadloadeditemsID = data.map(x => x.id);
+          const alreadyLoadedItemsID = data.map(x => x.id);
           const newItems = pagination.data.filter(
-            y => !alreadloadeditemsID.includes(y.id),
+            y => !alreadyLoadedItemsID.includes(y.id),
           );
           setData([...data, ...newItems]);
         }
@@ -129,7 +129,7 @@ const RecentList = ({
           }}
           horizontal
           renderItem={({item}: {item: Product}) => (
-            <GridItem item={item} image={item.image.img}></GridItem>
+            <GridItem item={item}></GridItem>
           )}
         />
       )}
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontWeight: '700',
   },
-  listfooter: {
+  listFooter: {
     padding: 15,
   },
   footerText: {

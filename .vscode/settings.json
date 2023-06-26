@@ -1,5 +1,19 @@
 {
-  "cSpell.words": ["Appbar", "cnic", "Entypo", "productimages"],
+  "cSpell.words": [
+    "Appbar",
+    "chaticon",
+    "cnic",
+    "Entypo",
+    "fbsdk",
+    "Mobilez",
+    "mobilezmarket",
+    "productimages",
+    "reduxjs",
+    "signin",
+    "todos",
+    "twrnc",
+    "Zocial"
+  ],
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true

@@ -53,9 +53,6 @@ import {
 
 const {width, height} = Dimensions.get('window');
 
-// require the module
-var RNFS = require('react-native-fs');
-
 const PostAnAd = () => {
   const profileData = useSelector(selectProfileData) as Profile;
   const [IsVerifiedStorage, setIsVerifiedStorage] = useState(false);

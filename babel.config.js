@@ -39,6 +39,7 @@ module.exports = {
           'SEND_MESSAGES',
           'CONTACTS',
           'BRANDS_NO_AUTH',
+          'SOCIAL_LOGIN',
         ],
       },
     ],

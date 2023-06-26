@@ -61,6 +61,7 @@ const PostAnAd = () => {
   const [IsVerifiedStorage, setIsVerifiedStorage] = useState(false);
   const [submitText, setSubmitText] = useState('Submit');
   const [otp, setOtp] = useState('');
+
   const navigation = useNavigation<IndexNavigationProps<'PostAnAd'>>();
   const [brands, setBrands] = useState<IDropDown[]>([]);
   const [models, setModels] = useState<IDropDown[]>([]);

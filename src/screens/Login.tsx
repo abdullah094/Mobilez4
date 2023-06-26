@@ -42,6 +42,7 @@ const Login = () => {
   const [password, setPassword] = useState<any>('');
   const [loginLoader, setLoginLoader] = useState('Sign In');
   const accessToken = useSelector(selectAccessToken);
+  const [socialLoginLoader, setsocialLoginLoader] = useState(false);
   const [hidePass, setHidePass] = useState(true);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   if (accessToken) navigation.navigate('Home');
@@ -108,6 +109,7 @@ const Login = () => {
       })
 
       .then(response => {
+        setsocialLoginLoader(false);
         const data = response.data;
         if (response.data.status) {
           Alert.alert(response.data.message);
@@ -158,6 +160,7 @@ const Login = () => {
 
       // this.setState({ userInfo, error: undefined });
     } catch (error) {
+      setsocialLoginLoader(false);
       const typedError = error as NativeModuleError;
 
       switch (typedError.code) {
@@ -312,6 +315,7 @@ const Login = () => {
                         console.log('login is cancelled.');
                       } else {
                         AccessToken.getCurrentAccessToken().then(data => {
+                          setsocialLoginLoader(true);
                           console.log(data?.accessToken.toString());
                           console.log('Access token not available');
                         });
@@ -320,12 +324,21 @@ const Login = () => {
                     onLogoutFinished={() => console.log('logout.')}
                   />
                 </View>
+
                 <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
-                  <TouchableOpacity onPress={() => _signIn()}>
-                    <Image
-                      style={tw`h-4 w-4`}
-                      source={require('../assets/Gpng.png')}
-                    />
+                  <TouchableOpacity
+                    onPress={() => {
+                      setsocialLoginLoader(true);
+                      _signIn();
+                    }}>
+                    {socialLoginLoader ? (
+                      <ActivityIndicator size="small" color="white" />
+                    ) : (
+                      <Image
+                        style={tw`h-4 w-4`}
+                        source={require('../assets/Gpng.png')}
+                      />
+                    )}
                   </TouchableOpacity>
                 </View>
               </View>

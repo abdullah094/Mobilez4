@@ -23,7 +23,7 @@ import {
   Warranty,
 } from '../constants/Data';
 
-import {BRANDSNOAUTH, MODELS} from '@env';
+import {BRANDS_NO_AUTH, MODELS} from '@env';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import {selectAccessToken} from '../Redux/Slices';
@@ -52,7 +52,7 @@ const Filter = () => {
   const getBrandFunc = () => {
     //Get brands with this function
     axios
-      .get(BRANDSNOAUTH, {})
+      .get(BRANDS_NO_AUTH, {})
       .then(response => {
         let brand_array: Array<{key: string; value: string}> = [];
         response.data.product_brands.forEach(element => {

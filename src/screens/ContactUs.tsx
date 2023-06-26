@@ -43,9 +43,7 @@ const ContactUs = ({navigation}) => {
             </View>
 
             <View style={styles.box}>
-              <Text placeholder="Email" style={styles.box_name}>
-                Email
-              </Text>
+              <Text style={styles.box_name}>Email</Text>
               <TextInput
                 placeholder="Email"
                 placeholderTextColor={'grey'}

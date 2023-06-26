@@ -29,7 +29,7 @@ import SearchScreen from './src/screens/SearchScreen';
 import SignUp from './src/screens/SignUp';
 import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
-import WishlistComponent from './src/screens/WhishlistComponent';
+import WishlistComponent from './src/screens/WishlistComponent';
 import {IndexParamList} from './src/types';
 
 const App = () => {

@@ -1,4 +1,4 @@
-import {BRANDS, MODELS, POSTANAD, SUBMITOTP} from '@env';
+import {BRANDS, MODELS, POST_AN_AD, SUBMIT_OTP} from '@env';
 import CheckBox from '@react-native-community/checkbox';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
@@ -175,7 +175,7 @@ const PostAnAd = () => {
 
     axios
       .post(
-        SUBMITOTP,
+        SUBMIT_OTP,
         {
           otp_code: otp,
           phone_number: phoneNumber,
@@ -302,7 +302,7 @@ const PostAnAd = () => {
     // Make the request
     _accessToken
       ? axios
-          .post(POSTANAD, data, {headers})
+          .post(POST_AN_AD, data, {headers})
           .then(response => {
             if (response.data.status === 200) {
               setForm({
@@ -320,7 +320,7 @@ const PostAnAd = () => {
                 category: Category.PHONE,
                 accessories: ['box'],
               });
-              navigation.navigate('TabNavigation', {screen: 'Home'});
+              navigation.navigate('Home');
               Alert.alert(response.data.message);
               setButton('Save Product');
             } else {

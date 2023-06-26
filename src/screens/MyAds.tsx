@@ -1,4 +1,4 @@
-import {MYADS} from '@env';
+import {MY_ADS} from '@env';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
@@ -20,7 +20,7 @@ import {selectAccessToken} from '../Redux/Slices';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
 import {color} from '../constants/Colors';
-import WishlistComponent from './WhishlistComponent';
+import WishlistComponent from './WishlistComponent';
 
 const {width, height} = Dimensions.get('window');
 const MyAds = ({navigation}) => {
@@ -34,7 +34,7 @@ const MyAds = ({navigation}) => {
 
   useEffect(() => {
     axios
-      .get(MYADS, {
+      .get(MY_ADS, {
         headers: {Authorization: `Bearer ${_accessToken}`},
       })
       .then(response => {
@@ -116,9 +116,7 @@ const MyAds = ({navigation}) => {
                   paddingBottom: 100,
                 }}
                 numColumns={2}
-                renderItem={({item}) => (
-                  <GridItem item={item} image={item.image.img}></GridItem>
-                )}
+                renderItem={({item}) => <GridItem item={item}></GridItem>}
               />
             ) : (
               <FlatList
@@ -131,9 +129,7 @@ const MyAds = ({navigation}) => {
                   paddingBottom: 100,
                 }}
                 numColumns={1}
-                renderItem={({item}) => (
-                  <ListItem item={item} image={item.image.img} />
-                )}
+                renderItem={({item}) => <ListItem item={item} />}
               />
             )}
           </>

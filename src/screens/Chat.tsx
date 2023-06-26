@@ -1,4 +1,4 @@
-import {CONTACTS, FETCHMESSAGES, SENDMESSAGES} from '@env';
+import {CONTACTS, FETCH_MESSAGES, SEND_MESSAGES} from '@env';
 import {useRoute} from '@react-navigation/native';
 import axios, {AxiosError} from 'axios';
 import React, {useCallback, useEffect, useState} from 'react';
@@ -57,7 +57,7 @@ const ChatScreen = ({navigation}) => {
     if (!body) return;
     axios
       .post(
-        SENDMESSAGES,
+        SEND_MESSAGES,
         {
           key: 'YW1Gb 1lXNTZZV2xpTG1GemJHRnRMbTFsYUdGeVFHZHRZV2xzTG1OdmJUcG1iMjlrWjJoaGNnPT0=',
           type: 'sender',
@@ -98,7 +98,7 @@ const ChatScreen = ({navigation}) => {
     // setMessages([])
     axios
       .post(
-        FETCHMESSAGES,
+        FETCH_MESSAGES,
         {
           key: 'YW1Gb 1lXNTZZV2xpTG1GemJHRnRMbTFsYUdGeVFHZHRZV2xzTG1OdmJUcG1iMjlrWjJoaGNnPT0=',
           id: to_id,

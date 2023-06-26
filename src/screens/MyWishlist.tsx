@@ -2,7 +2,7 @@ import React from 'react';
 import {Dimensions, SafeAreaView, StyleSheet} from 'react-native';
 import tw from 'twrnc';
 import Header from '../components/Header';
-import WishlistComponent from './WhishlistComponent';
+import WishlistComponent from './WishlistComponent';
 
 const {width, height} = Dimensions.get('window');
 const MyWishlist = () => {

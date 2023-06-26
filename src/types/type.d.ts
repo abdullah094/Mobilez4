@@ -309,9 +309,9 @@ export interface Product {
   user: User;
 }
 
-import {RouteProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Asset} from 'react-native-image-picker';
+import { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Asset } from 'react-native-image-picker';
 
 export type IndexParamList = {
   Home: undefined;
@@ -321,6 +321,8 @@ export type IndexParamList = {
   Filter: {form: Form};
   ProductPage: {id: string};
   PostAnAd: undefined;
+  ForgotPassword:undefined;
+  SignUp:{city:string}
 };
 
 export type IndexRouteProps<RouteName extends keyof IndexParamList> = RouteProp<

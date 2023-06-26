@@ -7,7 +7,7 @@ import {
 } from '@react-native-google-signin/google-signin';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -32,10 +32,11 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
 import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
+import {IndexNavigationProps} from '../types';
 Settings.setAppID('686223029942369');
 Settings.initializeSDK();
 const Login = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<IndexNavigationProps<'Login'>>();
   const [email, setEmail] = useState<string>('');
 
   const [check, setCheck] = useState(false);
@@ -73,9 +74,11 @@ const Login = () => {
               Alert.alert(response.data.errors.password);
             } else {
               Alert.alert('Unsuccessful', 'Please try again');
+              setsocialLoginLoader(false);
             }
           } else {
             Alert.alert('Unsuccessful', 'Please try again');
+            setsocialLoginLoader(false);
           }
           setLoginLoader('Login');
         } else if (response.data?.status === false) {
@@ -120,11 +123,12 @@ const Login = () => {
           navigation.navigate('Home');
           // PutAccessTokenToAsync(response.data.token);
         } else {
-          Alert.alert('Unsuccessful');
+          Alert.alert(response.data.message);
         }
       })
       .catch(error => {
-        setLoginLoader('Login');
+        setLoginLoader('Sign In');
+        setsocialLoginLoader(false);
         console.log('error', error);
         Alert.alert('Unsuccessful', 'Please try again');
       });
@@ -132,21 +136,23 @@ const Login = () => {
   const PutAccessTokenToAsync = async accessToken => {
     try {
       await AsyncStorage.setItem('@user_token', accessToken);
-      navigation.navigate('TabNavigation', {screen: 'Home'});
+      navigation.navigate('Home');
     } catch (e) {
       console.log('Error saving Data to AsyncStorage:', e);
     }
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+
+  // }, []);
+
+  const _signIn = async () => {
     GoogleSignin.configure({
+      // @ts-ignore
       androidClientId:
         '1054360665178-qpq9cql7ug5afge74i9qqa3ub2pl5kgd.apps.googleusercontent.com',
       profileImageSize: 150,
     });
-  }, []);
-
-  const _signIn = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();

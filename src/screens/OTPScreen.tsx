@@ -1,6 +1,6 @@
-import {SUBMITOTP} from '@env';
+import {SUBMIT_OTP} from '@env';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -18,12 +18,12 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 const OTPScreen = ({route, navigation}) => {
   const {phone} = route.params;
-  const [submitText, setSubmitText] = useState('Submit');
+  const [submitText, setSubmitText] = useState<ReactNode>('Submit');
   const [otp, setOtp] = useState({
     phone_number: phone,
     otp_code: '',
   });
-  console.log(SUBMITOTP);
+  console.log(SUBMIT_OTP);
 
   console.log(otp);
 
@@ -31,7 +31,7 @@ const OTPScreen = ({route, navigation}) => {
     setSubmitText(<ActivityIndicator size="small" color={color.white} />);
 
     axios
-      .post(SUBMITOTP, otp)
+      .post(SUBMIT_OTP, otp)
       .then(response => {
         if (response.data.errors) {
           Alert.alert('Try again');

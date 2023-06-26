@@ -11,7 +11,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View,
 } from 'react-native';
+import tw from 'twrnc';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import {color} from '../constants/Colors';

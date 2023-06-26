@@ -7,6 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import tw from 'twrnc';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
 

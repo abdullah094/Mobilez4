@@ -20,7 +20,7 @@ const {width, height} = Dimensions.get('window');
 const Profile = ({navigation}) => {
   const profile = useSelector(selectProfileData);
   const image_dimension = 120;
-  const base_url = 'https://www.mobilezmarket.com/images/';
+  const image_url = 'https://www.mobilezmarket.com/images/';
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
@@ -30,13 +30,17 @@ const Profile = ({navigation}) => {
             style={{width: width, height: 50, backgroundColor: color.orange}}
           />
           <Image
-            source={{uri: base_url + profile.photo}}
+            source={{
+              uri: profile.photo.includes('https')
+                ? profile.photo
+                : image_url + profile.photo,
+            }}
             style={{
               width: image_dimension,
               height: image_dimension,
               borderRadius: image_dimension / 2,
               borderWidth: 1,
-              bottom: image_dimension / 2 - 20,
+              bottom: 65,
             }}
           />
           <Text style={styles.h1}>{profile.first_name}</Text>

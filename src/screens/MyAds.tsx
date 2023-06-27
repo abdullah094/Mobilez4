@@ -13,6 +13,7 @@ import {
 import {Button} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import tw from 'twrnc';
@@ -65,42 +66,50 @@ const MyAds = ({navigation}) => {
             My Ads
           </Text>
         </View>
-        <View style={tw`flex-row justify-between p-2 px-19 `}>
-          <Button
-            style={[tw`w-30 border border-blue-500`]}
-            mode={isWishlist ? 'text' : 'contained'}
-            textColor={isWishlist ? 'black' : 'white'}
-            buttonColor={isWishlist ? 'white' : '#015dcf'}
-            onPress={() => setIsWishlist(false)}>
-            My Ads
-          </Button>
-          <Button
-            style={tw`w-30 border border-blue-500`}
-            textColor={isWishlist ? 'white' : 'black'}
-            buttonColor={isWishlist ? '#015dcf' : 'white'}
-            mode={isWishlist ? 'contained' : 'text'}
-            onPress={() => setIsWishlist(true)}>
-            Wishlist
-          </Button>
-        </View>
+
+        {data && !isWishlist ? (
+          <View style={tw`flex-row justify-between p-2 px-19 `}>
+            <Button
+              style={[tw`w-30 border border-blue-500`]}
+              mode={isWishlist ? 'text' : 'contained'}
+              textColor={isWishlist ? 'black' : 'white'}
+              buttonColor={isWishlist ? 'white' : '#015dcf'}
+              onPress={() => setIsWishlist(false)}>
+              My Ads
+            </Button>
+
+            <Button
+              style={tw`w-30 border border-blue-500`}
+              textColor={isWishlist ? 'white' : 'black'}
+              buttonColor={isWishlist ? '#015dcf' : 'white'}
+              mode={isWishlist ? 'contained' : 'text'}
+              onPress={() => setIsWishlist(true)}>
+              Wishlist
+            </Button>
+          </View>
+        ) : null}
         {!isWishlist ? (
           <>
-            <View style={tw` flex-row items-center justify-end m-6`}>
-              <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
-                <ListIcon
-                  name="list"
-                  color={Grid ? color.black : color.red}
-                  size={30}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setGrid(true)}>
-                <Entypo
-                  name="grid"
-                  color={Grid ? color.red : color.black}
-                  size={30}
-                />
-              </TouchableOpacity>
-            </View>
+            {data && !isWishlist ? (
+              <View style={tw` flex-row items-center justify-end m-6`}>
+                <TouchableOpacity
+                  style={tw`px-2`}
+                  onPress={() => setGrid(false)}>
+                  <ListIcon
+                    name="list"
+                    color={Grid ? color.black : color.red}
+                    size={30}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setGrid(true)}>
+                  <Entypo
+                    name="grid"
+                    color={Grid ? color.red : color.black}
+                    size={30}
+                  />
+                </TouchableOpacity>
+              </View>
+            ) : null}
             {Grid ? (
               <FlatList
                 data={data}
@@ -130,7 +139,9 @@ const MyAds = ({navigation}) => {
             )}
           </>
         ) : (
-          <WishlistComponent />
+          <>
+            <WishlistComponent />
+          </>
         )}
       </View>
     </SafeAreaView>

@@ -1,10 +1,12 @@
 import {GET_PROFILE_DATA, WISHLIST_GET} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, {AxiosError} from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
   Image,
+  Linking,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -13,10 +15,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {color} from '../constants/Colors';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Linking} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
@@ -28,6 +26,7 @@ import {
 } from '../Redux/Slices';
 import HomeSlider from '../components/HomeSlider';
 import RecentList from '../components/RecentList';
+import {color} from '../constants/Colors';
 import {Category, Profile} from '../types';
 import SearchScreen from './SearchScreen';
 

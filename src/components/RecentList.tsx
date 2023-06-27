@@ -6,12 +6,13 @@ import {
   Text,
   View,
 } from 'react-native';
+import Cry from 'react-native-vector-icons/MaterialCommunityIcons';
 import GridItem from './GridItem';
 
 import {CATEGORY} from '@env';
 import axios from 'axios';
 import tw from 'twrnc';
-import {Category, Form, Pagination, Product} from '../types';
+import {Category, Pagination, Product} from '../types';
 
 const RecentList = ({
   name,
@@ -23,10 +24,6 @@ const RecentList = ({
   const [data, setData] = useState<Product[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [sort, setSort] = useState('price');
-  const [order, setOrder] = useState('desc');
-  const [query, setQuery] = useState('');
-  const [form, setForm] = useState<Form>({});
 
   const [allLoaded, setAllLoaded] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
@@ -41,6 +38,7 @@ const RecentList = ({
       setData(products);
       return;
     }
+    setLoadingMore(true);
     loadData(1);
   }, []);
 
@@ -54,7 +52,7 @@ const RecentList = ({
 
       .then(response => {
         const pagination: Pagination = response.data.data;
-        console.log({pagination});
+
         setTotalItems(pagination.total);
         setPageNumber(pagination.current_page);
         // if no new items were fetched, set all loaded to true to prevent further requests
@@ -85,55 +83,75 @@ const RecentList = ({
 
     loadData(pageNumber + 1);
   };
-  return (
-    <View style={tw`w-full h-70 mt-4`}>
-      {/* bar with heading and view more */}
+  // console.log('dataaaa', !loadingMore);
 
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingTop: 9,
-        }}>
-        <Text style={styles.heading}>{Title}</Text>
-      </View>
-      {data.length < 1 ? (
-        <>
+  return (
+    <>
+      <View style={tw`w-full h-70 mt-4`}>
+        {/* bar with heading and view more */}
+
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingTop: 9,
+          }}>
+          <Text style={styles.heading}>{Title}</Text>
+        </View>
+
+        {loadingMore ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size={'large'} color={'#306CCE'} />
           </View>
-        </>
-      ) : (
-        <FlatList
-          showsHorizontalScrollIndicator={false}
-          data={data}
-          key={'_'}
-          keyExtractor={item => '_' + item.id}
-          contentContainerStyle={{
-            justifyContent: 'space-between',
-            // marginHorizontal: -15,
-            paddingBottom: 10,
-          }}
-          ListFooterComponent={
-            <View style={[styles.container, styles.horizontal]}>
-              {loadingMore && (
-                <ActivityIndicator size={'large'} color={'#306CCE'} />
-              )}
-            </View>
-          }
-          scrollEventThrottle={250}
-          onEndReachedThreshold={0.01}
-          onEndReached={info => {
-            loadMoreResults(info);
-          }}
-          horizontal
-          renderItem={({item}: {item: Product}) => (
-            <GridItem item={item}></GridItem>
-          )}
-        />
-      )}
-    </View>
+        ) : (
+          <>
+            {data.length == 0 ? (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+
+                  height: 250,
+                }}>
+                <Cry name="emoticon-cry-outline" size={50} color={'black'} />
+                <Text style={{color: 'black', fontWeight: '700'}}>
+                  Sorry No Product is Available
+                </Text>
+              </View>
+            ) : (
+              <FlatList
+                showsHorizontalScrollIndicator={false}
+                data={data}
+                key={'_'}
+                keyExtractor={item => '_' + item.id}
+                contentContainerStyle={{
+                  justifyContent: 'space-between',
+                  // marginHorizontal: -15,
+                  paddingBottom: 10,
+                }}
+                ListFooterComponent={
+                  <View style={[styles.container, styles.horizontal]}>
+                    {loadingMore && (
+                      <ActivityIndicator size={'large'} color={'#306CCE'} />
+                    )}
+                  </View>
+                }
+                scrollEventThrottle={250}
+                onEndReachedThreshold={0.01}
+                onEndReached={info => {
+                  loadMoreResults(info);
+                }}
+                horizontal
+                renderItem={({item}: {item: Product}) => (
+                  <GridItem item={item}></GridItem>
+                )}
+              />
+            )}
+          </>
+        )}
+      </View>
+    </>
   );
 };
 

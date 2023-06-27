@@ -126,8 +126,9 @@ const Login = () => {
           Alert.alert(data.message);
           dispatch(setAccessToken(data.token));
           setLoginLoader('Login');
-          PutAccessTokenToAsync(data.token);
-          navigation.navigate('Home');
+          PutAccessTokenToAsync(response.data.token);
+
+          // PutAccessTokenToAsync(response.data.token);
         } else {
           Alert.alert(data.message);
         }

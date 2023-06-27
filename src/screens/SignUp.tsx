@@ -1,4 +1,5 @@
 import {REGISTER} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import React, {useState} from 'react';
 import {
@@ -16,14 +17,17 @@ import {
 import {TextInput} from 'react-native-paper';
 import DropDown from 'react-native-paper-dropdown';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
+import {selectAccessToken, setAccessToken} from '../Redux/Slices';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const SignUp = ({navigation, route}) => {
   const {city} = route.params;
-
+  const accessToken = useSelector(selectAccessToken);
+  const dispatch = useDispatch();
   const [check, setCheck] = useState(false);
   const [registerButtonText, setRegisterButtonText] = useState<any>('Register');
   const [showDropDown, setShowDropDown] = useState(false);
@@ -57,11 +61,13 @@ const SignUp = ({navigation, route}) => {
       .then(response => {
         if (response.data.errors) {
           console.log(response.data.errors);
-          Alert.alert('email or phone is already present or missing fields');
+          Alert.alert(JSON.stringify(response.data));
           setRegisterButtonText('Register');
         } else {
           console.log(response.data);
-          navigation.navigate('OTPScreen', {phone: formData.phone});
+          dispatch(setAccessToken(response.data.token));
+          PutAccessTokenToAsync(response.data.token);
+
           setRegisterButtonText('Register');
         }
       })
@@ -69,6 +75,14 @@ const SignUp = ({navigation, route}) => {
         console.log(error);
         setRegisterButtonText('Register');
       });
+  };
+  const PutAccessTokenToAsync = async accessToken => {
+    try {
+      await AsyncStorage.setItem('@user_token', accessToken);
+      navigation.navigate('OTPScreen', {phone: formData.phone});
+    } catch (e) {
+      console.log('Error saving Data to AsyncStorage:', e);
+    }
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>

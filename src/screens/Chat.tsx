@@ -16,7 +16,6 @@ import {GiftedChat} from 'react-native-gifted-chat';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {logoutUser, selectAccessToken} from '../Redux/Slices';
-import Header from '../components/Header';
 import {Contact, Contacts, FetchMessage} from '../types';
 const {width, height} = Dimensions.get('window');
 const base_url = 'https://www.mobilezmarket.com/images/';
@@ -45,6 +44,8 @@ const ChatScreen = ({navigation}) => {
 
   const [from_id, setFrom_id] = useState(1);
   const [to_id, setTo_id] = useState(2);
+  const [refreshing, setRefreshing] = useState(false);
+
   const dispatch = useDispatch();
 
   const onSend = useCallback((messages = []) => {
@@ -52,6 +53,11 @@ const ChatScreen = ({navigation}) => {
       GiftedChat.append(previousMessages, messages),
     );
   }, []);
+
+  const onRefreshChat = () => {
+    setRefreshing(true);
+    fetchMessages();
+  };
 
   const sendMessageToServer = (body: messages[]) => {
     if (!body) return;
@@ -112,6 +118,7 @@ const ChatScreen = ({navigation}) => {
         const existingId = messages.map(x => x._id);
         const newID = data.messages.filter(x => !existingId.includes(x.id));
         if (newID.length == 0) return;
+        setRefreshing(false);
         setMessages(
           data.messages.map((x, index) => {
             if (index == 0) {
@@ -137,6 +144,7 @@ const ChatScreen = ({navigation}) => {
           navigation.navigate('Login');
         }
         console.log(reason?.message);
+        setRefreshing(false);
       });
   };
 
@@ -190,75 +198,64 @@ const ChatScreen = ({navigation}) => {
   }, [route]);
   return (
     <SafeAreaView style={tw`flex-1`}>
-      <Header title="Chats" />
-      {!accessToken ? (
-        <View style={tw`flex-1 items-center justify-center`}>
-          <Text>To Chat with Seller Please Login</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('Login');
-            }}>
-            <Text style={tw`text-blue-600`}>Go to Login</Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <FlatList
-              data={contacts}
-              keyExtractor={item => item.id.toString()}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={({item, index}) => (
-                <TouchableOpacity onPress={() => setTo_id(item.id)}>
-                  <View
-                    style={tw`w-[70px] items-center justify-center m-2 shadow-md rounded-lg bg-white p-2`}>
-                    <Image
-                      style={tw`w-10  h-10  rounded-full border-red-600 ${
-                        to_id === item.id ? 'border-2' : 'border-0'
-                      }`}
-                      resizeMode="contain"
-                      source={
-                        item.photo
-                          ? {
-                              uri: item.photo.includes('http')
-                                ? item.photo
-                                : base_url + item.photo,
-                            }
-                          : require('../assets/mobile-logo.png')
-                      }
-                    />
-                    <Text
-                      style={{fontSize: 12, fontWeight: '500', color: 'black'}}
-                      numberOfLines={1}>
-                      {item.first_name}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
-          <GiftedChat
-            messages={messages}
-            showUserAvatar={false}
-            placeholder="Type text here"
-            alwaysShowSend={true}
-            optionTintColor="black"
-            // loadEarlier={true}
-            isKeyboardInternallyHandled={true}
-            // isLoadingEarlier={true}
-            // isTyping={true}
-            textInputStyle={tw`text-black`}
-            onSend={newMessages => {
-              onSend(newMessages);
-              sendMessageToServer(newMessages);
-            }}
-            user={{
-              _id: from_id,
-            }}
-          />
-        </>
-      )}
+      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <FlatList
+          data={contacts}
+          keyExtractor={item => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          renderItem={({item, index}) => (
+            <TouchableOpacity onPress={() => setTo_id(item.id)}>
+              <View
+                style={tw`w-[70px] items-center justify-center m-2 shadow-md rounded-lg bg-white p-2`}>
+                <Image
+                  style={tw`w-10  h-10  rounded-full border-red-600 ${
+                    to_id === item.id ? 'border-2' : 'border-0'
+                  }`}
+                  resizeMode="contain"
+                  source={
+                    item.photo
+                      ? {
+                          uri: item.photo.includes('http')
+                            ? item.photo
+                            : base_url + item.photo,
+                        }
+                      : require('../assets/mobile-logo.png')
+                  }
+                />
+                <Text
+                  style={{fontSize: 12, fontWeight: '500', color: 'black'}}
+                  numberOfLines={1}>
+                  {item.first_name}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+
+      <GiftedChat
+        onRefresh={() => onRefreshChat()}
+        refreshing={refreshing}
+        messages={messages}
+        showUserAvatar={false}
+        placeholder="Type text here"
+        renderUsernameOnMessage={true}
+        isLoadingEarlier={true}
+        alwaysShowSend={true}
+        optionTintColor="black"
+        // loadEarlier={true}
+        isKeyboardInternallyHandled={true}
+        // isLoadingEarlier={true}
+        // isTyping={true}
+        textInputStyle={tw`text-black`}
+        onSend={newMessages => {
+          onSend(newMessages), sendMessageToServer(newMessages);
+        }}
+        user={{
+          _id: from_id,
+        }}
+      />
     </SafeAreaView>
   );
 };

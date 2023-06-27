@@ -498,7 +498,7 @@ const ProductPage = ({navigation, route}) => {
             <Text style={styles.description}>Description</Text>
             <View style={styles.container}>
               <View style={styles.descriptionContainer}>
-                <Text style={styles.descriptionText} numberOfLines={3}>
+                <Text style={styles.descriptionText}>
                   {data.details.description}
                 </Text>
               </View>

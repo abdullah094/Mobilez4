@@ -120,7 +120,7 @@ const Login = () => {
           dispatch(setAccessToken(response.data.token));
           setLoginLoader('Login');
           PutAccessTokenToAsync(response.data.token);
-          navigation.navigate('Home');
+
           // PutAccessTokenToAsync(response.data.token);
         } else {
           Alert.alert(response.data.message);

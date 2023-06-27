@@ -45,6 +45,8 @@ const ChatScreen = ({navigation}) => {
 
   const [from_id, setFrom_id] = useState(1);
   const [to_id, setTo_id] = useState(2);
+  const [refreshing, setRefreshing] = useState(false);
+
   const dispatch = useDispatch();
 
   const onSend = useCallback((messages = []) => {
@@ -52,6 +54,11 @@ const ChatScreen = ({navigation}) => {
       GiftedChat.append(previousMessages, messages),
     );
   }, []);
+
+  const onRefreshChat = () => {
+    setRefreshing(true);
+    fetchMessages();
+  };
 
   const sendMessageToServer = (body: messages[]) => {
     if (!body) return;
@@ -112,6 +119,7 @@ const ChatScreen = ({navigation}) => {
         const existingId = messages.map(x => x._id);
         const newID = data.messages.filter(x => !existingId.includes(x.id));
         if (newID.length == 0) return;
+        setRefreshing(false);
         setMessages(
           data.messages.map((x, index) => {
             if (index == 0) {
@@ -137,6 +145,7 @@ const ChatScreen = ({navigation}) => {
           navigation.navigate('Login');
         }
         console.log(reason?.message);
+        setRefreshing(false);
       });
   };
 
@@ -231,10 +240,15 @@ const ChatScreen = ({navigation}) => {
           )}
         />
       </View>
+
       <GiftedChat
+        onRefresh={() => onRefreshChat()}
+        refreshing={refreshing}
         messages={messages}
         showUserAvatar={false}
         placeholder="Type text here"
+        renderUsernameOnMessage={true}
+        isLoadingEarlier={true}
         alwaysShowSend={true}
         optionTintColor="black"
         // loadEarlier={true}

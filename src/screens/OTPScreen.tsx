@@ -13,11 +13,15 @@ import {
   View,
 } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {useSelector} from 'react-redux';
+import {selectAccessToken} from '../Redux/Slices';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const OTPScreen = ({route, navigation}) => {
   const {phone} = route.params;
+  const accessToken = useSelector(selectAccessToken);
+
   const [submitText, setSubmitText] = useState<ReactNode>('Submit');
   const [otp, setOtp] = useState({
     phone_number: phone,
@@ -31,7 +35,9 @@ const OTPScreen = ({route, navigation}) => {
     setSubmitText(<ActivityIndicator size="small" color={color.white} />);
 
     axios
-      .post(SUBMIT_OTP, otp)
+      .post(SUBMIT_OTP, otp, {
+        headers: {Authorization: `Bearer ${accessToken}`},
+      })
       .then(response => {
         if (response.data.errors) {
           Alert.alert('Try again');
@@ -49,7 +55,7 @@ const OTPScreen = ({route, navigation}) => {
         }
       })
       .catch(error => {
-        Alert.alert('Failed', 'Try again');
+        Alert.alert(error.message);
         setSubmitText('Submit');
         setOtp({...otp, otp_code: ''});
       });
@@ -112,7 +118,7 @@ const OTPScreen = ({route, navigation}) => {
             alignItems: 'center',
             marginTop: 10,
           }}>
-          <Text style={{fontWeight: 'bold', color: color.black, fontSize: 20}}>
+          <Text style={{fontWeight: 'bold', color: color.white, fontSize: 20}}>
             {submitText}
           </Text>
         </TouchableOpacity>

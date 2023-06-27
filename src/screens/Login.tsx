@@ -32,6 +32,7 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
 import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
+import AppleLoginButton from '../components/AppleLoginButton';
 import {IndexNavigationProps} from '../types';
 Settings.setAppID('686223029942369');
 Settings.initializeSDK();
@@ -73,7 +74,7 @@ const Login = () => {
             } else if (response.data.errors.password) {
               Alert.alert(response.data.errors.password);
             } else {
-              Alert.alert('Unsuccessful', 'Please try again');
+              Alert.alert('Unsuccessful', response.data.message);
               setSocialLoginLoader(false);
             }
           } else {
@@ -85,7 +86,7 @@ const Login = () => {
           if (response.data.message) {
             Alert.alert(response.data.message);
           } else {
-            Alert.alert('Unsuccessful', 'Please try again');
+            Alert.alert('Unsuccessful', response.data.message);
           }
           setLoginLoader('Login');
         } else if (response.data?.status) {
@@ -97,11 +98,18 @@ const Login = () => {
       })
       .catch(error => {
         setLoginLoader('Login');
-        Alert.alert('Unsuccessful', 'Please try again');
+        Alert.alert('Unsuccessful', error.message);
       });
   };
 
   const fetchGoogleLogin = (gEmail, gid, name, avatar) => {
+    console.log({
+      email: gEmail,
+      id: gid,
+      name: name,
+      avatar: avatar,
+    });
+
     setLoginLoader(<ActivityIndicator size="small" color="white" />);
     axios
       .post(SOCIAL_LOGIN, {
@@ -114,23 +122,21 @@ const Login = () => {
       .then(response => {
         setSocialLoginLoader(false);
         const data = response.data;
-        if (response.data.status) {
-          Alert.alert(response.data.message);
-
-          dispatch(setAccessToken(response.data.token));
+        if (data.status) {
+          Alert.alert(data.message);
+          dispatch(setAccessToken(data.token));
           setLoginLoader('Login');
-          PutAccessTokenToAsync(response.data.token);
+          PutAccessTokenToAsync(data.token);
           navigation.navigate('Home');
-          // PutAccessTokenToAsync(response.data.token);
         } else {
-          Alert.alert(response.data.message);
+          Alert.alert(data.message);
         }
       })
       .catch(error => {
         setLoginLoader('Sign In');
         setSocialLoginLoader(false);
         console.log('error', error);
-        Alert.alert('Unsuccessful', 'Please try again');
+        Alert.alert('Error', error.message);
       });
   };
   const PutAccessTokenToAsync = async accessToken => {
@@ -348,7 +354,7 @@ const Login = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-
+              <AppleLoginButton />
               <View
                 style={tw`w-full flex-row mt-14 items-center justify-center`}>
                 <Text style={{color: 'black'}}>Don't have and account? </Text>

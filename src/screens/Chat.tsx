@@ -3,7 +3,6 @@ import {useRoute} from '@react-navigation/native';
 import axios, {AxiosError} from 'axios';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-  Alert,
   Dimensions,
   FlatList,
   Image,
@@ -17,6 +16,7 @@ import {GiftedChat} from 'react-native-gifted-chat';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {logoutUser, selectAccessToken} from '../Redux/Slices';
+import Header from '../components/Header';
 import {Contact, Contacts, FetchMessage} from '../types';
 const {width, height} = Dimensions.get('window');
 const base_url = 'https://www.mobilezmarket.com/images/';
@@ -173,8 +173,6 @@ const ChatScreen = ({navigation}) => {
           setContacts(arrayUniqueByKey);
           setTo_id(params?.to.id);
         } else {
-          Alert.prompt('hellllo chat' + data.contacts);
-          console.log('params not here');
           setContacts(data.contacts);
           if (data.contacts?.length > 0) {
             setTo_id(data.contacts[0].id);
@@ -190,65 +188,77 @@ const ChatScreen = ({navigation}) => {
         console.log(reason?.message);
       });
   }, [route]);
-  console.log(
-    '=============================================',
-    contacts.map(x => x.photo),
-  );
   return (
     <SafeAreaView style={tw`flex-1`}>
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <FlatList
-          data={contacts}
-          keyExtractor={item => item.id.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item, index}) => (
-            <TouchableOpacity onPress={() => setTo_id(item.id)}>
-              <View
-                style={tw`w-[70px] items-center justify-center m-2 shadow-md rounded-lg bg-white p-2`}>
-                <Image
-                  style={tw`w-10  h-10  rounded-full border-red-600 ${
-                    to_id === item.id ? 'border-2' : 'border-0'
-                  }`}
-                  resizeMode="contain"
-                  source={
-                    item.photo
-                      ? {
-                          uri: item.photo.includes('http')
-                            ? item.photo
-                            : base_url + item.photo,
-                        }
-                      : require('../assets/mobile-logo.png')
-                  }
-                />
-                <Text
-                  style={{fontSize: 12, fontWeight: '500', color: 'black'}}
-                  numberOfLines={1}>
-                  {item.first_name}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
-      <GiftedChat
-        messages={messages}
-        showUserAvatar={false}
-        placeholder="Type text here"
-        alwaysShowSend={true}
-        optionTintColor="black"
-        // loadEarlier={true}
-        isKeyboardInternallyHandled={true}
-        // isLoadingEarlier={true}
-        // isTyping={true}
-        textInputStyle={tw`text-black`}
-        onSend={newMessages => {
-          onSend(newMessages), sendMessageToServer(newMessages);
-        }}
-        user={{
-          _id: from_id,
-        }}
-      />
+      <Header title="Chats" />
+      {!accessToken ? (
+        <View style={tw`flex-1 items-center justify-center`}>
+          <Text>To Chat with Seller Please Login</Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('Login');
+            }}>
+            <Text style={tw`text-blue-600`}>Go to Login</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <FlatList
+              data={contacts}
+              keyExtractor={item => item.id.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({item, index}) => (
+                <TouchableOpacity onPress={() => setTo_id(item.id)}>
+                  <View
+                    style={tw`w-[70px] items-center justify-center m-2 shadow-md rounded-lg bg-white p-2`}>
+                    <Image
+                      style={tw`w-10  h-10  rounded-full border-red-600 ${
+                        to_id === item.id ? 'border-2' : 'border-0'
+                      }`}
+                      resizeMode="contain"
+                      source={
+                        item.photo
+                          ? {
+                              uri: item.photo.includes('http')
+                                ? item.photo
+                                : base_url + item.photo,
+                            }
+                          : require('../assets/mobile-logo.png')
+                      }
+                    />
+                    <Text
+                      style={{fontSize: 12, fontWeight: '500', color: 'black'}}
+                      numberOfLines={1}>
+                      {item.first_name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+          <GiftedChat
+            messages={messages}
+            showUserAvatar={false}
+            placeholder="Type text here"
+            alwaysShowSend={true}
+            optionTintColor="black"
+            // loadEarlier={true}
+            isKeyboardInternallyHandled={true}
+            // isLoadingEarlier={true}
+            // isTyping={true}
+            textInputStyle={tw`text-black`}
+            onSend={newMessages => {
+              onSend(newMessages);
+              sendMessageToServer(newMessages);
+            }}
+            user={{
+              _id: from_id,
+            }}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 };

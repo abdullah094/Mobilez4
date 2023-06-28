@@ -14,11 +14,12 @@ import {Button} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Thumb from 'react-native-vector-icons/Octicons';
 import {useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {selectAccessToken} from '../Redux/Slices';
 import GridItem from '../components/GridItem';
+import Header from '../components/Header';
 import ListItem from '../components/ListItem';
 import {color} from '../constants/Colors';
 import WishlistComponent from './WishlistComponent';
@@ -26,7 +27,7 @@ import WishlistComponent from './WishlistComponent';
 const {width, height} = Dimensions.get('window');
 const MyAds = ({navigation}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const _accessToken = useSelector(selectAccessToken);
   const [isWishlist, setIsWishlist] = useState(false);
   const [Grid, setGrid] = useState(false);
@@ -40,76 +41,72 @@ const MyAds = ({navigation}) => {
         setData(response.data.my_adds);
       })
       .catch(error => {
-        console.log(error);
+        console.log('hello', error);
       });
   }, [_accessToken]);
+
+  console.log('my adassss', data);
 
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
-        <View
-          style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
-          <TouchableOpacity onPress={navigation.goBack}>
-            <Ionicons
-              name="ios-arrow-back-sharp"
-              color={color.white}
-              size={25}
-            />
-          </TouchableOpacity>
-          <Text
-            style={{
-              color: color.white,
-              textAlign: 'center',
-              fontWeight: '500',
-              flex: 1,
-            }}>
+        <Header title="My Ads" />
+        <View style={tw`flex-row justify-center p-2 `}>
+          <Button
+            style={[tw`w-30 border border-blue-500 mx-3`]}
+            mode={isWishlist ? 'text' : 'contained'}
+            textColor={isWishlist ? 'black' : 'white'}
+            buttonColor={isWishlist ? 'white' : '#015dcf'}
+            onPress={() => setIsWishlist(false)}>
             My Ads
-          </Text>
+          </Button>
+
+          <Button
+            style={tw`w-30 border border-blue-500 mx-3`}
+            textColor={isWishlist ? 'white' : 'black'}
+            buttonColor={isWishlist ? '#015dcf' : 'white'}
+            mode={isWishlist ? 'contained' : 'text'}
+            onPress={() => setIsWishlist(true)}>
+            Wishlist
+          </Button>
         </View>
-
-        {data && !isWishlist ? (
-          <View style={tw`flex-row justify-between p-2 px-19 `}>
-            <Button
-              style={[tw`w-30 border border-blue-500`]}
-              mode={isWishlist ? 'text' : 'contained'}
-              textColor={isWishlist ? 'black' : 'white'}
-              buttonColor={isWishlist ? 'white' : '#015dcf'}
-              onPress={() => setIsWishlist(false)}>
-              My Ads
-            </Button>
-
-            <Button
-              style={tw`w-30 border border-blue-500`}
-              textColor={isWishlist ? 'white' : 'black'}
-              buttonColor={isWishlist ? '#015dcf' : 'white'}
-              mode={isWishlist ? 'contained' : 'text'}
-              onPress={() => setIsWishlist(true)}>
-              Wishlist
-            </Button>
-          </View>
-        ) : null}
         {!isWishlist ? (
           <>
-            {data && !isWishlist ? (
+            {data.length > 0 ? (
               <View style={tw` flex-row items-center justify-end m-6`}>
-                <TouchableOpacity
-                  style={tw`px-2`}
-                  onPress={() => setGrid(false)}>
-                  <ListIcon
-                    name="list"
-                    color={Grid ? color.black : color.red}
-                    size={30}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setGrid(true)}>
-                  <Entypo
-                    name="grid"
-                    color={Grid ? color.red : color.black}
-                    size={30}
-                  />
-                </TouchableOpacity>
+                <>
+                  <TouchableOpacity
+                    style={tw`px-2`}
+                    onPress={() => setGrid(false)}>
+                    <ListIcon
+                      name="list"
+                      color={Grid ? color.black : color.red}
+                      size={30}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setGrid(true)}>
+                    <Entypo
+                      name="grid"
+                      color={Grid ? color.red : color.black}
+                      size={30}
+                    />
+                  </TouchableOpacity>
+                </>
               </View>
-            ) : null}
+            ) : (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  height: '100%',
+                  alignItems: 'center',
+                }}>
+                <Thumb name="thumbsdown" color={'black'} size={40} />
+                <Text style={{color: 'black', fontWeight: '700'}}>
+                  You haven't posted anything
+                </Text>
+              </View>
+            )}
+
             {Grid ? (
               <FlatList
                 data={data}
@@ -139,9 +136,7 @@ const MyAds = ({navigation}) => {
             )}
           </>
         ) : (
-          <>
-            <WishlistComponent />
-          </>
+          <WishlistComponent />
         )}
       </View>
     </SafeAreaView>

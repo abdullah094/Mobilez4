@@ -43,7 +43,7 @@ const Listings = () => {
 
   const [query, setQuery] = useState('');
   const [delayQuery, setDelayQuery] = useState('');
-  const [sort, setSort] = useState('price');
+  const [sort, setSort] = useState('created_at');
   const [order, setOrder] = useState('desc');
   const [data, setData] = useState<Product[]>([]);
   const [Grid, setGrid] = useState(false);

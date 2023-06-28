@@ -31,7 +31,7 @@ const Profile = ({navigation}) => {
           />
           <Image
             source={{
-              uri: profile.photo.includes('https')
+              uri: profile.photo?.includes('https')
                 ? profile.photo
                 : image_url + profile.photo,
             }}

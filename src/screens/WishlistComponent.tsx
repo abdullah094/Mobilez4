@@ -8,13 +8,13 @@ import {useNavigation} from '@react-navigation/native';
 import axios, {AxiosError} from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
-import {selectAccessToken, selectWishlist, setWishList} from '../Redux/Slices';
+import {selectAccessToken, setWishList} from '../Redux/Slices';
 import GridItem from '../components/GridItem';
 import ListItem from '../components/ListItem';
 import {color} from '../constants/Colors';
 const WishlistComponent = () => {
   const navigation = useNavigation();
-  const wishlistItemsExist = useSelector(selectWishlist);
+  // const wishlistItemsExist = useSelector(selectWishlist);
 
   const image_url = 'https://www.mobilezmarket.com/images/';
   const [data, setData] = useState();
@@ -38,7 +38,7 @@ const WishlistComponent = () => {
         // }
         console.log(reason.message);
       });
-  }, [wishlistItemsExist]);
+  }, []);
   return (
     <View style={tw`flex-1`}>
       <View style={tw`flex-row items-center justify-end px-4  h-10`}>

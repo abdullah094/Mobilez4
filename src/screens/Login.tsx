@@ -204,12 +204,12 @@ const Login = () => {
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
-        <ScrollView contentContainerStyle={tw`flex-1`}>
-          <View style={tw`h-full`}>
+        <ScrollView>
+          <View style={tw`flex-1`}>
             <Header title="Login" />
             <View style={tw` flex-1 items-center justify-center`}>
               <Image
-                style={{width: 200, height: 80, marginBottom: 30}}
+                style={{width: 200, height: 80, marginVertical: 30}}
                 source={require('../assets/mobile-logo.png')}
               />
               <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>

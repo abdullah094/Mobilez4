@@ -477,7 +477,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   header: {
-    width: width,
     paddingHorizontal: 24,
     height: 150,
     borderBottomWidth: 1,

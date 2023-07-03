@@ -398,7 +398,6 @@ export default Home;
 
 const styles = StyleSheet.create({
   header: {
-    width: width,
     paddingHorizontal: 24,
     height: 231,
     borderBottomWidth: 1,

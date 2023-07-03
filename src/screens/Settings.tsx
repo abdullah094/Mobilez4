@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import tw from 'twrnc';
 import {
   logoutUser,
   selectAccessToken,
@@ -26,7 +27,6 @@ const Settings = ({navigation}) => {
   const _accessToken = useSelector(selectAccessToken);
   const _profile = useSelector(selectProfileData);
   const dispatch = useDispatch();
-  console.log('_accessToken', _accessToken);
 
   const PutAccessTokenToAsync = async () => {
     try {
@@ -59,16 +59,15 @@ const Settings = ({navigation}) => {
       });
   };
   return (
-    <ScrollView contentContainerStyle={{alignItems: 'center'}}>
-      <View
-        style={{
-          height: 130,
-          width: width,
-          backgroundColor: color.orange,
-          alignItems: 'flex-end',
-          flexDirection: 'row',
-        }}>
-        <SafeAreaView style={{margin: 15}}>
+    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+      <View style={tw`bg-[#edf2f2] flex-1`}>
+        <View
+          style={{
+            height: 130,
+            backgroundColor: color.orange,
+            alignItems: 'flex-end',
+            flexDirection: 'row',
+          }}>
           {/* <Image style={{width:50,height:50,borderRadius:25}} source={}/> */}
           {_accessToken ? (
             <>
@@ -86,96 +85,98 @@ const Settings = ({navigation}) => {
               Settings
             </Text>
           )}
-        </SafeAreaView>
+        </View>
+        <ScrollView contentContainerStyle={tw`bg-[#edf2f2]`}>
+          {_accessToken ? (
+            <>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Profile')}>
+                <Text style={[styles.button_text]}>Profile</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('MyWishlist')}>
+                <Text style={[styles.button_text]}>My Wishlist</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('TermsAndCondition')}>
+                <Text style={[styles.button_text]}>Terms and Condition</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('PrivacyPolicy')}>
+                <Text style={[styles.button_text]}>Privacy Policy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Blogs')}>
+                <Text style={[styles.button_text]}>Blogs</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Videos')}>
+                <Text style={[styles.button_text]}>Videos</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('ContactUs')}>
+                <Text style={[styles.button_text]}>Contact Us</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('AboutUs')}>
+                <Text style={[styles.button_text]}>About Us</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
+                <Text style={[styles.button_text, {color: 'red'}]}>Logout</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Login')}>
+                <Text style={[styles.button_text, {color: color.orange}]}>
+                  Login/Register
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('TermsAndCondition')}>
+                <Text style={[styles.button_text]}>Terms and Condition</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('PrivacyPolicy')}>
+                <Text style={[styles.button_text]}>Privacy Policy</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Blogs')}>
+                <Text style={[styles.button_text]}>Blogs</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('Videos')}>
+                <Text style={[styles.button_text]}>Videos</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('AboutUs')}>
+                <Text style={[styles.button_text]}>About Us</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('ContactUs')}>
+                <Text style={[styles.button_text]}>Contact Us</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </ScrollView>
       </View>
-      {_accessToken ? (
-        <>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Profile')}>
-            <Text style={[styles.button_text]}>Profile</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('MyWishlist')}>
-            <Text style={[styles.button_text]}>My Wishlist</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('TermsAndCondition')}>
-            <Text style={[styles.button_text]}>Terms and Condition</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('PrivacyPolicy')}>
-            <Text style={[styles.button_text]}>Privacy Policy</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Blogs')}>
-            <Text style={[styles.button_text]}>Blogs</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Videos')}>
-            <Text style={[styles.button_text]}>Videos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('ContactUs')}>
-            <Text style={[styles.button_text]}>Contact Us</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('AboutUs')}>
-            <Text style={[styles.button_text]}>About Us</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
-            <Text style={[styles.button_text, {color: 'red'}]}>Logout</Text>
-          </TouchableOpacity>
-        </>
-      ) : (
-        <>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Login')}>
-            <Text style={[styles.button_text, {color: color.orange}]}>
-              Login/Register
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('TermsAndCondition')}>
-            <Text style={[styles.button_text]}>Terms and Condition</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('PrivacyPolicy')}>
-            <Text style={[styles.button_text]}>Privacy Policy</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Blogs')}>
-            <Text style={[styles.button_text]}>Blogs</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('Videos')}>
-            <Text style={[styles.button_text]}>Videos</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('AboutUs')}>
-            <Text style={[styles.button_text]}>About Us</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('ContactUs')}>
-            <Text style={[styles.button_text]}>Contact Us</Text>
-          </TouchableOpacity>
-        </>
-      )}
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 

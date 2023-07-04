@@ -12,12 +12,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Logout from 'react-native-vector-icons/Entypo';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {
   logoutUser,
   selectAccessToken,
   selectProfileData,
+  setProfileData,
   setWishList,
 } from '../Redux/Slices';
 import {color} from '../constants/Colors';
@@ -32,6 +34,7 @@ const Settings = ({navigation}) => {
     try {
       await AsyncStorage.removeItem('@user_token');
       dispatch(logoutUser());
+      dispatch(setProfileData({}));
       dispatch(setWishList([]));
     } catch (e) {
       console.log('Error removing Data to AsyncStorage:', e);
@@ -60,30 +63,51 @@ const Settings = ({navigation}) => {
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
-      <View style={tw`bg-[#edf2f2] flex-1`}>
+      <View style={tw`bg-[#edf2f2] flex-1 px-1`}>
         <View
           style={{
             height: 130,
             backgroundColor: color.orange,
-            alignItems: 'flex-end',
             flexDirection: 'row',
+            alignContent: 'center',
+
+            flexWrap: 'wrap',
           }}>
           {/* <Image style={{width:50,height:50,borderRadius:25}} source={}/> */}
           {_accessToken ? (
             <>
-              <Text
-                style={{color: color.white, fontSize: 20, fontWeight: '600'}}>
-                {_profile.first_name}
-              </Text>
-              <Text
-                style={{color: color.white, fontSize: 15, fontWeight: '600'}}>
-                {_profile.email}
-              </Text>
+              <View
+                style={{
+                  flex: 1,
+                  padding: 5,
+                  justifyContent: 'flex-end',
+                }}>
+                <Text
+                  style={{color: color.white, fontSize: 20, fontWeight: '600'}}>
+                  {_profile.first_name}
+                </Text>
+                <Text
+                  style={{color: color.white, fontSize: 15, fontWeight: '600'}}>
+                  {_profile.email}
+                </Text>
+              </View>
             </>
           ) : (
-            <Text style={{color: color.white, fontSize: 30, fontWeight: '600'}}>
-              Settings
-            </Text>
+            <View
+              style={{
+                flex: 1,
+                padding: 5,
+                justifyContent: 'flex-end',
+              }}>
+              <Text
+                style={{
+                  color: color.white,
+                  fontSize: 30,
+                  fontWeight: '600',
+                }}>
+                Settings
+              </Text>
+            </View>
           )}
         </View>
         <ScrollView contentContainerStyle={tw`bg-[#edf2f2]`}>
@@ -130,7 +154,12 @@ const Settings = ({navigation}) => {
                 <Text style={[styles.button_text]}>About Us</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
-                <Text style={[styles.button_text, {color: 'red'}]}>Logout</Text>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Logout name="log-out" color="red" size={20} />
+                  <Text style={[styles.button_text, {color: 'red'}]}>
+                    Logout
+                  </Text>
+                </View>
               </TouchableOpacity>
             </>
           ) : (

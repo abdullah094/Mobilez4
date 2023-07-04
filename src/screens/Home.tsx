@@ -29,7 +29,6 @@ import RecentList from '../components/RecentList';
 import {color} from '../constants/Colors';
 import {Category, Profile} from '../types';
 import SearchScreen from './SearchScreen';
-
 const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {
   const [profile, setProfile] = useState<Profile | null>();

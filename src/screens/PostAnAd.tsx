@@ -84,8 +84,10 @@ const PostAnAd = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isOtp, setOTP] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [isOtherModel, setIsOtherModel] = useState(false);
+  const [isOtherModel, setIsOtherModel] = useState(true);
   const [isOtherBrand, setIsOtherBrand] = useState(false);
+  const [isMobile, setisMobile] = useState<boolean>(true);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -185,7 +187,7 @@ const PostAnAd = () => {
         const data = response.data;
         console.log({data});
         if (data.status === 419) {
-          Alert.alert(response.data.errors);
+          Alert.alert(response.data.message);
           setSubmitText('Submit');
           return;
         }
@@ -247,8 +249,15 @@ const PostAnAd = () => {
       )
       .then(response => {
         const data = response.data;
-        Alert.alert(data.message);
-        setOTP(true);
+
+        if (data.errors) {
+          Alert.alert(JSON.stringify(data.errors.phone_number[0]));
+          setOTP(false);
+        } else {
+          Alert.alert(data.message);
+          setOTP(true);
+        }
+
         setTimeout(() => {
           setDisabled(false);
         }, 30000);
@@ -369,7 +378,15 @@ const PostAnAd = () => {
                     boxStyles={styles.box}
                     placeholder="Category"
                     inputStyles={{color: 'grey'}}
-                    setSelected={val => setForm({...form, category: val})}
+                    setSelected={val => {
+                      if (val == 'Mobile') {
+                        setisMobile(true);
+                      } else {
+                        setisMobile(false);
+                        setForm({...form, model: ''});
+                      }
+                      setForm({...form, category: val});
+                    }}
                     data={CategoryData}
                     save="value"
                     dropdownTextStyles={{color: 'black'}}
@@ -386,6 +403,7 @@ const PostAnAd = () => {
                     setSelected={val => {
                       if (val === 'Other') {
                         setIsOtherBrand(true);
+                        setForm({...form, brand: ''});
                       } else {
                         setIsOtherBrand(false);
                         setForm({...form, brand: val});
@@ -400,37 +418,50 @@ const PostAnAd = () => {
               {isOtherBrand && (
                 <TextInput
                   placeholder="Choose brand"
-                  placeholderTextColor={'black'}
+                  placeholderTextColor={'grey'}
                   style={styles.box_input}
                   value={brand}
                   onChangeText={text => setBrand(text)}
                 />
               )}
-
-              <SelectList
-                boxStyles={styles.box}
-                placeholder="Choose model"
-                inputStyles={{color: 'black'}}
-                setSelected={val => {
-                  if (val === 'Other') {
-                    setIsOtherModel(true);
-                  } else {
-                    setIsOtherModel(false);
-                    setForm({...form, model: val});
-                  }
-                }}
-                data={models}
-                save="value"
-                dropdownTextStyles={{color: 'black'}}
-              />
-              {isOtherModel && (
+              {isMobile && isOtherModel ? (
+                <SelectList
+                  boxStyles={styles.box}
+                  placeholder="Choose model"
+                  inputStyles={{color: 'black'}}
+                  setSelected={val => {
+                    if (val === 'Other') {
+                      setIsOtherModel(true);
+                      setForm({...form, model: ''});
+                    } else {
+                      setIsOtherModel(false);
+                      setForm({...form, model: val});
+                    }
+                  }}
+                  data={models}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                />
+              ) : (
                 <TextInput
-                  placeholder="Choose Model"
+                  placeholder="Choose Model Input"
                   style={styles.box_input}
                   value={form.model ?? ''}
-                  onChangeText={text => setForm({...form, model: text})}
+                  onChangeText={text => {
+                    setForm({...form, model: text});
+                  }}
                 />
               )}
+              {isMobile && isOtherModel && isOtherBrand ? (
+                <TextInput
+                  placeholder="Choose Model Input"
+                  style={styles.box_input}
+                  value={form.model ?? ''}
+                  onChangeText={text => {
+                    setForm({...form, model: text});
+                  }}
+                />
+              ) : null}
               <TextInput
                 style={styles.box_input}
                 keyboardType="number-pad"
@@ -723,7 +754,7 @@ const PostAnAd = () => {
 
             <TouchableOpacity
               onPress={() => {
-                IsVerifiedStorage
+                !IsVerifiedStorage
                   ? Alert.alert('Please Verify OTP')
                   : PostAdFunc();
               }}

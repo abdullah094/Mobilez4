@@ -27,7 +27,11 @@ const Profile = ({navigation}) => {
         <ScrollView contentContainerStyle={{alignItems: 'center'}}>
           <Header title="Profile" />
           <View
-            style={{width: width, height: 50, backgroundColor: color.orange}}
+            style={{
+              width: width,
+              height: 50,
+              backgroundColor: color.orange,
+            }}
           />
           <Image
             source={{
@@ -41,6 +45,7 @@ const Profile = ({navigation}) => {
               borderRadius: image_dimension / 2,
               borderWidth: 1,
               bottom: 65,
+              left: 10,
             }}
           />
           <Text style={styles.h1}>{profile.first_name}</Text>

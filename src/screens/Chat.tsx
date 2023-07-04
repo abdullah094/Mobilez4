@@ -41,7 +41,7 @@ const ChatScreen = ({navigation}) => {
   const accessToken = useSelector(selectAccessToken);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const params = route.params as {to: User};
-
+  console.log('========', params?.to);
   const [from_id, setFrom_id] = useState(1);
   const [to_id, setTo_id] = useState(2);
   const [refreshing, setRefreshing] = useState(false);
@@ -102,6 +102,8 @@ const ChatScreen = ({navigation}) => {
 
   const fetchMessages = () => {
     // setMessages([])
+    console.log(FETCH_MESSAGES);
+
     axios
       .post(
         FETCH_MESSAGES,
@@ -191,71 +193,98 @@ const ChatScreen = ({navigation}) => {
       .catch((reason: AxiosError) => {
         if (reason.response!.status === 401) {
           dispatch(logoutUser);
-          navigation.navigate('Login');
+          // navigation.navigate('Login');
         }
         console.log(reason?.message);
       });
-  }, [route]);
+  }, [route, accessToken]);
   return (
     <SafeAreaView style={tw`flex-1`}>
-      <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-        <FlatList
-          data={contacts}
-          keyExtractor={item => item.id.toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({item, index}) => (
-            <TouchableOpacity onPress={() => setTo_id(item.id)}>
-              <View
-                style={tw`w-[70px] items-center justify-center m-2 shadow-md rounded-lg bg-white p-2`}>
-                <Image
-                  style={tw`w-10  h-10  rounded-full border-red-600 ${
-                    to_id === item.id ? 'border-2' : 'border-0'
-                  }`}
-                  resizeMode="contain"
-                  source={
-                    item.photo
-                      ? {
-                          uri: item.photo.includes('http')
-                            ? item.photo
-                            : base_url + item.photo,
-                        }
-                      : require('../assets/mobile-logo.png')
-                  }
-                />
-                <Text
-                  style={{fontSize: 12, fontWeight: '500', color: 'black'}}
-                  numberOfLines={1}>
-                  {item.first_name}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+      {contacts.length === 0 && accessToken && (
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: 'black', fontWeight: '700', fontSize: 16}}>
+            You haven't Chated to anyone
+          </Text>
+        </View>
+      )}
+      {!accessToken ? (
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: 'black', fontWeight: '700', fontSize: 16}}>
+            Please Log in to see your chat
+          </Text>
+        </View>
+      ) : (
+        <>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <FlatList
+              data={contacts}
+              keyExtractor={item => item.id.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              renderItem={({item, index}) => (
+                <TouchableOpacity onPress={() => setTo_id(item.id)}>
+                  <View
+                    style={tw`w-[70px] items-center justify-center m-2 shadow-md rounded-lg bg-white p-2`}>
+                    <Image
+                      style={tw`w-10  h-10  rounded-full border-red-600 ${
+                        to_id === item.id ? 'border-2' : 'border-0'
+                      }`}
+                      resizeMode="contain"
+                      source={
+                        item.photo
+                          ? {
+                              uri: item.photo.includes('http')
+                                ? item.photo
+                                : base_url + item.photo,
+                            }
+                          : require('../assets/mobile-logo.png')
+                      }
+                    />
+                    <Text
+                      style={{fontSize: 12, fontWeight: '500', color: 'black'}}
+                      numberOfLines={1}>
+                      {item.first_name}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
 
-      <GiftedChat
-        onRefresh={() => onRefreshChat()}
-        refreshing={refreshing}
-        messages={messages}
-        showUserAvatar={false}
-        placeholder="Type text here"
-        renderUsernameOnMessage={true}
-        isLoadingEarlier={true}
-        alwaysShowSend={true}
-        optionTintColor="black"
-        // loadEarlier={true}
-        isKeyboardInternallyHandled={true}
-        // isLoadingEarlier={true}
-        // isTyping={true}
-        textInputStyle={tw`text-black`}
-        onSend={newMessages => {
-          onSend(newMessages), sendMessageToServer(newMessages);
-        }}
-        user={{
-          _id: from_id,
-        }}
-      />
+          <GiftedChat
+            onRefresh={() => onRefreshChat()}
+            refreshing={refreshing}
+            messages={messages}
+            showUserAvatar={false}
+            placeholder="Type text here"
+            renderUsernameOnMessage={true}
+            isLoadingEarlier={true}
+            alwaysShowSend={true}
+            optionTintColor="black"
+            // loadEarlier={true}
+            isKeyboardInternallyHandled={true}
+            // isLoadingEarlier={true}
+            // isTyping={true}
+            textInputStyle={tw`text-black`}
+            onSend={newMessages => {
+              onSend(newMessages), sendMessageToServer(newMessages);
+            }}
+            user={{
+              _id: from_id,
+            }}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 };

@@ -12,7 +12,7 @@ import {
 import tw from 'twrnc';
 import Header from '../components/Header';
 
-const AccountMangemet = () => {
+const AccountManagement = () => {
   const openURI = async () => {
     const url = 'https://www.mobilezmarket.com/manage-account';
     const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
@@ -26,7 +26,7 @@ const AccountMangemet = () => {
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <ScrollView>
-          <Header title="Accout Mangement" />
+          <Header title="Account Management" />
           <View
             style={{
               justifyContent: 'center',
@@ -48,13 +48,15 @@ const AccountMangemet = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                1. Visit the Mobilez Market account management page by clicking
-                on the following link:
+                1. Visit the Mobilez Market Login page by clicking on the
+                following link:
               </Text>
               <TouchableOpacity
                 style={{paddingHorizontal: 10}}
                 onPress={openURI}>
-                <Text>https://www.mobilezmarket.com/manage-account.</Text>
+                <Text style={{color: '#015dcf'}}>
+                  https://www.mobilezmarket.com/signin
+                </Text>
               </TouchableOpacity>
               <Text
                 style={{
@@ -62,7 +64,31 @@ const AccountMangemet = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                2. Once you're on the account management page, locate the
+                Login Your Account then
+              </Text>
+              <Text
+                style={{
+                  padding: 10,
+                  fontWeight: '400',
+                  color: 'black',
+                }}>
+                2. Visit the Mobilez Market account management page by clicking
+                on the following link:
+              </Text>
+              <TouchableOpacity
+                style={{paddingHorizontal: 10}}
+                onPress={openURI}>
+                <Text style={{color: '#015dcf'}}>
+                  https://www.mobilezmarket.com/manage-account.
+                </Text>
+              </TouchableOpacity>
+              <Text
+                style={{
+                  padding: 10,
+                  fontWeight: '400',
+                  color: 'black',
+                }}>
+                3. Once you're on the account management page, locate the
                 section where you need to submit your email and user ID. This
                 information can typically be found on your user details page
                 within the application.
@@ -73,7 +99,7 @@ const AccountMangemet = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                3. Enter your email address and user ID in the respective fields
+                4. Enter your email address and user ID in the respective fields
                 provided.
               </Text>
               <Text
@@ -82,7 +108,7 @@ const AccountMangemet = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                4. Double-check the entered information to ensure accuracy.
+                5. Double-check the entered information to ensure accuracy.
                 Deleting your account is irreversible, so it's crucial to make
                 sure you're deleting the correct account.
               </Text>
@@ -92,7 +118,7 @@ const AccountMangemet = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                5. After verifying your email and user ID, click on the "Submit"
+                6. After verifying your email and user ID, click on the "Submit"
                 button to proceed with the account deletion process.
               </Text>
               <Text
@@ -111,7 +137,7 @@ const AccountMangemet = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                6. If you are certain that you want to delete your account,
+                7. If you are certain that you want to delete your account,
                 click on the "Confirm" or "Delete Account" button, depending on
                 the wording used on the confirmation message.
               </Text>
@@ -121,7 +147,7 @@ const AccountMangemet = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                7. The application will process your request and permanently
+                8. The application will process your request and permanently
                 delete your user account. You will no longer have access to your
                 account or any associated data.
               </Text>
@@ -131,7 +157,7 @@ const AccountMangemet = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                8. It's important to note that once the account is deleted, it
+                9. It's important to note that once the account is deleted, it
                 cannot be recovered. Therefore, ensure that you have backed up
                 any important data or information you may need before proceeding
                 with the deletion.
@@ -144,6 +170,6 @@ const AccountMangemet = () => {
   );
 };
 
-export default AccountMangemet;
+export default AccountManagement;
 
 const styles = StyleSheet.create({});

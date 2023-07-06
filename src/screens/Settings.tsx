@@ -153,6 +153,11 @@ const Settings = ({navigation}) => {
                 onPress={() => navigation.navigate('AboutUs')}>
                 <Text style={[styles.button_text]}>About Us</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('AccountMangemet')}>
+                <Text style={[styles.button_text]}>Account Mangemet</Text>
+              </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Logout name="log-out" color="red" size={20} />

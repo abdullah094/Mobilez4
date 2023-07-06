@@ -7,6 +7,7 @@ import Store from './src/Redux/Store';
 import Welcome from './src/components/Welcome';
 import TabNavigation from './src/navigation/TabNavigation';
 import AboutUs from './src/screens/AboutUs';
+import AccountMangemet from './src/screens/AccountMangemet';
 import BlogDetails from './src/screens/BlogDetails';
 import Blogs from './src/screens/Blogs';
 import ChatScreen from './src/screens/Chat';
@@ -31,7 +32,6 @@ import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
 import WishlistComponent from './src/screens/WishlistComponent';
 import {IndexParamList} from './src/types';
-
 const App = () => {
   const Stack = createNativeStackNavigator<IndexParamList>();
   const [loading, setLoading] = useState(true);
@@ -175,6 +175,11 @@ const App = () => {
               options={{headerShown: false}}
               name="WhishlistComponent"
               component={WishlistComponent}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="AccountMangemet"
+              component={AccountMangemet}
             />
           </Stack.Navigator>
         </NavigationContainer>

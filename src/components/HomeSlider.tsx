@@ -51,7 +51,7 @@ const HomeSlider = () => {
           autoplay
           data={sliderImages}
           renderItem={_renderItem}
-          sliderWidth={width - 25}
+          sliderWidth={width - 38}
           itemWidth={width - 20}
           layout={'stack'}
         />

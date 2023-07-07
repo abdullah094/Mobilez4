@@ -62,11 +62,12 @@ const PostAnAd = () => {
   const navigation = useNavigation<IndexNavigationProps<'PostAnAd'>>();
   const [brands, setBrands] = useState<IDropDown[]>([]);
   const [models, setModels] = useState<IDropDown[]>([]);
+  const [viewType, setViewType] = useState<string>('');
   const [condition, setCondition] = useState(false);
   const _accessToken = useSelector(selectAccessToken);
   const [approved, setApproved] = useState([
     {key: 1, value: 'Approved'},
-    {key: 2, value: 'Non Approved'},
+    {key: 2, value: 'Not Approved'},
   ]);
 
   const [toggleAccessories, setToggleAccessories] = useState({
@@ -85,9 +86,9 @@ const PostAnAd = () => {
   const [isOtp, setOTP] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [isOtherModel, setIsOtherModel] = useState(true);
-  const [isOtherBrand, setIsOtherBrand] = useState(false);
+  const [isOtherBrand, setIsOtherBrand] = useState(true);
   const [isMobile, setisMobile] = useState<boolean>(true);
-
+  const [isTablet, setisTablet] = useState<boolean>(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -341,6 +342,25 @@ const PostAnAd = () => {
       : Alert.alert('Please Login First');
   };
 
+  // useEffect(() => {
+  //   console.log(form.brand, 'form.brand');
+  //   if (form.category === 'Mobile' && form.brand?.includes('Other')) {
+  //     setViewType('brand_model');
+  //   } else {
+  //     setViewType('');
+  //   }
+
+  //   if (form.category === 'Tablet') {
+  //     setViewType('model');
+  //   } else if (form.category === 'Tablet' && form.brand?.includes('Other')) {
+  //   }
+  // }, [form]);
+
+  // console.log(
+  //   viewType,
+  //   'setTextInput__________________________________________________________',
+  // );
+  console.log('======================hel', form.model);
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
@@ -379,12 +399,6 @@ const PostAnAd = () => {
                     placeholder="Category"
                     inputStyles={{color: 'grey'}}
                     setSelected={val => {
-                      if (val == 'Mobile') {
-                        setisMobile(true);
-                      } else {
-                        setisMobile(false);
-                        setForm({...form, model: ''});
-                      }
                       setForm({...form, category: val});
                     }}
                     data={CategoryData}
@@ -401,13 +415,8 @@ const PostAnAd = () => {
                       // fontFamily: 'Geologica_Auto-Black',
                     }}
                     setSelected={val => {
-                      if (val === 'Other') {
-                        setIsOtherBrand(true);
-                        setForm({...form, brand: ''});
-                      } else {
-                        setIsOtherBrand(false);
-                        setForm({...form, brand: val});
-                      }
+                      setForm({...form, brand: val});
+                      setisTablet(false);
                     }}
                     data={brands}
                     save="value"
@@ -415,53 +424,89 @@ const PostAnAd = () => {
                   />
                 </View>
               </View>
-              {isOtherBrand && (
-                <TextInput
-                  placeholder="Choose brand"
-                  placeholderTextColor={'grey'}
-                  style={styles.box_input}
-                  value={brand}
-                  onChangeText={text => setBrand(text)}
-                />
-              )}
-              {isMobile && isOtherModel ? (
-                <SelectList
-                  boxStyles={styles.box}
-                  placeholder="Choose model"
-                  inputStyles={{color: 'black'}}
-                  setSelected={val => {
-                    if (val === 'Other') {
-                      setIsOtherModel(true);
-                      setForm({...form, model: ''});
-                    } else {
-                      setIsOtherModel(false);
-                      setForm({...form, model: val});
-                    }
-                  }}
-                  data={models}
-                  save="value"
-                  dropdownTextStyles={{color: 'black'}}
-                />
+              {/* {isOtherBrand && (
+                
+
+              )} */}
+              {(form.category === 'Mobile' && form.brand?.includes('Other')) ||
+              (form.category === 'Tablet' && form.brand?.includes('Other')) ||
+              (form.category === 'Watch' && form.brand?.includes('Other')) ? (
+                <>
+                  <TextInput
+                    placeholder="Choose brand"
+                    placeholderTextColor={'grey'}
+                    style={styles.box_input}
+                    value={brand}
+                    onChangeText={text => setBrand(text)}
+                  />
+                  <TextInput
+                    placeholder="Choose Model Input"
+                    style={styles.box_input}
+                    value={form.model ?? ''}
+                    onChangeText={text => {
+                      {
+                        setForm({...form, model: text});
+                      }
+                    }}
+                  />
+                </>
               ) : (
-                <TextInput
-                  placeholder="Choose Model Input"
-                  style={styles.box_input}
-                  value={form.model ?? ''}
-                  onChangeText={text => {
-                    setForm({...form, model: text});
-                  }}
-                />
+                <></>
               )}
-              {isMobile && isOtherModel && isOtherBrand ? (
-                <TextInput
-                  placeholder="Choose Model Input"
-                  style={styles.box_input}
-                  value={form.model ?? ''}
-                  onChangeText={text => {
-                    setForm({...form, model: text});
-                  }}
-                />
-              ) : null}
+
+              {form.category === 'Tablet' || form.category === 'Watch' ? (
+                <>
+                  {!form.brand?.includes('Other') && (
+                    <>
+                      <TextInput
+                        placeholder="Choose Model Input"
+                        style={styles.box_input}
+                        value={form.model ?? ''}
+                        onChangeText={text => {
+                          {
+                            setForm({...form, model: text});
+                          }
+                        }}
+                      />
+                    </>
+                  )}
+                </>
+              ) : (
+                <></>
+              )}
+
+              {form.category === 'Mobile' && !form.brand?.includes('Other') ? (
+                <>
+                  <SelectList
+                    boxStyles={styles.box}
+                    placeholder="Choose model"
+                    inputStyles={{color: 'black'}}
+                    setSelected={val => {
+                      setIsOtherModel(false);
+                      setForm({...form, model: val, otherModel: val});
+                    }}
+                    data={models}
+                    save="value"
+                    dropdownTextStyles={{color: 'black'}}
+                  />
+                </>
+              ) : (
+                ''
+              )}
+              {form.otherModel?.includes('Other') && (
+                <>
+                  <TextInput
+                    placeholder="Choose Model Input"
+                    style={styles.box_input}
+                    onChangeText={text => {
+                      {
+                        setForm({...form, model: text});
+                      }
+                    }}
+                  />
+                </>
+              )}
+
               <TextInput
                 style={styles.box_input}
                 keyboardType="number-pad"

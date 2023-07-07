@@ -202,6 +202,7 @@ export interface Form {
   max_price?: string | null;
   min_price?: string | null;
   model?: string | null;
+  otherModel?: string | null;
   price?: string | null;
   product_type?: '' | 'Used' | 'Refurbished';
   image?: Asset[];
@@ -309,9 +310,9 @@ export interface Product {
   user: User;
 }
 
-import {RouteProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Asset} from 'react-native-image-picker';
+import { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Asset } from 'react-native-image-picker';
 
 export type IndexParamList = {
   Home: undefined;

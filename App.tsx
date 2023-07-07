@@ -1,3 +1,4 @@
+import messaging from '@react-native-firebase/messaging';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
@@ -32,6 +33,7 @@ import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
 import WishlistComponent from './src/screens/WishlistComponent';
 import {IndexParamList} from './src/types';
+
 const App = () => {
   const Stack = createNativeStackNavigator<IndexParamList>();
   const [loading, setLoading] = useState(true);
@@ -44,6 +46,18 @@ const App = () => {
   if (loading) {
     return <Welcome />;
   }
+
+  const getFCMToken = async () => {
+    try {
+      const token = await messaging().getToken();
+      console.log('FCM Token:', token);
+      // Save or use the token as needed
+    } catch (error) {
+      console.log('Error getting FCM token:', error);
+    }
+  };
+  getFCMToken();
+  console.log('=======', getFCMToken());
 
   return (
     <Provider store={Store}>

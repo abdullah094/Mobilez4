@@ -15,10 +15,10 @@ const Notifications = () => {
     // Display a notification
     await notifee.displayNotification({
       title: 'Notification Title',
-      body: 'Main body content of the notification',
+      body: 'new product has been updated',
       android: {
         channelId,
-        smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
+        smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
         // pressAction is needed if you want the notification to open the app when pressed
         pressAction: {
           id: 'default',

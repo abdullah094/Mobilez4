@@ -8,7 +8,7 @@ import Store from './src/Redux/Store';
 import Welcome from './src/components/Welcome';
 import TabNavigation from './src/navigation/TabNavigation';
 import AboutUs from './src/screens/AboutUs';
-import AccountMangemet from './src/screens/AccountMangemet';
+import AccountManagement from './src/screens/AccountManagement';
 import BlogDetails from './src/screens/BlogDetails';
 import Blogs from './src/screens/Blogs';
 import ChatScreen from './src/screens/Chat';
@@ -192,8 +192,8 @@ const App = () => {
             />
             <Stack.Screen
               options={{headerShown: false}}
-              name="AccountMangemet"
-              component={AccountMangemet}
+              name="AccountManagement"
+              component={AccountManagement}
             />
           </Stack.Navigator>
         </NavigationContainer>

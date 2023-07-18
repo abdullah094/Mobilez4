@@ -40,6 +40,7 @@ module.exports = {
           'CONTACTS',
           'BRANDS_NO_AUTH',
           'SOCIAL_LOGIN',
+          ' SELL_AD',
         ],
       },
     ],

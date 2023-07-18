@@ -26,7 +26,7 @@ const GridItem = ({item}: {item: Product}) => {
   });
   let nowDate = new Date();
   nowDate.setDate(nowDate.getDate() - 1);
-
+  console.log('=====', item.sell_status);
   return (
     <>
       <TouchableOpacity
@@ -47,7 +47,49 @@ const GridItem = ({item}: {item: Product}) => {
           width: width * 0.45,
         }}
         onPress={() => navigation.push('ProductPage', {id: item.id})}>
-        {nowDate < date && (
+        {item.sell_status === 'Sold' ? (
+          <View
+            style={{
+              position: 'absolute',
+              left: 5,
+              zIndex: 10,
+              backgroundColor: color.red,
+              borderWidth: 1,
+              borderColor: color.red,
+              width: 50,
+              height: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 10,
+            }}>
+            <Text style={{color: 'white', fontSize: 11, fontWeight: '600'}}>
+              Sold
+            </Text>
+          </View>
+        ) : (
+          nowDate < date && (
+            <View
+              style={{
+                position: 'absolute',
+                left: 5,
+                zIndex: 10,
+                backgroundColor: color.red,
+                borderWidth: 1,
+                borderColor: color.red,
+                width: 50,
+                height: 25,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 10,
+              }}>
+              <Text style={{color: 'white', fontSize: 11, fontWeight: '600'}}>
+                New
+              </Text>
+            </View>
+          )
+        )}
+
+        {/* {nowDate < date && (
           <View
             style={{
               position: 'absolute',
@@ -66,7 +108,7 @@ const GridItem = ({item}: {item: Product}) => {
               New
             </Text>
           </View>
-        )}
+        )} */}
         <View style={tw`w-full h-52 justify-between `}>
           <Image
             style={{
@@ -84,6 +126,7 @@ const GridItem = ({item}: {item: Product}) => {
             size={15}
             style={tw` absolute w-7 h-7 flex items-center justify-center top-0 right-0 bg-gray-100 rounded-full`}
           />
+
           <View>
             <View>
               <Text

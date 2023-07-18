@@ -1,5 +1,5 @@
 import {DESCRIPTION} from '@env';
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
   Alert,
@@ -20,16 +20,20 @@ import call from 'react-native-phone-call';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
+import {selectAccessToken} from '../Redux/Slices';
 import AddToWishList from '../components/AddToWishList';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import RecentList from '../components/RecentList';
 import {color} from '../constants/Colors';
 import {Category, ProductDetails} from '../types';
-
 const {height, width} = Dimensions.get('window');
 const ProductPage = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const accessToken = useSelector(selectAccessToken);
+
   const [data, setData] = useState<ProductDetails>();
   const {id} = route.params;
   const image_url = 'https://www.mobilezmarket.com/images/';
@@ -41,16 +45,18 @@ const ProductPage = ({navigation, route}) => {
       .get(api)
       .then(response => {
         setData(response?.data);
+
         // console.log('Response======', response.data.related_ads);
       })
-      .catch(error => {
-        console.log(error);
+      .catch((reason: AxiosError) => {
+        console.log(reason?.message);
       });
   };
 
   useEffect(() => {
     fetchData();
   }, []);
+  console.log('lllllll', accessToken);
 
   if (!data) return <Loading />;
   const {details, related_ads, more_ads} = data;
@@ -112,7 +118,11 @@ const ProductPage = ({navigation, route}) => {
       ]}>
       <TouchableOpacity
         style={styles.commmunication_buttons}
-        onPress={() => call(args).catch(console.error)}>
+        onPress={() => {
+          accessToken
+            ? call(args).catch(console.error)
+            : navigation.navigate('Login');
+        }}>
         <Ionicons name="call-outline" size={25} color={color.white} />
         <Text style={styles.communication_buttons_text}>Call</Text>
       </TouchableOpacity>
@@ -120,25 +130,25 @@ const ProductPage = ({navigation, route}) => {
       <TouchableOpacity
         style={styles.commmunication_buttons}
         onPress={() => {
-          console.log(args.number);
           const message = 'Hi';
           const upLink = link + args.number + `?text=${data.url}`;
-
-          Linking.canOpenURL(link)
-            .then(supported => {
-              if (!supported) {
-                Alert.alert(
-                  'Please install whats app to send direct message to students via whats app',
-                );
-                Linking.openURL(
-                  `${link}${args.number}?text="I'm%20interested%20in%20your%20car%20for%20sale"`,
-                );
-                // Linking.openURL('whatsapp://send');
-              } else {
-                return Linking.openURL(upLink);
-              }
-            })
-            .catch(err => console.error('An error occurred', err));
+          accessToken
+            ? Linking.canOpenURL(link)
+                .then(supported => {
+                  if (!supported) {
+                    Alert.alert(
+                      'Please install whats app to send direct message to students via whats app',
+                    );
+                    Linking.openURL(
+                      `${link}${args.number}?text="I'm%20interested%20in%20your%20car%20for%20sale"`,
+                    );
+                    // Linking.openURL('whatsapp://send');
+                  } else {
+                    return Linking.openURL(upLink);
+                  }
+                })
+                .catch(err => console.error('An error occurred', err))
+            : navigation.navigate('Login');
         }}>
         <FontAwesome name={'whatsapp'} size={25} color={'white'} />
         <Text style={styles.communication_buttons_text}>Whatsapp</Text>
@@ -146,7 +156,9 @@ const ProductPage = ({navigation, route}) => {
       <TouchableOpacity
         style={styles.commmunication_buttons}
         onPress={() => {
-          navigation.navigate('Chat', {to: data?.details?.user});
+          accessToken
+            ? navigation.navigate('Chat', {to: data?.details?.user})
+            : navigation.navigate('Login');
         }}>
         <Ionicons name={'ios-chatbubbles-outline'} size={25} color={'white'} />
 
@@ -440,6 +452,22 @@ const ProductPage = ({navigation, route}) => {
                       alignItems: 'center',
                     }}>
                     {data.details.user.shop_name}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    position: 'absolute',
+                    right: 0,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: color.red,
+                      fontWeight: '700',
+                      paddingHorizontal: 5,
+                      alignItems: 'center',
+                    }}>
+                    {data.details.sell_status}
                   </Text>
                 </View>
                 <View

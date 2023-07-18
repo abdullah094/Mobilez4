@@ -31,4 +31,6 @@ declare module '@env' {
   export const CONTACTS: string;
   export const BRANDS_NO_AUTH: string;
   export const SOCIAL_LOGIN: string;
+  export const VERSION_V:string
+  export const SELL_AD :string
 }

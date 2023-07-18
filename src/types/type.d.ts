@@ -191,7 +191,7 @@ export interface Contact {
 }
 
 export interface Form {
-  category?: Category;
+  category?: Category | string;
   brand?: string | null;
   ram?: string | null;
   storage?: string | null;
@@ -204,11 +204,12 @@ export interface Form {
   model?: string | null;
   otherModel?: string | null;
   price?: string | null;
-  product_type?: '' | 'Used' | 'Refurbished';
+  product_type?: 'New' | 'Used' | 'Refurbished'|null | "";
   image?: Asset[];
   description?: string | null;
   warranty?: string | null;
   accessories?: [string];
+  othertextModel?: string |null
 }
 export interface iImages {
   uri: any;
@@ -308,6 +309,8 @@ export interface Product {
   updated_at: Date;
   image: Image;
   user: User;
+  sold:boolean;
+
 }
 
 import { RouteProp } from '@react-navigation/native';

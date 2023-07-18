@@ -34,7 +34,7 @@ const WishlistComponent = () => {
         //   dispatch(logoutUser);
         //   navigation.navigate('Login');
         // }
-        console.log(reason.message);
+        // console.log(reason.message);
       });
   }, []);
   return (

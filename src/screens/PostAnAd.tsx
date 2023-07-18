@@ -1,9 +1,10 @@
-import {BRANDS, MODELS, POST_AN_AD, SUBMIT_OTP} from '@env';
+import {BRANDS, DESCRIPTION, MODELS, POST_AN_AD, SUBMIT_OTP} from '@env';
+
 import CheckBox from '@react-native-community/checkbox';
-import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import axios, {AxiosError} from 'axios';
 import FormData from 'form-data';
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, {ReactNode, useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -54,17 +55,24 @@ import {
 const {width, height} = Dimensions.get('window');
 
 const PostAnAd = () => {
+  const route = useRoute();
+  const id = route?.params?.id || 20;
+  const from = route.params?.from || 'Post';
+
+  console.log(id, from);
+
   const profileData = useSelector(selectProfileData) as Profile;
   const [IsVerifiedStorage, setIsVerifiedStorage] = useState(false);
   const [submitText, setSubmitText] = useState('Submit');
   const [otp, setOtp] = useState('');
 
   const navigation = useNavigation<IndexNavigationProps<'PostAnAd'>>();
-  const [brands, setBrands] = useState<IDropDown[]>([]);
+  const [brands, setBrands] = useState<IDropDown[] | null>([]);
   const [models, setModels] = useState<IDropDown[]>([]);
   const [viewType, setViewType] = useState<string>('');
   const [condition, setCondition] = useState(false);
   const _accessToken = useSelector(selectAccessToken);
+  const [otherModels, setOtherModels] = useState(false);
   const [approved, setApproved] = useState([
     {key: 1, value: 'Approved'},
     {key: 2, value: 'Not Approved'},
@@ -89,6 +97,17 @@ const PostAnAd = () => {
   const [isOtherBrand, setIsOtherBrand] = useState(true);
   const [isMobile, setisMobile] = useState<boolean>(true);
   const [isTablet, setisTablet] = useState<boolean>(true);
+  // const [brand, setBrand] = useState<string>();
+  const [model, setModel] = useState<string>();
+  const [price, setPrice] = useState<string>();
+  const [storage, setStorage] = useState<string>();
+  const [ram, setRam] = useState<string>();
+  const [productType, setProductType] = useState<string>();
+  const [description, setDescription] = useState<string>();
+  const [warrenty, setWarrenty] = useState<string>();
+  const [category, setCategory] = useState<string>();
+  const [ptaStatus, setPtaStatus] = useState<string>();
+  const [desc, setDesc] = useState();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -101,19 +120,44 @@ const PostAnAd = () => {
   }, [profileData]);
 
   const [form, setForm] = useState<Form>({
-    brand: '',
-    model: '',
-    price: '',
-    storage: '',
-    ram: '',
-    product_type: '',
-    pta_status: '',
+    brand: null,
+    model: null,
+    price: null,
+    storage: null,
+    ram: null,
+    product_type: null,
+    pta_status: null,
     image: [],
-    description: '',
-    warranty: '',
+    description: null,
+    warranty: null,
+    otherModel: null,
     category: Category.PHONE,
     accessories: ['box'],
   });
+  useEffect(() => {
+    setToggleAccessories({
+      box: false,
+      charger: false,
+      data_cable: false,
+      handfree: false,
+      kit_only: false,
+    });
+
+    setForm(prevForm => ({
+      ...prevForm,
+      brand: null,
+      model: null,
+      price: null,
+      storage: null,
+      ram: null,
+      product_type: null,
+      pta_status: null,
+      image: [],
+      description: null,
+      warranty: null,
+      otherModel: null,
+    }));
+  }, [form.category]);
 
   // condition logic
   if (form.product_type === 'Used' || form.product_type === 'Refurbished') {
@@ -341,8 +385,12 @@ const PostAnAd = () => {
           })
       : Alert.alert('Please Login First');
   };
-
-  // useEffect(() => {
+  console.log('brsndssssssssssss', brands);
+  useEffect(() => {
+    form.model?.includes('Other')
+      ? setOtherModels(true)
+      : setOtherModels(false);
+  }, [form.model]); // useEffect(() => {
   //   console.log(form.brand, 'form.brand');
   //   if (form.category === 'Mobile' && form.brand?.includes('Other')) {
   //     setViewType('brand_model');
@@ -361,6 +409,54 @@ const PostAnAd = () => {
   //   'setTextInput__________________________________________________________',
   // );
   console.log('======================hel', form.model);
+
+  const fetchData = () => {
+    const api = DESCRIPTION + id;
+    // console.log(api)
+    axios
+      .get(api)
+      .then(response => {
+        setDesc(response?.data);
+
+        // console.log('Response======', response.data.related_ads);
+      })
+      .catch((reason: AxiosError) => {
+        console.log(reason?.message);
+      });
+  };
+  if (from === 'Edit') {
+    useEffect(() => {
+      fetchData();
+    }, []);
+  }
+
+  const updateMyAd = useCallback(() => {
+    axios
+      .post(
+        `https://www.mobilezmarket.com/api/update-ad/${id}`,
+        {
+          brand: brand,
+          model: model,
+          storage: storage,
+          price: price,
+          ram: ram,
+          productType: productType,
+          description: description,
+          warrenty: warrenty,
+          category: category,
+          ptaStatus: ptaStatus,
+        },
+        {
+          headers: {Authorization: `Bearer ${_accessToken}`},
+        },
+      )
+      .then(response => {
+        console.log('Updated Ad ');
+      })
+      .catch(error => {
+        console.log('hello', error);
+      });
+  }, [_accessToken]);
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
@@ -428,21 +524,19 @@ const PostAnAd = () => {
                 
 
               )} */}
-              {(form.category === 'Mobile' && form.brand?.includes('Other')) ||
-              (form.category === 'Tablet' && form.brand?.includes('Other')) ||
-              (form.category === 'Watch' && form.brand?.includes('Other')) ? (
+              {form.category === 'Mobile' && form.brand?.includes('Other') ? (
                 <>
                   <TextInput
-                    placeholder="Choose brand"
-                    placeholderTextColor={'grey'}
+                    placeholder="Enter brand"
+                    placeholderTextColor={'gray'}
                     style={styles.box_input}
                     value={brand}
                     onChangeText={text => setBrand(text)}
                   />
                   <TextInput
-                    placeholder="Choose Model Input"
+                    placeholder="Enter Model"
+                    placeholderTextColor={'gray'}
                     style={styles.box_input}
-                    value={form.model ?? ''}
                     onChangeText={text => {
                       {
                         setForm({...form, model: text});
@@ -456,20 +550,16 @@ const PostAnAd = () => {
 
               {form.category === 'Tablet' || form.category === 'Watch' ? (
                 <>
-                  {!form.brand?.includes('Other') && (
-                    <>
-                      <TextInput
-                        placeholder="Choose Model Input"
-                        style={styles.box_input}
-                        value={form.model ?? ''}
-                        onChangeText={text => {
-                          {
-                            setForm({...form, model: text});
-                          }
-                        }}
-                      />
-                    </>
-                  )}
+                  <TextInput
+                    placeholder="Choose model "
+                    placeholderTextColor={'gray'}
+                    style={styles.box_input}
+                    onChangeText={text => {
+                      {
+                        setForm({...form, model: text});
+                      }
+                    }}
+                  />
                 </>
               ) : (
                 <></>
@@ -483,7 +573,7 @@ const PostAnAd = () => {
                     inputStyles={{color: 'black'}}
                     setSelected={val => {
                       setIsOtherModel(false);
-                      setForm({...form, model: val, otherModel: val});
+                      setForm({...form, model: val});
                     }}
                     data={models}
                     save="value"
@@ -491,64 +581,75 @@ const PostAnAd = () => {
                   />
                 </>
               ) : (
-                ''
+                <></>
               )}
-              {form.otherModel?.includes('Other') && (
-                <>
-                  <TextInput
-                    placeholder="Choose Model Input"
-                    style={styles.box_input}
-                    onChangeText={text => {
-                      {
-                        setForm({...form, model: text});
-                      }
-                    }}
-                  />
-                </>
-              )}
+              {form.category === 'Mobile' &&
+              !form.brand?.includes('Other') &&
+              form.model === 'Other' ? (
+                <TextInput
+                  placeholder="Enter Model"
+                  placeholderTextColor={'grey'}
+                  style={styles.box_input}
+                  value={form.otherModel}
+                  onChangeText={text => {
+                    {
+                      setForm({...form, otherModel: text});
+                    }
+                  }}
+                />
+              ) : null}
+              {/* {otherModels &&
+                form.category === 'Mobile' &&
+                form.model == 'Other' && (
+                
+                )} */}
 
               <TextInput
                 style={styles.box_input}
                 keyboardType="number-pad"
                 placeholder="Enter Price"
-                placeholderTextColor={'lightgrey'}
+                placeholderTextColor={'gray'}
                 value={form.price ?? ''}
                 onChangeText={text => setForm({...form, price: text})}
               />
-
-              <SelectList
-                boxStyles={styles.box}
-                // inputStyles={styles.box}
-                placeholder="Choose Ram"
-                inputStyles={{color: 'black'}}
-                setSelected={val =>
-                  setForm({...form, ram: val.replace(' GB', '')})
-                }
-                data={RamData}
-                save="value"
-                dropdownTextStyles={{color: 'black'}}
-              />
-
-              <SelectList
-                boxStyles={styles.box}
-                placeholder="PTA Status"
-                inputStyles={{color: 'black'}}
-                setSelected={val => setForm({...form, pta_status: val})}
-                data={approved}
-                save="value"
-                dropdownTextStyles={{color: 'black'}}
-              />
-              <SelectList
-                boxStyles={styles.box}
-                placeholder="Choose Storage"
-                inputStyles={{color: 'black'}}
-                setSelected={val =>
-                  setForm({...form, storage: val.replace(' GB', '')})
-                }
-                data={StorageData}
-                save="value"
-                dropdownTextStyles={{color: 'black'}}
-              />
+              {form.category === 'Watch' || (
+                <SelectList
+                  boxStyles={styles.box}
+                  // inputStyles={styles.box}
+                  placeholder="Choose Ram"
+                  inputStyles={{color: 'black'}}
+                  setSelected={val =>
+                    setForm({...form, ram: val.replace(' GB', '')})
+                  }
+                  data={RamData}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                />
+              )}
+              {form.category === 'Watch' || (
+                <SelectList
+                  boxStyles={styles.box}
+                  placeholder="PTA Status"
+                  inputStyles={{color: 'black'}}
+                  setSelected={val => setForm({...form, pta_status: val})}
+                  data={approved}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                />
+              )}
+              {form.category === 'Watch' || (
+                <SelectList
+                  boxStyles={styles.box}
+                  placeholder="Choose Storage"
+                  inputStyles={{color: 'black'}}
+                  setSelected={val =>
+                    setForm({...form, storage: val.replace(' GB', '')})
+                  }
+                  data={StorageData}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                />
+              )}
               <SelectList
                 boxStyles={styles.box}
                 placeholder="Product Condition"
@@ -845,7 +946,7 @@ const styles = StyleSheet.create({
     color: color.black,
     borderWidth: 1,
     marginTop: 10,
-    padding: 8,
+    padding: 9,
   },
   check_box_box: {flexDirection: 'row', alignItems: 'center', marginTop: 5},
   check_box_text: {color: color.black, paddingLeft: 5},

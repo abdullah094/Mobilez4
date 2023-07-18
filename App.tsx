@@ -2,9 +2,12 @@ import messaging from '@react-native-firebase/messaging';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
+import DeviceInfo from 'react-native-device-info';
 import {Provider as Paper} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import Store from './src/Redux/Store';
+import AdDeleteModaleScreen from './src/components/AdDeleteModaleScreen';
+import AppUpdateScreen from './src/components/AppUpdateComponent';
 import Welcome from './src/components/Welcome';
 import TabNavigation from './src/navigation/TabNavigation';
 import AboutUs from './src/screens/AboutUs';
@@ -14,6 +17,7 @@ import Blogs from './src/screens/Blogs';
 import ChatScreen from './src/screens/Chat';
 import CityList from './src/screens/CityList';
 import ContactUs from './src/screens/ContactUs';
+import EditScreen from './src/screens/EidtAdScreen';
 import Filter from './src/screens/Filter';
 import FindMyDevice from './src/screens/FindMyDevice';
 import ForgotPassword from './src/screens/ForgotPassword';
@@ -33,8 +37,8 @@ import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
 import WishlistComponent from './src/screens/WishlistComponent';
 import {IndexParamList} from './src/types';
-
 const App = () => {
+  const curVersion = DeviceInfo.getVersion();
   const Stack = createNativeStackNavigator<IndexParamList>();
   const [loading, setLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -43,6 +47,44 @@ const App = () => {
       setLoading(false);
     }, 800);
   }, []);
+  // const checkForUpdates = () => {
+  //   const inAppUpdates = new SpInAppUpdates(false); // isDebug
+
+  //   const curVersion = DeviceInfo.getVersion(); // Get the current version using react-native-device-info
+
+  //   let result = inAppUpdates.checkNeedsUpdate();
+
+  //   result
+  //     .then((result: any) => {
+  //       console.log('====bjb', result);
+
+  //       const latestVersion = result;
+
+  //       // <AppUpdateScreen />;
+
+  //       let updateOptions = {};
+  //       if (Platform.OS === 'android') {
+  //         updateOptions = {
+  //           updateType: IAUUpdateKind.FLEXIBLE,
+  //         };
+  //       }
+  //       const updatePrompt = inAppUpdates.startUpdate(updateOptions);
+  //       updatePrompt
+  //         .then(response => {
+  //           console.log('update response', response);
+  //         })
+  //         .catch(err => {
+  //           console.log('err', err);
+  //         });
+  //     })
+  //     .catch(error => {
+  //       console.error('Promise rejection error:', error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   checkForUpdates();
+  // }, []);
   if (loading) {
     return <Welcome />;
   }
@@ -194,6 +236,21 @@ const App = () => {
               options={{headerShown: false}}
               name="AccountManagement"
               component={AccountManagement}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="AppUpdateScreen"
+              component={AppUpdateScreen}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="EditScreen"
+              component={EditScreen}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="AdDeleteModaleScreen"
+              component={AdDeleteModaleScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>

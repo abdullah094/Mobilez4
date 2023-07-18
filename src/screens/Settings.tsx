@@ -156,7 +156,7 @@ const Settings = ({navigation}) => {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('AccountManagement')}>
-                <Text style={[styles.button_text]}>Account Mangemet</Text>
+                <Text style={[styles.button_text]}>Account Management</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>

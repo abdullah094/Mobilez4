@@ -7,6 +7,7 @@ import {Provider as Paper} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import Store from './src/Redux/Store';
 import AdDeleteModaleScreen from './src/components/AdDeleteModaleScreen';
+import AdEditModaleScreen from './src/components/AdEditModaleScreen';
 import AppUpdateScreen from './src/components/AppUpdateComponent';
 import Welcome from './src/components/Welcome';
 import TabNavigation from './src/navigation/TabNavigation';
@@ -246,6 +247,11 @@ const App = () => {
               options={{headerShown: false}}
               name="EditScreen"
               component={EditScreen}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="AdEditModaleScreen"
+              component={AdEditModaleScreen}
             />
             <Stack.Screen
               options={{headerShown: false}}

@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Modal} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import tw from 'twrnc';
@@ -18,7 +17,15 @@ import {IndexNavigationProps, Product} from '../types';
 import AddToWishList from './AddToWishList';
 const {width, height} = Dimensions.get('window');
 
-const ListItem = ({item, onPressList}: {item: Product; onPressList: any}) => {
+const ListItem = ({
+  item,
+  onPressList,
+  hideIcon = false,
+}: {
+  item: Product;
+  onPressList: any;
+  hideIcon: boolean;
+}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
   const navigation = useNavigation<IndexNavigationProps<'Home'>>();
   const dateString = item.created_at;
@@ -28,40 +35,6 @@ const ListItem = ({item, onPressList}: {item: Product; onPressList: any}) => {
     day: 'numeric',
   });
 
-  const BottomModal = ({visible, onClose}) => {
-    return (
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={visible}
-        onRequestClose={onClose}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => console.log('Add')}>
-              <Text style={styles.optionText}>Add</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => console.log('Edit')}>
-              <Text style={styles.optionText}>Edit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => console.log('Update')}>
-              <Text style={styles.optionText}>Update</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.optionButton}
-              onPress={() => console.log('Delete')}>
-              <Text style={styles.optionText}>Delete</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    );
-  };
   return (
     <>
       <TouchableOpacity
@@ -195,9 +168,11 @@ const ListItem = ({item, onPressList}: {item: Product; onPressList: any}) => {
                 {item?.user?.city}
               </Text>
             </View>
-            <Pressable onPress={onPressList}>
-              <Feather name="more-vertical" size={15} color={'grey'} />
-            </Pressable>
+            {!hideIcon && (
+              <Pressable onPress={onPressList}>
+                <Feather name="more-vertical" size={15} color={'grey'} />
+              </Pressable>
+            )}
           </View>
         </View>
       </TouchableOpacity>

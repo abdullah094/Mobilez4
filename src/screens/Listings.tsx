@@ -364,7 +364,9 @@ const Listings = () => {
               loadMoreResults(info);
             }}
             numColumns={2}
-            renderItem={({item}) => <GridItem item={item}></GridItem>}
+            renderItem={({item}) => (
+              <GridItem hideIcon={true} item={item}></GridItem>
+            )}
           />
         ) : (
           <FlatList
@@ -398,7 +400,9 @@ const Listings = () => {
               loadMoreResults(info);
             }}
             numColumns={1}
-            renderItem={({item}) => <ListItem item={item}></ListItem>}
+            renderItem={({item}) => (
+              <ListItem hideIcon={true} item={item}></ListItem>
+            )}
           />
         )}
         <View>

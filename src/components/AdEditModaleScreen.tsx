@@ -1,6 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -10,34 +9,12 @@ import {
 } from 'react-native';
 import {Modal} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {useSelector} from 'react-redux';
-import {selectAccessToken} from '../Redux/Slices';
 
-const AdDeleteModaleScreen = ({id, alert, setAlert}) => {
+const AdEditModaleScreen = ({id, alert, setAlert}) => {
   const [isVisible, setIsVisible] = useState(true);
   const navigation = useNavigation();
-  const _accessToken = useSelector(selectAccessToken);
-
   const _id: number = id;
-  const deleteFunc = useCallback(() => {
-    const url = `https://www.mobilezmarket.com/api/delete-my-add/${id}`;
-    axios
-      .post(
-        url,
-        {},
-        {
-          headers: {Authorization: `Bearer ${_accessToken}`},
-        },
-      )
-      .then(response => {
-        // setsellAD(response.data);
 
-        console.log('Ad deleted ');
-      })
-      .catch(error => {
-        console.log('hello', error);
-      });
-  }, [id, _accessToken]);
   return (
     <Modal visible={isVisible}>
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -94,7 +71,7 @@ const AdDeleteModaleScreen = ({id, alert, setAlert}) => {
               marginTop: 16,
             }}>
             <Text style={{color: 'grey'}}>
-              Are you sure you want to Delete your Ad
+              Are you sure you want to Edit your Ad
             </Text>
           </View>
 
@@ -107,7 +84,7 @@ const AdDeleteModaleScreen = ({id, alert, setAlert}) => {
               backgroundColor: 'orange',
             }}
             onPress={() => {
-              deleteFunc();
+              navigation.navigate('EditScreen', {id: _id});
               setIsVisible(false);
               setAlert(false);
             }}>
@@ -119,6 +96,6 @@ const AdDeleteModaleScreen = ({id, alert, setAlert}) => {
   );
 };
 
-export default AdDeleteModaleScreen;
+export default AdEditModaleScreen;
 
 const styles = StyleSheet.create({});

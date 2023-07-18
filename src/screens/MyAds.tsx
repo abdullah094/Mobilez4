@@ -22,6 +22,7 @@ import {useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {selectAccessToken} from '../Redux/Slices';
 import AdDeleteModaleScreen from '../components/AdDeleteModaleScreen';
+import AdEditModaleScreen from '../components/AdEditModaleScreen';
 import GridItem from '../components/GridItem';
 import Header from '../components/Header';
 import ListItem from '../components/ListItem';
@@ -43,7 +44,7 @@ const MyAds = ({navigation, isActive}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedAd, setselectedAd] = useState<number | null>(null);
   const [soldDisabled, setSoldDisabled] = useState<boolean>(false);
-
+  const [deleteModale, setDeleteModale] = useState<boolean>(false);
   const myAdd = () => {
     axios
       .get(MY_ADS, {
@@ -75,26 +76,6 @@ const MyAds = ({navigation, isActive}) => {
         console.log('hello', error);
       });
   }, [selectedAd]);
-
-  const deleteFunc = useCallback(() => {
-    const url = `https://www.mobilezmarket.com/api/delete-my-add/${selectedAd}`;
-    axios
-      .post(
-        url,
-        {},
-        {
-          headers: {Authorization: `Bearer ${_accessToken}`},
-        },
-      )
-      .then(response => {
-        // setsellAD(response.data);
-
-        console.log('Ad deleted ');
-      })
-      .catch(error => {
-        console.log('hello', error);
-      });
-  }, [selectedAd, _accessToken]);
 
   // const updateMyAd = useCallback(() => {
 
@@ -225,7 +206,11 @@ const MyAds = ({navigation, isActive}) => {
                   paddingBottom: 100,
                 }}
                 numColumns={2}
-                renderItem={({item}) => <GridItem item={item}></GridItem>}
+                renderItem={({item}) => (
+                  <GridItem
+                    item={item}
+                    onPressList={() => onOpenListModal(item.id)}></GridItem>
+                )}
               />
             ) : (
               <FlatList
@@ -258,7 +243,7 @@ const MyAds = ({navigation, isActive}) => {
 
             <View style={styles.modalContent}>
               <TouchableOpacity
-                disabled={soldDisabled}
+                disabled={false}
                 style={styles.optionButton}
                 onPress={async () => {
                   setModalVisible(true);
@@ -281,7 +266,10 @@ const MyAds = ({navigation, isActive}) => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.optionButton}
-                onPress={deleteFunc}
+                onPress={async () => {
+                  setDeleteModale(true);
+                  onHideListModal();
+                }}
                 onPressOut={onHideListModal}>
                 <Text style={styles.optionText}>Delete</Text>
               </TouchableOpacity>
@@ -290,10 +278,17 @@ const MyAds = ({navigation, isActive}) => {
         </Modal>
       </View>
       {modalVisible && (
-        <AdDeleteModaleScreen
+        <AdEditModaleScreen
           id={selectedAd}
           alert={modalVisible}
           setAlert={setModalVisible}
+        />
+      )}
+      {deleteModale && (
+        <AdDeleteModaleScreen
+          id={selectedAd}
+          alert={deleteModale}
+          setAlert={setDeleteModale}
         />
       )}
     </SafeAreaView>

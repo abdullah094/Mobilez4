@@ -144,7 +144,7 @@ const RecentList = ({
                 }}
                 horizontal
                 renderItem={({item}: {item: Product}) => (
-                  <GridItem item={item}></GridItem>
+                  <GridItem hideIcon={true} item={item}></GridItem>
                 )}
               />
             )}

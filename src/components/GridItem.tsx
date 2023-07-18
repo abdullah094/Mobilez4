@@ -3,19 +3,30 @@ import React from 'react';
 import {
   Dimensions,
   Image,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
 import tw from 'twrnc';
 import {color} from '../constants/Colors';
 import {IndexNavigationProps, Product} from '../types';
 import AddToWishList from './AddToWishList';
+
 const {width, height} = Dimensions.get('window');
 
-const GridItem = ({item}: {item: Product}) => {
+const GridItem = ({
+  item,
+  onPressList,
+  hideIcon = false,
+}: {
+  item: Product;
+  onPressList: any;
+  hideIcon: boolean;
+}) => {
   const image_url = 'https://www.mobilezmarket.com/images/';
   const navigation = useNavigation<IndexNavigationProps<'Home'>>();
   const dateString = item.created_at;
@@ -176,6 +187,11 @@ const GridItem = ({item}: {item: Product}) => {
                 <Icon name="location-pin" size={10} color={'red'} />
                 {item?.user?.city}
               </Text>
+              {!hideIcon && (
+                <Pressable onPress={onPressList}>
+                  <Feather name="more-vertical" size={15} color={'grey'} />
+                </Pressable>
+              )}
             </View>
           </View>
         </View>

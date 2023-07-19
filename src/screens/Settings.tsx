@@ -206,11 +206,6 @@ const Settings = ({navigation}) => {
                 onPress={() => navigation.navigate('ContactUs')}>
                 <Text style={[styles.button_text]}>Contact Us</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('AccountManagement')}>
-                <Text style={[styles.button_text]}>Account Mangemet</Text>
-              </TouchableOpacity>
             </>
           )}
         </ScrollView>

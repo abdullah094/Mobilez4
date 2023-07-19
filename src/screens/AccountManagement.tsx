@@ -1,18 +1,38 @@
-import React from 'react';
+import {GET_PROFILE_DATA} from '@env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
+  Dimensions,
   Linking,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
+import {
+  logoutUser,
+  selectAccessToken,
+  setProfileData,
+  setWishList,
+} from '../Redux/Slices';
 import Header from '../components/Header';
+import {Profile} from '../types';
+const {width, height} = Dimensions.get('window');
 
 const AccountManagement = () => {
+  const _accessToken = useSelector(selectAccessToken);
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const [profile, setProfile] = useState<Profile | null>();
+  const [email, setEmail] = useState<string>();
   const openURI = async () => {
     const url = 'https://www.mobilezmarket.com/manage-account';
     const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
@@ -21,6 +41,59 @@ const AccountManagement = () => {
     } else {
       Alert.alert(`Don't know how to open this URL: ${url}`);
     }
+  };
+  const PutAccessTokenToAsync = async () => {
+    try {
+      await AsyncStorage.removeItem('@user_token');
+      dispatch(logoutUser());
+      dispatch(setProfileData({}));
+      dispatch(setWishList([]));
+    } catch (e) {
+      console.log('Error removing Data to AsyncStorage:', e);
+    }
+  };
+  const fetchProfileData = async accessToken => {
+    await axios
+      .get(GET_PROFILE_DATA, {
+        headers: {Authorization: `Bearer ${accessToken}`},
+      })
+      .then(response => {
+        const _profile = response.data.profile;
+        setProfile(_profile);
+        console.log('_profile', _profile);
+
+        dispatch(setProfileData(_profile));
+      })
+      .catch(error => {
+        // console.log('ProfileData ' + error);
+      });
+  };
+  useEffect(() => {
+    fetchProfileData(_accessToken);
+  }, []);
+  console.log(profile?.id);
+  const DeleteUser = () => {
+    axios
+      .post(
+        `https://www.mobilezmarket.com/api/delete-user`,
+        {
+          email: email,
+          account_id: profile?.id,
+        },
+        {
+          headers: {Authorization: `Bearer ${_accessToken}`},
+        },
+      )
+      .then(response => {
+        console.log('Thi is APi is working ');
+        Alert.alert('Alert', response.data.message);
+        navigation.navigate('Login');
+        PutAccessTokenToAsync();
+      })
+      .catch(error => {
+        console.log('hello', error);
+        navigation.navigate('Login');
+      });
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
@@ -164,6 +237,35 @@ const AccountManagement = () => {
               </Text>
             </View>
           </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              paddingHorizontal: 10,
+            }}>
+            <Text style={{color: 'black', fontSize: 12}}>Enter Your Email</Text>
+            <View>
+              <TextInput
+                placeholder="abc@mail.com"
+                placeholderTextColor={'gray'}
+                style={styles.box_input}
+                onChangeText={text => setEmail(text)}
+              />
+            </View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: 'red',
+                height: 50,
+                borderRadius: 20,
+                marginTop: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={DeleteUser}>
+              <Text style={{color: 'white', fontWeight: '600'}}>
+                Delete Your Account
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -172,4 +274,15 @@ const AccountManagement = () => {
 
 export default AccountManagement;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  box_input: {
+    height: 50,
+    width: '100%',
+    borderColor: 'grey',
+    borderRadius: 10,
+    color: 'black',
+    borderWidth: 1,
+    marginTop: 10,
+    padding: 9,
+  },
+});

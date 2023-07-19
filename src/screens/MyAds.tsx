@@ -77,8 +77,6 @@ const MyAds = ({navigation, isActive}) => {
       });
   }, [selectedAd]);
 
-  // const updateMyAd = useCallback(() => {
-
   //   axios
   //     .post(
   //       `https://www.mobilezmarket.com/api/update-ad/${selectedAd}`,

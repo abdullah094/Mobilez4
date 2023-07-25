@@ -22,14 +22,14 @@ const Header = ({title = ''}) => {
   return (
     <View
       style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
-      {accessToken === null && (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Home');
-          }}>
-          <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
-        </TouchableOpacity>
-      )}
+      {/* {accessToken === null && ( */}
+      <TouchableOpacity
+        onPress={() => {
+          navigation.goBack();
+        }}>
+        <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
+      </TouchableOpacity>
+      {/* )} */}
       <Text
         style={{
           color: color.white,

@@ -327,6 +327,28 @@ export type IndexParamList = {
   PostAnAd: undefined;
   ForgotPassword: undefined;
   SignUp: {city: string};
+  CityList:undefined
+  SearchScreen:undefined
+  Profile:undefined
+  OTPScreen:undefined
+  OtpVerify:undefined
+  ContactUs:undefined
+  MyWishlist:undefined
+  TermsAndCondition:undefined
+  PrivacyPolicy:undefined
+  Blogs:undefined
+  Videos:undefined
+  BlogDetails:undefined
+  FindMyDevice:undefined
+  Images:undefined
+  AboutUs:undefined
+  Chat:undefined
+  WhishlistComponent:undefined
+  AccountManagement:undefined
+  AppUpdateScreen:undefined
+  EditScreen:undefined
+  AdEditModaleScreen:undefined
+  FeatureAD:undefined
 };
 
 export type IndexRouteProps<RouteName extends keyof IndexParamList> = RouteProp<
@@ -391,3 +413,14 @@ export interface IModel {
   model_name: string;
   updated_at: string;
 }
+export interface IPackage {
+  id: number
+  package_name: string
+  package_price: string
+  package_feature_ad_validity: string
+  total_feature_ads: string
+  package_availablity: string
+  created_at: string
+  updated_at: string
+}
+

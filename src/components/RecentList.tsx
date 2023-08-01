@@ -24,7 +24,7 @@ const RecentList = ({
   const [data, setData] = useState<Product[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
-
+  const [featured, setFeatured] = useState(0);
   const [allLoaded, setAllLoaded] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   let Title = 'Related Ads';
@@ -47,7 +47,7 @@ const RecentList = ({
     axios
       .post(CATEGORY + `?page=${pageNumber}`, {
         category: name,
-        sort: 'created_at',
+        sort: featured,
       })
 
       .then(response => {
@@ -59,8 +59,9 @@ const RecentList = ({
         setAllLoaded(pagination.next_page_url == null);
         // process the newly fetched items
         // setData([...new Set([...data, ...pagination.data])]);
-        if (pageNumber == 1) {
+        if (pageNumber == 1 && featured === 1) {
           setData(pagination.data);
+          setFeatured(1);
         } else {
           const alreadyLoadedItemsID = data.map(x => x.id);
           const newItems = pagination.data.filter(

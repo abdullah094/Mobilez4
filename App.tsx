@@ -1,7 +1,13 @@
+import notifee, {
+  AndroidImportance,
+  AuthorizationStatus,
+} from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import axios from 'axios';
 import React, {useEffect, useState} from 'react';
+import {Alert} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {Provider as Paper} from 'react-native-paper';
 import {Provider} from 'react-redux';
@@ -19,6 +25,7 @@ import ChatScreen from './src/screens/Chat';
 import CityList from './src/screens/CityList';
 import ContactUs from './src/screens/ContactUs';
 import EditScreen from './src/screens/EidtAdScreen';
+import FeatureAD from './src/screens/FeatureAD';
 import Filter from './src/screens/Filter';
 import FindMyDevice from './src/screens/FindMyDevice';
 import ForgotPassword from './src/screens/ForgotPassword';
@@ -37,70 +44,130 @@ import SignUp from './src/screens/SignUp';
 import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
 import WishlistComponent from './src/screens/WishlistComponent';
+
 import {IndexParamList} from './src/types';
 const App = () => {
   const curVersion = DeviceInfo.getVersion();
   const Stack = createNativeStackNavigator<IndexParamList>();
   const [loading, setLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [token, setToken] = useState('');
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
     }, 800);
   }, []);
-  // const checkForUpdates = () => {
-  //   const inAppUpdates = new SpInAppUpdates(false); // isDebug
 
-  //   const curVersion = DeviceInfo.getVersion(); // Get the current version using react-native-device-info
+  useEffect(() => {
+    const getFCMToken = async () => {
+      try {
+        const token = await messaging().getToken();
 
-  //   let result = inAppUpdates.checkNeedsUpdate();
+        console.log('FCM token:', token);
+        sendFCMTokenToServer(token);
 
-  //   result
-  //     .then((result: any) => {
-  //       console.log('====bjb', result);
+        // Save or use the token as needed
+      } catch (error) {
+        console.log('Error getting FCM token:');
+      }
+    };
+    getFCMToken();
+  }, []);
 
-  //       const latestVersion = result;
+  const sendFCMTokenToServer = token => {
+    axios
+      .post('https://www.mobilezmarket.com/api/add-token', {
+        token: token,
+      })
+      .then(response => {
+        console.log(response.data.message);
+      })
+      .catch(error => {
+        Alert.alert('User does not exist', error);
+      });
+  };
 
-  //       // <AppUpdateScreen />;
+  async function onDisplayNotification(message) {
+    const notification = message.notification;
 
-  //       let updateOptions = {};
-  //       if (Platform.OS === 'android') {
-  //         updateOptions = {
-  //           updateType: IAUUpdateKind.FLEXIBLE,
-  //         };
-  //       }
-  //       const updatePrompt = inAppUpdates.startUpdate(updateOptions);
-  //       updatePrompt
-  //         .then(response => {
-  //           console.log('update response', response);
-  //         })
-  //         .catch(err => {
-  //           console.log('err', err);
-  //         });
-  //     })
-  //     .catch(error => {
-  //       console.error('Promise rejection error:', error);
-  //     });
-  // };
+    // Request permissions (required for iOS)
+    await notifee.requestPermission();
 
-  // useEffect(() => {
-  //   checkForUpdates();
-  // }, []);
+    // Create a channel (required for Android)
+    const channelId = await notifee.createChannel({
+      id: 'important',
+      name: 'Important Notifications',
+      importance: AndroidImportance.HIGH,
+      sound: 'hollow',
+      vibration: true,
+      vibrationPattern: [300, 500],
+    });
+
+    // Display a notification
+    await notifee.displayNotification({
+      title: notification.title || '',
+      body: notification.body || '',
+      android: {
+        largeIcon: notification.android.smallIcon,
+        sound: 'hollow',
+        autoCancel: true,
+        vibrationPattern: [300, 500],
+        importance: AndroidImportance.HIGH,
+        channelId,
+        smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
+        // pressAction is needed if you want the notification to open the app when pressed
+        pressAction: {
+          id: 'default',
+        },
+      },
+    });
+  }
+  notifee.deleteChannel('Default Channel');
+  messaging().onMessage(onDisplayNotification);
+  messaging().setBackgroundMessageHandler(onDisplayNotification);
+  async function checkNotificationPermission() {
+    const settings = await notifee.getNotificationSettings();
+
+    if (settings.authorizationStatus == AuthorizationStatus.AUTHORIZED) {
+      console.log('Notification permissions has been authorized');
+    } else if (settings.authorizationStatus == AuthorizationStatus.DENIED) {
+      console.log('Notification permissions has been denied');
+    }
+  }
+
   if (loading) {
     return <Welcome />;
   }
 
-  const getFCMToken = async () => {
-    try {
-      const token = await messaging().getToken();
-      console.log('FCM Token:', token);
-      // Save or use the token as needed
-    } catch (error) {
-      console.log('Error getting FCM token:', error);
-    }
-  };
-  getFCMToken();
-  console.log('=======', getFCMToken());
+  // const NotficationFunc = useCallback(() => {
+  //   const url = `https://www.mobilezmarket.com/api/add-token ${token}`;
+  //   axios
+  //     .post(
+  //       url,
+  //       {},
+  //       {
+  //         headers: {Authorization: `Bearer ${_accessToken}`},
+  //       },
+  //     )
+  //     .then(response => {
+  //       setToken(response.data.message);
+
+  //       console.log('Ad deleted ');
+  //     })
+  //     .catch(error => {
+  //       console.log('hello', error);
+  //     });
+  // }, []);
+
+  // function onMessageReceived(message: any) {
+  //   notifee.displayNotification(JSON.parse(message.data.notifee));
+  // }
+  // useEffect(() => {
+  //   NotficationFunc();
+  // }, [_accessToken]);
+
+  // messaging().onMessage(onMessageReceived);
+  // messaging().setBackgroundMessageHandler(onMessageReceived);
 
   return (
     <Provider store={Store}>
@@ -257,6 +324,11 @@ const App = () => {
               options={{headerShown: false}}
               name="AdDeleteModaleScreen"
               component={AdDeleteModaleScreen}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="FeatureAD"
+              component={FeatureAD}
             />
           </Stack.Navigator>
         </NavigationContainer>

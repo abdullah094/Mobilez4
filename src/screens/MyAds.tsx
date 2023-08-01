@@ -45,13 +45,17 @@ const MyAds = ({navigation, isActive}) => {
   const [selectedAd, setselectedAd] = useState<number | null>(null);
   const [soldDisabled, setSoldDisabled] = useState<boolean>(false);
   const [deleteModale, setDeleteModale] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
   const myAdd = () => {
     axios
       .get(MY_ADS, {
         headers: {Authorization: `Bearer ${_accessToken}`},
       })
       .then(response => {
-        setData(response.data.my_adds);
+        if (response.data.my_adds) {
+          setData(response.data.my_adds);
+        } else {
+        }
       })
       .catch(error => {
         console.log('hello', error);
@@ -156,6 +160,25 @@ const MyAds = ({navigation, isActive}) => {
             Wishlist
           </Button>
         </View>
+
+        {/* {!loading ? (
+          <View style={[styles.container, styles.horizontal]}>
+            <ActivityIndicator size={'large'} color={'#306CCE'} />
+          </View>
+        ) : (
+          <View
+            style={{
+              justifyContent: 'center',
+              height: '100%',
+              alignItems: 'center',
+            }}>
+            <Thumb name="thumbsdown" color={'black'} size={40} />
+            <Text style={{color: 'black', fontWeight: '700'}}>
+              You haven't posted anything
+            </Text>
+          </View>
+        )} */}
+
         {!isWishlist ? (
           <>
             {data.length > 0 ? (
@@ -233,6 +256,7 @@ const MyAds = ({navigation, isActive}) => {
         ) : (
           <WishlistComponent />
         )}
+
         <Modal animationType="slide" transparent={true} visible={activeModal}>
           <View style={styles.modalContainer}>
             <Pressable style={styles.closeText} onPress={onHideListModal}>
@@ -270,6 +294,15 @@ const MyAds = ({navigation, isActive}) => {
                 }}
                 onPressOut={onHideListModal}>
                 <Text style={styles.optionText}>Delete</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.optionButton}
+                onPress={async () => {
+                  setDeleteModale(true);
+                  onHideListModal();
+                }}
+                onPressOut={onHideListModal}>
+                <Text style={styles.optionText}>Want to Feature Your AD ?</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -327,5 +360,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     padding: 10,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingTop: 200,
   },
 });

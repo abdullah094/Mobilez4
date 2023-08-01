@@ -15,6 +15,7 @@ import tw from 'twrnc';
 import {color} from '../constants/Colors';
 import {IndexNavigationProps, Product} from '../types';
 import AddToWishList from './AddToWishList';
+import BlinkingText from './BlinkingText';
 
 const {width, height} = Dimensions.get('window');
 
@@ -37,7 +38,7 @@ const GridItem = ({
   });
   let nowDate = new Date();
   nowDate.setDate(nowDate.getDate() - 1);
-  console.log('=====', item.sell_status);
+
   return (
     <>
       <TouchableOpacity
@@ -58,27 +59,30 @@ const GridItem = ({
           width: width * 0.45,
         }}
         onPress={() => navigation.push('ProductPage', {id: item.id})}>
-        {item.sell_status === 'Sold' ? (
+        {item.status === 1 && (
           <View
             style={{
               position: 'absolute',
               left: 5,
               zIndex: 10,
-              backgroundColor: color.red,
+              backgroundColor: color.gold,
               borderWidth: 1,
-              borderColor: color.red,
-              width: 50,
-              height: 25,
+              borderColor: color.gold,
+              width: 55,
+              bottom: 85,
+              height: 23,
               justifyContent: 'center',
               alignItems: 'center',
-              borderRadius: 10,
+              borderRadius: 8,
             }}>
-            <Text style={{color: 'white', fontSize: 11, fontWeight: '600'}}>
-              Sold
+            <Text style={{color: 'black', fontSize: 10, fontWeight: '700'}}>
+              Featured
             </Text>
           </View>
-        ) : (
-          nowDate < date && (
+        )}
+
+        {item.sell_status === 'Sold' ? (
+          <>
             <View
               style={{
                 position: 'absolute',
@@ -94,33 +98,33 @@ const GridItem = ({
                 borderRadius: 10,
               }}>
               <Text style={{color: 'white', fontSize: 11, fontWeight: '600'}}>
-                New
+                Sold
               </Text>
             </View>
+          </>
+        ) : (
+          nowDate < date && (
+            <BlinkingText
+              style={{
+                position: 'absolute',
+                left: 5,
+                zIndex: 10,
+                backgroundColor: color.red,
+                borderWidth: 1,
+                borderColor: color.red,
+                width: 50,
+                color: 'white',
+                height: 25,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 8,
+              }}
+              text="New"
+            />
           )
         )}
 
-        {/* {nowDate < date && (
-          <View
-            style={{
-              position: 'absolute',
-              left: 5,
-              zIndex: 10,
-              backgroundColor: color.red,
-              borderWidth: 1,
-              borderColor: color.red,
-              width: 50,
-              height: 25,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 10,
-            }}>
-            <Text style={{color: 'white', fontSize: 11, fontWeight: '600'}}>
-              New
-            </Text>
-          </View>
-        )} */}
-        <View style={tw`w-full h-52 justify-between `}>
+        <View style={tw`w-full h-52 justify-between`}>
           <Image
             style={{
               height: 120,
@@ -189,7 +193,7 @@ const GridItem = ({
               </Text>
               {!hideIcon && (
                 <Pressable onPress={onPressList}>
-                  <Feather name="more-vertical" size={15} color={'grey'} />
+                  <Feather name="more-vertical" size={22} color={'grey'} />
                 </Pressable>
               )}
             </View>

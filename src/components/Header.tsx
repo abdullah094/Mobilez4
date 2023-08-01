@@ -19,10 +19,11 @@ const Header = ({title = ''}) => {
 
   const navigation = useNavigation();
   const [logIn, setLogIn] = useState();
+
   return (
     <View
       style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
-      {accessToken === null && (
+      {accessToken && (
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('Home');
@@ -30,6 +31,7 @@ const Header = ({title = ''}) => {
           <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
         </TouchableOpacity>
       )}
+
       <Text
         style={{
           color: color.white,

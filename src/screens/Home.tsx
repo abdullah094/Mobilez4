@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   Linking,
+  Platform,
   RefreshControl,
   SafeAreaView,
   ScrollView,
@@ -394,7 +395,7 @@ const Home = ({navigation}) => {
           </ScrollView>
         </View>
       </SafeAreaView>
-      <AppUpdateScreen />
+      {Platform.OS === 'android' && <AppUpdateScreen />}
     </>
   );
 };

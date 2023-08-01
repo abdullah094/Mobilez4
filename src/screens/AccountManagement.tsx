@@ -121,23 +121,7 @@ const AccountManagement = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                1. Visit the Mobilez Market Login page by clicking on the
-                following link:
-              </Text>
-              <TouchableOpacity
-                style={{paddingHorizontal: 10}}
-                onPress={openURI}>
-                <Text style={{color: '#015dcf'}}>
-                  https://www.mobilezmarket.com/signin
-                </Text>
-              </TouchableOpacity>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                Login Your Account then
+                1. Insert Your email address in the field below.
               </Text>
               <Text
                 style={{
@@ -145,95 +129,7 @@ const AccountManagement = () => {
                   fontWeight: '400',
                   color: 'black',
                 }}>
-                2. Visit the Mobilez Market account management page by clicking
-                on the following link:
-              </Text>
-              <TouchableOpacity
-                style={{paddingHorizontal: 10}}
-                onPress={openURI}>
-                <Text style={{color: '#015dcf'}}>
-                  https://www.mobilezmarket.com/manage-account.
-                </Text>
-              </TouchableOpacity>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                3. Once you're on the account management page, locate the
-                section where you need to submit your email and user ID. This
-                information can typically be found on your user details page
-                within the application.
-              </Text>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                4. Enter your email address and user ID in the respective fields
-                provided.
-              </Text>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                5. Double-check the entered information to ensure accuracy.
-                Deleting your account is irreversible, so it's crucial to make
-                sure you're deleting the correct account.
-              </Text>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                6. After verifying your email and user ID, click on the "Submit"
-                button to proceed with the account deletion process.
-              </Text>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                A confirmation message will appear, notifying you that the
-                deletion action is permanent and cannot be undone. Take a moment
-                to read and understand this message.
-              </Text>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                7. If you are certain that you want to delete your account,
-                click on the "Confirm" or "Delete Account" button, depending on
-                the wording used on the confirmation message.
-              </Text>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                8. The application will process your request and permanently
-                delete your user account. You will no longer have access to your
-                account or any associated data.
-              </Text>
-              <Text
-                style={{
-                  padding: 10,
-                  fontWeight: '400',
-                  color: 'black',
-                }}>
-                9. It's important to note that once the account is deleted, it
-                cannot be recovered. Therefore, ensure that you have backed up
-                any important data or information you may need before proceeding
-                with the deletion.
+                2. Press the "Submit" button to proceed with the account.
               </Text>
             </View>
           </View>

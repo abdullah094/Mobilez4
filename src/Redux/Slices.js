@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export const todosSlice = createSlice({
   name: 'todo',
@@ -9,6 +9,7 @@ export const todosSlice = createSlice({
     testing: 'testing',
     docs: [],
     wishList: [],
+    otpVerify:{ }
   },
 
   reducers: {
@@ -42,6 +43,9 @@ export const todosSlice = createSlice({
     RemoveFromWishList(state = null, action) {
       state.wishList = state.wishList.filter(x => x != action.payload);
     },
+    setOTPVerify (state =null, action){
+      state.otpVerify =state.otpVerify(action.payload)
+    }
   },
 });
 
@@ -49,6 +53,7 @@ export const todosSlice = createSlice({
 export const selectAccessToken = state => state.todo.accessToken;
 export const selectProfileData = state => state.todo.profile;
 export const selectWishlist = state => state.todo.wishList;
+export const selectOtpVerify =state => state.todo.otpVerify
 
 export const {
   addItem,
@@ -60,5 +65,6 @@ export const {
   setWishList,
   AddToWishlist,
   RemoveFromWishList,
+  setOTPVerify
 } = todosSlice.actions;
 export default todosSlice.reducer;

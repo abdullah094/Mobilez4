@@ -49,12 +49,25 @@ const AccountStatusData = [
   {key: 1, value: 'Verified'},
   {key: 1, value: 'NON-Verified'},
 ];
+const CityData = [
+  {key: 1, value: 'Karachi'},
+  {key: 1, value: 'Faislabad'},
+  // {key: 1, value: 'Hyderbad'},
+  // {key: 1, value: 'Lahore'},
+  // {key: 1, value: 'Multan'},
+  // {key: 1, value: 'Peshawar'},
+  // {key: 1, value: 'Larkana'},
+  // {key: 1, value: 'Kohat'},
+
+
+];
+
 
 export {
   AccountStatusData,
-  CategoryData,
-  ConditionData,
+  CategoryData, CityData, ConditionData,
   RamData,
   StorageData,
-  WarrantyData,
+  WarrantyData
 };
+

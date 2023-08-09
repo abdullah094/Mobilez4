@@ -26,6 +26,7 @@ import {
   setProfileData,
   setWishList,
 } from '../Redux/Slices';
+import AlertModale from '../components/AlertModale';
 import AppUpdateScreen from '../components/AppUpdateComponent';
 import HomeSlider from '../components/HomeSlider';
 import RecentList from '../components/RecentList';
@@ -38,6 +39,7 @@ const Home = ({navigation}) => {
   const [deviceName, setDeviceName] = useState<string>();
   const [refreshing, setRefreshing] = useState(false);
   const [heading, setHeading] = useState('Home');
+  const [showModale, setShowModale] = useState(false);
 
   const [showVersionAlert, setShowVersionAlert] = useState<boolean>(true);
   const image_url = 'https:/www.mobilezmarket.com/images/';
@@ -90,6 +92,7 @@ const Home = ({navigation}) => {
   }, []);
 
   useEffect(() => {
+    <AlertModale onClose={setShowModale(true)} message={'hello'} />;
     console.log('Getting Token From AsyncStorage');
     const getUserToken = async () => {
       try {
@@ -223,7 +226,6 @@ const Home = ({navigation}) => {
       .then(response => {
         const _profile = response.data.profile;
         setProfile(_profile);
-
         dispatch(setProfileData(_profile));
       })
       .catch(error => {
@@ -231,6 +233,8 @@ const Home = ({navigation}) => {
       });
   };
   const _onRefresh = () => {
+    getWishlistItems(accessToken);
+    fetchProfileData(accessToken);
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 1000);
   };
@@ -370,9 +374,9 @@ const Home = ({navigation}) => {
 
               {/* row2 */}
 
-              <RecentList name={Category.PHONE} />
-              <RecentList name={Category.SMARTWATCH} />
-              <RecentList name={Category.TABLET} />
+              <RecentList name={Category.PHONE} refreshing={refreshing} />
+              <RecentList name={Category.SMARTWATCH} refreshing={refreshing} />
+              <RecentList name={Category.TABLET} refreshing={refreshing} />
 
               <View style={styles.company_box}>
                 <FlatList

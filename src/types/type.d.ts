@@ -210,6 +210,7 @@ export interface Form {
   warranty?: string | null;
   accessories?: [string];
   othertextModel?: string |null
+  acc_type?:string | null
 }
 export interface iImages {
   uri: any;

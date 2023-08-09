@@ -17,7 +17,9 @@ import {Category, Pagination, Product} from '../types';
 const RecentList = ({
   name,
   products = [],
+  refreshing,
 }: {
+  refreshing;
   name: Category;
   products?: Product[];
 }) => {
@@ -40,7 +42,7 @@ const RecentList = ({
     }
     setLoadingMore(true);
     loadData(1);
-  }, []);
+  }, [refreshing]);
 
   const loadData = pageNumber => {
     console.log(CATEGORY + `?page=${pageNumber}`);

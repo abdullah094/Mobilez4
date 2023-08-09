@@ -32,6 +32,7 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
 import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
+import AlertModale from '../components/AlertModale';
 import AppleLoginButton from '../components/AppleLoginButton';
 import {IndexNavigationProps} from '../types';
 Settings.setAppID('686223029942369');
@@ -79,6 +80,7 @@ const Login = () => {
             }
           } else {
             Alert.alert('Unsuccessful', 'Please try again');
+
             setSocialLoginLoader(false);
           }
           setLoginLoader('Login');
@@ -98,7 +100,13 @@ const Login = () => {
       })
       .catch(error => {
         setLoginLoader('Login');
-        Alert.alert('Unsuccessful', error.message);
+        // Alert.alert('Unsuccessful====', error.message);
+        <AlertModale
+          message={error.message}
+          isVisible={true}
+          onClose={true}
+          onConfirm={true}
+        />;
       });
   };
 

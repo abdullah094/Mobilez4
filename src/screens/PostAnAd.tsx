@@ -4,7 +4,7 @@ import CheckBox from '@react-native-community/checkbox';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import axios, {AxiosError} from 'axios';
 import FormData from 'form-data';
-import React, {ReactNode, useCallback, useEffect, useState} from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -31,12 +31,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {
   selectAccessToken,
+  selectOtpVerify,
   selectProfileData,
   setProfileData,
 } from '../Redux/Slices';
 import {color} from '../constants/Colors';
 import {
   CategoryData,
+  CityData,
   ConditionData,
   RamData,
   StorageData,
@@ -60,9 +62,9 @@ const PostAnAd = () => {
   const from = route.params?.from || 'Post';
 
   console.log(id, from);
-
+  const otpVerifiction = useSelector(selectOtpVerify);
   const profileData = useSelector(selectProfileData) as Profile;
-  const [IsVerifiedStorage, setIsVerifiedStorage] = useState(false);
+  const [IsVerifiedStorage, setIsVerifiedStorage] = useState(true);
   const [submitText, setSubmitText] = useState('Submit');
   const [otp, setOtp] = useState('');
 
@@ -77,7 +79,11 @@ const PostAnAd = () => {
     {key: 1, value: 'Approved'},
     {key: 2, value: 'Not Approved'},
   ]);
-
+  const data = [
+    {label: 'individual', value: 'individual'},
+    {label: 'business', value: 'business'},
+  ];
+  console.log('otppppppppppp', otpVerifiction);
   const [toggleAccessories, setToggleAccessories] = useState({
     box: false,
     charger: false,
@@ -94,31 +100,25 @@ const PostAnAd = () => {
   const [isOtp, setOTP] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [isOtherModel, setIsOtherModel] = useState(true);
-  const [isOtherBrand, setIsOtherBrand] = useState(true);
-  const [isMobile, setisMobile] = useState<boolean>(true);
+
   const [isTablet, setisTablet] = useState<boolean>(true);
   // const [brand, setBrand] = useState<string>();
-  const [model, setModel] = useState<string>();
-  const [price, setPrice] = useState<string>();
-  const [storage, setStorage] = useState<string>();
-  const [ram, setRam] = useState<string>();
-  const [productType, setProductType] = useState<string>();
-  const [description, setDescription] = useState<string>();
-  const [warrenty, setWarrenty] = useState<string>();
-  const [category, setCategory] = useState<string>();
-  const [ptaStatus, setPtaStatus] = useState<string>();
+
   const [desc, setDesc] = useState();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(profileData.account_status);
-    if (profileData.account_status == '1') {
+    if (
+      profileData.account_status == '1' &&
+      profileData.social_login === null
+    ) {
       setIsVerifiedStorage(true);
     } else {
       setIsVerifiedStorage(false);
     }
   }, [profileData]);
 
+  console.log('form');
   const [form, setForm] = useState<Form>({
     brand: null,
     model: null,
@@ -133,6 +133,8 @@ const PostAnAd = () => {
     otherModel: null,
     category: Category.PHONE,
     accessories: ['box'],
+    city: null,
+    acc_type: null,
   });
   useEffect(() => {
     setToggleAccessories({
@@ -155,6 +157,8 @@ const PostAnAd = () => {
       image: [],
       description: null,
       warranty: null,
+      city: null,
+      acc_type: null,
       otherModel: null,
     }));
   }, [form.category]);
@@ -408,7 +412,7 @@ const PostAnAd = () => {
   //   viewType,
   //   'setTextInput__________________________________________________________',
   // );
-  console.log('======================hel', form.model);
+  console.log('this is the form', form);
 
   const fetchData = () => {
     const api = DESCRIPTION + id;
@@ -429,34 +433,7 @@ const PostAnAd = () => {
       fetchData();
     }, []);
   }
-  console.log(profileData);
-  const updateMyAd = useCallback(() => {
-    axios
-      .post(
-        `https://www.mobilezmarket.com/api/update-ad/${id}`,
-        {
-          brand: brand,
-          model: model,
-          storage: storage,
-          price: price,
-          ram: ram,
-          productType: productType,
-          description: description,
-          warrenty: warrenty,
-          category: category,
-          ptaStatus: ptaStatus,
-        },
-        {
-          headers: {Authorization: `Bearer ${_accessToken}`},
-        },
-      )
-      .then(response => {
-        console.log('Updated Ad ');
-      })
-      .catch(error => {
-        console.log('hello', error);
-      });
-  }, [_accessToken]);
+
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
@@ -757,81 +734,123 @@ const PostAnAd = () => {
                 save="value"
                 dropdownTextStyles={{color: 'black'}}
               />
-              {IsVerifiedStorage || (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginVertical: 10,
-                    justifyContent: 'space-between',
-                  }}>
-                  {isOtp ? (
-                    <>
-                      <TextInput
-                        style={{
-                          paddingHorizontal: 8,
-                          borderWidth: 1,
-                          flex: 1,
-                          borderRadius: 5,
-                          color: 'black',
-                          marginRight: 5,
-                        }}
-                        keyboardType="number-pad"
-                        placeholder="Enter OTP"
-                        placeholderTextColor={'lightgrey'}
-                        value={otp}
-                        onChangeText={text =>
-                          setOtp(text?.replace(/[^0-9]/g, ''))
-                        }
-                      />
-                      <Button
-                        theme={{colors: {primary: color.orange}, roundness: 90}}
-                        mode={'contained'}
-                        onPress={OTPVerify}
-                        compact
-                        textColor="white">
-                        VERIFY OTP
-                      </Button>
+              {profileData.city === null && (
+                <>
+                  <SelectList
+                    boxStyles={styles.box}
+                    placeholder="City"
+                    inputStyles={{color: 'black'}}
+                    setSelected={val => setForm({...form, city: val})}
+                    data={CityData}
+                    save="value"
+                    dropdownTextStyles={{color: 'black'}}
+                  />
+                </>
+              )}
+              {profileData.account_status === null && (
+                <SelectList
+                  placeholder="Account Type"
+                  inputStyles={{color: 'black'}}
+                  boxStyles={styles.box}
+                  maxHeight={100}
+                  setSelected={val => {
+                    setForm({...form, acc_type: val});
+                  }}
+                  data={data}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                  dropdownStyles={{borderCurve: 'continuous'}}
+                />
+              )}
 
-                      <Button
-                        theme={{colors: {primary: color.orange}, roundness: 90}}
-                        mode={'contained'}
-                        compact
-                        textColor="white"
-                        onPress={SendOTP}
-                        disabled={disabled}>
-                        Resend OTP
-                      </Button>
-                    </>
-                  ) : (
-                    <>
-                      <TextInput
-                        style={{
-                          paddingHorizontal: 8,
-                          borderWidth: 1,
-                          flex: 1,
-                          borderRadius: 5,
-                          color: 'black',
-                          marginRight: 5,
-                        }}
-                        keyboardType="number-pad"
-                        placeholder="Enter your number"
-                        placeholderTextColor={'lightgrey'}
-                        inputMode="numeric"
-                        value={phoneNumber}
-                        onChangeText={text => {
-                          setPhoneNumber(text?.replace(/[^0-9]/g, ''));
-                        }}
-                      />
-                      <Button
-                        theme={{colors: {primary: color.orange}, roundness: 90}}
-                        mode={'contained'}
-                        onPress={SendOTP}
-                        textColor="white">
-                        SEND OTP
-                      </Button>
-                    </>
-                  )}
-                </View>
+              {IsVerifiedStorage || (
+                <>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginVertical: 10,
+                      justifyContent: 'space-between',
+                    }}>
+                    {isOtp ? (
+                      <>
+                        <TextInput
+                          style={{
+                            paddingHorizontal: 8,
+                            borderWidth: 1,
+                            flex: 1,
+                            borderRadius: 5,
+                            color: 'black',
+                            marginRight: 5,
+                          }}
+                          keyboardType="number-pad"
+                          placeholder="Enter OTP"
+                          placeholderTextColor={'lightgrey'}
+                          value={otp}
+                          onChangeText={text =>
+                            setOtp(text?.replace(/[^0-9]/g, ''))
+                          }
+                        />
+                        <Button
+                          theme={{
+                            colors: {primary: color.orange},
+                            roundness: 90,
+                          }}
+                          mode={'contained'}
+                          onPress={OTPVerify}
+                          compact
+                          textColor="white">
+                          VERIFY OTP
+                        </Button>
+
+                        <Button
+                          theme={{
+                            colors: {primary: color.orange},
+                            roundness: 90,
+                          }}
+                          mode={'contained'}
+                          compact
+                          textColor="white"
+                          onPress={SendOTP}
+                          disabled={disabled}>
+                          Resend OTP
+                        </Button>
+                      </>
+                    ) : (
+                      profileData.account_status === null && (
+                        <>
+                          <TextInput
+                            style={{
+                              paddingHorizontal: 8,
+                              borderWidth: 1,
+                              flex: 1,
+                              borderRadius: 5,
+                              color: 'black',
+                              marginRight: 5,
+                            }}
+                            keyboardType="number-pad"
+                            placeholder="Enter your number"
+                            placeholderTextColor={'lightgrey'}
+                            inputMode="numeric"
+                            value={phoneNumber}
+                            onChangeText={text => {
+                              setPhoneNumber(text?.replace(/[^0-9]/g, ''));
+                            }}
+                          />
+                          <Button
+                            theme={{
+                              colors: {primary: color.orange},
+                              roundness: 90,
+                            }}
+                            mode={'contained'}
+                            onPress={SendOTP}
+                            textColor="white">
+                            SEND OTP
+                          </Button>
+                        </>
+                      )
+                    )}
+                  </View>
+                </>
               )}
             </View>
             <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>

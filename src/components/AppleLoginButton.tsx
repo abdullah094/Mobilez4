@@ -1,4 +1,4 @@
-import {SOCIAL_LOGIN} from '@env';
+import {APPLE_CLIENT_SECRET_P8, SOCIAL_LOGIN} from '@env';
 import {
   AppleButton,
   appleAuth,
@@ -84,6 +84,7 @@ const AppleLoginButton = () => {
         nonce,
         identityToken,
         fullName,
+        authorizationCode,
         realUserStatus /* etc */,
       } = appleAuthRequestResponse;
 
@@ -135,6 +136,33 @@ const AppleLoginButton = () => {
       } else {
         console.error(error);
       }
+    }
+    try {
+      const authTokenBody = new URLSearchParams({
+        client_id: 'com.example.app',
+        client_secret: APPLE_CLIENT_SECRET_P8,
+        code: authorizationCode as string,
+        grant_type: 'authorization_code',
+      });
+      const generateAuthTokenUrl = 'https://appleid.apple.com/auth/token';
+      const authTokenResponse = await axios.post(
+        generateAuthTokenUrl,
+        authTokenBody,
+        config,
+      );
+      if (!authTokenResponse.data.refresh_token) {
+        console.log('No refresh token data');
+      }
+      const revokeTokenBody = new URLSearchParams({
+        client_id: 'com.example.app',
+        client_secret: APPLE_CLIENT_SECRET_P8,
+        token: authTokenResponse.data.refresh_token as string,
+        token_type_hint: 'refresh_token',
+      });
+      const revokeAuthTokenUrl = 'https://appleid.apple.com/auth/revoke';
+      await axios.post(revokeAuthTokenUrl, revokeTokenBody, config);
+    } catch (e) {
+      console.error(e);
     }
   }
   const PutAccessTokenToAsync = async accessToken => {

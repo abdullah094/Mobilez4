@@ -241,7 +241,7 @@ const PostAnAd = () => {
           setOTP(false);
           setOtp('');
           Alert.alert(data.message);
-          console.log(data.data);
+
           dispatch(setProfileData(data.data));
         }
       })
@@ -385,7 +385,7 @@ const PostAnAd = () => {
           })
       : Alert.alert('Please Login First');
   };
-  console.log('brsndssssssssssss', brands);
+
   useEffect(() => {
     form.model?.includes('Other')
       ? setOtherModels(true)
@@ -429,7 +429,7 @@ const PostAnAd = () => {
       fetchData();
     }, []);
   }
-
+  console.log(profileData);
   const updateMyAd = useCallback(() => {
     axios
       .post(

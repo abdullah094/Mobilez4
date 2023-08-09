@@ -14,6 +14,7 @@ import PostAnAd from '../screens/PostAnAd';
 import Settings from '../screens/Settings';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+// const accessToken = useSelector(selectAccessToken);
 
 const NavigationSell = () => {
   const accessToken = useSelector(selectAccessToken);

@@ -5,4 +5,5 @@ export const color = {
   white: '#edf2f2',
   red: '#FF0000',
   gray: '#e0e0e0',
+  gold: '#FFD700',
 };

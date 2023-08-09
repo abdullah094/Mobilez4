@@ -106,8 +106,6 @@ const Home = ({navigation}) => {
       }
     };
     getUserToken();
-
-    console.log('===================updates Function');
   }, [accessToken]);
 
   const getWishlistItems = accessToken => {
@@ -117,10 +115,6 @@ const Home = ({navigation}) => {
       })
       .then(response => {
         dispatch(setWishList(response.data.data.map(x => x.id)));
-        console.log(
-          'Wishlist',
-          response.data.data.map(x => x.id),
-        );
       })
       .catch((reason: AxiosError) => {
         // if (reason.response!.status === 401) {
@@ -229,7 +223,6 @@ const Home = ({navigation}) => {
       .then(response => {
         const _profile = response.data.profile;
         setProfile(_profile);
-        console.log('_profile', _profile);
 
         dispatch(setProfileData(_profile));
       })

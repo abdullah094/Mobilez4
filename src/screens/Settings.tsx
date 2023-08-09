@@ -63,7 +63,7 @@ const Settings = ({navigation}) => {
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
-      <View style={tw`bg-[#edf2f2] flex-1 px-1`}>
+      <View style={tw`bg-[#edf2f2] flex-1 `}>
         <View
           style={{
             height: 130,
@@ -158,6 +158,12 @@ const Settings = ({navigation}) => {
                 onPress={() => navigation.navigate('AccountManagement')}>
                 <Text style={[styles.button_text]}>Account Management</Text>
               </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate('FeatureAD')}>
+                <Text style={[styles.button_text]}>Feature Your AD</Text>
+              </TouchableOpacity>
+
               <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Logout name="log-out" color="red" size={20} />

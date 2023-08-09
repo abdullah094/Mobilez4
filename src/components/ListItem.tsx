@@ -15,6 +15,7 @@ import tw from 'twrnc';
 import {color} from '../constants/Colors';
 import {IndexNavigationProps, Product} from '../types';
 import AddToWishList from './AddToWishList';
+import BlinkingText from './BlinkingText';
 const {width, height} = Dimensions.get('window');
 
 const ListItem = ({
@@ -34,6 +35,8 @@ const ListItem = ({
     month: 'long',
     day: 'numeric',
   });
+  let nowDate = new Date();
+  nowDate.setDate(nowDate.getDate() - 1);
 
   return (
     <>
@@ -58,7 +61,7 @@ const ListItem = ({
           padding: 10,
           borderRadius: 15,
         }}>
-        {item.sell_status === 'Sold' && (
+        {item.sell_status === 'Sold' ? (
           <>
             <View
               style={{
@@ -74,12 +77,32 @@ const ListItem = ({
                 width: '13%',
                 alignItems: 'center',
               }}>
-              <Text style={{color: 'white', fontWeight: '600', fontSize: 10}}>
+              <Text style={{color: 'white', fontSize: 11, fontWeight: '600'}}>
                 Sold
               </Text>
             </View>
           </>
+        ) : (
+          nowDate < date && (
+            <BlinkingText
+              style={{
+                position: 'absolute',
+                left: 2,
+                top: 2,
+                zIndex: 999,
+                borderWidth: 1,
+                borderRadius: 14,
+                borderColor: 'red',
+                padding: 4,
+                backgroundColor: 'red',
+                width: '13%',
+                alignItems: 'center',
+              }}
+              text="New"
+            />
+          )
         )}
+
         <View style={{height: '100%', width: '35%'}}>
           <Image
             style={[{height: '100%', width: '100%', borderRadius: 10}]}
@@ -170,7 +193,7 @@ const ListItem = ({
             </View>
             {!hideIcon && (
               <Pressable onPress={onPressList}>
-                <Feather name="more-vertical" size={15} color={'grey'} />
+                <Feather name="more-vertical" size={25} color={'grey'} />
               </Pressable>
             )}
           </View>

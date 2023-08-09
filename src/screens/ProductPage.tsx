@@ -56,7 +56,6 @@ const ProductPage = ({navigation, route}) => {
   useEffect(() => {
     fetchData();
   }, []);
-  console.log('lllllll', accessToken);
 
   if (!data) return <Loading />;
   const {details, related_ads, more_ads} = data;

@@ -13,6 +13,7 @@ import {
   Alert,
   Dimensions,
   Image,
+  Platform,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -32,8 +33,6 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
 import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
-import AlertModale from '../components/AlertModale';
-import AppleLoginButton from '../components/AppleLoginButton';
 import {IndexNavigationProps} from '../types';
 Settings.setAppID('686223029942369');
 Settings.initializeSDK();
@@ -310,60 +309,64 @@ const Login = () => {
                     {loginLoader}
                   </Text>
                 </TouchableOpacity>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    marginTop: 15,
-                    justifyContent: 'center',
-                    // backgroundColor: 'black',
-                  }}>
-                  <Text style={{color: 'black'}}>Or</Text>
-                </View>
-              </View>
-
-              <View style={tw`flex flex-row justify-center w-full  z-20 `}>
-                <View
-                  style={[
-                    styles.social_buttons,
-                    tw`overflow-hidden flex items-center justify-center bg-[#1877f2]`,
-                  ]}>
-                  <LoginButton
-                    style={tw`w-full h-full ml-4`}
-                    onLoginFinished={(error, result) => {
-                      if (error) {
-                        console.log('login has error: ' + error);
-                      } else if (result.isCancelled) {
-                        console.log('login is cancelled.');
-                      } else {
-                        AccessToken.getCurrentAccessToken().then(data => {
-                          setSocialLoginLoader(true);
-                          console.log(data?.accessToken.toString());
-                          console.log('Access token not available');
-                        });
-                      }
-                    }}
-                    onLogoutFinished={() => console.log('logout.')}
-                  />
-                </View>
-
-                <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setSocialLoginLoader(true);
-                      _signIn();
+                {Platform.OS !== 'ios' && (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: 15,
+                      justifyContent: 'center',
+                      // backgroundColor: 'black',
                     }}>
-                    {socialLoginLoader ? (
-                      <ActivityIndicator size="small" color="white" />
-                    ) : (
-                      <Image
-                        style={tw`h-4 w-4`}
-                        source={require('../assets/Gpng.png')}
-                      />
-                    )}
-                  </TouchableOpacity>
-                </View>
+                    <Text style={{color: 'black'}}>Or</Text>
+                  </View>
+                )}
               </View>
-              <AppleLoginButton />
+              {Platform.OS !== 'ios' && (
+                <View style={tw`flex flex-row justify-center w-full  z-20 `}>
+                  <View
+                    style={[
+                      styles.social_buttons,
+                      tw`overflow-hidden flex items-center justify-center bg-[#1877f2]`,
+                    ]}>
+                    <LoginButton
+                      style={tw`w-full h-full ml-4`}
+                      onLoginFinished={(error, result) => {
+                        if (error) {
+                          console.log('login has error: ' + error);
+                        } else if (result.isCancelled) {
+                          console.log('login is cancelled.');
+                        } else {
+                          AccessToken.getCurrentAccessToken().then(data => {
+                            setSocialLoginLoader(true);
+                            console.log(data?.accessToken.toString());
+                            console.log('Access token not available');
+                          });
+                        }
+                      }}
+                      onLogoutFinished={() => console.log('logout.')}
+                    />
+                  </View>
+
+                  <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSocialLoginLoader(true);
+                        _signIn();
+                      }}>
+                      {socialLoginLoader ? (
+                        <ActivityIndicator size="small" color="white" />
+                      ) : (
+                        <Image
+                          style={tw`h-4 w-4`}
+                          source={require('../assets/Gpng.png')}
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+
+              {/* <AppleLoginButton /> */}
               <View
                 style={tw`w-full flex-row mt-14 items-center justify-center`}>
                 <Text style={{color: 'black'}}>Don't have and account? </Text>

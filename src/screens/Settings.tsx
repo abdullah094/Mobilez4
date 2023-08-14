@@ -158,11 +158,11 @@ const Settings = ({navigation}) => {
                 onPress={() => navigation.navigate('AccountManagement')}>
                 <Text style={[styles.button_text]}>Account Management</Text>
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('FeatureAD')}>
                 <Text style={[styles.button_text]}>Feature Your AD</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>

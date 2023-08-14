@@ -59,7 +59,7 @@ const GridItem = ({
           width: width * 0.45,
         }}
         onPress={() => navigation.push('ProductPage', {id: item.id})}>
-        {item.status === 1 && (
+        {/* {item.status === 1 && (
           <View
             style={{
               position: 'absolute',
@@ -79,7 +79,7 @@ const GridItem = ({
               Featured
             </Text>
           </View>
-        )}
+        )} */}
 
         {item.sell_status === 'Sold' ? (
           <>

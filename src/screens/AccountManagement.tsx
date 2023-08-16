@@ -32,6 +32,8 @@ const AccountManagement = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [profile, setProfile] = useState<Profile | null>();
+
+  const [isEmailValid, setIsEmailValid] = useState(false);
   const [email, setEmail] = useState<string>();
   const openURI = async () => {
     const url = 'https://www.mobilezmarket.com/manage-account';
@@ -42,6 +44,10 @@ const AccountManagement = () => {
       Alert.alert(`Don't know how to open this URL: ${url}`);
     }
   };
+  useEffect(() => {
+    const isEmailFormatValid = /^[\w\.-]+@[\w-]+\.[a-z]{2,3}$/.test(email);
+    setIsEmailValid(isEmailFormatValid);
+  }, [email]);
   const PutAccessTokenToAsync = async () => {
     try {
       await AsyncStorage.removeItem('@user_token');
@@ -148,8 +154,9 @@ const AccountManagement = () => {
               />
             </View>
             <TouchableOpacity
+              disabled={!isEmailValid} // Disable if email is not valid
               style={{
-                backgroundColor: 'red',
+                backgroundColor: isEmailValid ? 'red' : 'gray', // Change background color based on validity
                 height: 50,
                 borderRadius: 20,
                 marginTop: 10,

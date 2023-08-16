@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 import {Modal} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const AlertModale = ({onClose, message}) => {
-  const [isVisible, setIsVisible] = useState(true);
-
+const AlertModale = ({isVisible, onClose, message}) => {
   return (
     <Modal visible={isVisible}>
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -29,10 +27,7 @@ const AlertModale = ({onClose, message}) => {
             width: '80%',
           }}>
           <Pressable
-            onPress={() => {
-              setIsVisible(false);
-              onClose(false);
-            }}
+            onPress={onClose}
             style={{
               position: 'absolute',
               right: 0,
@@ -71,10 +66,6 @@ const AlertModale = ({onClose, message}) => {
               paddingHorizontal: 20,
               borderRadius: 10,
               backgroundColor: 'orange',
-            }}
-            onPress={() => {
-              setIsVisible(false);
-              onClose(false);
             }}>
             <Text style={{color: '#fff'}}>Yes</Text>
           </TouchableOpacity>

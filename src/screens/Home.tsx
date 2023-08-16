@@ -40,6 +40,11 @@ const Home = ({navigation}) => {
   const [refreshing, setRefreshing] = useState(false);
   const [heading, setHeading] = useState('Home');
   const [showModale, setShowModale] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(true);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
 
   const [showVersionAlert, setShowVersionAlert] = useState<boolean>(true);
   const image_url = 'https:/www.mobilezmarket.com/images/';
@@ -92,8 +97,13 @@ const Home = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    <AlertModale onClose={setShowModale(true)} message={'hello'} />;
+    <AlertModale
+      isVisible={isModalVisible}
+      onClose={toggleModal}
+      message={'hello'}
+    />;
     console.log('Getting Token From AsyncStorage');
+
     const getUserToken = async () => {
       try {
         const user_token = await AsyncStorage.getItem('@user_token');

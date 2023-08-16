@@ -83,29 +83,26 @@ const Login = () => {
             setSocialLoginLoader(false);
           }
           setLoginLoader('Login');
-        } else if (response.data?.status === false) {
-          if (response.data.message) {
-            Alert.alert(response.data.message);
-          } else {
-            Alert.alert('Unsuccessful', response.data.message);
-          }
+        } else if (response.data?.status === 403) {
+          // navigation.navigate('InActiveUserScreen');
           setLoginLoader('Login');
         } else if (response.data?.status) {
-          console.log('================', response.data);
+          console.log('================here', response.data);
           dispatch(setAccessToken(response.data.token));
           setLoginLoader('Login');
           PutAccessTokenToAsync(response.data.token);
         }
       })
+
       .catch(error => {
         setLoginLoader('Login');
-        // Alert.alert('Unsuccessful====', error.message);
-        <AlertModale
-          message={error.message}
-          isVisible={true}
-          onClose={true}
-          onConfirm={true}
-        />;
+        Alert.alert('Unsuccessful', error.message);
+        // <AlertModale
+        //   message={error.message}
+        //   isVisible={true}
+        //   onClose={true}
+        //   onConfirm={true}
+        // />;
       });
   };
 

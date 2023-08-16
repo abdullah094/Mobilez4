@@ -30,9 +30,11 @@ import Filter from './src/screens/Filter';
 import FindMyDevice from './src/screens/FindMyDevice';
 import ForgotPassword from './src/screens/ForgotPassword';
 import Images from './src/screens/Images';
+import InActiveUserScreen from './src/screens/InActiveUserScreen';
 import Listings from './src/screens/Listings';
 import Login from './src/screens/Login';
 import MyWishlist from './src/screens/MyWishlist';
+import NonActiveUserVerify from './src/screens/NonActiveUserVerify';
 import OTPScreen from './src/screens/OTPScreen';
 import OtpVerify from './src/screens/OtpVerify';
 import PostAnAd from './src/screens/PostAnAd';
@@ -44,7 +46,6 @@ import SignUp from './src/screens/SignUp';
 import TermsAndCondition from './src/screens/TermsAndCondition';
 import Videos from './src/screens/Videos';
 import WishlistComponent from './src/screens/WishlistComponent';
-
 import {IndexParamList} from './src/types';
 const App = () => {
   const curVersion = DeviceInfo.getVersion();
@@ -329,6 +330,16 @@ const App = () => {
               options={{headerShown: false}}
               name="FeatureAD"
               component={FeatureAD}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="InActiveUserScreen"
+              component={InActiveUserScreen}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="NonActiveUserVerify"
+              component={NonActiveUserVerify}
             />
           </Stack.Navigator>
         </NavigationContainer>

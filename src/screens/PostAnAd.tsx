@@ -118,7 +118,7 @@ const PostAnAd = () => {
     }
   }, [profileData]);
 
-  console.log('form');
+  console.log(profileData);
   const [form, setForm] = useState<Form>({
     brand: null,
     model: null,

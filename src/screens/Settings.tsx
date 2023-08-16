@@ -1,9 +1,8 @@
 import {LOGOUT} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import React from 'react';
+import React, {useState} from 'react';
 import {
-  Alert,
   Dimensions,
   SafeAreaView,
   ScrollView,
@@ -22,6 +21,7 @@ import {
   setProfileData,
   setWishList,
 } from '../Redux/Slices';
+import AlertModale from '../components/AlertModale';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
@@ -29,7 +29,11 @@ const Settings = ({navigation}) => {
   const _accessToken = useSelector(selectAccessToken);
   const _profile = useSelector(selectProfileData);
   const dispatch = useDispatch();
+  const [isModalVisible, setIsModalVisible] = useState(true);
 
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
   const PutAccessTokenToAsync = async () => {
     try {
       await AsyncStorage.removeItem('@user_token');
@@ -54,7 +58,12 @@ const Settings = ({navigation}) => {
       .then(response => {
         console.log(response.data); //working logout
         PutAccessTokenToAsync();
-        Alert.alert(response.data?.message);
+        // Alert.alert(response.data?.message);
+        <AlertModale
+          isVisible={isModalVisible}
+          onClose={toggleModal}
+          message={response.data?.message}
+        />;
       })
       .catch(error => {
         console.log('e' + error);

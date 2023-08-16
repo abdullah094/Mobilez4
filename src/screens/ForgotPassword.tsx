@@ -2,7 +2,6 @@ import {FORGOT_PASSWORD} from '@env';
 import axios from 'axios';
 import React, {useState} from 'react';
 import {
-  Alert,
   Dimensions,
   Pressable,
   ScrollView,
@@ -13,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import AlertModale from '../components/AlertModale';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
@@ -25,11 +25,12 @@ const ForgotPassword = ({navigation}) => {
         email: email,
       })
       .then(response => {
-        Alert.alert(response.data.message);
+        <AlertModale message={response.data.message} />;
+
         navigation.navigate('OtpVerify', {email: email});
       })
       .catch(error => {
-        Alert.alert('User does not exist');
+        <AlertModale message={'User does not exist'} />;
       });
   };
 

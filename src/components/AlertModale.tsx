@@ -7,7 +7,7 @@ const AlertModale = ({message}) => {
   const [visible, setVisible] = useState(false);
   console.log(message);
   useEffect(() => {
-    if (message === '') {
+    if (message == '') {
       setVisible(false);
     } else {
       setVisible(true);
@@ -82,7 +82,7 @@ const AlertModale = ({message}) => {
               borderRadius: 10,
               backgroundColor: 'orange',
             }}>
-            <Text style={{color: '#fff'}}>Yes</Text>
+            <Text style={{color: '#fff'}}>ok</Text>
           </TouchableOpacity>
         </View>
       </View>

@@ -2,7 +2,6 @@ import {VERIFY_OTP} from '@env';
 import axios from 'axios';
 import React, {useState} from 'react';
 import {
-  Alert,
   Dimensions,
   Pressable,
   ScrollView,
@@ -13,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import AlertModale from '../components/AlertModale';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
@@ -24,13 +24,14 @@ const OtpVerify = ({navigation, route}) => {
     password: '',
     confirm_password: '',
   });
+  const [message, setMessage] = useState('');
 
   const Confirm = () => {
     axios
       .post(VERIFY_OTP, form)
       .then(response => {
         if (response.data.errors) {
-          Alert.alert('Some missing fields or wrong code');
+          setMessage('Some missing fields or wrong code');
         } else {
           navigation.navigate('TabNavigation');
         }
@@ -40,71 +41,74 @@ const OtpVerify = ({navigation, route}) => {
       });
   };
   return (
-    <ScrollView contentContainerStyle={{alignItems: 'center'}}>
-      <View style={{width: width, height: 200, position: 'absolute', top: 0}}>
-        <Pressable
-          style={{
-            position: 'absolute',
-            left: 20,
-            zIndex: 999,
-            shadowColor: '#FFFFFF',
-          }}
-          onPress={() => navigation.goBack()}>
-          <MaterialIcon
-            name="keyboard-arrow-left"
-            size={40}
-            color={color.black}
-          />
-        </Pressable>
-      </View>
-      <View style={{justifyContent: 'center', alignItems: 'center'}}>
-        <Text
-          style={{
-            color: color.orange,
-            fontWeight: 'bold',
-            fontSize: 25,
-            marginTop: 100,
-          }}>
-          Enter the code sent on Email
-        </Text>
-      </View>
+    <>
+      <ScrollView contentContainerStyle={{alignItems: 'center'}}>
+        <View style={{width: width, height: 200, position: 'absolute', top: 0}}>
+          <Pressable
+            style={{
+              position: 'absolute',
+              left: 20,
+              zIndex: 999,
+              shadowColor: '#FFFFFF',
+            }}
+            onPress={() => navigation.goBack()}>
+            <MaterialIcon
+              name="keyboard-arrow-left"
+              size={40}
+              color={color.black}
+            />
+          </Pressable>
+        </View>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <Text
+            style={{
+              color: color.orange,
+              fontWeight: 'bold',
+              fontSize: 25,
+              marginTop: 100,
+            }}>
+            Enter the code sent on Email
+          </Text>
+        </View>
 
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>OTP</Text>
-        <TextInput
-          style={styles.box_input}
-          value={form.verify_code}
-          onChangeText={text => setForm({...form, verify_code: text})}
-        />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Password</Text>
-        <TextInput
-          style={styles.box_input}
-          value={form.password}
-          onChangeText={text => setForm({...form, password: text})}
-        />
-      </View>
-      <View style={styles.box}>
-        <Text style={styles.box_heading}>Confirm-Password</Text>
-        <TextInput style={styles.box_input} />
-      </View>
-      <TouchableOpacity
-        onPress={Confirm}
-        style={{
-          backgroundColor: color.orange,
-          width: 300,
-          height: 50,
-          borderRadius: 20,
-          marginTop: 20,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
-          Confirm
-        </Text>
-      </TouchableOpacity>
-    </ScrollView>
+        <View style={styles.box}>
+          <Text style={styles.box_heading}>OTP</Text>
+          <TextInput
+            style={styles.box_input}
+            value={form.verify_code}
+            onChangeText={text => setForm({...form, verify_code: text})}
+          />
+        </View>
+        <View style={styles.box}>
+          <Text style={styles.box_heading}>Password</Text>
+          <TextInput
+            style={styles.box_input}
+            value={form.password}
+            onChangeText={text => setForm({...form, password: text})}
+          />
+        </View>
+        <View style={styles.box}>
+          <Text style={styles.box_heading}>Confirm-Password</Text>
+          <TextInput style={styles.box_input} />
+        </View>
+        <TouchableOpacity
+          onPress={Confirm}
+          style={{
+            backgroundColor: color.orange,
+            width: 300,
+            height: 50,
+            borderRadius: 20,
+            marginTop: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={{color: color.white, fontWeight: 'bold', fontSize: 20}}>
+            Confirm
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
+      <AlertModale message={message} />
+    </>
   );
 };
 

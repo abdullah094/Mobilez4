@@ -3,7 +3,6 @@ import axios from 'axios';
 import React, {ReactNode, useState} from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Dimensions,
   Pressable,
   StyleSheet,
@@ -15,12 +14,14 @@ import {
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useSelector} from 'react-redux';
 import {selectAccessToken} from '../Redux/Slices';
+import AlertModale from '../components/AlertModale';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const OTPScreen = ({route, navigation}) => {
   const {phone} = route.params;
   const accessToken = useSelector(selectAccessToken);
+  const [message, setMessage] = useState('');
 
   const [submitText, setSubmitText] = useState<ReactNode>('Submit');
   const [otp, setOtp] = useState({
@@ -40,22 +41,24 @@ const OTPScreen = ({route, navigation}) => {
       })
       .then(response => {
         if (response.data.errors) {
-          Alert.alert('Try again');
+          setMessage('Try Again');
           setSubmitText('Submit');
           setOtp({...otp, otp_code: ''});
         } else if (response.data.message) {
           if (response.data.status === 419) {
-            Alert.alert('Wrong Otp', 'Try again');
+            setMessage('Wrong OTP');
+            setSubmitText('Submit');
           } else if (response.data.status) {
             setSubmitText('Submit');
             setOtp({...otp, otp_code: ''});
-            Alert.alert(response.data.message);
+
+            setMessage(response.data.message);
             navigation.navigate('TabNavigation', {screen: 'Home'});
           }
         }
       })
       .catch(error => {
-        Alert.alert(error.message);
+        setMessage(error.message);
         setSubmitText('Submit');
         setOtp({...otp, otp_code: ''});
       });
@@ -123,6 +126,7 @@ const OTPScreen = ({route, navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
+      <AlertModale message={message} />
     </>
   );
 };

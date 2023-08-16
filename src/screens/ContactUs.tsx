@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Alert,
   Dimensions,
   SafeAreaView,
   ScrollView,
@@ -13,6 +12,7 @@ import {
 import Location from 'react-native-vector-icons/Entypo';
 import Email from 'react-native-vector-icons/Zocial';
 import tw from 'twrnc';
+import AlertModale from '../components/AlertModale';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
 
@@ -57,7 +57,7 @@ const ContactUs = ({navigation}) => {
 
             <TouchableOpacity
               onPress={() => {
-                Alert.alert('Message submitted');
+                <AlertModale message={'Message Submitted'} />;
                 navigation.goBack();
               }}
               style={{

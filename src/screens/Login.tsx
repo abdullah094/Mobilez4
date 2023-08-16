@@ -33,6 +33,7 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
 import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
+import AlertModale from '../components/AlertModale';
 import {IndexNavigationProps} from '../types';
 Settings.setAppID('686223029942369');
 Settings.initializeSDK();
@@ -47,6 +48,36 @@ const Login = () => {
   const [socialLoginLoader, setSocialLoginLoader] = useState(false);
   const [hidePass, setHidePass] = useState(true);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
+  const [message, setMessage] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const validateEmail = () => {
+    if (!email) {
+      setEmailError('Email is required');
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError('Invalid email format');
+    } else {
+      setEmailError('');
+    }
+  };
+
+  const validatePassword = () => {
+    if (!password) {
+      setPasswordError('Password is required');
+    } else {
+      setPasswordError('');
+    }
+  };
+
+  const handleSubmit = () => {
+    validateEmail();
+    validatePassword();
+
+    if (!emailError && !passwordError) {
+      fetchLogin();
+    }
+  };
   if (accessToken) navigation.navigate('Home');
   const dispatch = useDispatch();
 
@@ -68,17 +99,17 @@ const Login = () => {
           console.log(response.data?.errors);
           if (response.data.errors) {
             if (response.data.errors.email && response.data.errors.password) {
-              Alert.alert('Email and password are wrong');
+              setMessage('Email and password are wrong');
             } else if (response.data.errors.email) {
-              Alert.alert(response.data.errors.message.email);
+              setMessage(response.data.errors.message.email);
             } else if (response.data.errors.password) {
-              Alert.alert(response.data.errors.password);
+              setMessage(response.data.errors.password);
             } else {
-              Alert.alert('Unsuccessful', response.data.message);
+              setMessage(response.data.message);
               setSocialLoginLoader(false);
             }
           } else {
-            Alert.alert('Unsuccessful', 'Please try again');
+            setMessage('Please Try Again');
 
             setSocialLoginLoader(false);
           }
@@ -88,6 +119,7 @@ const Login = () => {
           setLoginLoader('Login');
         } else if (response.data?.status) {
           console.log('================here', response.data);
+
           dispatch(setAccessToken(response.data.token));
           setLoginLoader('Login');
           PutAccessTokenToAsync(response.data.token);
@@ -96,13 +128,7 @@ const Login = () => {
 
       .catch(error => {
         setLoginLoader('Login');
-        Alert.alert('Unsuccessful', error.message);
-        // <AlertModale
-        //   message={error.message}
-        //   isVisible={true}
-        //   onClose={true}
-        //   onConfirm={true}
-        // />;
+        setMessage(error.message);
       });
   };
 
@@ -206,179 +232,187 @@ const Login = () => {
   };
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
-      <View style={tw`bg-[#edf2f2] flex-1`}>
-        <ScrollView>
-          <View style={tw`flex-1`}>
-            <Header title="Login" />
-            <View style={tw` flex-1 items-center justify-center`}>
-              <Image
-                style={{width: 200, height: 80, marginVertical: 30}}
-                source={require('../assets/mobile-logo.png')}
-              />
-              <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>
-                <View style={styles.input_box}>
-                  <Text style={styles.box_heading}>Email</Text>
-                  <TextInput
-                    keyboardType="email-address"
-                    style={styles.input}
-                    value={email}
-                    textColor="black"
-                    onChangeText={(text: string) =>
-                      setEmail(text.toLowerCase())
-                    }
-                  />
-                </View>
+    <>
+      <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+        <View style={tw`bg-[#edf2f2] flex-1`}>
+          <ScrollView>
+            <View style={tw`flex-1`}>
+              <Header title="Login" />
+              <View style={tw` flex-1 items-center justify-center`}>
+                <Image
+                  style={{width: 200, height: 80, marginVertical: 30}}
+                  source={require('../assets/mobile-logo.png')}
+                />
+                <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>
+                  <View style={styles.input_box}>
+                    <Text style={styles.box_heading}>Email</Text>
+                    <TextInput
+                      keyboardType="email-address"
+                      style={styles.input}
+                      value={email}
+                      onChangeText={value => setEmail(value.toLowerCase())}
+                      onBlur={validateEmail}
+                    />
+                    {emailError ? (
+                      <Text style={styles.error}>{emailError}</Text>
+                    ) : null}
+                  </View>
 
-                <View style={styles.input_box}>
-                  <Text style={styles.box_heading}>Password</Text>
-                  <TextInput
-                    style={styles.input}
-                    value={password}
-                    secureTextEntry={hidePass}
-                    textColor="black"
-                    onChangeText={text => setPassword(text.toLowerCase())}
-                    right={
-                      <TextInput.Icon
-                        icon={hidePass ? 'eye-off' : 'eye'}
-                        color={'black'}
-                        size={16}
-                        onPress={togglePasswordVisibility}
-                      />
-                    }
-                  />
-                </View>
-
-                <View style={tw`flex-row justify-between mt-3`}>
-                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Pressable
-                      onPress={() => setCheck(!check)}
-                      style={{
-                        marginLeft: 10,
-                        borderWidth: 1,
-                        width: 20,
-                        height: 20,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        borderRadius: 5,
-                        marginHorizontal: 3,
-                      }}>
-                      {check && (
-                        <MaterialIcon
-                          name="check"
-                          color={color.orange}
-                          size={18}
+                  <View style={styles.input_box}>
+                    <Text style={styles.box_heading}>Password</Text>
+                    <TextInput
+                      style={styles.input}
+                      value={password}
+                      secureTextEntry={hidePass}
+                      textColor="black"
+                      onChangeText={text => setPassword(text.toLowerCase())}
+                      onBlur={validatePassword}
+                      right={
+                        <TextInput.Icon
+                          icon={hidePass ? 'eye-off' : 'eye'}
+                          color={'black'}
+                          size={16}
+                          onPress={togglePasswordVisibility}
                         />
-                      )}
-                    </Pressable>
+                      }
+                    />
+                    {passwordError ? (
+                      <Text style={styles.error}>{passwordError}</Text>
+                    ) : null}
+                  </View>
 
-                    <Text style={{color: 'black', fontSize: 12}}>
-                      Remember me
-                    </Text>
+                  <View style={tw`flex-row justify-between mt-3`}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Pressable
+                        onPress={() => setCheck(!check)}
+                        style={{
+                          marginLeft: 10,
+                          borderWidth: 1,
+                          width: 20,
+                          height: 20,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          borderRadius: 5,
+                          marginHorizontal: 3,
+                        }}>
+                        {check && (
+                          <MaterialIcon
+                            name="check"
+                            color={color.orange}
+                            size={18}
+                          />
+                        )}
+                      </Pressable>
+
+                      <Text style={{color: 'black', fontSize: 12}}>
+                        Remember me
+                      </Text>
+                    </View>
+
+                    <TouchableOpacity
+                      style={{padding: 5}}
+                      onPress={() => navigation.navigate('ForgotPassword')}>
+                      <Text style={{color: 'black', fontSize: 12}}>
+                        Forgot your password?
+                      </Text>
+                    </TouchableOpacity>
                   </View>
 
                   <TouchableOpacity
-                    style={{padding: 5}}
-                    onPress={() => navigation.navigate('ForgotPassword')}>
-                    <Text style={{color: 'black', fontSize: 12}}>
-                      Forgot your password?
+                    onPress={fetchLogin}
+                    style={{
+                      backgroundColor: color.orange,
+                      width: 311,
+                      height: 50,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 50,
+                      marginTop: 20,
+                    }}>
+                    <Text
+                      style={{
+                        color: color.white,
+                        fontWeight: 'bold',
+                        fontSize: 20,
+                      }}>
+                      {loginLoader}
                     </Text>
                   </TouchableOpacity>
+                  {Platform.OS !== 'ios' && (
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: 15,
+                        justifyContent: 'center',
+                        // backgroundColor: 'black',
+                      }}>
+                      <Text style={{color: 'black'}}>Or</Text>
+                    </View>
+                  )}
                 </View>
-
-                <TouchableOpacity
-                  onPress={fetchLogin}
-                  style={{
-                    backgroundColor: color.orange,
-                    width: 311,
-                    height: 50,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 50,
-                    marginTop: 20,
-                  }}>
-                  <Text
-                    style={{
-                      color: color.white,
-                      fontWeight: 'bold',
-                      fontSize: 20,
-                    }}>
-                    {loginLoader}
-                  </Text>
-                </TouchableOpacity>
                 {Platform.OS !== 'ios' && (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: 15,
-                      justifyContent: 'center',
-                      // backgroundColor: 'black',
-                    }}>
-                    <Text style={{color: 'black'}}>Or</Text>
+                  <View style={tw`flex flex-row justify-center w-full  z-20 `}>
+                    <View
+                      style={[
+                        styles.social_buttons,
+                        tw`overflow-hidden flex items-center justify-center bg-[#1877f2]`,
+                      ]}>
+                      <LoginButton
+                        style={tw`w-full h-full ml-4`}
+                        onLoginFinished={(error, result) => {
+                          if (error) {
+                            console.log('login has error: ' + error);
+                          } else if (result.isCancelled) {
+                            console.log('login is cancelled.');
+                          } else {
+                            AccessToken.getCurrentAccessToken().then(data => {
+                              setSocialLoginLoader(true);
+                              console.log(data?.accessToken.toString());
+                              console.log('Access token not available');
+                            });
+                          }
+                        }}
+                        onLogoutFinished={() => console.log('logout.')}
+                      />
+                    </View>
+
+                    <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSocialLoginLoader(true);
+                          _signIn();
+                        }}>
+                        {socialLoginLoader ? (
+                          <ActivityIndicator size="small" color="white" />
+                        ) : (
+                          <Image
+                            style={tw`h-4 w-4`}
+                            source={require('../assets/Gpng.png')}
+                          />
+                        )}
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 )}
-              </View>
-              {Platform.OS !== 'ios' && (
-                <View style={tw`flex flex-row justify-center w-full  z-20 `}>
-                  <View
-                    style={[
-                      styles.social_buttons,
-                      tw`overflow-hidden flex items-center justify-center bg-[#1877f2]`,
-                    ]}>
-                    <LoginButton
-                      style={tw`w-full h-full ml-4`}
-                      onLoginFinished={(error, result) => {
-                        if (error) {
-                          console.log('login has error: ' + error);
-                        } else if (result.isCancelled) {
-                          console.log('login is cancelled.');
-                        } else {
-                          AccessToken.getCurrentAccessToken().then(data => {
-                            setSocialLoginLoader(true);
-                            console.log(data?.accessToken.toString());
-                            console.log('Access token not available');
-                          });
-                        }
-                      }}
-                      onLogoutFinished={() => console.log('logout.')}
-                    />
-                  </View>
 
-                  <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setSocialLoginLoader(true);
-                        _signIn();
-                      }}>
-                      {socialLoginLoader ? (
-                        <ActivityIndicator size="small" color="white" />
-                      ) : (
-                        <Image
-                          style={tw`h-4 w-4`}
-                          source={require('../assets/Gpng.png')}
-                        />
-                      )}
-                    </TouchableOpacity>
-                  </View>
+                {/* <AppleLoginButton /> */}
+                <View
+                  style={tw`w-full flex-row mt-14 items-center justify-center`}>
+                  <Text style={{color: 'black'}}>Don't have and account? </Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate('SignUp', {city: 'Karachi'})
+                    }>
+                    <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
+                  </TouchableOpacity>
                 </View>
-              )}
-
-              {/* <AppleLoginButton /> */}
-              <View
-                style={tw`w-full flex-row mt-14 items-center justify-center`}>
-                <Text style={{color: 'black'}}>Don't have and account? </Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('SignUp', {city: 'Karachi'})
-                  }>
-                  <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
-                </TouchableOpacity>
               </View>
             </View>
-          </View>
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+      <AlertModale message={message} />
+    </>
   );
 };
 
@@ -396,6 +430,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: color.gray,
     backgroundColor: 'white',
+  },
+  error: {
+    color: 'red',
   },
   box_heading: {
     fontSize: 15,

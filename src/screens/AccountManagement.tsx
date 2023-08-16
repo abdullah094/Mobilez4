@@ -23,10 +23,10 @@ import {
   setProfileData,
   setWishList,
 } from '../Redux/Slices';
+import AlertModale from '../components/AlertModale';
 import Header from '../components/Header';
 import {Profile} from '../types';
 const {width, height} = Dimensions.get('window');
-
 const AccountManagement = () => {
   const _accessToken = useSelector(selectAccessToken);
   const navigation = useNavigation();
@@ -92,7 +92,7 @@ const AccountManagement = () => {
       )
       .then(response => {
         console.log('Thi is APi is working ');
-        Alert.alert('Alert', response.data.message);
+        <AlertModale message={response.data.message} />;
         navigation.navigate('Login');
         PutAccessTokenToAsync();
       })

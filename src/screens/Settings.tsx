@@ -30,7 +30,7 @@ const Settings = ({navigation}) => {
   const _profile = useSelector(selectProfileData);
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(true);
-
+  const [message, setmessage] = useState('');
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
@@ -59,11 +59,9 @@ const Settings = ({navigation}) => {
         console.log(response.data); //working logout
         PutAccessTokenToAsync();
         // Alert.alert(response.data?.message);
-        <AlertModale
-          isVisible={isModalVisible}
-          onClose={toggleModal}
-          message={response.data?.message}
-        />;
+        setmessage(response.data?.message);
+
+        // <AlertModale message={response.data?.message} />;
       })
       .catch(error => {
         console.log('e' + error);
@@ -71,20 +69,46 @@ const Settings = ({navigation}) => {
       });
   };
   return (
-    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
-      <View style={tw`bg-[#edf2f2] flex-1 `}>
-        <View
-          style={{
-            height: 130,
-            backgroundColor: color.orange,
-            flexDirection: 'row',
-            alignContent: 'center',
+    <>
+      <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+        <View style={tw`bg-[#edf2f2] flex-1 `}>
+          <View
+            style={{
+              height: 130,
+              backgroundColor: color.orange,
+              flexDirection: 'row',
+              alignContent: 'center',
 
-            flexWrap: 'wrap',
-          }}>
-          {/* <Image style={{width:50,height:50,borderRadius:25}} source={}/> */}
-          {_accessToken ? (
-            <>
+              flexWrap: 'wrap',
+            }}>
+            {/* <Image style={{width:50,height:50,borderRadius:25}} source={}/> */}
+            {_accessToken ? (
+              <>
+                <View
+                  style={{
+                    flex: 1,
+                    padding: 5,
+                    justifyContent: 'flex-end',
+                  }}>
+                  <Text
+                    style={{
+                      color: color.white,
+                      fontSize: 20,
+                      fontWeight: '600',
+                    }}>
+                    {_profile.first_name}
+                  </Text>
+                  <Text
+                    style={{
+                      color: color.white,
+                      fontSize: 15,
+                      fontWeight: '600',
+                    }}>
+                    {_profile.email}
+                  </Text>
+                </View>
+              </>
+            ) : (
               <View
                 style={{
                   flex: 1,
@@ -92,140 +116,126 @@ const Settings = ({navigation}) => {
                   justifyContent: 'flex-end',
                 }}>
                 <Text
-                  style={{color: color.white, fontSize: 20, fontWeight: '600'}}>
-                  {_profile.first_name}
-                </Text>
-                <Text
-                  style={{color: color.white, fontSize: 15, fontWeight: '600'}}>
-                  {_profile.email}
+                  style={{
+                    color: color.white,
+                    fontSize: 30,
+                    fontWeight: '600',
+                  }}>
+                  Settings
                 </Text>
               </View>
-            </>
-          ) : (
-            <View
-              style={{
-                flex: 1,
-                padding: 5,
-                justifyContent: 'flex-end',
-              }}>
-              <Text
-                style={{
-                  color: color.white,
-                  fontSize: 30,
-                  fontWeight: '600',
-                }}>
-                Settings
-              </Text>
-            </View>
-          )}
-        </View>
-        <ScrollView contentContainerStyle={tw`bg-[#edf2f2]`}>
-          {_accessToken ? (
-            <>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Profile')}>
-                <Text style={[styles.button_text]}>Profile</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('MyWishlist')}>
-                <Text style={[styles.button_text]}>My Wishlist</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('TermsAndCondition')}>
-                <Text style={[styles.button_text]}>Terms and Condition</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('PrivacyPolicy')}>
-                <Text style={[styles.button_text]}>Privacy Policy</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Blogs')}>
-                <Text style={[styles.button_text]}>Blogs</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Videos')}>
-                <Text style={[styles.button_text]}>Videos</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('ContactUs')}>
-                <Text style={[styles.button_text]}>Contact Us</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('AboutUs')}>
-                <Text style={[styles.button_text]}>About Us</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('AccountManagement')}>
-                <Text style={[styles.button_text]}>Account Management</Text>
-              </TouchableOpacity>
-              {/* <TouchableOpacity
+            )}
+          </View>
+          <ScrollView contentContainerStyle={tw`bg-[#edf2f2]`}>
+            {_accessToken ? (
+              <>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('Profile')}>
+                  <Text style={[styles.button_text]}>Profile</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('MyWishlist')}>
+                  <Text style={[styles.button_text]}>My Wishlist</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('TermsAndCondition')}>
+                  <Text style={[styles.button_text]}>Terms and Condition</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('PrivacyPolicy')}>
+                  <Text style={[styles.button_text]}>Privacy Policy</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('Blogs')}>
+                  <Text style={[styles.button_text]}>Blogs</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('Videos')}>
+                  <Text style={[styles.button_text]}>Videos</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('ContactUs')}>
+                  <Text style={[styles.button_text]}>Contact Us</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('AboutUs')}>
+                  <Text style={[styles.button_text]}>About Us</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('AccountManagement')}>
+                  <Text style={[styles.button_text]}>Account Management</Text>
+                </TouchableOpacity>
+                {/* <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('FeatureAD')}>
                 <Text style={[styles.button_text]}>Feature Your AD</Text>
               </TouchableOpacity> */}
 
-              <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <Logout name="log-out" color="red" size={20} />
-                  <Text style={[styles.button_text, {color: 'red'}]}>
-                    Logout
+                <TouchableOpacity style={styles.button} onPress={LogoutFunc}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Logout name="log-out" color="red" size={20} />
+                    <Text style={[styles.button_text, {color: 'red'}]}>
+                      Logout
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('Login')}>
+                  <Text style={[styles.button_text, {color: color.orange}]}>
+                    Login/Register
                   </Text>
-                </View>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Login')}>
-                <Text style={[styles.button_text, {color: color.orange}]}>
-                  Login/Register
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('TermsAndCondition')}>
-                <Text style={[styles.button_text]}>Terms and Condition</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('PrivacyPolicy')}>
-                <Text style={[styles.button_text]}>Privacy Policy</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Blogs')}>
-                <Text style={[styles.button_text]}>Blogs</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('Videos')}>
-                <Text style={[styles.button_text]}>Videos</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('AboutUs')}>
-                <Text style={[styles.button_text]}>About Us</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('ContactUs')}>
-                <Text style={[styles.button_text]}>Contact Us</Text>
-              </TouchableOpacity>
-            </>
-          )}
-        </ScrollView>
-      </View>
-    </SafeAreaView>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('TermsAndCondition')}>
+                  <Text style={[styles.button_text]}>Terms and Condition</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('PrivacyPolicy')}>
+                  <Text style={[styles.button_text]}>Privacy Policy</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('Blogs')}>
+                  <Text style={[styles.button_text]}>Blogs</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('Videos')}>
+                  <Text style={[styles.button_text]}>Videos</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('AboutUs')}>
+                  <Text style={[styles.button_text]}>About Us</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={() => navigation.navigate('ContactUs')}>
+                  <Text style={[styles.button_text]}>Contact Us</Text>
+                </TouchableOpacity>
+              </>
+            )}
+          </ScrollView>
+        </View>
+      </SafeAreaView>
+
+      <AlertModale message={message} />
+    </>
   );
 };
 

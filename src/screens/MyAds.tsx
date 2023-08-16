@@ -295,15 +295,6 @@ const MyAds = ({navigation, isActive}) => {
                 onPressOut={onHideListModal}>
                 <Text style={styles.optionText}>Delete</Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.optionButton}
-                onPress={async () => {
-                  setDeleteModale(true);
-                  onHideListModal();
-                }}
-                onPressOut={onHideListModal}>
-                <Text style={styles.optionText}>Want to Feature Your AD ?</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </Modal>

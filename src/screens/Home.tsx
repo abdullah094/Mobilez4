@@ -26,7 +26,7 @@ import {
   setProfileData,
   setWishList,
 } from '../Redux/Slices';
-import AlertModale from '../components/AlertModale';
+
 import AppUpdateScreen from '../components/AppUpdateComponent';
 import HomeSlider from '../components/HomeSlider';
 import RecentList from '../components/RecentList';
@@ -97,11 +97,6 @@ const Home = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    <AlertModale
-      isVisible={isModalVisible}
-      onClose={toggleModal}
-      message={'hello'}
-    />;
     console.log('Getting Token From AsyncStorage');
 
     const getUserToken = async () => {

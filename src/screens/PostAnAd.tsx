@@ -133,7 +133,6 @@ const PostAnAd = () => {
     category: Category.PHONE,
     accessories: ['box'],
     city: null,
-    acc_type: null,
   });
   useEffect(() => {
     setToggleAccessories({
@@ -446,17 +445,18 @@ const PostAnAd = () => {
 
     otherModel: '',
   });
-  console.log('fieldErrors', fieldErrors);
   const validateAndSubmitForm = () => {
+    const error = new Array();
     for (const [key, value] of Object.entries(form)) {
-      if (!value) {
-        setFieldErrors(prev => {
-          return {...prev, brand: `${key} is required`};
-        });
+      if (value == null) {
+        console.log(`${key}: ${value}`, value == null);
+        error.push({[key]: `${key} is required`});
       }
     }
 
-    if (Object.values(form).find(x => x != '')) {
+    console.log('fieldErrors', Object.assign({}, ...error));
+    if (error.length > 0) {
+      setFieldErrors(Object.assign({}, ...error));
       return;
     }
 

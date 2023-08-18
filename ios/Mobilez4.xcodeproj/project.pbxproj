@@ -580,11 +580,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Mobilez4/Mobilez4.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = 957GK6W9G6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Mobilez4/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Mobilez Market";
@@ -601,7 +599,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.wizard.mobilez;
 				PRODUCT_NAME = Mobilez4;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Release;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

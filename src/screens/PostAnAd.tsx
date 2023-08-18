@@ -11,6 +11,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -25,8 +26,6 @@ import {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {Button} from 'react-native-paper';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {
@@ -35,6 +34,7 @@ import {
   selectProfileData,
   setProfileData,
 } from '../Redux/Slices';
+import Header from '../components/Header';
 import {color} from '../constants/Colors';
 import {
   CategoryData,
@@ -53,7 +53,6 @@ import {
   ModelAPI,
   Profile,
 } from '../types';
-
 const {width, height} = Dimensions.get('window');
 
 const PostAnAd = () => {
@@ -435,7 +434,8 @@ const PostAnAd = () => {
   }
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
+    <SafeAreaView style={tw`h-full bg-[#015dcf]`}>
+      <Header title="Post an Ad" />
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <ScrollView
           contentContainerStyle={{
@@ -444,25 +444,6 @@ const PostAnAd = () => {
             // backgroundColor: '#015DCF',
           }}
           keyboardShouldPersistTaps="handled">
-          <View
-            style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
-            <TouchableOpacity onPress={navigation.goBack}>
-              <Ionicons
-                name="ios-arrow-back-sharp"
-                color={color.white}
-                size={25}
-              />
-            </TouchableOpacity>
-            <Text
-              style={{
-                color: color.white,
-                textAlign: 'center',
-                fontWeight: '500',
-                flex: 1,
-              }}>
-              Post An Ad
-            </Text>
-          </View>
           <View style={tw` w-full items-start justify-center px-4`}>
             <View style={tw`w-full`}>
               <View style={tw`flex-row pt-2 items-center justify-between`}>

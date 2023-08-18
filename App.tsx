@@ -1,13 +1,10 @@
-import notifee, {
-  AndroidImportance,
-  AuthorizationStatus,
-} from '@notifee/react-native';
+import notifee, {AndroidImportance} from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, Platform} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {Provider as Paper} from 'react-native-paper';
 import {Provider} from 'react-redux';
@@ -60,116 +57,108 @@ const App = () => {
   }, []);
 
   useEffect(() => {
+    const requestPermission = async () => {
+      try {
+        const authorizationStatus = await messaging().requestPermission();
+        const settings = await notifee.requestPermission();
+        console.log('iOS settings: ', settings.ios);
+        if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+          console.log('User has notification permissions enabled.');
+          getFCMToken();
+        } else if (
+          authorizationStatus === messaging.AuthorizationStatus.PROVISIONAL
+        ) {
+          console.log('User has provisional notification permissions.');
+        } else {
+          console.log('User has notification permissions disabled');
+        }
+      } catch (error) {
+        alert('permission rejected');
+      }
+    };
     const getFCMToken = async () => {
       try {
+        if (!messaging().isDeviceRegisteredForRemoteMessages) {
+          await messaging().registerDeviceForRemoteMessages();
+        }
         const token = await messaging().getToken();
 
         console.log('FCM token:', token);
         sendFCMTokenToServer(token);
-
+        notifee.deleteChannel('Default Channel');
         // Save or use the token as needed
       } catch (error) {
-        console.log('Error getting FCM token:');
+        console.log('Error getting FCM token:', error);
       }
     };
-    getFCMToken();
+    const sendFCMTokenToServer = token => {
+      axios
+        .post('https://www.mobilezmarket.com/api/add-token', {
+          token: token,
+        })
+        .then(response => {
+          console.log(response.data.message);
+        })
+        .catch(error => {
+          Alert.alert('User does not exist', error);
+        });
+    };
+    requestPermission();
+    messaging().onMessage(onDisplayNotification);
+    messaging().setBackgroundMessageHandler(onDisplayNotification);
   }, []);
 
-  const sendFCMTokenToServer = token => {
-    axios
-      .post('https://www.mobilezmarket.com/api/add-token', {
-        token: token,
-      })
-      .then(response => {
-        console.log(response.data.message);
-      })
-      .catch(error => {
-        Alert.alert('User does not exist', error);
-      });
-  };
-
-  async function onDisplayNotification(message) {
+  const onDisplayNotification = async message => {
     const notification = message.notification;
-
-    // Request permissions (required for iOS)
-    await notifee.requestPermission();
-
-    // Create a channel (required for Android)
-    const channelId = await notifee.createChannel({
-      id: 'important',
-      name: 'Important Notifications',
-      importance: AndroidImportance.HIGH,
-      sound: 'hollow',
-      vibration: true,
-      vibrationPattern: [300, 500],
-    });
-
-    // Display a notification
-    await notifee.displayNotification({
-      title: notification.title || '',
-      body: notification.body || '',
-      android: {
-        largeIcon: notification.android.smallIcon,
-        sound: 'hollow',
-        autoCancel: true,
-        vibrationPattern: [300, 500],
-        importance: AndroidImportance.HIGH,
-        channelId,
-        smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
-        // pressAction is needed if you want the notification to open the app when pressed
-        pressAction: {
-          id: 'default',
+    if (Platform.OS === 'ios') {
+      // Display a notification
+      await notifee.displayNotification({
+        title: notification.title || '',
+        body: notification.body || '',
+        ios: {
+          foregroundPresentationOptions: {
+            badge: true,
+            sound: true,
+            banner: true,
+            list: true,
+          },
         },
-      },
-    });
-  }
-  notifee.deleteChannel('Default Channel');
-  messaging().onMessage(onDisplayNotification);
-  messaging().setBackgroundMessageHandler(onDisplayNotification);
-  async function checkNotificationPermission() {
-    const settings = await notifee.getNotificationSettings();
+      });
+    } else {
+      // Create a channel (required for Android)
+      const channelId = await notifee.createChannel({
+        id: 'important',
+        name: 'Important Notifications',
+        importance: AndroidImportance.HIGH,
+        sound: 'hollow',
+        vibration: true,
+        vibrationPattern: [300, 500],
+      });
 
-    if (settings.authorizationStatus == AuthorizationStatus.AUTHORIZED) {
-      console.log('Notification permissions has been authorized');
-    } else if (settings.authorizationStatus == AuthorizationStatus.DENIED) {
-      console.log('Notification permissions has been denied');
+      // Display a notification
+      await notifee.displayNotification({
+        title: notification.title || '',
+        body: notification.body || '',
+        android: {
+          // largeIcon: notification.android.smallIcon,
+          sound: 'hollow',
+          autoCancel: true,
+          vibrationPattern: [300, 500],
+          importance: AndroidImportance.HIGH,
+          channelId,
+          smallIcon: 'ic_launcher', // optional, defaults to 'ic_launcher'.
+          // pressAction is needed if you want the notification to open the app when pressed
+          pressAction: {
+            id: 'default',
+          },
+        },
+      });
     }
-  }
+  };
 
   if (loading) {
     return <Welcome />;
   }
-
-  // const NotficationFunc = useCallback(() => {
-  //   const url = `https://www.mobilezmarket.com/api/add-token ${token}`;
-  //   axios
-  //     .post(
-  //       url,
-  //       {},
-  //       {
-  //         headers: {Authorization: `Bearer ${_accessToken}`},
-  //       },
-  //     )
-  //     .then(response => {
-  //       setToken(response.data.message);
-
-  //       console.log('Ad deleted ');
-  //     })
-  //     .catch(error => {
-  //       console.log('hello', error);
-  //     });
-  // }, []);
-
-  // function onMessageReceived(message: any) {
-  //   notifee.displayNotification(JSON.parse(message.data.notifee));
-  // }
-  // useEffect(() => {
-  //   NotficationFunc();
-  // }, [_accessToken]);
-
-  // messaging().onMessage(onMessageReceived);
-  // messaging().setBackgroundMessageHandler(onMessageReceived);
-
   return (
     <Provider store={Store}>
       <Paper>

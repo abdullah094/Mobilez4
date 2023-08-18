@@ -11,7 +11,6 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		4F1026EA2A4470F5006B020D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F1026E92A4470F5006B020D /* GoogleService-Info.plist */; };
 		4F664E152A39F6AA0074D042 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E052A39F6AA0074D042 /* Fontisto.ttf */; };
 		4F664E162A39F6AA0074D042 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E062A39F6AA0074D042 /* Octicons.ttf */; };
 		4F664E172A39F6AA0074D042 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E072A39F6AA0074D042 /* Feather.ttf */; };
@@ -28,6 +27,7 @@
 		4F664E222A39F6AA0074D042 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E122A39F6AA0074D042 /* EvilIcons.ttf */; };
 		4F664E232A39F6AA0074D042 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E132A39F6AA0074D042 /* SimpleLineIcons.ttf */; };
 		4F664E242A39F6AA0074D042 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F664E142A39F6AA0074D042 /* MaterialIcons.ttf */; };
+		52AC184F2A8FAAB0005EB910 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52AC184E2A8FAAB0005EB910 /* GoogleService-Info.plist */; };
 		6BEBED19D9E722292A4E2FF1 /* Pods_Mobilez4_Mobilez4Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA764812DFAE0E305569C901 /* Pods_Mobilez4_Mobilez4Tests.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C2EA189E4BA1BE778E34FF06 /* Pods_Mobilez4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5EB372756DC787969148A0 /* Pods_Mobilez4.framework */; };
@@ -56,7 +56,6 @@
 		3B4392A12AC88292D35C810B /* Pods-Mobilez4.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobilez4.debug.xcconfig"; path = "Target Support Files/Pods-Mobilez4/Pods-Mobilez4.debug.xcconfig"; sourceTree = "<group>"; };
 		4D5EB372756DC787969148A0 /* Pods_Mobilez4.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mobilez4.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F1026E82A44680D006B020D /* Mobilez4.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Mobilez4.entitlements; path = Mobilez4/Mobilez4.entitlements; sourceTree = "<group>"; };
-		4F1026E92A4470F5006B020D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		4F664E052A39F6AA0074D042 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		4F664E062A39F6AA0074D042 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		4F664E072A39F6AA0074D042 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
@@ -73,6 +72,7 @@
 		4F664E122A39F6AA0074D042 /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
 		4F664E132A39F6AA0074D042 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
 		4F664E142A39F6AA0074D042 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		52AC184E2A8FAAB0005EB910 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-Mobilez4.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobilez4.release.xcconfig"; path = "Target Support Files/Pods-Mobilez4/Pods-Mobilez4.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-Mobilez4-Mobilez4Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobilez4-Mobilez4Tests.debug.xcconfig"; path = "Target Support Files/Pods-Mobilez4-Mobilez4Tests/Pods-Mobilez4-Mobilez4Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Mobilez4/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		13B07FAE1A68108700A75B9A /* Mobilez4 */ = {
 			isa = PBXGroup;
 			children = (
-				4F1026E92A4470F5006B020D /* GoogleService-Info.plist */,
+				52AC184E2A8FAAB0005EB910 /* GoogleService-Info.plist */,
 				4F1026E82A44680D006B020D /* Mobilez4.entitlements */,
 				4F664E042A39F6AA0074D042 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -314,10 +314,10 @@
 				4F664E182A39F6AA0074D042 /* Entypo.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				4F664E212A39F6AA0074D042 /* Zocial.ttf in Resources */,
-				4F1026EA2A4470F5006B020D /* GoogleService-Info.plist in Resources */,
 				4F664E232A39F6AA0074D042 /* SimpleLineIcons.ttf in Resources */,
 				4F664E172A39F6AA0074D042 /* Feather.ttf in Resources */,
 				4F664E162A39F6AA0074D042 /* Octicons.ttf in Resources */,
+				52AC184F2A8FAAB0005EB910 /* GoogleService-Info.plist in Resources */,
 				4F664E192A39F6AA0074D042 /* FontAwesome5_Brands.ttf in Resources */,
 				4F664E1B2A39F6AA0074D042 /* AntDesign.ttf in Resources */,
 				4F664E242A39F6AA0074D042 /* MaterialIcons.ttf in Resources */,

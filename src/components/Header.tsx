@@ -23,15 +23,12 @@ const Header = ({title = ''}) => {
   return (
     <View
       style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
-      {accessToken && (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Home');
-          }}>
-          <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
-        </TouchableOpacity>
-      )}
-
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Home');
+        }}>
+        <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
+      </TouchableOpacity>
       <Text
         style={{
           color: color.white,

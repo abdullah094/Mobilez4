@@ -3,6 +3,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '12.4'
 use_frameworks! :linkage => :static
+$RNFirebaseAsStaticFramework = true
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'Mobilez4' do

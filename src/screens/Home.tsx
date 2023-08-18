@@ -272,7 +272,7 @@ const Home = ({navigation}) => {
                   onPress={() => navigation.navigate('Profile')}>
                   {profile && profile.photo && (
                     <Image
-                      style={tw`h-12 w-12 rounded-full`}
+                      style={tw`h-10 w-10 rounded-full`}
                       source={{
                         uri: profile.photo.includes('https')
                           ? profile.photo
@@ -297,7 +297,7 @@ const Home = ({navigation}) => {
             <View style={tw`relative rounded-md flex-1`}>
               <SearchScreen />
               <View
-                style={tw`w-full px-6 top-[100px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
+                style={tw`w-full px-6 top-[90px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
                 <HomeSlider />
               </View>
             </View>

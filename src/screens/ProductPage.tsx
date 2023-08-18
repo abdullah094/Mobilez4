@@ -111,7 +111,8 @@ const ProductPage = ({navigation, route}) => {
           width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: '15%',
+          paddingVertical: 10,
+          backgroundColor: 'white',
         },
         Platform.OS === 'android' && {bottom: 25},
       ]}>
@@ -176,12 +177,12 @@ const ProductPage = ({navigation, route}) => {
           <View style={tw`flex-1 px-4`}>
             <View
               style={{
-                paddingHorizontal: 16,
+                paddingVertical: 16,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
               }}>
               {/* <Slider data={data.productimages} /> */}
-              <View style={tw`w-[70%]`}>
+              <View style={tw`w-[70%] h-[300px]`}>
                 <TouchableOpacity
                   style={{
                     height: 300,
@@ -193,11 +194,8 @@ const ProductPage = ({navigation, route}) => {
                     })
                   }>
                   <Image
-                    style={{
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: 10,
-                    }}
+                    style={tw`flex-1 rounded-lg`}
+                    resizeMode="cover"
                     source={{uri: image_url + details.productimages[0].img}}
                   />
                 </TouchableOpacity>
@@ -221,7 +219,7 @@ const ProductPage = ({navigation, route}) => {
                     }>
                     <Image
                       style={styles.productImage}
-                      resizeMode="contain"
+                      resizeMode="cover"
                       source={{uri: image_url + img}}
                     />
                     {index == 2 && details.productimages.length - 3 != 0 && (
@@ -539,8 +537,8 @@ const ProductPage = ({navigation, route}) => {
             <RecentList name={Category.MORE_AD} products={more_ads} />
           </View>
         </ScrollView>
-        <CallWhatsappSms />
       </View>
+      <CallWhatsappSms />
     </SafeAreaView>
   );
 };

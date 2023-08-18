@@ -157,7 +157,6 @@ const PostAnAd = () => {
       description: null,
       warranty: null,
       city: null,
-      acc_type: null,
       otherModel: null,
     }));
   }, [form.category]);
@@ -432,7 +431,38 @@ const PostAnAd = () => {
       fetchData();
     }, []);
   }
+  const [fieldErrors, setFieldErrors] = useState({
+    brand: '',
+    model: '',
+    price: '',
+    storage: '',
+    ram: '',
+    product_type: '',
+    pta_status: '',
+    image: [],
+    description: '',
+    warranty: '',
+    city: '',
 
+    otherModel: '',
+  });
+  console.log('fieldErrors', fieldErrors);
+  const validateAndSubmitForm = () => {
+    for (const [key, value] of Object.entries(form)) {
+      if (!value) {
+        setFieldErrors(prev => {
+          return {...prev, brand: `${key} is required`};
+        });
+      }
+    }
+
+    if (Object.values(form).find(x => x != '')) {
+      return;
+    }
+
+    PostAdFunc();
+  };
+  console.log('======', fieldErrors.price);
   return (
     <SafeAreaView style={tw`h-full bg-[#015dcf]`}>
       <Header title="Post an Ad" />
@@ -471,11 +501,15 @@ const PostAnAd = () => {
                     setSelected={val => {
                       setForm({...form, brand: val});
                       setisTablet(false);
+                      setFieldErrors({...fieldErrors, brand: ''});
                     }}
                     data={brands}
                     save="value"
                     dropdownTextStyles={{color: 'black'}}
                   />
+                  {fieldErrors.brand != '' && (
+                    <Text style={{color: 'red'}}>{fieldErrors?.brand}</Text>
+                  )}
                 </View>
               </View>
               {/* {isOtherBrand && (
@@ -568,8 +602,13 @@ const PostAnAd = () => {
                 placeholder="Enter Price"
                 placeholderTextColor={'gray'}
                 value={form.price ?? ''}
-                onChangeText={text => setForm({...form, price: text})}
+                onChangeText={text => {
+                  setForm({...form, price: text});
+                  setFieldErrors({...fieldErrors, price: ''});
+                }}
               />
+
+              <Text style={styles.error}>{fieldErrors.price}</Text>
               {form.category === 'Watch' || (
                 <SelectList
                   boxStyles={styles.box}
@@ -902,7 +941,7 @@ const PostAnAd = () => {
               onPress={() => {
                 !IsVerifiedStorage
                   ? Alert.alert('Please Verify OTP')
-                  : PostAdFunc();
+                  : validateAndSubmitForm();
               }}
               disabled={isOtp ? true : false}
               style={{
@@ -933,6 +972,9 @@ const PostAnAd = () => {
 export default PostAnAd;
 
 const styles = StyleSheet.create({
+  error: {
+    color: 'red',
+  },
   box: {
     marginTop: 10,
     width: '100%',

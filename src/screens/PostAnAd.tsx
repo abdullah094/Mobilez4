@@ -1,8 +1,7 @@
-import {BRANDS, DESCRIPTION, MODELS, POST_AN_AD, SUBMIT_OTP} from '@env';
+import {POST_AN_AD, SUBMIT_OTP} from '@env';
 
-import CheckBox from '@react-native-community/checkbox';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import axios, {AxiosError} from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
 import FormData from 'form-data';
 import React, {ReactNode, useEffect, useState} from 'react';
 import {
@@ -19,7 +18,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SelectList} from 'react-native-dropdown-select-list';
 import {
   Asset,
   ImageLibraryOptions,
@@ -30,67 +28,67 @@ import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {
   selectAccessToken,
-  selectOtpVerify,
   selectProfileData,
   setProfileData,
 } from '../Redux/Slices';
 import Header from '../components/Header';
+import PostAndAdForm from '../components/PostAndAdForm';
 import {color} from '../constants/Colors';
-import {
-  CategoryData,
-  CityData,
-  ConditionData,
-  RamData,
-  StorageData,
-  WarrantyData,
-} from '../data';
-import {
-  BrandAPI,
-  Category,
-  Form,
-  IDropDown,
-  IndexNavigationProps,
-  ModelAPI,
-  Profile,
-} from '../types';
+import {Category, IndexNavigationProps, Profile} from '../types';
 const {width, height} = Dimensions.get('window');
 
+export interface Form {
+  category: 'Mobile' | 'Tablet' | 'Watch';
+  isCategoryVisible: boolean;
+  errorCategory: string;
+  brand: string;
+  isBrandVisible: boolean;
+  errorBrand: string;
+  isOtherBrand: boolean;
+  model: string | null;
+  isOtherModel: boolean;
+  errorModel: '';
+  isModelVisible: boolean;
+  otherModel: false;
+  price?: string | null;
+  errorPrice: string;
+  ram: string;
+  errorRam: string;
+  isRamVisible: boolean;
+  pta_status: 'Verified' | 'NON-Verified';
+  isPTA_statusVisible: boolean;
+  errorPTA_status: string;
+  storage: string;
+  errorStorage: string;
+  isStorageVisible: boolean;
+  warranty: string;
+  isWarrantyVisible: boolean;
+  errorWarranty: string;
+  city?: string;
+  isCityVisible: boolean;
+  product_type?: 'New' | 'Used' | 'Refurbished';
+  errorProduct_type: string;
+  isProduct_typeVisible: boolean;
+  isOtherProductUsed: boolean;
+  image?: Asset[];
+  description?: string | null;
+  accessories?: [string];
+  acc_type?: string | null;
+  isAccountTypeVisible: boolean;
+}
 const PostAnAd = () => {
   const route = useRoute();
   const id = route?.params?.id || 20;
   const from = route.params?.from || 'Post';
 
-  console.log(id, from);
-  const otpVerifiction = useSelector(selectOtpVerify);
   const profileData = useSelector(selectProfileData) as Profile;
+  const _accessToken = useSelector(selectAccessToken);
   const [IsVerifiedStorage, setIsVerifiedStorage] = useState(true);
   const [submitText, setSubmitText] = useState('Submit');
   const [otp, setOtp] = useState('');
 
   const navigation = useNavigation<IndexNavigationProps<'PostAnAd'>>();
-  const [brands, setBrands] = useState<IDropDown[] | null>([]);
-  const [models, setModels] = useState<IDropDown[]>([]);
-  const [viewType, setViewType] = useState<string>('');
-  const [condition, setCondition] = useState(false);
-  const _accessToken = useSelector(selectAccessToken);
-  const [otherModels, setOtherModels] = useState(false);
-  const [approved, setApproved] = useState([
-    {key: 1, value: 'Approved'},
-    {key: 2, value: 'Not Approved'},
-  ]);
-  const data = [
-    {label: 'individual', value: 'individual'},
-    {label: 'business', value: 'business'},
-  ];
-  console.log('otppppppppppp', otpVerifiction);
-  const [toggleAccessories, setToggleAccessories] = useState({
-    box: false,
-    charger: false,
-    data_cable: false,
-    handfree: false,
-    kit_only: false,
-  });
-  const [brand, setBrand] = useState<string>();
+
   const [button, setButton] = useState<ReactNode | String>('Save Product');
   const [uploadButton, setUploadButton] = useState<ReactNode | String>(
     'Upload Image',
@@ -98,12 +96,7 @@ const PostAnAd = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isOtp, setOTP] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [isOtherModel, setIsOtherModel] = useState(true);
 
-  const [isTablet, setisTablet] = useState<boolean>(true);
-  // const [brand, setBrand] = useState<string>();
-
-  const [desc, setDesc] = useState();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -117,99 +110,113 @@ const PostAnAd = () => {
     }
   }, [profileData]);
 
-  console.log(profileData);
   const [form, setForm] = useState<Form>({
-    brand: null,
+    category: Category.PHONE,
+    isCategoryVisible: false,
+    errorCategory: '',
+    brand: '',
+    isBrandVisible: false,
+    errorBrand: '',
+    isOtherBrand: false,
     model: null,
+    errorModel: '',
+    isOtherModel: false,
+    isModelVisible: false,
+    otherModel: false,
     price: null,
-    storage: null,
-    ram: null,
-    product_type: null,
-    pta_status: null,
+    errorPrice: '',
+    ram: '1 GB',
+    errorRam: '',
+    isRamVisible: false,
+    pta_status: 'Verified',
+    errorPTA_status: '',
+    isPTA_statusVisible: false,
+    storage: '4 GB',
+    errorStorage: '',
+    isStorageVisible: false,
+    product_type: 'New',
+    isProduct_typeVisible: false,
+    errorProduct_type: '',
+    isOtherProductUsed: false,
+    warranty: 'No Warranty',
+    errorWarranty: '',
+    isWarrantyVisible: false,
     image: [],
     description: null,
-    warranty: null,
-    otherModel: null,
-    category: Category.PHONE,
     accessories: ['box'],
-    city: null,
+    city: 'karachi',
+    isCityVisible: false,
+    isAccountTypeVisible: false,
   });
-  useEffect(() => {
-    setToggleAccessories({
-      box: false,
-      charger: false,
-      data_cable: false,
-      handfree: false,
-      kit_only: false,
-    });
 
-    setForm(prevForm => ({
-      ...prevForm,
-      brand: null,
+  const resetError = () => {
+    setForm(prev => ({
+      ...prev,
+      errorCategory: '',
+      errorBrand: '',
+      errorModel: '',
+      errorPrice: '',
+      errorRam: '',
+      errorPTA_status: '',
+      errorStorage: '',
+      errorProduct_type: '',
+      errorWarranty: '',
+    }));
+  };
+
+  useEffect(() => {
+    resetError();
+  }, [
+    form.category,
+    form.brand,
+    form.model,
+    form.price,
+    form.ram,
+    form.pta_status,
+    form.storage,
+    form.product_type,
+    from.warranty,
+  ]);
+
+  const clearData = () => {
+    setForm({
+      category: Category.PHONE,
+      isCategoryVisible: false,
+      errorCategory: '',
+      brand: '',
+      isBrandVisible: false,
+      errorBrand: '',
+      isOtherBrand: false,
       model: null,
+      errorModel: '',
+      isOtherModel: false,
+      isModelVisible: false,
+      otherModel: false,
       price: null,
-      storage: null,
-      ram: null,
-      product_type: null,
-      pta_status: null,
+      errorPrice: '',
+      ram: '1 GB',
+      errorRam: '',
+      isRamVisible: false,
+      pta_status: 'Verified',
+      errorPTA_status: '',
+      isPTA_statusVisible: false,
+      storage: '4 GB',
+      errorStorage: '',
+      isStorageVisible: false,
+      product_type: 'New',
+      isProduct_typeVisible: false,
+      errorProduct_type: '',
+      isOtherProductUsed: false,
+      warranty: 'No Warranty',
+      errorWarranty: '',
+      isWarrantyVisible: false,
       image: [],
       description: null,
-      warranty: null,
-      city: null,
-      otherModel: null,
-    }));
-  }, [form.category]);
-
-  // condition logic
-  if (form.product_type === 'Used' || form.product_type === 'Refurbished') {
-    setTimeout(() => {
-      setCondition(true);
-    }, 300);
-  } else {
-    setTimeout(() => {
-      setCondition(false);
-    }, 300);
-  }
-
-  useEffect(() => {
-    getBrandFunc();
-  }, [form.category]);
-
-  const getBrandFunc = () => {
-    axios
-      .get(BRANDS, {
-        headers: {Authorization: `Bearer ${_accessToken}`},
-      })
-      .then(response => {
-        const data: BrandAPI = response.data;
-        let brands = data.brands
-          .filter(x => x.category == form.category)
-          .map(y => {
-            return {key: y.id, value: y.title};
-          });
-
-        setBrands(brands);
-      })
-      .catch(error => {
-        console.log('Brands ' + error);
-      });
-  };
-  const getModelFunc = () => {
-    const api = MODELS + form.brand;
-    axios
-      .get(api, {
-        headers: {Authorization: `Bearer ${_accessToken}`},
-      })
-      .then(response => {
-        const data: ModelAPI = response.data;
-        const models = data.models.map(y => {
-          return {key: y.id, value: y.model_name};
-        });
-        setModels(models);
-      })
-      .catch(error => {
-        console.log('Brands ' + error);
-      });
+      accessories: ['box'],
+      city: 'karachi',
+      isCityVisible: false,
+      isAccountTypeVisible: false,
+    });
   };
 
   const OTPVerify = () => {
@@ -270,12 +277,6 @@ const PostAnAd = () => {
     setForm({...form, image: images});
     setUploadButton('Upload Image');
   };
-  const customStyles = {
-    option: provided => ({
-      ...provided,
-      color: 'red', // Change the color value to your desired text color
-    }),
-  };
 
   const SendOTP = () => {
     setDisabled(true);
@@ -313,27 +314,10 @@ const PostAnAd = () => {
       });
   };
 
-  useEffect(() => {
-    getModelFunc();
-  }, [form.brand]);
-
   const PostAdFunc = async () => {
     setButton(<ActivityIndicator size={15} color={color.white} />);
     const data = new FormData();
 
-    let images: {uri: any; name: any; type: any}[] = [];
-    form.image?.forEach(image => {
-      images.push({
-        uri: image.uri,
-        name: image.fileName,
-        type: image.type,
-      });
-    });
-
-    console.log('image', images);
-    images.forEach((image, index) => {
-      data.append('image[]', image, `image${index + 1}.png`);
-    });
     data.append('brand', form.brand);
     data.append('model', form.model);
     data.append('description', form.description);
@@ -345,124 +329,118 @@ const PostAnAd = () => {
     data.append('ram', form.ram);
     data.append('storage', form.storage);
     // Create headers manually
-    let headers = {
-      Authorization: `Bearer ${_accessToken}`,
-      'Content-Type': 'multipart/form-data',
+    let images: {uri: any; name: any; type: any}[] = [];
+    form.image?.forEach(image => {
+      images.push({
+        uri: image.uri,
+        name: image.fileName,
+        type: image.type,
+      });
+    });
+
+    images.forEach((image, index) => {
+      data.append('image[]', image, `image${index + 1}.png`);
+    });
+    console.log('images', JSON.stringify(data));
+    const config: AxiosRequestConfig<FormData> = {
+      headers: {
+        Authorization: `Bearer ${_accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+      maxBodyLength: Infinity,
     };
 
     // Make the request
     // Make the request
     _accessToken
       ? axios
-          .post(POST_AN_AD, data, {headers})
+          .post(POST_AN_AD, data, config)
           .then(response => {
-            if (response.data.status === 200) {
-              setForm({
-                ...form,
-                brand: '',
-                model: '',
-                price: '',
-                storage: '',
-                ram: '',
-                product_type: '',
-                pta_status: '',
-                image: [],
-                description: '',
-                warranty: '',
-                category: Category.PHONE,
-                accessories: ['box'],
-              });
-              navigation.navigate('Home');
-              Alert.alert(response.data.message);
-              setButton('Save Product');
-            } else {
-              setButton('Save Product');
-              Alert.alert('Error', 'missing some fields');
+            console.log(response.data);
+            const {
+              errors,
+              status,
+              message,
+            }: {
+              errors: {
+                brand: string[];
+                category: string[];
+                description: string[];
+                image: string[];
+                model: string[];
+                price: string[];
+                product_type: string[];
+                pta_status: string[];
+                ram: string[];
+                storage: string[];
+                warranty: string[];
+              };
+              status: number;
+              message: string;
+            } = response.data;
+            if (Object.entries(errors).length > 0) {
+              for (const [key, value] of Object.entries(errors)) {
+                Alert.alert(key, value[0]);
+              }
             }
+
+            setButton('Post Ad');
           })
           .catch(error => {
-            setButton('Save Product');
-            Alert.alert('error', error);
+            console.log('Error', error);
+            setButton('Post Ad');
           })
       : Alert.alert('Please Login First');
   };
 
-  useEffect(() => {
-    form.model?.includes('Other')
-      ? setOtherModels(true)
-      : setOtherModels(false);
-  }, [form.model]); // useEffect(() => {
-  //   console.log(form.brand, 'form.brand');
-  //   if (form.category === 'Mobile' && form.brand?.includes('Other')) {
-  //     setViewType('brand_model');
-  //   } else {
-  //     setViewType('');
-  //   }
-
-  //   if (form.category === 'Tablet') {
-  //     setViewType('model');
-  //   } else if (form.category === 'Tablet' && form.brand?.includes('Other')) {
-  //   }
-  // }, [form]);
-
-  // console.log(
-  //   viewType,
-  //   'setTextInput__________________________________________________________',
-  // );
-  console.log('this is the form', form);
-
-  const fetchData = () => {
-    const api = DESCRIPTION + id;
-    // console.log(api)
-    axios
-      .get(api)
-      .then(response => {
-        setDesc(response?.data);
-
-        // console.log('Response======', response.data.related_ads);
-      })
-      .catch((reason: AxiosError) => {
-        console.log(reason?.message);
-      });
-  };
-  if (from === 'Edit') {
-    useEffect(() => {
-      fetchData();
-    }, []);
-  }
-  const [fieldErrors, setFieldErrors] = useState({
-    brand: '',
-    model: '',
-    price: '',
-    storage: '',
-    ram: '',
-    product_type: '',
-    pta_status: '',
-    image: [],
-    description: '',
-    warranty: '',
-    city: '',
-
-    otherModel: '',
-  });
   const validateAndSubmitForm = () => {
-    const error = new Array();
-    for (const [key, value] of Object.entries(form)) {
-      if (value == null) {
-        console.log(`${key}: ${value}`, value == null);
-        error.push({[key]: `${key} is required`});
-      }
-    }
-
-    console.log('fieldErrors', Object.assign({}, ...error));
-    if (error.length > 0) {
-      setFieldErrors(Object.assign({}, ...error));
+    if (!form.brand) {
+      setForm(prev => ({...prev, errorBrand: 'Brand is required'}));
       return;
     }
-
+    if (!form.model) {
+      setForm(prev => ({...prev, errorBrand: 'Model is required'}));
+      return;
+    }
+    if (!form.price) {
+      setForm(prev => ({...prev, errorBrand: 'Price is required'}));
+      return;
+    }
+    if (!form.pta_status) {
+      setForm(prev => ({...prev, errorBrand: 'PTA status is required'}));
+      return;
+    }
+    if (!form.storage) {
+      setForm(prev => ({...prev, errorBrand: 'Storage is required'}));
+      return;
+    }
+    if (!form.product_type) {
+      setForm(prev => ({...prev, errorBrand: 'Condition is required'}));
+      return;
+    }
+    if (!form.warranty) {
+      setForm(prev => ({...prev, errorBrand: 'Warranty is required'}));
+      return;
+    }
+    if (!form.ram) {
+      setForm(prev => ({...prev, errorBrand: 'RAM is required'}));
+      return;
+    }
+    if (profileData.account_status === null) {
+      if (!form.acc_type) {
+        setForm(prev => ({...prev, errorBrand: 'Account Type is required'}));
+        return;
+      }
+    }
+    if (profileData.city === null) {
+      if (!form.city) {
+        setForm(prev => ({...prev, errorBrand: 'City is required'}));
+        return;
+      }
+    }
     PostAdFunc();
   };
-  console.log('======', fieldErrors.price);
+
   return (
     <SafeAreaView style={tw`h-full bg-[#015dcf]`}>
       <Header title="Post an Ad" />
@@ -476,313 +454,7 @@ const PostAnAd = () => {
           keyboardShouldPersistTaps="handled">
           <View style={tw` w-full items-start justify-center px-4`}>
             <View style={tw`w-full`}>
-              <View style={tw`flex-row pt-2 items-center justify-between`}>
-                <View style={tw`w-1/2  pr-2`}>
-                  <SelectList
-                    boxStyles={styles.box}
-                    placeholder="Category"
-                    inputStyles={{color: 'grey'}}
-                    setSelected={val => {
-                      setForm({...form, category: val});
-                    }}
-                    data={CategoryData}
-                    save="value"
-                    dropdownTextStyles={{color: 'black'}}
-                  />
-                </View>
-                <View style={tw`w-1/2 pl-2`}>
-                  <SelectList
-                    boxStyles={styles.box}
-                    placeholder="Choose Brands"
-                    inputStyles={{
-                      color: 'grey',
-                      // fontFamily: 'Geologica_Auto-Black',
-                    }}
-                    setSelected={val => {
-                      setForm({...form, brand: val});
-                      setisTablet(false);
-                      setFieldErrors({...fieldErrors, brand: ''});
-                    }}
-                    data={brands}
-                    save="value"
-                    dropdownTextStyles={{color: 'black'}}
-                  />
-                  {fieldErrors.brand != '' && (
-                    <Text style={{color: 'red'}}>{fieldErrors?.brand}</Text>
-                  )}
-                </View>
-              </View>
-              {/* {isOtherBrand && (
-                
-
-              )} */}
-              {form.category === 'Mobile' && form.brand?.includes('Other') ? (
-                <>
-                  <TextInput
-                    placeholder="Enter brand"
-                    placeholderTextColor={'gray'}
-                    style={styles.box_input}
-                    value={brand}
-                    onChangeText={text => setBrand(text)}
-                  />
-                  <TextInput
-                    placeholder="Enter Model"
-                    placeholderTextColor={'gray'}
-                    style={styles.box_input}
-                    onChangeText={text => {
-                      {
-                        setForm({...form, model: text});
-                      }
-                    }}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
-
-              {form.category === 'Tablet' || form.category === 'Watch' ? (
-                <>
-                  <TextInput
-                    placeholder="Choose model "
-                    placeholderTextColor={'gray'}
-                    style={styles.box_input}
-                    onChangeText={text => {
-                      {
-                        setForm({...form, model: text});
-                      }
-                    }}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
-
-              {form.category === 'Mobile' && !form.brand?.includes('Other') ? (
-                <>
-                  <SelectList
-                    boxStyles={styles.box}
-                    placeholder="Choose model"
-                    inputStyles={{color: 'black'}}
-                    setSelected={val => {
-                      setIsOtherModel(false);
-                      setForm({...form, model: val});
-                    }}
-                    data={models}
-                    save="value"
-                    dropdownTextStyles={{color: 'black'}}
-                  />
-                </>
-              ) : (
-                <></>
-              )}
-              {form.category === 'Mobile' &&
-              !form.brand?.includes('Other') &&
-              form.model === 'Other' ? (
-                <TextInput
-                  placeholder="Enter Model"
-                  placeholderTextColor={'grey'}
-                  style={styles.box_input}
-                  value={form.otherModel}
-                  onChangeText={text => {
-                    {
-                      setForm({...form, otherModel: text});
-                    }
-                  }}
-                />
-              ) : null}
-              {/* {otherModels &&
-                form.category === 'Mobile' &&
-                form.model == 'Other' && (
-                
-                )} */}
-
-              <TextInput
-                style={styles.box_input}
-                keyboardType="number-pad"
-                placeholder="Enter Price"
-                placeholderTextColor={'gray'}
-                value={form.price ?? ''}
-                onChangeText={text => {
-                  setForm({...form, price: text});
-                  setFieldErrors({...fieldErrors, price: ''});
-                }}
-              />
-
-              <Text style={styles.error}>{fieldErrors.price}</Text>
-              {form.category === 'Watch' || (
-                <SelectList
-                  boxStyles={styles.box}
-                  // inputStyles={styles.box}
-                  placeholder="Choose Ram"
-                  inputStyles={{color: 'black'}}
-                  setSelected={val =>
-                    setForm({...form, ram: val.replace(' GB', '')})
-                  }
-                  data={RamData}
-                  save="value"
-                  dropdownTextStyles={{color: 'black'}}
-                />
-              )}
-              {form.category === 'Watch' || (
-                <SelectList
-                  boxStyles={styles.box}
-                  placeholder="PTA Status"
-                  inputStyles={{color: 'black'}}
-                  setSelected={val => setForm({...form, pta_status: val})}
-                  data={approved}
-                  save="value"
-                  dropdownTextStyles={{color: 'black'}}
-                />
-              )}
-              {form.category === 'Watch' || (
-                <SelectList
-                  boxStyles={styles.box}
-                  placeholder="Choose Storage"
-                  inputStyles={{color: 'black'}}
-                  setSelected={val =>
-                    setForm({...form, storage: val.replace(' GB', '')})
-                  }
-                  data={StorageData}
-                  save="value"
-                  dropdownTextStyles={{color: 'black'}}
-                />
-              )}
-              <SelectList
-                boxStyles={styles.box}
-                placeholder="Product Condition"
-                inputStyles={{color: 'black'}}
-                setSelected={val => setForm({...form, product_type: val})}
-                data={ConditionData}
-                save="value"
-                dropdownTextStyles={{color: 'black'}}
-              />
-
-              {condition ? (
-                <View style={{padding: 5, paddingVertical: 15}}>
-                  <Text
-                    style={{
-                      color: color.black,
-                      fontWeight: '500',
-                      fontSize: 15,
-                    }}>
-                    Accessories
-                  </Text>
-
-                  <View style={styles.check_box_box}>
-                    <CheckBox
-                      disabled={false}
-                      value={toggleAccessories.box}
-                      tintColors={{true: color.black, false: color.black}}
-                      onValueChange={newValue =>
-                        setToggleAccessories({
-                          ...toggleAccessories,
-                          box: newValue,
-                        })
-                      }
-                    />
-                    <Text style={styles.check_box_text}>Box</Text>
-                  </View>
-
-                  <View style={styles.check_box_box}>
-                    <CheckBox
-                      disabled={false}
-                      tintColors={{true: color.black, false: color.black}}
-                      value={toggleAccessories.charger}
-                      onValueChange={newValue =>
-                        setToggleAccessories({
-                          ...toggleAccessories,
-                          charger: newValue,
-                        })
-                      }
-                    />
-                    <Text style={styles.check_box_text}>Charger</Text>
-                  </View>
-
-                  <View style={styles.check_box_box}>
-                    <CheckBox
-                      disabled={false}
-                      tintColors={{true: color.black, false: color.black}}
-                      // tintColors={color.black}
-                      value={toggleAccessories.data_cable}
-                      onValueChange={newValue =>
-                        setToggleAccessories({
-                          ...toggleAccessories,
-                          data_cable: newValue,
-                        })
-                      }
-                    />
-                    <Text style={styles.check_box_text}>Data Cable</Text>
-                  </View>
-
-                  <View style={styles.check_box_box}>
-                    <CheckBox
-                      disabled={false}
-                      tintColors={{true: color.black, false: color.black}}
-                      value={toggleAccessories.handfree}
-                      onValueChange={newValue =>
-                        setToggleAccessories({
-                          ...toggleAccessories,
-                          handfree: newValue,
-                        })
-                      }
-                    />
-                    <Text style={styles.check_box_text}>Hand Free</Text>
-                  </View>
-
-                  <View style={styles.check_box_box}>
-                    <CheckBox
-                      disabled={false}
-                      tintColors={{true: color.black, false: color.black}}
-                      value={toggleAccessories.kit_only}
-                      onValueChange={newValue =>
-                        setToggleAccessories({
-                          ...toggleAccessories,
-                          kit_only: newValue,
-                        })
-                      }
-                    />
-                    <Text style={styles.check_box_text}>Kit-only</Text>
-                  </View>
-                </View>
-              ) : null}
-              <SelectList
-                boxStyles={styles.box}
-                placeholder="Warranty"
-                inputStyles={{color: 'black'}}
-                setSelected={val => setForm({...form, warranty: val})}
-                data={WarrantyData}
-                save="value"
-                dropdownTextStyles={{color: 'black'}}
-              />
-              {profileData.city === null && (
-                <>
-                  <SelectList
-                    boxStyles={styles.box}
-                    placeholder="City"
-                    inputStyles={{color: 'black'}}
-                    setSelected={val => setForm({...form, city: val})}
-                    data={CityData}
-                    save="value"
-                    dropdownTextStyles={{color: 'black'}}
-                  />
-                </>
-              )}
-              {profileData.account_status === null && (
-                <SelectList
-                  placeholder="Account Type"
-                  inputStyles={{color: 'black'}}
-                  boxStyles={styles.box}
-                  maxHeight={100}
-                  setSelected={val => {
-                    setForm({...form, acc_type: val});
-                  }}
-                  data={data}
-                  save="value"
-                  dropdownTextStyles={{color: 'black'}}
-                  dropdownStyles={{borderCurve: 'continuous'}}
-                />
-              )}
-
+              <PostAndAdForm form={form} setForm={setForm} />
               {IsVerifiedStorage || (
                 <>
                   <View
@@ -974,6 +646,10 @@ export default PostAnAd;
 const styles = StyleSheet.create({
   error: {
     color: 'red',
+    padding: 5,
+  },
+  emptyError: {
+    padding: 0,
   },
   box: {
     marginTop: 10,

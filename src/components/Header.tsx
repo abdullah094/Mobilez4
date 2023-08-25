@@ -29,7 +29,6 @@ const Header = ({title = ''}) => {
         }}>
         <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
       </TouchableOpacity>
-
       <Text
         style={{
           color: color.white,

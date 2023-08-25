@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Mobilez4</string>
+	<string>Mobilez Market</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,28 +17,19 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>11.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.1054360665178-mol0cdvmjusb0io235ehh58ne2sh8rls</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>11</string>
 	<key>FacebookAppID</key>
 	<string>686223029942369</string>
 	<key>FacebookClientToken</key>
 	<string>26522b73291a3d1c9a2f81fa437a1f07</string>
 	<key>FacebookDisplayName</key>
 	<string>Mobilez Market</string>
-	<key>GIDClientID</key>
-	<string>1054360665178-mol0cdvmjusb0io235ehh58ne2sh8rls.apps.googleusercontent.com</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -52,8 +43,14 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to use your camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to your microphone (for videos)</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -87,26 +84,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
-	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to use your camera</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like to your microphone (for videos)</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
-
-	<key>CFBundleURLTypes</key>
- 	<array>
-    <dict>
-     <key>CFBundleURLSchemes</key>
-     <array>
-       <string>fb686223029942369</string>
-       <string>com.googleusercontent.apps.1054360665178-mol0cdvmjusb0io235ehh58ne2sh8rls</string>
-     </array>
-   </dict>
-  </array>
-  <key>ITSAppUsesNonExemptEncryption</key>
-  <false/>
-
 </dict>
 </plist>

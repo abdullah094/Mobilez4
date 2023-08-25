@@ -31,7 +31,7 @@ const HomeSlider = () => {
         style={{
           zIndex: 1,
           width: '100%',
-          height: 110,
+          height: 100,
           backgroundColor: 'white',
           borderRadius: 20,
         }}>

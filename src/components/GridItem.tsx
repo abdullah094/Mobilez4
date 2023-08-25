@@ -133,7 +133,7 @@ const GridItem = ({
               // aspectRatio:1.25,
               borderRadius: 10,
             }}
-            source={{uri: image_url + item.image.img}}
+            source={{uri: image_url + item.image?.img}}
             resizeMode="cover"
           />
           <AddToWishList

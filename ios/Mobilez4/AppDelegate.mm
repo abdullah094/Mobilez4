@@ -1,5 +1,5 @@
 #import "AppDelegate.h"
-
+#import <Firebase.h>
 #import <FBSDKCoreKit/FBSDKCoreKit-swift.h>
 #import <React/RCTLinkingManager.h>
 
@@ -50,7 +50,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  
+  [FIRApp configure];
   RCTAppSetupPrepareApp(application);
   
 

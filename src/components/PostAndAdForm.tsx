@@ -17,23 +17,23 @@ import {selectAccessToken, selectProfileData} from '../Redux/Slices';
 import {BrandAPI, ModelAPI, Profile} from '../types';
 const width = Dimensions.get('window').width;
 const RamData = [
-  {label: '1 GB', value: '1 GB'},
-  {label: '2 GB', value: '2 GB'},
-  {label: '4 GB', value: '4 GB'},
-  {label: '6 GB', value: '6 GB'},
-  {label: '8 GB', value: '8 GB'},
-  {label: '12 GB', value: '12 GB'},
+  {label: '1 GB', value: '1'},
+  {label: '2 GB', value: '2'},
+  {label: '4 GB', value: '4'},
+  {label: '6 GB', value: '6'},
+  {label: '8 GB', value: '8'},
+  {label: '12 GB', value: '12'},
 ];
 const StorageData = [
-  {label: '4 GB', value: '4 GB'},
-  {label: '8 GB', value: '8 GB'},
-  {label: '16 GB', value: '16 GB'},
-  {label: '32 GB', value: '32 GB'},
-  {label: '64 GB', value: '64 GB'},
-  {label: '128 GB', value: '128 GB'},
-  {label: '256 GB', value: '256 GB'},
-  {label: '512 GB', value: '512 GB'},
-  {label: '1 TB', value: '1 TB'},
+  {label: '4 GB', value: '4'},
+  {label: '8 GB', value: '8'},
+  {label: '16 GB', value: '16'},
+  {label: '32 GB', value: '32'},
+  {label: '64 GB', value: '64'},
+  {label: '128 GB', value: '128'},
+  {label: '256 GB', value: '256'},
+  {label: '512 GB', value: '512'},
+  {label: '1 TB', value: '1024'},
 ];
 const WarrantyData = [
   {label: 'No Warranty', value: 'No Warranty'},
@@ -86,12 +86,12 @@ export interface Form {
   errorModel: '';
   isModelVisible: boolean;
   otherModel: false;
-  price?: string | null;
+  price?: string;
   errorPrice: string;
   ram: string;
   errorRam: string;
   isRamVisible: boolean;
-  pta_status: 'Verified' | 'NON-Verified';
+  pta_status: 'Verified' | 'NON-Verified' | 's';
   isPTA_statusVisible: boolean;
   errorPTA_status: string;
   storage: string;
@@ -141,7 +141,7 @@ export default function PostAndAdForm({
       //   brand: 'Other',
       isOtherBrand: false,
       model: '',
-      isOtherModel: true,
+      isOtherModel: false,
     }));
     axios
       .get(BRANDS, {
@@ -258,7 +258,11 @@ export default function PostAndAdForm({
               onChangeText={text =>
                 setForm(prev => ({...prev, brand: text}))
               }></TextInput>
-            {form.errorBrand != '' && <Text>{form.errorBrand} </Text>}
+            {form.errorBrand != '' && (
+              <HelperText type="error" visible={form.errorBrand != ''}>
+                {form.errorBrand}
+              </HelperText>
+            )}
           </View>
         )}
         {loadingModel ? (
@@ -278,14 +282,18 @@ export default function PostAndAdForm({
                     setForm(prev => ({...prev, model: text}))
                   }
                 />
-                {form.errorModel != '' && <Text>{form.errorModel} </Text>}
+                {form.errorModel != '' && (
+                  <HelperText type="error" visible={form.errorModel != ''}>
+                    {form.errorModel}
+                  </HelperText>
+                )}
               </View>
             ) : (
               <View style={tw`w-full  pt-2`}>
                 <DropDown
                   label={'Model'}
                   mode={'outlined'}
-                  visible={form.isModelVisible}
+                  visible={form.isOtherModel || form.isModelVisible}
                   showDropDown={() =>
                     setForm(prev => ({...prev, isModelVisible: true}))
                   }
@@ -296,17 +304,23 @@ export default function PostAndAdForm({
                   setValue={text =>
                     setForm(prev => ({
                       ...prev,
-                      model: text,
+                      model: text === 'Other' ? '' : text,
+                      isOtherModel: text === 'Other',
                     }))
                   }
                   list={models}
                   accessibilityLabel={'Model'}
                 />
-                {form.errorModel != '' && <Text>{form.errorModel} </Text>}
+                {form.errorModel != '' && (
+                  <HelperText type="error" visible={form.errorModel != ''}>
+                    {form.errorModel}
+                  </HelperText>
+                )}
               </View>
             )}
           </>
         )}
+
         <View style={tw`w-1/2  pt-2 pr-2`}>
           <TextInput
             label="Price"
@@ -317,7 +331,11 @@ export default function PostAndAdForm({
             }}
             onChangeText={text => setForm(prev => ({...prev, price: text}))}
           />
-          {form.errorPrice != '' && <Text>{form.errorPrice} </Text>}
+          {form.price != '0' && form.errorPrice != '' && (
+            <HelperText type="error" visible={form.errorPrice != ''}>
+              {form.errorPrice}
+            </HelperText>
+          )}
         </View>
 
         {form.category === 'Watch' || (
@@ -343,7 +361,6 @@ export default function PostAndAdForm({
                 list={RamData}
                 accessibilityLabel={'ram'}
               />
-              {form.errorRam != '' && <Text>{form.errorRam} </Text>}
             </View>
             <View style={tw`w-full  pt-2`}>
               <DropDown
@@ -366,9 +383,6 @@ export default function PostAndAdForm({
                 list={AccountStatusData}
                 accessibilityLabel={'pta_status'}
               />
-              {form.errorPTA_status != '' && (
-                <Text>{form.errorPTA_status} </Text>
-              )}
             </View>
             <View style={tw`w-full  pt-2`}>
               <DropDown
@@ -391,7 +405,6 @@ export default function PostAndAdForm({
                 list={StorageData}
                 accessibilityLabel={'storage'}
               />
-              {form.errorStorage != '' && <Text>{form.errorStorage} </Text>}
             </View>
           </>
         )}
@@ -417,9 +430,6 @@ export default function PostAndAdForm({
             list={ConditionData}
             accessibilityLabel={'storage'}
           />
-          {form.errorProduct_type != '' && (
-            <Text>{form.errorProduct_type} </Text>
-          )}
         </View>
       </View>
       {form.isOtherProductUsed && (

@@ -3,6 +3,7 @@ import {POST_AN_AD, SUBMIT_OTP} from '@env';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import axios, {AxiosRequestConfig} from 'axios';
 import FormData from 'form-data';
+import mime from 'mime';
 import React, {ReactNode, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -10,6 +11,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -47,10 +49,10 @@ export interface Form {
   isOtherBrand: boolean;
   model: string | null;
   isOtherModel: boolean;
-  errorModel: '';
+  errorModel: string;
   isModelVisible: boolean;
   otherModel: false;
-  price?: string | null;
+  price?: string;
   errorPrice: string;
   ram: string;
   errorRam: string;
@@ -64,6 +66,7 @@ export interface Form {
   warranty: string;
   isWarrantyVisible: boolean;
   errorWarranty: string;
+  errorAccountStatus: string;
   city?: string;
   isCityVisible: boolean;
   product_type?: 'New' | 'Used' | 'Refurbished';
@@ -105,6 +108,8 @@ const PostAnAd = () => {
       profileData.social_login === null
     ) {
       setIsVerifiedStorage(true);
+    } else if (profileData.social_login != null) {
+      setIsVerifiedStorage(true);
     } else {
       setIsVerifiedStorage(false);
     }
@@ -123,15 +128,15 @@ const PostAnAd = () => {
     isOtherModel: false,
     isModelVisible: false,
     otherModel: false,
-    price: null,
+    price: '0',
     errorPrice: '',
-    ram: '1 GB',
+    ram: '1',
     errorRam: '',
     isRamVisible: false,
     pta_status: 'Verified',
     errorPTA_status: '',
     isPTA_statusVisible: false,
-    storage: '4 GB',
+    storage: '4',
     errorStorage: '',
     isStorageVisible: false,
     product_type: 'New',
@@ -147,6 +152,7 @@ const PostAnAd = () => {
     city: 'karachi',
     isCityVisible: false,
     isAccountTypeVisible: false,
+    errorAccountStatus: '',
   });
 
   const resetError = () => {
@@ -192,15 +198,15 @@ const PostAnAd = () => {
       isOtherModel: false,
       isModelVisible: false,
       otherModel: false,
-      price: null,
+      price: '0',
       errorPrice: '',
-      ram: '1 GB',
+      ram: '1',
       errorRam: '',
       isRamVisible: false,
       pta_status: 'Verified',
       errorPTA_status: '',
       isPTA_statusVisible: false,
-      storage: '4 GB',
+      storage: '4',
       errorStorage: '',
       isStorageVisible: false,
       product_type: 'New',
@@ -216,6 +222,7 @@ const PostAnAd = () => {
       city: 'karachi',
       isCityVisible: false,
       isAccountTypeVisible: false,
+      errorAccountStatus: '',
     });
   };
 
@@ -331,13 +338,24 @@ const PostAnAd = () => {
     // Create headers manually
     let images: {uri: any; name: any; type: any}[] = [];
     form.image?.forEach(image => {
-      images.push({
-        uri: image.uri,
-        name: image.fileName,
-        type: image.type,
-      });
+      if (Platform.OS === 'android') {
+        const newImageUri = 'file:///' + image.uri.split('file:/').join('');
+        images.push({
+          uri: newImageUri,
+          name: image.fileName ?? image.uri.split('/').pop(),
+          type: mime.getType(newImageUri),
+        });
+      } else {
+        images.push({
+          uri: image.uri,
+          name: image.fileName ?? image.uri.split('/').pop(),
+          type: image.type,
+        });
+      }
     });
 
+    console.log('images', images);
+    // Append the images
     images.forEach((image, index) => {
       data.append('image[]', image, `image${index + 1}.png`);
     });
@@ -378,9 +396,16 @@ const PostAnAd = () => {
               status: number;
               message: string;
             } = response.data;
-            if (Object.entries(errors).length > 0) {
-              for (const [key, value] of Object.entries(errors)) {
-                Alert.alert(key, value[0]);
+
+            if (status == 200) {
+              clearData();
+              Alert.alert(message);
+              navigation.navigate('Home');
+            } else {
+              if (Object.entries(errors).length > 0) {
+                for (const [key, value] of Object.entries(errors)) {
+                  Alert.alert(key, value[0]);
+                }
               }
             }
 
@@ -399,31 +424,31 @@ const PostAnAd = () => {
       return;
     }
     if (!form.model) {
-      setForm(prev => ({...prev, errorBrand: 'Model is required'}));
+      setForm(prev => ({...prev, errorModel: 'Model is required'}));
       return;
     }
     if (!form.price) {
-      setForm(prev => ({...prev, errorBrand: 'Price is required'}));
+      setForm(prev => ({...prev, errorPrice: 'Price is required'}));
       return;
     }
     if (!form.pta_status) {
-      setForm(prev => ({...prev, errorBrand: 'PTA status is required'}));
+      setForm(prev => ({...prev, errorPTA_status: 'PTA status is required'}));
       return;
     }
     if (!form.storage) {
-      setForm(prev => ({...prev, errorBrand: 'Storage is required'}));
+      setForm(prev => ({...prev, errorStorage: 'Storage is required'}));
       return;
     }
     if (!form.product_type) {
-      setForm(prev => ({...prev, errorBrand: 'Condition is required'}));
+      setForm(prev => ({...prev, errorProduct_type: 'Condition is required'}));
       return;
     }
     if (!form.warranty) {
-      setForm(prev => ({...prev, errorBrand: 'Warranty is required'}));
+      setForm(prev => ({...prev, errorWarranty: 'Warranty is required'}));
       return;
     }
     if (!form.ram) {
-      setForm(prev => ({...prev, errorBrand: 'RAM is required'}));
+      setForm(prev => ({...prev, errorRam: 'RAM is required'}));
       return;
     }
     if (profileData.account_status === null) {
@@ -508,38 +533,36 @@ const PostAnAd = () => {
                         </Button>
                       </>
                     ) : (
-                      profileData.account_status === null && (
-                        <>
-                          <TextInput
-                            style={{
-                              paddingHorizontal: 8,
-                              borderWidth: 1,
-                              flex: 1,
-                              borderRadius: 5,
-                              color: 'black',
-                              marginRight: 5,
-                            }}
-                            keyboardType="number-pad"
-                            placeholder="Enter your number"
-                            placeholderTextColor={'lightgrey'}
-                            inputMode="numeric"
-                            value={phoneNumber}
-                            onChangeText={text => {
-                              setPhoneNumber(text?.replace(/[^0-9]/g, ''));
-                            }}
-                          />
-                          <Button
-                            theme={{
-                              colors: {primary: color.orange},
-                              roundness: 90,
-                            }}
-                            mode={'contained'}
-                            onPress={SendOTP}
-                            textColor="white">
-                            SEND OTP
-                          </Button>
-                        </>
-                      )
+                      <>
+                        <TextInput
+                          style={{
+                            paddingHorizontal: 8,
+                            borderWidth: 1,
+                            flex: 1,
+                            borderRadius: 5,
+                            color: 'black',
+                            marginRight: 5,
+                          }}
+                          keyboardType="number-pad"
+                          placeholder="Enter your number"
+                          placeholderTextColor={'lightgrey'}
+                          inputMode="numeric"
+                          value={phoneNumber}
+                          onChangeText={text => {
+                            setPhoneNumber(text?.replace(/[^0-9]/g, ''));
+                          }}
+                        />
+                        <Button
+                          theme={{
+                            colors: {primary: color.orange},
+                            roundness: 90,
+                          }}
+                          mode={'contained'}
+                          onPress={SendOTP}
+                          textColor="white">
+                          SEND OTP
+                        </Button>
+                      </>
                     )}
                   </View>
                 </>

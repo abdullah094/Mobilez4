@@ -64,7 +64,7 @@ const MyAds = ({navigation, isActive}) => {
 
   useEffect(() => {
     myAdd();
-  }, [_accessToken]);
+  }, [_accessToken, route]);
 
   const soldFunc = useCallback(() => {
     axios
@@ -136,7 +136,25 @@ const MyAds = ({navigation, isActive}) => {
 
   //   console.log(findAdd);
   // }, [selectedAd]);
-
+  const deleteFunc = useCallback(() => {
+    const url = `https://www.mobilezmarket.com/api/delete-my-add/${selectedAd}`;
+    axios
+      .post(
+        url,
+        {},
+        {
+          headers: {Authorization: `Bearer ${_accessToken}`},
+        },
+      )
+      .then(response => {
+        // setsellAD(response.data);
+        myAdd();
+        console.log('Ad deleted ');
+      })
+      .catch(error => {
+        console.log('hello', error);
+      });
+  }, [selectedAd, _accessToken]);
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
@@ -311,6 +329,7 @@ const MyAds = ({navigation, isActive}) => {
           id={selectedAd}
           alert={deleteModale}
           setAlert={setDeleteModale}
+          deleteFunc={deleteFunc}
         />
       )}
     </SafeAreaView>

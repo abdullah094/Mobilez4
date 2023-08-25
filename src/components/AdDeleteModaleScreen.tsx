@@ -1,6 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Pressable,
   StyleSheet,
@@ -13,31 +12,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {useSelector} from 'react-redux';
 import {selectAccessToken} from '../Redux/Slices';
 
-const AdDeleteModaleScreen = ({id, alert, setAlert}) => {
+const AdDeleteModaleScreen = ({id, alert, setAlert, deleteFunc}) => {
   const [isVisible, setIsVisible] = useState(true);
   const navigation = useNavigation();
   const _accessToken = useSelector(selectAccessToken);
 
   const _id: number = id;
-  const deleteFunc = useCallback(() => {
-    const url = `https://www.mobilezmarket.com/api/delete-my-add/${id}`;
-    axios
-      .post(
-        url,
-        {},
-        {
-          headers: {Authorization: `Bearer ${_accessToken}`},
-        },
-      )
-      .then(response => {
-        // setsellAD(response.data);
 
-        console.log('Ad deleted ');
-      })
-      .catch(error => {
-        console.log('hello', error);
-      });
-  }, [id, _accessToken]);
   return (
     <Modal visible={isVisible}>
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>

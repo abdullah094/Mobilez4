@@ -243,6 +243,9 @@ const Home = ({navigation}) => {
     setRefreshing(true);
     setTimeout(() => setRefreshing(false), 1000);
   };
+  useEffect(() => {
+    _onRefresh();
+  }, [navigation]);
 
   return (
     <>

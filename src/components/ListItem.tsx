@@ -108,7 +108,7 @@ const ListItem = ({
             style={[{height: '100%', width: '100%', borderRadius: 10}]}
             resizeMode="cover"
             source={
-              !item.image.img
+              !item.image?.img
                 ? require('../assets/mobile-logo.png')
                 : {uri: image_url + item.image.img}
             }

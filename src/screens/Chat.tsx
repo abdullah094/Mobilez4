@@ -37,13 +37,14 @@ interface messages {
 }
 const ChatScreen = ({navigation}) => {
   const route = useRoute();
-  const [messages, setMessages] = useState<messages[]>([]);
+  const [message, setMessages] = useState<messages[]>([]);
   const accessToken = useSelector(selectAccessToken);
   const [contacts, setContacts] = useState<Contact[]>([]);
   const params = route.params as {to: User};
   console.log('========', params?.to);
   const [from_id, setFrom_id] = useState(1);
   const [to_id, setTo_id] = useState(2);
+  const [id, setId] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
@@ -68,9 +69,12 @@ const ChatScreen = ({navigation}) => {
           key: 'YW1Gb 1lXNTZZV2xpTG1GemJHRnRMbTFsYUdGeVFHZHRZV2xzTG1OdmJUcG1iMjlrWjJoaGNnPT0=',
           type: 'sender',
           from_id: from_id,
-          to_id: to_id,
-          // body:messages[messages?.length-1]
+          // to_id: to_id,
+          id: to_id,
+
           body: body[0]?.text,
+          message: body[0]?.text,
+          // body: body[0]?.text,
         },
         {
           headers: {Authorization: `Bearer ${accessToken}`},
@@ -98,7 +102,7 @@ const ChatScreen = ({navigation}) => {
   setTimeout(() => {
     console.log('Fetching new Messages');
     fetchMessages();
-  }, 60000);
+  }, 1000);
 
   const fetchMessages = () => {
     // setMessages([])
@@ -117,7 +121,7 @@ const ChatScreen = ({navigation}) => {
       )
       .then(response => {
         const data: FetchMessage = response.data;
-        const existingId = messages.map(x => x._id);
+        const existingId = message.map(x => x._id);
         const newID = data.messages.filter(x => !existingId.includes(x.id));
         if (newID.length == 0) return;
         setRefreshing(false);
@@ -264,7 +268,7 @@ const ChatScreen = ({navigation}) => {
           <GiftedChat
             onRefresh={() => onRefreshChat()}
             refreshing={refreshing}
-            messages={messages}
+            messages={message}
             showUserAvatar={false}
             placeholder="Type text here"
             renderUsernameOnMessage={true}

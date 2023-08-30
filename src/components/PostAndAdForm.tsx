@@ -91,7 +91,7 @@ export interface Form {
   ram: string;
   errorRam: string;
   isRamVisible: boolean;
-  pta_status: 'Verified' | 'NON-Verified' | 's';
+  pta_status: 'Approved' | 'Not Approved' | 's';
   isPTA_statusVisible: boolean;
   errorPTA_status: string;
   storage: string;
@@ -112,7 +112,7 @@ export interface Form {
   acc_type?: string | null;
   isAccountTypeVisible: boolean;
 }
-
+  
 export default function PostAndAdForm({
   form,
   setForm,
@@ -191,6 +191,7 @@ export default function PostAndAdForm({
   useEffect(() => {
     getModelFunc();
   }, [form.brand]);
+  console.log(form);
   return (
     <View>
       <View style={tw`flex-row flex-wrap`}>
@@ -532,7 +533,7 @@ export default function PostAndAdForm({
             }))
           }
           list={CityData}
-          accessibilityLabel={'warranty'}
+          accessibilityLabel={'city'}
         />
       )}
       {profileData.account_status === null && (
@@ -559,7 +560,7 @@ export default function PostAndAdForm({
             }))
           }
           list={AccountTypeData}
-          accessibilityLabel={'warranty'}
+          accessibilityLabel={'AccountType'}
         />
       )}
     </View>

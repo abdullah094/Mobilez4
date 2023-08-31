@@ -108,7 +108,10 @@ const PostAnAd = () => {
       profileData.social_login === null
     ) {
       setIsVerifiedStorage(true);
-    } else if (profileData.social_login != null) {
+    } else if (
+      profileData.social_login !== null &&
+      profileData.account_status === null
+    ) {
       setIsVerifiedStorage(true);
     } else {
       setIsVerifiedStorage(false);
@@ -254,6 +257,7 @@ const PostAnAd = () => {
         if (data.status) {
           setSubmitText('Submit');
           setOTP(false);
+
           setOtp('');
           Alert.alert(data.message);
 
@@ -552,6 +556,7 @@ const PostAnAd = () => {
                             setPhoneNumber(text?.replace(/[^0-9]/g, ''));
                           }}
                         />
+
                         <Button
                           theme={{
                             colors: {primary: color.orange},

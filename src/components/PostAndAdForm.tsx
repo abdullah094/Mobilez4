@@ -103,6 +103,7 @@ export interface Form {
   city?: string;
   isCityVisible: boolean;
   product_type?: 'New' | 'Used' | 'Refurbished';
+
   errorProduct_type: string;
   isProduct_typeVisible: boolean;
   isOtherProductUsed: boolean;
@@ -111,8 +112,10 @@ export interface Form {
   accessories?: [string];
   acc_type?: string | null;
   isAccountTypeVisible: boolean;
+  shop_name?: string;
+  shop_address?: string;
 }
-  
+
 export default function PostAndAdForm({
   form,
   setForm,
@@ -192,6 +195,7 @@ export default function PostAndAdForm({
     getModelFunc();
   }, [form.brand]);
   console.log(form);
+  console.log('profileeeeeeeeee', profileData);
   return (
     <View>
       <View style={tw`flex-row flex-wrap`}>
@@ -513,7 +517,7 @@ export default function PostAndAdForm({
         />
         {form.errorWarranty != '' && <Text>{form.errorWarranty} </Text>}
       </View>
-      {profileData.city === null && (
+      {form.city === null && (
         <DropDown
           inputProps={{
             style: {
@@ -537,31 +541,63 @@ export default function PostAndAdForm({
         />
       )}
       {profileData.account_status === null && (
-        <DropDown
-          inputProps={{
-            style: {
-              width: width / 2.2,
-            },
-          }}
-          label={'AccountType'}
-          mode={'outlined'}
-          visible={form.isAccountTypeVisible}
-          showDropDown={() =>
-            setForm(prev => ({...prev, isAccountTypeVisible: true}))
-          }
-          onDismiss={() =>
-            setForm(prev => ({...prev, isAccountTypeVisible: false}))
-          }
-          value={form.acc_type}
-          setValue={text =>
-            setForm(prev => ({
-              ...prev,
-              acc_type: text,
-            }))
-          }
-          list={AccountTypeData}
-          accessibilityLabel={'AccountType'}
-        />
+        <View style={tw`w-full  pt-2 pr-2`}>
+          <DropDown
+            inputProps={{
+              style: {
+                width: width / 2.2,
+              },
+            }}
+            label={'AccountType'}
+            mode={'outlined'}
+            visible={form.isAccountTypeVisible}
+            showDropDown={() =>
+              setForm(prev => ({...prev, isAccountTypeVisible: true}))
+            }
+            onDismiss={() =>
+              setForm(prev => ({...prev, isAccountTypeVisible: false}))
+            }
+            value={form.acc_type}
+            setValue={text =>
+              setForm(prev => ({
+                ...prev,
+                acc_type: text,
+              }))
+            }
+            list={AccountTypeData}
+            accessibilityLabel={'AccountType'}
+          />
+        </View>
+      )}
+      {form.acc_type === 'business' && (
+        <>
+          <View style={tw`w-full  pt-2 pr-2`}>
+            <TextInput
+              label="Shop Name"
+              mode="outlined"
+              value={form.shop_name}
+              // style={{
+              //   width: width / 2.2,
+              // }}
+              onChangeText={text =>
+                setForm(prev => ({...prev, shop_name: text}))
+              }
+            />
+          </View>
+          <View style={tw`w-full  pt-2 pr-2`}>
+            <TextInput
+              label="Shop Address"
+              mode="outlined"
+              value={form.shop_address}
+              // style={{
+              //   width: width,
+              // }}
+              onChangeText={text =>
+                setForm(prev => ({...prev, shop_address: text}))
+              }
+            />
+          </View>
+        </>
       )}
     </View>
   );

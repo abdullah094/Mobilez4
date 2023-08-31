@@ -109,10 +109,16 @@ const PostAnAd = () => {
     ) {
       setIsVerifiedStorage(true);
     } else if (
-      profileData.social_login !== null &&
+      profileData.social_login == '1' &&
       profileData.account_status === null
     ) {
+      setIsVerifiedStorage(false);
+    } else if (
+      profileData.social_login == '1' &&
+      profileData.account_status == '1'
+    ) {
       setIsVerifiedStorage(true);
+      setOTP(false);
     } else {
       setIsVerifiedStorage(false);
     }
@@ -321,7 +327,11 @@ const PostAnAd = () => {
         }, 30000);
       })
       .catch(error => {
-        Alert.alert('Failed', error.message);
+        if (error.message === 'Request failed with status code 419') {
+          Alert.alert('Error', 'Number Already exist');
+        } else {
+          Alert.alert('Failed', error.message);
+        }
       });
   };
 

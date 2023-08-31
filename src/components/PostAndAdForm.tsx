@@ -548,7 +548,7 @@ export default function PostAndAdForm({
                 width: width / 2.2,
               },
             }}
-            label={'AccountType'}
+            label={'Account Type'}
             mode={'outlined'}
             visible={form.isAccountTypeVisible}
             showDropDown={() =>

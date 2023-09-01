@@ -79,80 +79,90 @@ const Settings = ({navigation}) => {
         <View style={tw`bg-[#edf2f2] flex-1 `}>
           <View
             style={{
-              height: 200,
+              height: _accessToken ? 130 : 50,
               backgroundColor: color.orange,
               flexDirection: 'row',
               alignContent: 'center',
               flexWrap: 'wrap',
             }}>
-            <View>
-              <Image
-                source={
-                  _profile.photo
-                    ? {
-                        uri: _profile.photo?.includes('https')
-                          ? _profile.photo
-                          : image_url + _profile.photo,
-                      }
-                    : require('../assets/mobile-logo.png')
-                }
-                style={{
-                  width: image_dimension,
-                  height: 100,
-                  borderRadius: image_dimension / 2,
-                  borderWidth: 1,
-                  borderColor: 'white',
-                  alignSelf: 'center',
-                  marginTop: 45,
-                }}
-              />
-
-              {_accessToken ? (
-                <>
-                  <View
-                    style={{
-                      flex: 1,
-                      alignItems: 'center',
-                      paddingHorizontal: 5,
-                      justifyContent: 'center',
-                    }}>
-                    <Text
-                      style={{
-                        color: color.white,
-                        fontSize: 20,
-                        fontWeight: '600',
-                      }}>
-                      {_profile.first_name}
-                    </Text>
-                    <Text
-                      style={{
-                        color: color.white,
-                        fontSize: 15,
-                        fontWeight: '600',
-                      }}>
-                      {_profile.email}
-                    </Text>
-                  </View>
-                </>
-              ) : (
-                <View
+            <View
+              style={{
+                flexDirection: 'row',
+                padding: 5,
+                flex: 1,
+                justifyContent: 'flex-end',
+              }}>
+              {_accessToken && (
+                <Image
+                  source={
+                    _profile.photo
+                      ? {
+                          uri: _profile.photo?.includes('https')
+                            ? _profile.photo
+                            : image_url + _profile.photo,
+                        }
+                      : require('../assets/mobile-logo.png')
+                  }
                   style={{
-                    flex: 1,
-                    padding: 5,
-                    justifyContent: 'flex-end',
-                  }}>
-                  <Text
-                    style={{
-                      color: color.white,
-                      fontSize: 30,
-                      fontWeight: '600',
-                    }}>
-                    Settings
-                  </Text>
-                </View>
+                    width: 60,
+                    height: 60,
+                    borderRadius: 80,
+                    borderWidth: 1,
+                    borderColor: 'white',
+
+                    top: 0,
+                    // left: 315,
+
+                    backgroundColor: 'white',
+                  }}
+                />
               )}
             </View>
           </View>
+          {_accessToken ? (
+            <>
+              <View
+                style={{
+                  alignItems: 'flex-start',
+                  backgroundColor: color.orange,
+                  padding: 5,
+                }}>
+                <Text
+                  style={{
+                    color: color.white,
+                    fontSize: 20,
+                    fontWeight: '600',
+                  }}>
+                  {_profile.first_name}
+                </Text>
+                <Text
+                  style={{
+                    color: color.white,
+                    fontSize: 15,
+                    fontWeight: '600',
+                  }}>
+                  {_profile.email}
+                </Text>
+              </View>
+            </>
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                padding: 5,
+                justifyContent: 'flex-end',
+                backgroundColor: color.orange,
+              }}>
+              <Text
+                style={{
+                  color: color.white,
+                  fontSize: 30,
+                  fontWeight: '600',
+                }}>
+                Settings
+              </Text>
+            </View>
+          )}
           <ScrollView contentContainerStyle={tw`bg-[#edf2f2]`}>
             {_accessToken ? (
               <>

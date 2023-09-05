@@ -72,7 +72,7 @@ const Settings = ({navigation}) => {
         PutAccessTokenToAsync();
       });
   };
-  console.log('============', _profile.photo);
+
   return (
     <>
       <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
@@ -104,6 +104,7 @@ const Settings = ({navigation}) => {
                   borderColor: 'white',
                   alignSelf: 'center',
                   marginTop: 45,
+                  backgroundColor: 'white',
                 }}
               />
 

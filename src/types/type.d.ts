@@ -204,13 +204,13 @@ export interface Form {
   model?: string | null;
   otherModel?: string | null;
   price?: string | null;
-  product_type?: 'New' | 'Used' | 'Refurbished'|null | "";
+  product_type?: 'New' | 'Used' | 'Refurbished' | null | '';
   image?: Asset[];
   description?: string | null;
   warranty?: string | null;
   accessories?: [string];
-  othertextModel?: string |null
-  acc_type?:string | null
+  othertextModel?: string | null;
+  acc_type?: string | null;
 }
 export interface iImages {
   uri: any;
@@ -310,13 +310,12 @@ export interface Product {
   updated_at: Date;
   image: Image;
   user: User;
-  sold:boolean;
-
+  sold: boolean;
 }
 
-import { RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Asset } from 'react-native-image-picker';
+import {RouteProp} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Asset} from 'react-native-image-picker';
 
 export type IndexParamList = {
   Home: undefined;
@@ -328,28 +327,28 @@ export type IndexParamList = {
   PostAnAd: undefined;
   ForgotPassword: undefined;
   SignUp: {city: string};
-  CityList:undefined
-  SearchScreen:undefined
-  Profile:undefined
-  OTPScreen:undefined
-  OtpVerify:undefined
-  ContactUs:undefined
-  MyWishlist:undefined
-  TermsAndCondition:undefined
-  PrivacyPolicy:undefined
-  Blogs:undefined
-  Videos:undefined
-  BlogDetails:undefined
-  FindMyDevice:undefined
-  Images:undefined
-  AboutUs:undefined
-  Chat:undefined
-  WhishlistComponent:undefined
-  AccountManagement:undefined
-  AppUpdateScreen:undefined
-  EditScreen:undefined
-  AdEditModaleScreen:undefined
-  FeatureAD:undefined
+  CityList: undefined;
+  SearchScreen: undefined;
+  Profile: undefined;
+  OTPScreen: undefined;
+  OtpVerify: undefined;
+  ContactUs: undefined;
+  MyWishlist: undefined;
+  TermsAndCondition: undefined;
+  PrivacyPolicy: undefined;
+  Blogs: undefined;
+  Videos: undefined;
+  BlogDetails: undefined;
+  FindMyDevice: undefined;
+  Images: undefined;
+  AboutUs: undefined;
+  Chat: undefined;
+  WhishlistComponent: undefined;
+  AccountManagement: undefined;
+  AppUpdateScreen: undefined;
+  EditScreen: undefined;
+  AdEditModaleScreen: undefined;
+  FeatureAD: undefined;
 };
 
 export type IndexRouteProps<RouteName extends keyof IndexParamList> = RouteProp<
@@ -415,13 +414,12 @@ export interface IModel {
   updated_at: string;
 }
 export interface IPackage {
-  id: number
-  package_name: string
-  package_price: string
-  package_feature_ad_validity: string
-  total_feature_ads: string
-  package_availablity: string
-  created_at: string
-  updated_at: string
+  id: number;
+  package_name: string;
+  package_price: string;
+  package_feature_ad_validity: string;
+  total_feature_ads: string;
+  package_availablity: string;
+  created_at: string;
+  updated_at: string;
 }
-

@@ -85,7 +85,8 @@ const Settings = ({navigation}) => {
               alignContent: 'center',
               flexWrap: 'wrap',
             }}>
-            <View
+            <TouchableOpacity
+              // onPress={navigation.navigate('Profile')}
               style={{
                 flexDirection: 'row',
                 padding: 5,
@@ -94,6 +95,7 @@ const Settings = ({navigation}) => {
               }}>
               {_accessToken && (
                 <Image
+                  resizeMode="contain"
                   source={
                     _profile.photo
                       ? {
@@ -107,8 +109,8 @@ const Settings = ({navigation}) => {
                     width: 60,
                     height: 60,
                     borderRadius: 80,
-                    borderWidth: 1,
-                    borderColor: 'white',
+                    borderWidth: 2,
+                    borderColor: 'orange',
 
                     top: 0,
                     // left: 315,
@@ -117,7 +119,7 @@ const Settings = ({navigation}) => {
                   }}
                 />
               )}
-            </View>
+            </TouchableOpacity>
           </View>
           {_accessToken ? (
             <>

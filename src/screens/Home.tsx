@@ -259,11 +259,15 @@ const Home = ({navigation}) => {
                   justifyContent: 'space-between',
                   width: '100%',
                   alignItems: 'center',
-                  marginTop: 19,
                 },
               ]}>
               <Text
-                style={{fontSize: 15, color: 'white', fontWeight: '600'}}
+                style={{
+                  fontSize: 15,
+                  color: 'white',
+                  fontWeight: '600',
+                  marginTop: 19,
+                }}
                 numberOfLines={1}>
                 {heading}
               </Text>
@@ -274,14 +278,23 @@ const Home = ({navigation}) => {
                   disabled
                   onPress={() => navigation.navigate('Profile')}>
                   {profile && profile.photo && (
-                    <Image
-                      style={tw`h-10 w-10 rounded-full`}
-                      source={{
-                        uri: profile.photo.includes('https')
-                          ? profile.photo
-                          : image_url + profile.photo,
-                      }}
-                    />
+                    <>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate('Profile')}>
+                        <Image
+                          style={tw`h-10 w-10 rounded-full`}
+                          source={
+                            profile.photo
+                              ? {
+                                  uri: profile.photo.includes('https')
+                                    ? profile.photo
+                                    : image_url + profile.photo,
+                                }
+                              : require('../assets/mobile-logo.png')
+                          }
+                        />
+                      </TouchableOpacity>
+                    </>
                   )}
                 </TouchableOpacity>
               ) : (
@@ -291,6 +304,7 @@ const Home = ({navigation}) => {
                       color: color.white,
                       fontSize: 14,
                       fontWeight: '600',
+                      marginTop: 19,
                     }}>
                     {'Login/Register'}
                   </Text>
@@ -300,7 +314,7 @@ const Home = ({navigation}) => {
             <View style={tw`relative rounded-md flex-1`}>
               <SearchScreen />
               <View
-                style={tw`w-full px-6 top-[90px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
+                style={tw`w-full px-6 top-[120px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
                 <HomeSlider />
               </View>
             </View>

@@ -1,21 +1,23 @@
 import {BRANDS, MODELS} from '@env';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {Dimensions, View} from 'react-native';
+import {Dimensions, StyleSheet, TextInput, View} from 'react-native';
+import {SelectList} from 'react-native-dropdown-select-list';
 import {Asset} from 'react-native-image-picker';
 import {
   ActivityIndicator,
   Checkbox,
   HelperText,
   Text,
-  TextInput,
 } from 'react-native-paper';
-import DropDown from 'react-native-paper-dropdown';
 import {useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {selectAccessToken, selectProfileData} from '../Redux/Slices';
+import {color} from '../constants/Colors';
 import {BrandAPI, ModelAPI, Profile} from '../types';
+
 const width = Dimensions.get('window').width;
+
 const RamData = [
   {label: '1 GB', value: '1'},
   {label: '2 GB', value: '2'},
@@ -61,8 +63,8 @@ const CategoryData = [
   {label: 'Watch', value: 'Watch'},
 ];
 const AccountStatusData = [
-  {label: 'Verified', value: 'Verified'},
-  {label: 'NON-Verified', value: 'NON-Verified'},
+  {label: 'Approved', value: 'Approved'},
+  {label: 'Not-Approved', value: 'Not-Approved'},
 ];
 const CityData = [
   {label: 'Karachi', value: 'Karachi'},
@@ -195,13 +197,25 @@ export default function PostAndAdForm({
     getModelFunc();
   }, [form.brand]);
   console.log(form);
-  console.log('profileeeeeeeeee', profileData);
+  // console.log('profileeeeeeeeee', profileData);
   return (
     <View>
       <View style={tw`flex-row flex-wrap`}>
         <View style={tw`w-1/2 pt-2 pr-2`}>
-          <DropDown
-            label={'Category'}
+          <SelectList
+            boxStyles={styles.box}
+            placeholder="Category"
+            inputStyles={{color: 'black'}}
+            setSelected={val => {
+              setForm({...form, category: val});
+            }}
+            data={CategoryData}
+            save="value"
+            dropdownTextStyles={{color: 'black'}}
+          />
+
+          {/* <DropDown
+            label={'Choose Category'}
             mode={'outlined'}
             visible={form.isCategoryVisible}
             showDropDown={() =>
@@ -213,7 +227,10 @@ export default function PostAndAdForm({
             value={form.category}
             setValue={text => setForm(prev => ({...prev, category: text}))}
             list={CategoryData}
-          />
+            inputProps={{
+              right: <TextInput.Icon icon={'menu-down'} />,
+            }}
+          /> */}
           {form.errorCategory != '' && (
             <HelperText type="error" visible={form.errorCategory != ''}>
               {form.errorCategory}
@@ -224,8 +241,28 @@ export default function PostAndAdForm({
           <ActivityIndicator style={tw`w-1/2 h-16`} size={30} />
         ) : (
           <View style={tw`w-1/2 pt-2 pl-2`}>
-            <DropDown
-              label={'Brand'}
+            <SelectList
+              boxStyles={styles.box}
+              placeholder="Choose Brands"
+              inputStyles={{
+                color: 'black',
+                // fontFamily: 'Geologica_Auto-Black',
+              }}
+              setSelected={text => {
+                setForm(prev => ({
+                  ...prev,
+                  brand:
+                    text === 'Other' || text === 'Other tablet' ? '' : text,
+                  isOtherModel: text === 'Other' || text === 'Other tablet',
+                  isOtherBrand: text === 'Other' || text === 'Other tablet',
+                }));
+              }}
+              data={brands}
+              save="value"
+              dropdownTextStyles={{color: 'black'}}
+            />
+            {/* <DropDown
+              label={'Choose Brand'}
               mode={'outlined'}
               visible={form.isBrandVisible}
               showDropDown={() =>
@@ -246,7 +283,10 @@ export default function PostAndAdForm({
               }
               list={brands}
               accessibilityLabel={'Brand'}
-            />
+              inputProps={{
+                right: <TextInput.Icon icon={'menu-down'} />,
+              }}
+            /> */}
             {form.errorBrand != '' && (
               <HelperText type="error" visible={form.errorBrand != ''}>
                 {form.errorBrand}
@@ -256,13 +296,22 @@ export default function PostAndAdForm({
         )}
         {form.isOtherBrand && (
           <View style={tw`w-full  pt-2`}>
-            <TextInput
-              mode="outlined"
-              label="Brand"
+            {/* <TextInput
+              placeholder="Enter your Brand"
               value={form.brand}
               onChangeText={text =>
                 setForm(prev => ({...prev, brand: text}))
-              }></TextInput>
+              }></TextInput> */}
+            <TextInput
+              placeholder="Enter Your brand"
+              placeholderTextColor={'gray'}
+              style={styles.box_input}
+              onChangeText={text => {
+                {
+                  setForm(prev => ({...prev, brand: text}));
+                }
+              }}
+            />
             {form.errorBrand != '' && (
               <HelperText type="error" visible={form.errorBrand != ''}>
                 {form.errorBrand}
@@ -277,15 +326,14 @@ export default function PostAndAdForm({
             {form.isOtherModel ? (
               <View style={tw`w-full  pt-2`}>
                 <TextInput
-                  mode="outlined"
-                  label="Model"
-                  value={form.model}
-                  //   style={{
-                  //     width: width / 2.2,
-                  //   }}
-                  onChangeText={text =>
-                    setForm(prev => ({...prev, model: text}))
-                  }
+                  placeholder="Enter Model"
+                  placeholderTextColor={'gray'}
+                  style={styles.box_input}
+                  onChangeText={text => {
+                    {
+                      setForm({...form, model: text});
+                    }
+                  }}
                 />
                 {form.errorModel != '' && (
                   <HelperText type="error" visible={form.errorModel != ''}>
@@ -295,7 +343,22 @@ export default function PostAndAdForm({
               </View>
             ) : (
               <View style={tw`w-full  pt-2`}>
-                <DropDown
+                <SelectList
+                  boxStyles={styles.box}
+                  placeholder="Choose model"
+                  inputStyles={{color: 'black'}}
+                  setSelected={text => {
+                    setForm(prev => ({
+                      ...prev,
+                      model: text === 'Other' ? '' : text,
+                      isOtherModel: text === 'Other',
+                    }));
+                  }}
+                  data={models}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                />
+                {/* <DropDown
                   label={'Model'}
                   mode={'outlined'}
                   visible={form.isOtherModel || form.isModelVisible}
@@ -315,7 +378,10 @@ export default function PostAndAdForm({
                   }
                   list={models}
                   accessibilityLabel={'Model'}
-                />
+                  inputProps={{
+                    right: <TextInput.Icon icon={'menu-down'} />,
+                  }}
+                /> */}
                 {form.errorModel != '' && (
                   <HelperText type="error" visible={form.errorModel != ''}>
                     {form.errorModel}
@@ -326,16 +392,24 @@ export default function PostAndAdForm({
           </>
         )}
 
-        <View style={tw`w-1/2  pt-2 pr-2`}>
+        <View style={tw`w-1/2 pt-2 pr-2`}>
           <TextInput
-            label="Price"
-            mode="outlined"
+            selectTextOnFocus={true}
+            style={styles.box_input}
+            keyboardType="number-pad"
+            placeholder="Enter Price"
+            placeholderTextColor={'gray'}
+            value={form.price ?? ''}
+            onChangeText={text => setForm(prev => ({...prev, price: text}))}
+          />
+          {/* <TextInput
+            placeholder="Price"
             value={form.price}
             style={{
               width: width / 2.2,
             }}
             onChangeText={text => setForm(prev => ({...prev, price: text}))}
-          />
+          /> */}
           {form.price != '0' && form.errorPrice != '' && (
             <HelperText type="error" visible={form.errorPrice != ''}>
               {form.errorPrice}
@@ -346,8 +420,8 @@ export default function PostAndAdForm({
         {form.category === 'Watch' || (
           <>
             <View style={tw`w-1/2  pt-2 pl-2`}>
-              <DropDown
-                label={'RAM'}
+              {/* <DropDown
+                label={'Choose RAM'}
                 mode={'outlined'}
                 visible={form.isRamVisible}
                 showDropDown={() =>
@@ -365,10 +439,28 @@ export default function PostAndAdForm({
                 }
                 list={RamData}
                 accessibilityLabel={'ram'}
+                inputProps={{
+                  right: <TextInput.Icon icon={'menu-down'} />,
+                }}
+              /> */}
+              <SelectList
+                boxStyles={styles.box}
+                // inputStyles={styles.box}
+                placeholder="Choose Ram"
+                inputStyles={{color: 'black'}}
+                setSelected={text =>
+                  setForm(prev => ({
+                    ...prev,
+                    ram: text,
+                  }))
+                }
+                data={RamData}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
               />
             </View>
             <View style={tw`w-full  pt-2`}>
-              <DropDown
+              {/* <DropDown
                 label={'PTA Status'}
                 mode={'outlined'}
                 visible={form.isPTA_statusVisible}
@@ -387,10 +479,27 @@ export default function PostAndAdForm({
                 }
                 list={AccountStatusData}
                 accessibilityLabel={'pta_status'}
+                inputProps={{
+                  right: <TextInput.Icon icon={'menu-down'} />,
+                }}
+              /> */}
+              <SelectList
+                boxStyles={styles.box}
+                placeholder="PTA Status"
+                inputStyles={{color: 'black'}}
+                setSelected={text =>
+                  setForm(prev => ({
+                    ...prev,
+                    pta_status: text,
+                  }))
+                }
+                data={AccountStatusData}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
               />
             </View>
             <View style={tw`w-full  pt-2`}>
-              <DropDown
+              {/* <DropDown
                 label={'Storage'}
                 mode={'outlined'}
                 visible={form.isStorageVisible}
@@ -409,12 +518,29 @@ export default function PostAndAdForm({
                 }
                 list={StorageData}
                 accessibilityLabel={'storage'}
+                inputProps={{
+                  right: <TextInput.Icon icon={'menu-down'} />,
+                }}
+              /> */}
+              <SelectList
+                boxStyles={styles.box}
+                placeholder="Choose Storage"
+                inputStyles={{color: 'black'}}
+                setSelected={text =>
+                  setForm(prev => ({
+                    ...prev,
+                    storage: text,
+                  }))
+                }
+                data={StorageData}
+                save="value"
+                dropdownTextStyles={{color: 'black'}}
               />
             </View>
           </>
         )}
         <View style={tw`w-full  pt-2`}>
-          <DropDown
+          {/* <DropDown
             label={'Product Condition'}
             mode={'outlined'}
             visible={form.isProduct_typeVisible}
@@ -434,6 +560,24 @@ export default function PostAndAdForm({
             }
             list={ConditionData}
             accessibilityLabel={'storage'}
+            inputProps={{
+              right: <TextInput.Icon icon={'menu-down'} />,
+            }}
+          /> */}
+          <SelectList
+            boxStyles={styles.box}
+            placeholder="Product Condition"
+            inputStyles={{color: 'black'}}
+            setSelected={text =>
+              setForm(prev => ({
+                ...prev,
+                product_type: text,
+                isOtherProductUsed: text === 'Used' || text === 'Refurbished',
+              }))
+            }
+            data={ConditionData}
+            save="value"
+            dropdownTextStyles={{color: 'black'}}
           />
         </View>
       </View>
@@ -495,7 +639,7 @@ export default function PostAndAdForm({
         </View>
       )}
       <View style={tw`w-full  pt-2`}>
-        <DropDown
+        {/* <DropDown
           label={'Warranty'}
           mode={'outlined'}
           visible={form.isWarrantyVisible}
@@ -514,39 +658,72 @@ export default function PostAndAdForm({
           }
           list={WarrantyData}
           accessibilityLabel={'warranty'}
+          inputProps={{
+            right: <TextInput.Icon icon={'menu-down'} />,
+          }}
+        /> */}
+        <SelectList
+          boxStyles={styles.box}
+          placeholder="Warranty"
+          inputStyles={{color: 'black'}}
+          setSelected={text =>
+            setForm(prev => ({
+              ...prev,
+              warranty: text,
+            }))
+          }
+          data={WarrantyData}
+          save="value"
+          dropdownTextStyles={{color: 'black'}}
         />
         {form.errorWarranty != '' && <Text>{form.errorWarranty} </Text>}
       </View>
-      {form.city === null && (
-        <DropDown
-          inputProps={{
-            style: {
-              width: width / 2.2,
-            },
-          }}
-          label={'City'}
-          mode={'outlined'}
-          visible={form.isCityVisible}
-          showDropDown={() => setForm(prev => ({...prev, isCityVisible: true}))}
-          onDismiss={() => setForm(prev => ({...prev, isCityVisible: false}))}
-          value={form.city}
-          setValue={text =>
+      {profileData.city === null && (
+        // <DropDown
+        //   inputProps={{
+        //     right: <TextInput.Icon icon={'menu-down'} />,
+        //     style: {
+        //       width: width / 2.2,
+        //     },
+        //   }}
+        //   label={'City'}
+        //   mode={'outlined'}
+        //   visible={form.isCityVisible}
+        //   showDropDown={() => setForm(prev => ({...prev, isCityVisible: true}))}
+        //   onDismiss={() => setForm(prev => ({...prev, isCityVisible: false}))}
+        //   value={form.city}
+        //   setValue={text =>
+        //     setForm(prev => ({
+        //       ...prev,
+        //       City: text,
+        //     }))
+        //   }
+        //   list={CityData}
+        //   accessibilityLabel={'city'}
+        // />
+        <SelectList
+          boxStyles={styles.box}
+          placeholder="City"
+          inputStyles={{color: 'black'}}
+          setSelected={text =>
             setForm(prev => ({
               ...prev,
               City: text,
             }))
           }
-          list={CityData}
-          accessibilityLabel={'city'}
+          data={CityData}
+          save="value"
+          dropdownTextStyles={{color: 'black'}}
         />
       )}
       {profileData.account_status === null && (
         <View style={tw`w-full  pt-2 pr-2`}>
-          <DropDown
+          {/* <DropDown
             inputProps={{
               style: {
                 width: width / 2.2,
               },
+              right: <TextInput.Icon icon={'menu-down'} />,
             }}
             label={'Account Type'}
             mode={'outlined'}
@@ -566,14 +743,30 @@ export default function PostAndAdForm({
             }
             list={AccountTypeData}
             accessibilityLabel={'AccountType'}
+          /> */}
+          <SelectList
+            placeholder="Account Type"
+            inputStyles={{color: 'black'}}
+            boxStyles={styles.box}
+            maxHeight={100}
+            setSelected={text => {
+              setForm(prev => ({
+                ...prev,
+                acc_type: text,
+              }));
+            }}
+            data={AccountTypeData}
+            save="value"
+            dropdownTextStyles={{color: 'black'}}
+            dropdownStyles={{borderCurve: 'continuous'}}
           />
         </View>
       )}
-      {form.acc_type === 'business' && (
+      {profileData?.user_type === 'business' && (
         <>
           <View style={tw`w-full  pt-2 pr-2`}>
-            <TextInput
-              label="Shop Name"
+            {/* <TextInput
+              placeholder="Shop Name"
               mode="outlined"
               value={form.shop_name}
               // style={{
@@ -582,16 +775,34 @@ export default function PostAndAdForm({
               onChangeText={text =>
                 setForm(prev => ({...prev, shop_name: text}))
               }
+            /> */}
+            <TextInput
+              style={styles.box_input}
+              placeholder="Enter Your Shop Name"
+              placeholderTextColor={'black'}
+              value={form.shop_name ?? ''}
+              onChangeText={text =>
+                setForm(prev => ({...prev, shop_name: text}))
+              }
             />
           </View>
           <View style={tw`w-full  pt-2 pr-2`}>
-            <TextInput
+            {/* <TextInput
               label="Shop Address"
               mode="outlined"
               value={form.shop_address}
               // style={{
               //   width: width,
               // }}
+              onChangeText={text =>
+                setForm(prev => ({...prev, shop_address: text}))
+              }
+            /> */}
+            <TextInput
+              style={styles.box_input}
+              placeholder="Enter Your Shop Address"
+              placeholderTextColor={'black'}
+              value={form.shop_address ?? ''}
               onChangeText={text =>
                 setForm(prev => ({...prev, shop_address: text}))
               }
@@ -602,3 +813,35 @@ export default function PostAndAdForm({
     </View>
   );
 }
+const styles = StyleSheet.create({
+  box: {
+    marginTop: 10,
+    width: '100%',
+  },
+
+  box_input: {
+    height: 50,
+    width: '100%',
+    borderColor: 'grey',
+    borderRadius: 10,
+    color: color.black,
+    borderWidth: 1,
+    marginTop: 10,
+    padding: 9,
+  },
+  check_box_box: {flexDirection: 'row', alignItems: 'center', marginTop: 5},
+  check_box_text: {color: color.black, paddingLeft: 5},
+  selectList: {
+    color: 'black',
+  },
+  description: {
+    height: 230,
+    borderColor: color.black,
+    borderRadius: 10,
+    color: color.black,
+    width: '100%',
+    borderWidth: 1,
+    alignContent: 'flex-start',
+    textAlignVertical: 'top',
+  },
+});

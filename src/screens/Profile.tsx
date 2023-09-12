@@ -19,7 +19,7 @@ import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 const Profile = ({navigation}) => {
   const profile = useSelector(selectProfileData);
-  const image_dimension = 120;
+  const image_dimension = 140;
   const image_url = 'https://www.mobilezmarket.com/images/';
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
@@ -29,22 +29,29 @@ const Profile = ({navigation}) => {
           <View
             style={{
               width: width,
-              height: 50,
+              height: 40,
               backgroundColor: color.orange,
             }}
           />
           <Image
-            source={{
-              uri: profile.photo?.includes('https')
-                ? profile.photo
-                : image_url + profile.photo,
-            }}
+            resizeMode="contain"
+            source={
+              profile.photo
+                ? {
+                    uri: profile.photo?.includes('https')
+                      ? profile.photo
+                      : image_url + profile.photo,
+                  }
+                : require('../assets/mobile-logo.png')
+            }
             style={{
               width: image_dimension,
-              height: image_dimension,
+              height: 140,
               borderRadius: image_dimension / 2,
               borderWidth: 1,
-              bottom: 65,
+              borderColor: 'orange',
+              backgroundColor: 'white',
+              bottom: 50,
               left: 10,
             }}
           />
@@ -113,7 +120,7 @@ const styles = StyleSheet.create({
   h1: {fontWeight: 'bold', color: color.black, fontSize: 20},
   box: {
     width: width - 50,
-    marginTop: 25,
+    marginTop: 15,
   },
   h2: {
     color: color.black,

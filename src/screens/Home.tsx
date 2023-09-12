@@ -282,7 +282,7 @@ const Home = ({navigation}) => {
                       <TouchableOpacity
                         onPress={() => navigation.navigate('Profile')}>
                         <Image
-                          style={tw`h-10 w-10 rounded-full`}
+                          style={tw`h-10 w-10 rounded-full top-2`}
                           source={
                             profile.photo
                               ? {

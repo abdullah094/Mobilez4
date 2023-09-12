@@ -196,7 +196,14 @@ const ProductPage = ({navigation, route}) => {
                   <Image
                     style={tw`flex-1 rounded-lg`}
                     resizeMode="cover"
-                    source={{uri: image_url + details.productimages[0].img}}
+                    // source={{uri: image_url + details.productimages[0]?.img}}
+                    source={
+                      details.productimages.length > 0
+                        ? {
+                            uri: image_url + details.productimages[0]?.img,
+                          }
+                        : require('../assets/mobile-logo.png')
+                    }
                   />
                 </TouchableOpacity>
                 <AddToWishList

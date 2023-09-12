@@ -2,13 +2,13 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   Dimensions,
-  Image,
   Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {ImageLoader} from 'react-native-image-fallback';
 import Icon from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import tw from 'twrnc';
@@ -16,7 +16,6 @@ import {color} from '../constants/Colors';
 import {IndexNavigationProps, Product} from '../types';
 import AddToWishList from './AddToWishList';
 import BlinkingText from './BlinkingText';
-
 const {width, height} = Dimensions.get('window');
 
 const GridItem = ({
@@ -38,6 +37,9 @@ const GridItem = ({
   });
   let nowDate = new Date();
   nowDate.setDate(nowDate.getDate() - 1);
+  const fallbacks = [
+    require('../assets/mobile-logo.png'), // A locally require'd image
+  ];
 
   return (
     <>
@@ -125,7 +127,7 @@ const GridItem = ({
         )}
 
         <View style={tw`w-full h-52 justify-between`}>
-          <Image
+          <ImageLoader
             style={{
               height: 120,
               width: '100%',
@@ -133,9 +135,11 @@ const GridItem = ({
               // aspectRatio:1.25,
               borderRadius: 10,
             }}
-            source={{uri: image_url + item.image?.img}}
+            source={image_url + item.image?.img}
             resizeMode="cover"
+            fallback={fallbacks}
           />
+
           <AddToWishList
             ProductId={item.id}
             size={15}

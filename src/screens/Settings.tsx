@@ -4,7 +4,6 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import {
   Dimensions,
-  Image,
   SafeAreaView,
   ScrollView,
   StyleSheet,
@@ -93,7 +92,7 @@ const Settings = ({navigation}) => {
                 flex: 1,
                 justifyContent: 'flex-end',
               }}>
-              {_accessToken && (
+              {/* {_accessToken && (
                 <Image
                   resizeMode="contain"
                   source={
@@ -118,7 +117,7 @@ const Settings = ({navigation}) => {
                     backgroundColor: 'white',
                   }}
                 />
-              )}
+              )} */}
             </TouchableOpacity>
           </View>
           {_accessToken ? (

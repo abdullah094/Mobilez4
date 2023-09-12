@@ -2,13 +2,13 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   Dimensions,
-  Image,
   Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {ImageLoader} from 'react-native-image-fallback';
 import Icon from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import tw from 'twrnc';
@@ -31,13 +31,16 @@ const ListItem = ({
   const navigation = useNavigation<IndexNavigationProps<'Home'>>();
   const dateString = item.created_at;
   const date = new Date(dateString);
+
   const formattedDate = date.toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
   });
   let nowDate = new Date();
   nowDate.setDate(nowDate.getDate() - 1);
-
+  const fallbacks = [
+    require('../assets/mobile-logo.png'), // A locally require'd image
+  ];
   return (
     <>
       <TouchableOpacity
@@ -104,14 +107,11 @@ const ListItem = ({
         )}
 
         <View style={{height: '100%', width: '35%'}}>
-          <Image
+          <ImageLoader
+            fallbacks={fallbacks}
             style={[{height: '100%', width: '100%', borderRadius: 10}]}
             resizeMode="cover"
-            source={
-              !item.image?.img
-                ? require('../assets/mobile-logo.png')
-                : {uri: image_url + item.image.img}
-            }
+            source={image_url + item.image.img}
           />
           <AddToWishList
             ProductId={item.id}

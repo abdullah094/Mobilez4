@@ -32,21 +32,39 @@ const BlogDetails = ({navigation, route}) => {
             marginTop: 50,
             paddingBottom: 50,
           }}>
-          <Text
+          <View
             style={{
-              color: color.black,
-              fontSize: 18,
-              marginHorizontal: 20,
-              fontWeight: 'bold',
-            }}
-            numberOfLines={1}>
-            {data.title}
-          </Text>
+              alignContent: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text
+              style={{
+                color: color.black,
+                fontSize: 18,
+                marginHorizontal: 20,
+                fontWeight: 'bold',
+              }}
+              numberOfLines={1}>
+              {data.title}
+            </Text>
+          </View>
+
           <Image
-            style={{width: 300, height: 150, marginTop: 10}}
+            style={{
+              width: 350,
+              height: 180,
+              marginTop: 10,
+              borderRadius: 15,
+            }}
             source={{uri: base_url + data.image}}
           />
-          <View style={tw` mx-16`}>
+
+          <View style={tw` mx-16 top-5`}>
+            {/* <WebView
+              originWhitelist={['*']}
+              source={source}
+              style={{height: 300, width: '100%'}}
+            /> */}
             <RenderHtml contentWidth={width} source={source} />
           </View>
         </ScrollView>

@@ -238,10 +238,9 @@ const Home = ({navigation}) => {
       });
   };
   const _onRefresh = () => {
+    setRefreshing(true);
     getWishlistItems(accessToken);
     fetchProfileData(accessToken);
-    setRefreshing(true);
-    setTimeout(() => setRefreshing(false), 1000);
   };
   useEffect(() => {
     _onRefresh();
@@ -396,9 +395,21 @@ const Home = ({navigation}) => {
 
               {/* row2 */}
 
-              <RecentList name={Category.PHONE} refreshing={refreshing} />
-              <RecentList name={Category.SMARTWATCH} refreshing={refreshing} />
-              <RecentList name={Category.TABLET} refreshing={refreshing} />
+              <RecentList
+                name={Category.PHONE}
+                refreshing={refreshing}
+                setRefreshing={setRefreshing}
+              />
+              <RecentList
+                name={Category.SMARTWATCH}
+                refreshing={refreshing}
+                setRefreshing={setRefreshing}
+              />
+              <RecentList
+                name={Category.TABLET}
+                refreshing={refreshing}
+                setRefreshing={setRefreshing}
+              />
 
               <View style={styles.company_box}>
                 <FlatList
@@ -422,6 +433,7 @@ const Home = ({navigation}) => {
         </View>
       </SafeAreaView>
       {Platform.OS === 'android' && <AppUpdateScreen />}
+      {Platform.OS === 'ios' && <AppUpdateScreen />}
     </>
   );
 };

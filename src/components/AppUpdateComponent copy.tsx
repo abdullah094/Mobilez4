@@ -11,7 +11,7 @@ import {
 import DeviceInfo from 'react-native-device-info';
 import {Modal} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
-const AppUpdateScreen = () => {
+const AppUpdateScreenIos = () => {
   const [visable, setVisable] = useState(false);
   const [version, setVersion] = useState(false);
   const handleUpdatePress = () => {
@@ -135,6 +135,6 @@ const AppUpdateScreen = () => {
   );
 };
 
-export default AppUpdateScreen;
+export default AppUpdateScreenIos;
 
 const styles = StyleSheet.create({});

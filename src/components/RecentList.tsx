@@ -18,10 +18,12 @@ const RecentList = ({
   name,
   products = [],
   refreshing,
+  setRefreshing,
 }: {
-  refreshing;
+  refreshing: boolean;
   name: Category;
   products?: Product[];
+  setRefreshing: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [data, setData] = useState<Product[]>([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -73,6 +75,7 @@ const RecentList = ({
         }
         // setData(pagination.data);
         // load more complete, set loading more to false
+        setRefreshing(false);
         setLoadingMore(false);
       });
   };
@@ -103,13 +106,13 @@ const RecentList = ({
           <Text style={styles.heading}>{Title}</Text>
         </View>
 
-        {loadingMore ? (
+        {refreshing && loadingMore ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size={'large'} color={'#306CCE'} />
           </View>
         ) : (
           <>
-            {data.length == 0 ? (
+            {data.length == 0 && refreshing ? (
               <View
                 style={{
                   justifyContent: 'center',
@@ -135,7 +138,7 @@ const RecentList = ({
                 }}
                 ListFooterComponent={
                   <View style={[styles.container, styles.horizontal]}>
-                    {loadingMore && (
+                    {loadingMore && data.length > 0 && (
                       <ActivityIndicator size={'large'} color={'#306CCE'} />
                     )}
                   </View>

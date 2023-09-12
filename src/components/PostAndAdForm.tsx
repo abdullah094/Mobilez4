@@ -67,8 +67,8 @@ const AccountStatusData = [
   {label: 'Not-Approved', value: 'Not-Approved'},
 ];
 const CityData = [
-  {label: 'Karachi', value: 'Karachi'},
-  {label: 'Faislabad', value: 'Faislabad'},
+  {label: 'karachi', value: 'karachi'},
+  {label: 'faislabad', value: 'faislabad'},
 ];
 const AccountTypeData = [
   {label: 'individual', value: 'individual'},
@@ -105,7 +105,7 @@ export interface Form {
   city?: string;
   isCityVisible: boolean;
   product_type?: 'New' | 'Used' | 'Refurbished';
-
+  user_type: string;
   errorProduct_type: string;
   isProduct_typeVisible: boolean;
   isOtherProductUsed: boolean;
@@ -196,6 +196,8 @@ export default function PostAndAdForm({
   useEffect(() => {
     getModelFunc();
   }, [form.brand]);
+  console.log(profileData.city, '============ city');
+  console.log(profileData);
   console.log(form);
   // console.log('profileeeeeeeeee', profileData);
   return (
@@ -678,7 +680,7 @@ export default function PostAndAdForm({
         />
         {form.errorWarranty != '' && <Text>{form.errorWarranty} </Text>}
       </View>
-      {profileData.city === null && (
+      {profileData?.city === null && (
         // <DropDown
         //   inputProps={{
         //     right: <TextInput.Icon icon={'menu-down'} />,
@@ -701,6 +703,7 @@ export default function PostAndAdForm({
         //   list={CityData}
         //   accessibilityLabel={'city'}
         // />
+
         <SelectList
           boxStyles={styles.box}
           placeholder="City"
@@ -708,7 +711,7 @@ export default function PostAndAdForm({
           setSelected={text =>
             setForm(prev => ({
               ...prev,
-              City: text,
+              city: text,
             }))
           }
           data={CityData}
@@ -716,7 +719,7 @@ export default function PostAndAdForm({
           dropdownTextStyles={{color: 'black'}}
         />
       )}
-      {profileData.account_status === null && (
+      {profileData.city === null && (
         <View style={tw`w-full  pt-2 pr-2`}>
           {/* <DropDown
             inputProps={{
@@ -762,7 +765,7 @@ export default function PostAndAdForm({
           />
         </View>
       )}
-      {profileData?.user_type === 'business' && (
+      {form.acc_type === 'business' && (
         <>
           <View style={tw`w-full  pt-2 pr-2`}>
             {/* <TextInput

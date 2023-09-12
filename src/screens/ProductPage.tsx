@@ -55,6 +55,7 @@ const ProductPage = ({navigation, route}) => {
 
   useEffect(() => {
     fetchData();
+    console.log(data);
   }, []);
 
   if (!data) return <Loading />;

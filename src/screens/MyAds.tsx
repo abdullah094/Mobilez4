@@ -155,6 +155,7 @@ const MyAds = ({navigation, isActive}) => {
         console.log('hello', error);
       });
   }, [selectedAd, _accessToken]);
+  console.log(data);
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>

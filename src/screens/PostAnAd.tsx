@@ -349,6 +349,9 @@ const PostAnAd = () => {
     data.append('pta_status', form.pta_status);
     data.append('ram', form.ram);
     data.append('storage', form.storage);
+    data.append('storage', form.city);
+    data.append('storage', form.acc_type);
+
     // Create headers manually
     let images: {uri: any; name: any; type: any}[] = [];
     form.image?.forEach(image => {

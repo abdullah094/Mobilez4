@@ -38,9 +38,7 @@ const ListItem = ({
   });
   let nowDate = new Date();
   nowDate.setDate(nowDate.getDate() - 1);
-  const fallbacks = [
-    require('../assets/mobile-logo.png'), // A locally require'd image
-  ];
+  const fallbacks = [require('../assets/mobile-logo.png')];
   return (
     <>
       <TouchableOpacity
@@ -111,7 +109,7 @@ const ListItem = ({
             fallbacks={fallbacks}
             style={[{height: '100%', width: '100%', borderRadius: 10}]}
             resizeMode="cover"
-            source={image_url + item.image.img}
+            source={image_url + item?.image?.img}
           />
           <AddToWishList
             ProductId={item.id}

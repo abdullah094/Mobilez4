@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 export const todosSlice = createSlice({
   name: 'todo',
   initialState: {
@@ -10,7 +9,7 @@ export const todosSlice = createSlice({
     docs: [],
     wishList: [],
     otpVerify:{ }
-  },
+  } ,
 
   reducers: {
     setAccessToken: (state, action) => {

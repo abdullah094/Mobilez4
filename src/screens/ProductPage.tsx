@@ -390,6 +390,7 @@ const ProductPage = ({navigation, route}) => {
                     }}>
                     Product Condition :
                   </Text>
+
                   <Text
                     style={{
                       color: color.black,
@@ -402,6 +403,37 @@ const ProductPage = ({navigation, route}) => {
                     {data.details.product_type}
                   </Text>
                 </View>
+                {data.details.accessories != null && (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginTop: 7,
+                    }}>
+                    <Text
+                      style={{
+                        color: color.black,
+                        fontSize: 15,
+
+                        fontWeight: '700',
+                      }}>
+                      Accesories :
+                    </Text>
+
+                    <Text
+                      style={{
+                        color: color.black,
+                        fontSize: 15,
+
+                        fontWeight: '400',
+                        paddingHorizontal: 5,
+                        alignItems: 'center',
+                      }}>
+                      {data.details.accessories}
+                    </Text>
+                  </View>
+                )}
+
                 {data.details.category === 'Mobile' ? (
                   <View
                     style={{

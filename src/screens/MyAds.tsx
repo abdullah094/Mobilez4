@@ -2,6 +2,7 @@ import {MY_ADS} from '@env';
 import axios from 'axios';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
   FlatList,
   Modal,
@@ -54,6 +55,7 @@ const MyAds = ({navigation, isActive}) => {
       .then(response => {
         if (response.data.my_adds) {
           setData(response.data.my_adds);
+          setLoading(false);
         } else {
         }
       })
@@ -64,6 +66,7 @@ const MyAds = ({navigation, isActive}) => {
 
   useEffect(() => {
     myAdd();
+    setLoading(true);
   }, [_accessToken, route]);
 
   const soldFunc = useCallback(() => {
@@ -75,6 +78,7 @@ const MyAds = ({navigation, isActive}) => {
         // setsellAD(response.data);
         setData([]);
         myAdd();
+        setLoading(true);
       })
       .catch(error => {
         console.log('hello', error);
@@ -150,12 +154,13 @@ const MyAds = ({navigation, isActive}) => {
         // setsellAD(response.data);
         myAdd();
         console.log('Ad deleted ');
+        setLoading(true);
       })
       .catch(error => {
         console.log('hello', error);
       });
   }, [selectedAd, _accessToken]);
-  console.log(data);
+
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
@@ -180,52 +185,43 @@ const MyAds = ({navigation, isActive}) => {
           </Button>
         </View>
 
-        {/* {!loading ? (
-          <View style={[styles.container, styles.horizontal]}>
-            <ActivityIndicator size={'large'} color={'#306CCE'} />
-          </View>
-        ) : (
-          <View
-            style={{
-              justifyContent: 'center',
-              height: '100%',
-              alignItems: 'center',
-            }}>
-            <Thumb name="thumbsdown" color={'black'} size={40} />
-            <Text style={{color: 'black', fontWeight: '700'}}>
-              You haven't posted anything
-            </Text>
-          </View>
-        )} */}
-
         {!isWishlist ? (
           <>
-            {data.length > 0 ? (
-              <View style={tw` flex-row items-center justify-end m-6`}>
-                <>
-                  <TouchableOpacity
-                    style={tw`px-2`}
-                    onPress={() => setGrid(false)}>
-                    <ListIcon
-                      name="list"
-                      color={Grid ? color.black : color.red}
-                      size={30}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setGrid(true)}>
-                    <Entypo
-                      name="grid"
-                      color={Grid ? color.red : color.black}
-                      size={30}
-                    />
-                  </TouchableOpacity>
-                </>
+            {loading ? (
+              <ActivityIndicator
+                size={55}
+                color={color.orange}
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 280,
+                }}
+              />
+            ) : data.length > 0 ? (
+              <View style={tw`flex-row items-center justify-end m-6`}>
+                <TouchableOpacity
+                  style={tw`px-2`}
+                  onPress={() => setGrid(false)}>
+                  <ListIcon
+                    name="list"
+                    color={Grid ? color.black : color.red}
+                    size={30}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => setGrid(true)}>
+                  <Entypo
+                    name="grid"
+                    color={Grid ? color.red : color.black}
+                    size={30}
+                  />
+                </TouchableOpacity>
               </View>
             ) : (
               <View
                 style={{
                   justifyContent: 'center',
-                  height: '100%',
+                  height: '90%',
                   alignItems: 'center',
                 }}>
                 <Thumb name="thumbsdown" color={'black'} size={40} />
@@ -249,7 +245,8 @@ const MyAds = ({navigation, isActive}) => {
                 renderItem={({item}) => (
                   <GridItem
                     item={item}
-                    onPressList={() => onOpenListModal(item.id)}></GridItem>
+                    onPressList={() => onOpenListModal(item.id)}
+                  />
                 )}
               />
             ) : (
@@ -263,7 +260,7 @@ const MyAds = ({navigation, isActive}) => {
                   paddingBottom: 100,
                 }}
                 numColumns={1}
-                renderItem={({item}: any) => (
+                renderItem={({item}) => (
                   <ListItem
                     onPressList={() => onOpenListModal(item.id)}
                     item={item}
@@ -318,6 +315,7 @@ const MyAds = ({navigation, isActive}) => {
           </View>
         </Modal>
       </View>
+
       {modalVisible && (
         <AdEditModaleScreen
           id={selectedAd}

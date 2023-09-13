@@ -52,7 +52,7 @@ const HomeSlider = () => {
           data={sliderImages}
           renderItem={_renderItem}
           sliderWidth={width - 38}
-          itemWidth={width - 20}
+          itemWidth={width - 22}
           layout={'stack'}
         />
       </View>

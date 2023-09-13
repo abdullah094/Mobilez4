@@ -27,6 +27,7 @@ import {
   setWishList,
 } from '../Redux/Slices';
 
+import FontAwesome from 'react-native-vector-icons/Entypo';
 import AppUpdateScreen from '../components/AppUpdateComponent';
 import HomeSlider from '../components/HomeSlider';
 import RecentList from '../components/RecentList';
@@ -49,6 +50,7 @@ const Home = ({navigation}) => {
   const [showVersionAlert, setShowVersionAlert] = useState<boolean>(true);
   const image_url = 'https:/www.mobilezmarket.com/images/';
   const accessToken = useSelector(selectAccessToken);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const dispatch = useDispatch();
   const name = DeviceInfo.getBrand();
   setTimeout(() => {
@@ -223,6 +225,7 @@ const Home = ({navigation}) => {
       image: require('../assets/brand_logos/22.png'),
     },
   ];
+
   const fetchProfileData = async accessToken => {
     await axios
       .get(GET_PROFILE_DATA, {
@@ -245,7 +248,17 @@ const Home = ({navigation}) => {
   useEffect(() => {
     _onRefresh();
   }, [navigation]);
+  const handlePrevious = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
 
+  const handleNext = () => {
+    if (currentIndex < logos.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
   return (
     <>
       <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
@@ -314,7 +327,7 @@ const Home = ({navigation}) => {
             <View style={tw`relative rounded-md flex-1`}>
               <SearchScreen />
               <View
-                style={tw`w-full px-6 top-[120px] absolute items-center rounded-[13px] overflow-hidden z-1`}>
+                style={tw`w-full px-6 top-[110px] absolute items-center rounded-[10px] overflow-hidden z-1`}>
                 <HomeSlider />
               </View>
             </View>
@@ -412,20 +425,41 @@ const Home = ({navigation}) => {
                 setRefreshing={setRefreshing}
               />
 
-              <View style={styles.company_box}>
-                <FlatList
-                  horizontal
-                  data={logos}
-                  showsHorizontalScrollIndicator={false}
-                  key={'#'}
-                  keyExtractor={item => '#' + item.id}
-                  renderItem={({item}) => (
-                    <Image
-                      style={{width: 70, height: 70, marginHorizontal: 20}}
-                      source={item.image}
-                    />
-                  )}
-                />
+              <View style={styles.container}>
+                <TouchableOpacity onPress={handlePrevious}>
+                  <FontAwesome
+                    name="chevron-thin-left"
+                    size={25}
+                    color="gray"
+                  />
+                </TouchableOpacity>
+                <View style={styles.company_box}>
+                  <FlatList
+                    horizontal
+                    data={logos}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={item => '#' + item.id}
+                    renderItem={({item}) => (
+                      <Image
+                        style={{width: 70, height: 70, marginHorizontal: 20}}
+                        source={item.image}
+                      />
+                    )}
+                    initialScrollIndex={currentIndex}
+                    getItemLayout={(data, index) => ({
+                      length: 70,
+                      offset: 70 * index,
+                      index,
+                    })}
+                  />
+                </View>
+                <TouchableOpacity onPress={handleNext}>
+                  <FontAwesome
+                    name="chevron-thin-right"
+                    size={25}
+                    color="gray"
+                  />
+                </TouchableOpacity>
               </View>
             </View>
 
@@ -525,9 +559,13 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 10,
   },
-  company_box: {
+  container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+  },
+  company_box: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

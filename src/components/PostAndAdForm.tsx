@@ -67,8 +67,8 @@ const AccountStatusData = [
   {label: 'Not-Approved', value: 'Not-Approved'},
 ];
 const CityData = [
-  {label: 'karachi', value: 'karachi'},
-  {label: 'faislabad', value: 'faislabad'},
+  {label: 'Karachi', value: 'Karachi'},
+  {label: 'Faislabad', value: 'Faislabad'},
 ];
 const AccountTypeData = [
   {label: 'individual', value: 'individual'},
@@ -196,9 +196,9 @@ export default function PostAndAdForm({
   useEffect(() => {
     getModelFunc();
   }, [form.brand]);
-  console.log(profileData.city, '============ city');
-  console.log(profileData);
-  console.log(form);
+  // console.log(profileData.city, '============ city');
+  // console.log(profileData);
+  // console.log(form);
   // console.log('profileeeeeeeeee', profileData);
   return (
     <View>

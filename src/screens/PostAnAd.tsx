@@ -1,10 +1,10 @@
-import {POST_AN_AD, SUBMIT_OTP} from '@env';
+import { POST_AN_AD, SUBMIT_OTP } from '@env';
 
-import {useNavigation, useRoute} from '@react-navigation/native';
-import axios, {AxiosRequestConfig} from 'axios';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import axios, { AxiosRequestConfig } from 'axios';
 import FormData from 'form-data';
 import mime from 'mime';
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -25,8 +25,8 @@ import {
   ImageLibraryOptions,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import {Button} from 'react-native-paper';
-import {useDispatch, useSelector} from 'react-redux';
+import { Button } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import tw from 'twrnc';
 import {
   selectAccessToken,
@@ -35,8 +35,8 @@ import {
 } from '../Redux/Slices';
 import Header from '../components/Header';
 import PostAndAdForm from '../components/PostAndAdForm';
-import {color} from '../constants/Colors';
-import {Category, IndexNavigationProps, Profile} from '../types';
+import { color } from '../constants/Colors';
+import { Category, IndexNavigationProps, Profile } from '../types';
 const {width, height} = Dimensions.get('window');
 
 export interface Form {
@@ -85,6 +85,7 @@ const PostAnAd = () => {
   const from = route.params?.from || 'Post';
 
   const profileData = useSelector(selectProfileData) as Profile;
+  console.log({profileData});
   const _accessToken = useSelector(selectAccessToken);
   const [IsVerifiedStorage, setIsVerifiedStorage] = useState(true);
   const [submitText, setSubmitText] = useState('Submit');
@@ -339,18 +340,24 @@ const PostAnAd = () => {
     setButton(<ActivityIndicator size={15} color={color.white} />);
     const data = new FormData();
 
-    data.append('brand', form.brand);
-    data.append('model', form.model);
-    data.append('description', form.description);
-    data.append('price', form.price);
-    data.append('warranty', form.warranty);
-    data.append('category', form.category);
-    data.append('product_type', form.product_type);
-    data.append('pta_status', form.pta_status);
-    data.append('ram', form.ram);
-    data.append('storage', form.storage);
-    data.append('storage', form.city);
-    data.append('storage', form.acc_type);
+    Object.entries(form)
+      .filter(x => x[0] != 'image')
+      .map(([key, value]) => {
+        data.append(key, value);
+      });
+
+    // data.append('brand', form.brand);
+    // data.append('model', form.model);
+    // data.append('description', form.description);
+    // data.append('price', form.price);
+    // data.append('warranty', form.warranty);
+    // data.append('category', form.category);
+    // data.append('product_type', form.product_type);
+    // data.append('pta_status', form.pta_status);
+    // data.append('ram', form.ram);
+    // data.append('storage', form.storage);
+    // data.append('city', form.city);
+    // data.append('acc_type', form.acc_type);
 
     // Create headers manually
     let images: {uri: any; name: any; type: any}[] = [];
@@ -371,12 +378,11 @@ const PostAnAd = () => {
       }
     });
 
-    console.log('images', images);
     // Append the images
     images.forEach((image, index) => {
       data.append('image[]', image, `image${index + 1}.png`);
     });
-    console.log('images', JSON.stringify(data));
+
     const config: AxiosRequestConfig<FormData> = {
       headers: {
         Authorization: `Bearer ${_accessToken}`,
@@ -384,6 +390,8 @@ const PostAnAd = () => {
       },
       maxBodyLength: Infinity,
     };
+    console.log(data);
+    // return;
 
     // Make the request
     // Make the request
@@ -415,6 +423,12 @@ const PostAnAd = () => {
             } = response.data;
 
             if (status == 200) {
+              const newProfileData = {
+                ...profileData,
+                city: form.city,
+                acc_type: form.acc_type,
+              };
+              dispatch(setProfileData(newProfileData));
               clearData();
               Alert.alert(message);
               navigation.navigate('Home');
@@ -468,7 +482,7 @@ const PostAnAd = () => {
       setForm(prev => ({...prev, errorRam: 'RAM is required'}));
       return;
     }
-    if (profileData.account_status === null) {
+    if (profileData.acc_type === null) {
       if (!form.acc_type) {
         setForm(prev => ({...prev, errorBrand: 'Account Type is required'}));
         return;

@@ -31,6 +31,7 @@ export interface Profile {
   user_type: null;
   whatsapp_num: null;
   socialLogin: boolean;
+  acc_type: string;
 }
 
 export interface NewDevices {
@@ -313,9 +314,9 @@ export interface Product {
   sold: boolean;
 }
 
-import {RouteProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {Asset} from 'react-native-image-picker';
+import { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Asset } from 'react-native-image-picker';
 
 export type IndexParamList = {
   Home: undefined;

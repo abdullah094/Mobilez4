@@ -3,7 +3,7 @@ import {Pressable, Text, TouchableOpacity, View} from 'react-native';
 import {Modal} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const AlertModale = ({message}) => {
+const AlertModale = ({message, setMessage}) => {
   const [visible, setVisible] = useState(false);
   console.log(message);
   useEffect(() => {
@@ -15,7 +15,7 @@ const AlertModale = ({message}) => {
   }, [message]);
 
   const onClose = () => {
-    setVisible(false);
+    setMessage('');
   };
 
   return (

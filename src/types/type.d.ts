@@ -1,5 +1,5 @@
 export interface Profile {
-  account_status: string;
+  account_status: string | undefined;
   active_status: number;
   area: null;
   avatar: string;

@@ -96,7 +96,6 @@ const Login = () => {
       )
       .then(response => {
         if (response.data.errors) {
-          console.log(response.data?.errors);
           if (response.data.errors) {
             if (response.data.errors.email && response.data.errors.password) {
               setMessage('Email and password are wrong');
@@ -153,7 +152,7 @@ const Login = () => {
         setSocialLoginLoader(false);
         const data = response.data;
         if (data.status) {
-          Alert.alert(data.message);
+          setMessage(data.message);
           dispatch(setAccessToken(data.token));
           setLoginLoader('Login');
           PutAccessTokenToAsync(response.data.token);
@@ -411,7 +410,7 @@ const Login = () => {
           </ScrollView>
         </View>
       </SafeAreaView>
-      <AlertModale message={message} />
+      <AlertModale message={message} setMessage={setMessage} />
     </>
   );
 };

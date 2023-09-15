@@ -75,7 +75,7 @@ const Settings = ({navigation}) => {
   return (
     <>
       <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
-        <View style={tw`bg-[#edf2f2] flex-1 `}>
+        <View style={tw`bg-[#edf2f2] flex-1  `}>
           <View
             style={{
               height: _accessToken ? 130 : 50,
@@ -121,10 +121,9 @@ const Settings = ({navigation}) => {
             </TouchableOpacity>
           </View>
           {_accessToken ? (
-            <>
+            <View style={{justifyContent: 'flex-start'}}>
               <View
                 style={{
-                  alignItems: 'flex-start',
                   backgroundColor: color.orange,
                   padding: 5,
                 }}>
@@ -136,6 +135,17 @@ const Settings = ({navigation}) => {
                   }}>
                   {_profile.first_name}
                 </Text>
+                {_profile.last_name ? (
+                  <Text
+                    style={{
+                      color: color.white,
+                      fontSize: 20,
+                      fontWeight: '600',
+                    }}>
+                    {_profile.last_name}
+                  </Text>
+                ) : null}
+
                 <Text
                   style={{
                     color: color.white,
@@ -145,7 +155,7 @@ const Settings = ({navigation}) => {
                   {_profile.email}
                 </Text>
               </View>
-            </>
+            </View>
           ) : (
             <View
               style={{
@@ -272,7 +282,7 @@ const Settings = ({navigation}) => {
         </View>
       </SafeAreaView>
 
-      <AlertModale message={message} />
+      <AlertModale message={message} setMessage={setmessage} />
     </>
   );
 };

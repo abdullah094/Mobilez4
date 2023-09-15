@@ -1,13 +1,6 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {
-  Linking,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Linking, Pressable, StyleSheet, Text, View} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {Modal} from 'react-native-paper';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -37,15 +30,12 @@ const AppUpdateScreenIos = () => {
         const curVersion = DeviceInfo.getVersion(); // Get the current version using react-native-device-info
         console.log(_version.version, curVersion);
 
-        if (parseFloat(curVersion) < parseFloat(_version.version)) {
+        if (parseFloat(curVersion) < parseFloat(_version.ios)) {
           setVisable(true);
-
-          console.log('iffffffffffffffffffffff');
         } else {
           setVisable(false);
-          console.log('elseeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
         }
-        console.log('_profile', _version);
+        console.log('_profile=======', _version.ios);
       })
       .catch(error => {
         console.log('_version' + error);
@@ -55,6 +45,7 @@ const AppUpdateScreenIos = () => {
   useEffect(() => {
     fetchVersionData();
   }, []);
+
   return (
     <Modal
       visible={visable}
@@ -118,7 +109,7 @@ const AppUpdateScreenIos = () => {
             </Text>
           </View>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               marginTop: 20,
               paddingVertical: 10,
@@ -128,7 +119,7 @@ const AppUpdateScreenIos = () => {
             }}
             onPress={handleUpdatePress}>
             <Text style={{color: '#fff'}}>Update</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </Modal>

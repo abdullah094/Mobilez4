@@ -1,10 +1,10 @@
-import { POST_AN_AD, SUBMIT_OTP } from '@env';
+import {POST_AN_AD, SUBMIT_OTP} from '@env';
 
-import { useNavigation, useRoute } from '@react-navigation/native';
-import axios, { AxiosRequestConfig } from 'axios';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import axios, {AxiosRequestConfig} from 'axios';
 import FormData from 'form-data';
 import mime from 'mime';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -25,8 +25,8 @@ import {
   ImageLibraryOptions,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import { Button } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import {Button} from 'react-native-paper';
+import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {
   selectAccessToken,
@@ -35,8 +35,8 @@ import {
 } from '../Redux/Slices';
 import Header from '../components/Header';
 import PostAndAdForm from '../components/PostAndAdForm';
-import { color } from '../constants/Colors';
-import { Category, IndexNavigationProps, Profile } from '../types';
+import {color} from '../constants/Colors';
+import {Category, IndexNavigationProps, Profile} from '../types';
 const {width, height} = Dimensions.get('window');
 
 export interface Form {
@@ -57,7 +57,7 @@ export interface Form {
   ram: string;
   errorRam: string;
   isRamVisible: boolean;
-  pta_status: 'Verified' | 'NON-Verified';
+  pta_status: 'Not Aprroved' | 'Approved';
   isPTA_statusVisible: boolean;
   errorPTA_status: string;
   storage: string;
@@ -138,12 +138,12 @@ const PostAnAd = () => {
     isOtherModel: false,
     isModelVisible: false,
     otherModel: false,
-    price: '0',
+    price: '',
     errorPrice: '',
     ram: '1',
     errorRam: '',
     isRamVisible: false,
-    pta_status: 'Verified',
+    pta_status: 'Not Aprroved',
     errorPTA_status: '',
     isPTA_statusVisible: false,
     storage: '4',
@@ -159,7 +159,7 @@ const PostAnAd = () => {
     image: [],
     description: null,
     accessories: ['box'],
-    city: 'karachi',
+    city: 'Karachi',
     isCityVisible: false,
     isAccountTypeVisible: false,
     errorAccountStatus: '',
@@ -213,7 +213,7 @@ const PostAnAd = () => {
       ram: '1',
       errorRam: '',
       isRamVisible: false,
-      pta_status: 'Verified',
+      pta_status: 'Approved',
       errorPTA_status: '',
       isPTA_statusVisible: false,
       storage: '4',
@@ -305,6 +305,45 @@ const PostAnAd = () => {
     axios
       .post(
         'https://www.mobilezmarket.com/api/send-otp',
+        {
+          phone_number: phoneNumber,
+        },
+        {
+          headers: {Authorization: `Bearer ${_accessToken}`},
+        },
+      )
+      .then(response => {
+        const data = response.data;
+
+        if (data.errors) {
+          Alert.alert(JSON.stringify(data.errors.phone_number[0]));
+          setOTP(false);
+        } else {
+          Alert.alert(data.message);
+          setOTP(true);
+        }
+
+        setTimeout(() => {
+          setDisabled(false);
+        }, 30000);
+      })
+      .catch(error => {
+        if (error.message === 'Request failed with status code 419') {
+          Alert.alert('Error', 'Number Already exist');
+        } else {
+          Alert.alert('Failed', error.message);
+        }
+      });
+  };
+  const ResendOTP = () => {
+    setDisabled(true);
+    if (phoneNumber.length < 7 || phoneNumber.length > 13) {
+      Alert.alert('Phone Number is invalid');
+      return;
+    }
+    axios
+      .post(
+        'https://www.mobilezmarket.com/api/resend-otp',
         {
           phone_number: phoneNumber,
         },
@@ -541,7 +580,6 @@ const PostAnAd = () => {
                         <Button
                           theme={{
                             colors: {primary: color.orange},
-                            roundness: 90,
                           }}
                           mode={'contained'}
                           onPress={OTPVerify}
@@ -553,12 +591,11 @@ const PostAnAd = () => {
                         <Button
                           theme={{
                             colors: {primary: color.orange},
-                            roundness: 90,
                           }}
                           mode={'contained'}
                           compact
                           textColor="white"
-                          onPress={SendOTP}
+                          onPress={ResendOTP}
                           disabled={disabled}>
                           Resend OTP
                         </Button>
@@ -587,7 +624,6 @@ const PostAnAd = () => {
                         <Button
                           theme={{
                             colors: {primary: color.orange},
-                            roundness: 90,
                           }}
                           mode={'contained'}
                           onPress={SendOTP}

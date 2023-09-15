@@ -29,6 +29,7 @@ import {
 
 import FontAwesome from 'react-native-vector-icons/Entypo';
 import AppUpdateScreen from '../components/AppUpdateComponent';
+import AppUpdateScreenIos from '../components/AppUpdateComponent copy';
 import HomeSlider from '../components/HomeSlider';
 import RecentList from '../components/RecentList';
 import {color} from '../constants/Colors';
@@ -327,7 +328,7 @@ const Home = ({navigation}) => {
             <View style={tw`relative rounded-md flex-1`}>
               <SearchScreen />
               <View
-                style={tw`w-full px-6 top-[110px] absolute items-center rounded-[10px] overflow-hidden z-1`}>
+                style={tw`w-full px-6 top-[100px] absolute items-center rounded-[10px] overflow-hidden z-1`}>
                 <HomeSlider />
               </View>
             </View>
@@ -468,7 +469,7 @@ const Home = ({navigation}) => {
         </View>
       </SafeAreaView>
       {Platform.OS === 'android' && <AppUpdateScreen />}
-      {Platform.OS === 'ios' && <AppUpdateScreen />}
+      {Platform.OS === 'ios' && <AppUpdateScreenIos />}
     </>
   );
 };

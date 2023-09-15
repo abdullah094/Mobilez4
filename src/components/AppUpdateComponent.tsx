@@ -45,7 +45,7 @@ const AppUpdateScreen = () => {
           setVisable(false);
           console.log('elseeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
         }
-        console.log('_profile', _version);
+        console.log('_profile', _version.ios);
       })
       .catch(error => {
         console.log('_version' + error);

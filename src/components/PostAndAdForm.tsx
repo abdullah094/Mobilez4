@@ -198,7 +198,7 @@ export default function PostAndAdForm({
   }, [form.brand]);
   // console.log(profileData.city, '============ city');
   // console.log(profileData);
-  // console.log(form);
+  console.log(form);
   // console.log('profileeeeeeeeee', profileData);
   return (
     <View>

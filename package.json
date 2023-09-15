@@ -10,7 +10,10 @@
     "lint": "eslint .",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,tsx,json}\"",
     "postinstall": "patch-package",
-    "release": "npx react-native run-ios --configuration Release"
+    "release": "npx react-native run-ios --configuration Release",
+    "a": "react-native run-android",
+    "i": "react-native run-ios"
+    
   },
   "dependencies": {
     "@invertase/react-native-apple-authentication": "^2.2.2",

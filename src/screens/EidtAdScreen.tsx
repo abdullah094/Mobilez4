@@ -259,11 +259,10 @@ const EditScreen = () => {
         }
       })
       .catch(error => {
-        console.log('hello000000000000000', {error});
         navigation.navigate('Home');
       });
   };
-  console.log(form?.productimages);
+
   return (
     <SafeAreaView style={tw`flex-1`}>
       {!loading && (

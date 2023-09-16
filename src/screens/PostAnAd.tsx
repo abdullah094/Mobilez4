@@ -33,6 +33,7 @@ import {
   selectProfileData,
   setProfileData,
 } from '../Redux/Slices';
+import AlertModale from '../components/AlertModale';
 import Header from '../components/Header';
 import PostAndAdForm from '../components/PostAndAdForm';
 import {color} from '../constants/Colors';
@@ -40,7 +41,7 @@ import {Category, IndexNavigationProps, Profile} from '../types';
 const {width, height} = Dimensions.get('window');
 
 export interface Form {
-  category: 'Mobile' | 'Tablet' | 'Watch';
+  category: 'Mobile' | 'Tablet' | 'Watch' | false;
   isCategoryVisible: boolean;
   errorCategory: string;
   brand: string;
@@ -85,7 +86,7 @@ const PostAnAd = () => {
   const from = route.params?.from || 'Post';
 
   const profileData = useSelector(selectProfileData) as Profile;
-  console.log({profileData});
+
   const _accessToken = useSelector(selectAccessToken);
   const [IsVerifiedStorage, setIsVerifiedStorage] = useState(true);
   const [submitText, setSubmitText] = useState('Submit');
@@ -100,7 +101,7 @@ const PostAnAd = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isOtp, setOTP] = useState(false);
   const [disabled, setDisabled] = useState(false);
-
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -194,36 +195,41 @@ const PostAnAd = () => {
     from.warranty,
   ]);
 
+  useEffect(() => {
+    clearData();
+  }, [form.category]);
+
   const clearData = () => {
-    setForm({
-      category: Category.PHONE,
+    setForm(prev => ({
+      ...prev,
+      // category: Category.PHONE,
       isCategoryVisible: false,
       errorCategory: '',
       brand: '',
       isBrandVisible: false,
       errorBrand: '',
       isOtherBrand: false,
-      model: null,
+      model: '',
       errorModel: '',
       isOtherModel: false,
       isModelVisible: false,
       otherModel: false,
-      price: '0',
+      price: '',
       errorPrice: '',
-      ram: '1',
+      ram: '',
       errorRam: '',
       isRamVisible: false,
       pta_status: 'Approved',
       errorPTA_status: '',
       isPTA_statusVisible: false,
-      storage: '4',
+      storage: '',
       errorStorage: '',
       isStorageVisible: false,
       product_type: 'New',
       isProduct_typeVisible: false,
       errorProduct_type: '',
       isOtherProductUsed: false,
-      warranty: 'No Warranty',
+      warranty: '',
       errorWarranty: '',
       isWarrantyVisible: false,
       image: [],
@@ -233,7 +239,7 @@ const PostAnAd = () => {
       isCityVisible: false,
       isAccountTypeVisible: false,
       errorAccountStatus: '',
-    });
+    }));
   };
 
   const OTPVerify = () => {
@@ -277,7 +283,32 @@ const PostAnAd = () => {
         setOtp('');
       });
   };
+  const imageUpload = async () => {
+    const options: ImageLibraryOptions = {
+      mediaType: 'photo',
+      quality: 0.5,
+      selectionLimit: 10,
+    };
+    const result = await launchImageLibrary(options);
+    const images = result.assets;
 
+    const formData = new FormData();
+    formData.append('image[]', images);
+
+    await axios
+      .post(
+        'https://www.mobilezmarket.com/api/upload-Ad-image',
+        {
+          'image[]': formData,
+        },
+        {
+          headers: {Authorization: `Bearer ${_accessToken}`},
+        },
+      )
+      .then(res => {
+        console.log('res.data', res.data);
+      });
+  };
   const ImageUpload = async () => {
     const options: ImageLibraryOptions = {
       mediaType: 'photo',
@@ -286,14 +317,61 @@ const PostAnAd = () => {
     };
     setUploadButton(<ActivityIndicator size={15} color={color.white} />);
     //Image upload Function
-    let images: Asset[] = [];
+    let image: Asset[] = [];
     const result = await launchImageLibrary(options);
+    console.log('result.assets', result);
 
     result.assets?.forEach(element => {
-      images.push(element);
+      image.push(element);
     });
-    setForm({...form, image: images});
+    setForm(prev => ({...prev, image: image}));
     setUploadButton('Upload Image');
+
+    const formData = new FormData();
+    let images: {uri: any; name: any; type: any}[] = [];
+    form.image?.forEach(image => {
+      if (Platform.OS === 'android') {
+        const newImageUri = 'file:///' + image.uri.split('file:/').join('');
+        images.push({
+          uri: newImageUri,
+          name: image.fileName ?? image.uri.split('/').pop(),
+          type: mime.getType(newImageUri),
+        });
+      } else {
+        images.push({
+          uri: image.uri,
+          name: image.fileName ?? image.uri.split('/').pop(),
+          type: image.type,
+        });
+      }
+    });
+    console.log('images is here ', images);
+
+    images.forEach((image, index) => {
+      formData.append('image[]', image, `image${index + 1}.png`);
+    });
+    formData.append('product_id', 336);
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://www.mobilezmarket.com/api/upload-Ad-image',
+      headers: {
+        Authorization: 'Bearer 774|VzX3AbTggTl9JIpFPkKYpSe86XLHdgHYvZPIUH7z',
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+    };
+    axios
+      .request(config)
+      .then(response => {
+        if (response.status === 200) {
+          // setForm({...form, image: images});
+          console.log(response.data);
+        }
+      })
+      .catch(error => {
+        console.log('error' + error);
+      });
   };
 
   const SendOTP = () => {
@@ -375,6 +453,57 @@ const PostAnAd = () => {
       });
   };
 
+  const UploadImageToServer = (product_id: string) => {
+    const formData = new FormData();
+    let images: {uri: any; name: any; type: any}[] = [];
+    form.image?.forEach(image => {
+      if (Platform.OS === 'android') {
+        const newImageUri = 'file:///' + image.uri.split('file:/').join('');
+        images.push({
+          uri: newImageUri,
+          name: image.fileName ?? image.uri.split('/').pop(),
+          type: mime.getType(newImageUri),
+        });
+      } else {
+        images.push({
+          uri: image.uri,
+          name: image.fileName ?? image.uri.split('/').pop(),
+          type: image.type,
+        });
+      }
+    });
+    console.log('images is here ', images);
+
+    images.forEach((image, index) => {
+      formData.append('image[]', image, `image${index + 1}.png`);
+    });
+    formData.append('product_id', product_id);
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://www.mobilezmarket.com/api/upload-Ad-image',
+      headers: {
+        Authorization: `Bearer ${_accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+      data: formData,
+    };
+    axios
+      .request(config)
+      .then(response => {
+        if (response.data.status === 200) {
+          // setForm({...form, image: images});
+          console.log(response.data);
+          // Alert.alert(response.data.message);
+          setMessage(response.data.message);
+          clearData();
+        }
+      })
+      .catch(error => {
+        console.log('error' + error);
+      });
+  };
+
   const PostAdFunc = async () => {
     setButton(<ActivityIndicator size={15} color={color.white} />);
     const data = new FormData();
@@ -399,28 +528,28 @@ const PostAnAd = () => {
     // data.append('acc_type', form.acc_type);
 
     // Create headers manually
-    let images: {uri: any; name: any; type: any}[] = [];
-    form.image?.forEach(image => {
-      if (Platform.OS === 'android') {
-        const newImageUri = 'file:///' + image.uri.split('file:/').join('');
-        images.push({
-          uri: newImageUri,
-          name: image.fileName ?? image.uri.split('/').pop(),
-          type: mime.getType(newImageUri),
-        });
-      } else {
-        images.push({
-          uri: image.uri,
-          name: image.fileName ?? image.uri.split('/').pop(),
-          type: image.type,
-        });
-      }
-    });
+    // let images: {uri: any; name: any; type: any}[] = [];
+    // form.image?.forEach(image => {
+    //   if (Platform.OS === 'android') {
+    //     const newImageUri = 'file:///' + image.uri.split('file:/').join('');
+    //     images.push({
+    //       uri: newImageUri,
+    //       name: image.fileName ?? image.uri.split('/').pop(),
+    //       type: mime.getType(newImageUri),
+    //     });
+    //   } else {
+    //     images.push({
+    //       uri: image.uri,
+    //       name: image.fileName ?? image.uri.split('/').pop(),
+    //       type: image.type,
+    //     });
+    //   }
+    // });
 
-    // Append the images
-    images.forEach((image, index) => {
-      data.append('image[]', image, `image${index + 1}.png`);
-    });
+    // // Append the images
+    // images.forEach((image, index) => {
+    //   data.append('image[]', image, `image${index + 1}.png`);
+    // });
 
     const config: AxiosRequestConfig<FormData> = {
       headers: {
@@ -429,7 +558,7 @@ const PostAnAd = () => {
       },
       maxBodyLength: Infinity,
     };
-    console.log(data);
+    // console.log(data);
     // return;
 
     // Make the request
@@ -438,17 +567,18 @@ const PostAnAd = () => {
       ? axios
           .post(POST_AN_AD, data, config)
           .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
             const {
               errors,
               status,
               message,
+              product_id,
             }: {
               errors: {
                 brand: string[];
                 category: string[];
                 description: string[];
-                image: string[];
+                // image: string[];
                 model: string[];
                 price: string[];
                 product_type: string[];
@@ -459,17 +589,19 @@ const PostAnAd = () => {
               };
               status: number;
               message: string;
+              product_id: string;
             } = response.data;
 
             if (status == 200) {
+              UploadImageToServer(product_id);
               const newProfileData = {
                 ...profileData,
                 city: form.city,
                 acc_type: form.acc_type,
               };
               dispatch(setProfileData(newProfileData));
-              clearData();
               Alert.alert(message);
+              setMessage(message);
               navigation.navigate('Home');
             } else {
               if (Object.entries(errors).length > 0) {
@@ -535,7 +667,7 @@ const PostAnAd = () => {
     }
     PostAdFunc();
   };
-
+  console.log(form);
   return (
     <SafeAreaView style={tw`h-full bg-[#015dcf]`}>
       <Header title="Post an Ad" />
@@ -728,6 +860,7 @@ const PostAnAd = () => {
           </View>
         </ScrollView>
       </View>
+      <AlertModale message={message} setMessage={setMessage} />
     </SafeAreaView>
   );
 };

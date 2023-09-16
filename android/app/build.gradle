@@ -139,8 +139,8 @@ android {
         applicationId "com.wizard.mobilez"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 19
-        versionName "17.2"
+        versionCode 20
+        versionName "17.3"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
@@ -149,7 +149,7 @@ android {
                 cmake {
                     arguments "-DPROJECT_BUILD_DIR=$buildDir",
                         "-DREACT_ANDROID_DIR=$rootDir/../node_modules/react-native/ReactAndroid",
-                        "-DREACT_ANDROID_BUILD_DIR=$rootDir/../node_modules/react-native/ReactAndroid/build",
+                         "-DREACT_ANDROID_BUILD_DIR=$rootDir/../node_modules/react-native/ReactAndroid/build",
                         "-DNODE_MODULES_DIR=$rootDir/../node_modules",
                         "-DANDROID_STL=c++_shared"
                 }

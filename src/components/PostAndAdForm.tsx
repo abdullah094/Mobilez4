@@ -198,7 +198,7 @@ export default function PostAndAdForm({
   }, [form.brand]);
   // console.log(profileData.city, '============ city');
   // console.log(profileData);
-  console.log(form);
+  // console.log(form);
   // console.log('profileeeeeeeeee', profileData);
   return (
     <View>
@@ -321,31 +321,30 @@ export default function PostAndAdForm({
             )}
           </View>
         )}
-        {loadingModel ? (
-          <ActivityIndicator style={tw`w-full h-16  pt-2`} size={30} />
+
+        {form.isOtherModel ||
+        form.category === 'Tablet' ||
+        form.category === 'Watch' ? (
+          <View style={tw`w-full  pt-2`}>
+            <TextInput
+              placeholder="Enter Your Product Model"
+              placeholderTextColor={'gray'}
+              style={styles.box_input}
+              onChangeText={text => {
+                {
+                  setForm({...form, model: text});
+                }
+              }}
+            />
+            {form.errorModel != '' && (
+              <HelperText type="error" visible={form.errorModel != ''}>
+                {form.errorModel}
+              </HelperText>
+            )}
+          </View>
         ) : (
-          <>
-            {form.isOtherModel ? (
-              <View style={tw`w-full  pt-2`}>
-                <TextInput
-                  placeholder="Enter Model"
-                  placeholderTextColor={'gray'}
-                  style={styles.box_input}
-                  onChangeText={text => {
-                    {
-                      setForm({...form, model: text});
-                    }
-                  }}
-                />
-                {form.errorModel != '' && (
-                  <HelperText type="error" visible={form.errorModel != ''}>
-                    {form.errorModel}
-                  </HelperText>
-                )}
-              </View>
-            ) : (
-              <View style={tw`w-full  pt-2`}>
-                <SelectList
+          <View style={tw`w-full  pt-2`}>
+            {/* <SelectList
                   boxStyles={styles.box}
                   placeholder="Choose model"
                   inputStyles={{color: 'black'}}
@@ -359,8 +358,22 @@ export default function PostAndAdForm({
                   data={models}
                   save="value"
                   dropdownTextStyles={{color: 'black'}}
-                />
-                {/* <DropDown
+                /> */}
+            <TextInput
+              placeholder="Enter Your Product Model"
+              value={form.model ?? ''}
+              placeholderTextColor={'gray'}
+              style={styles.box_input}
+              onChangeText={text => {
+                setForm(prev => ({
+                  ...prev,
+                  model: text === 'Other' ? '' : text,
+                  isOtherModel: text === 'Other',
+                }));
+              }}
+            />
+
+            {/* <DropDown
                   label={'Model'}
                   mode={'outlined'}
                   visible={form.isOtherModel || form.isModelVisible}
@@ -384,14 +397,12 @@ export default function PostAndAdForm({
                     right: <TextInput.Icon icon={'menu-down'} />,
                   }}
                 /> */}
-                {form.errorModel != '' && (
-                  <HelperText type="error" visible={form.errorModel != ''}>
-                    {form.errorModel}
-                  </HelperText>
-                )}
-              </View>
+            {form.errorModel != '' && (
+              <HelperText type="error" visible={form.errorModel != ''}>
+                {form.errorModel}
+              </HelperText>
             )}
-          </>
+          </View>
         )}
 
         <View style={tw`w-1/2 pt-2 pr-2`}>

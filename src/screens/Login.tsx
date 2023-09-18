@@ -248,6 +248,8 @@ const Login = () => {
                     <TextInput
                       keyboardType="email-address"
                       style={styles.input}
+                      inputMode="email"
+                      textColor="black"
                       value={email}
                       onChangeText={value => setEmail(value.toLowerCase())}
                       onBlur={validateEmail}
@@ -425,6 +427,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingHorizontal: 1,
     color: color.black,
+
     height: 40,
     borderBottomWidth: 1,
     borderColor: color.gray,

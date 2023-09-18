@@ -1,9 +1,9 @@
+//@ts-ignore
 import {BRANDS, MODELS} from '@env';
 import axios from 'axios';
-import React, {SetStateAction, useEffect, useState} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, TextInput, View} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
-import {Asset} from 'react-native-image-picker';
 import {
   ActivityIndicator,
   Checkbox,
@@ -14,7 +14,7 @@ import {useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {selectAccessToken, selectProfileData} from '../Redux/Slices';
 import {color} from '../constants/Colors';
-import {BrandAPI, ModelAPI, Profile} from '../types';
+import {BrandAPI, Form, ModelAPI, Profile} from '../types';
 
 const width = Dimensions.get('window').width;
 
@@ -455,65 +455,29 @@ const AccountTypeData = [
   {label: 'business', value: 'business'},
 ];
 
-export interface Form {
-  category: 'Mobile' | 'Tablet' | 'Watch';
-  isCategoryVisible: boolean;
-  errorCategory: string;
-  brand: string;
-  isBrandVisible: boolean;
-  errorBrand: string;
-  isOtherBrand: boolean;
-  model: string | null;
-  isOtherModel: boolean;
-  errorModel: '';
-  isModelVisible: boolean;
-  otherModel: false;
-  price?: string;
-  errorPrice: string;
-  ram: string;
-  errorRam: string;
-  isRamVisible: boolean;
-  pta_status: 'Approved' | 'Not Approved' | 's';
-  isPTA_statusVisible: boolean;
-  errorPTA_status: string;
-  storage: string;
-  errorStorage: string;
-  isStorageVisible: boolean;
-  warranty: string;
-  isWarrantyVisible: boolean;
-  errorWarranty: string;
-  city: string;
-  isCityVisible: boolean;
-  errorCity: string;
-  product_type?: 'New' | 'Used' | 'Refurbished';
-  user_type: string;
-  errorProduct_type: string;
-  isProduct_typeVisible: boolean;
-  isOtherProductUsed: boolean;
-  image?: Asset[];
-  description?: string | null;
-  accessories?: [string];
-  acc_type?: string | null;
-  isAccountTypeVisible: boolean;
-  shop_name?: string;
-  shop_address?: string;
-}
-
 export default function PostAndAdForm({
   form,
   setForm,
   reset,
-  setReset,
 }: {
   form: Form;
-  setForm: SetStateAction<Form>;
+  setForm: Dispatch<SetStateAction<Form>>;
   reset: number;
-  setReset: SetStateAction<number>;
 }) {
   const _accessToken = useSelector(selectAccessToken);
   const profileData = useSelector(selectProfileData) as Profile;
-  const [brands, setBrands] = useState([]);
-  const [models, setModels] = useState([]);
+  const [brands, setBrands] = useState<
+    {
+      label: string;
+      value: string;
+    }[]
+  >([]);
+  const [models, setModels] = useState<
+    {
+      label: string;
+      value: string;
+    }[]
+  >([]);
   const [loadingBrand, setLoadingBrand] = useState(false);
   const [loadingModel, setLoadingModel] = useState(false);
 
@@ -581,15 +545,6 @@ export default function PostAndAdForm({
   useEffect(() => {
     getModelFunc();
   }, [form.brand]);
-  // console.log(profileData.city, '============ city');
-  // console.log(profileData);
-  // console.log(form);
-  console.log(
-    'category ',
-    form.category,
-    CategoryData[CategoryData.map(x => x.value).indexOf(form.category)],
-  );
-
   return (
     <View>
       <View style={tw`flex-row flex-wrap`}>
@@ -1132,9 +1087,6 @@ export default function PostAndAdForm({
           <SelectList
             boxStyles={styles.box}
             key={reset}
-            defaultOption={
-              CityData[CityData.map(x => x.value).indexOf(form.city)]
-            }
             placeholder="City"
             inputStyles={{color: 'black'}}
             setSelected={text =>

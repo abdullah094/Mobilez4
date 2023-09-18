@@ -1,10 +1,10 @@
-import { POST_AN_AD, SUBMIT_OTP } from '@env';
+import {POST_AN_AD, SUBMIT_OTP} from '@env';
 
-import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
-import axios, { AxiosRequestConfig } from 'axios';
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
+import axios, {AxiosRequestConfig} from 'axios';
 import FormData from 'form-data';
 import mime from 'mime';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, {ReactNode, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -25,8 +25,8 @@ import {
   ImageLibraryOptions,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import { Button } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux';
+import {Button} from 'react-native-paper';
+import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {
   selectAccessToken,
@@ -36,8 +36,8 @@ import {
 import AlertModale from '../components/AlertModale';
 import Header from '../components/Header';
 import PostAndAdForm from '../components/PostAndAdForm';
-import { color } from '../constants/Colors';
-import { Category, IndexNavigationProps, Profile } from '../types';
+import {color} from '../constants/Colors';
+import {Category, Form, IndexNavigationProps, Profile} from '../types';
 const {width, height} = Dimensions.get('window');
 
 const PredefineData = {
@@ -131,47 +131,7 @@ const defaultData = {
   isAccountTypeVisible: false,
   errorAccountStatus: '',
 };
-export interface Form {
-  category: 'Mobile' | 'Tablet' | 'Watch' | false;
-  isCategoryVisible: boolean;
-  errorCategory: string;
-  brand: string;
-  isBrandVisible: boolean;
-  errorBrand: string;
-  isOtherBrand: boolean;
-  model: string | null;
-  isOtherModel: boolean;
-  errorModel: string;
-  isModelVisible: boolean;
-  otherModel: false;
-  price?: string;
-  errorPrice: string;
-  ram: string;
-  errorRam: string;
-  isRamVisible: boolean;
-  pta_status: 'Not Aprroved' | 'Approved' | false;
-  isPTA_statusVisible: boolean;
-  errorPTA_status: string;
-  storage: string;
-  errorStorage: string;
-  isStorageVisible: boolean;
-  warranty: string;
-  isWarrantyVisible: boolean;
-  errorWarranty: string;
-  errorAccountStatus: string;
-  city?: string;
-  isCityVisible: boolean;
-  errorCity: string;
-  product_type?: 'New' | 'Used' | 'Refurbished' | false;
-  errorProduct_type: string;
-  isProduct_typeVisible: boolean;
-  isOtherProductUsed: boolean;
-  image?: Asset[];
-  description?: string | null;
-  accessories?: [string];
-  acc_type?: string | null;
-  isAccountTypeVisible: boolean;
-}
+
 const PostAnAd = () => {
   const route = useRoute();
   const id = route?.params?.id || 20;
@@ -198,11 +158,6 @@ const PostAnAd = () => {
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const [form, setForm] = useState<Form>(defaultData);
-
-  useEffect(() => {
-    console.log('focued');
-    setForm(defaultData);
-  }, [isFocused]);
 
   useEffect(() => {
     if (
@@ -347,32 +302,7 @@ const PostAnAd = () => {
         setOtp('');
       });
   };
-  const imageUpload = async () => {
-    const options: ImageLibraryOptions = {
-      mediaType: 'photo',
-      quality: 0.5,
-      selectionLimit: 10,
-    };
-    const result = await launchImageLibrary(options);
-    const images = result.assets;
 
-    const formData = new FormData();
-    formData.append('image[]', images);
-
-    await axios
-      .post(
-        'https://www.mobilezmarket.com/api/upload-Ad-image',
-        {
-          'image[]': formData,
-        },
-        {
-          headers: {Authorization: `Bearer ${_accessToken}`},
-        },
-      )
-      .then(res => {
-        console.log('res.data', res.data);
-      });
-  };
   const ImageUpload = async () => {
     const options: ImageLibraryOptions = {
       mediaType: 'photo',
@@ -390,52 +320,6 @@ const PostAnAd = () => {
     });
     setForm(prev => ({...prev, image: image}));
     setUploadButton('Upload Image');
-
-    const formData = new FormData();
-    let images: {uri: any; name: any; type: any}[] = [];
-    form.image?.forEach(image => {
-      if (Platform.OS === 'android') {
-        const newImageUri = 'file:///' + image.uri.split('file:/').join('');
-        images.push({
-          uri: newImageUri,
-          name: image.fileName ?? image.uri.split('/').pop(),
-          type: mime.getType(newImageUri),
-        });
-      } else {
-        images.push({
-          uri: image.uri,
-          name: image.fileName ?? image.uri.split('/').pop(),
-          type: image.type,
-        });
-      }
-    });
-    console.log('images is here ', images);
-
-    images.forEach((image, index) => {
-      formData.append('image[]', image, `image${index + 1}.png`);
-    });
-    formData.append('product_id', 336);
-    let config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: 'https://www.mobilezmarket.com/api/upload-Ad-image',
-      headers: {
-        Authorization: 'Bearer 774|VzX3AbTggTl9JIpFPkKYpSe86XLHdgHYvZPIUH7z',
-        'Content-Type': 'multipart/form-data',
-      },
-      data: formData,
-    };
-    axios
-      .request(config)
-      .then(response => {
-        if (response.status === 200) {
-          // setForm({...form, image: images});
-          console.log(response.data);
-        }
-      })
-      .catch(error => {
-        console.log('error' + error);
-      });
   };
 
   const SendOTP = () => {
@@ -521,6 +405,7 @@ const PostAnAd = () => {
     const formData = new FormData();
     let images: {uri: any; name: any; type: any}[] = [];
     form.image?.forEach(image => {
+      if (image.uri == undefined) return;
       if (Platform.OS === 'android') {
         const newImageUri = 'file:///' + image.uri.split('file:/').join('');
         images.push({
@@ -536,7 +421,7 @@ const PostAnAd = () => {
         });
       }
     });
-    console.log('images is here ', images);
+    // console.log('images is here ', images);
 
     images.forEach((image, index) => {
       formData.append('image[]', image, `image${index + 1}.png`);
@@ -557,7 +442,7 @@ const PostAnAd = () => {
       .then(response => {
         if (response.data.status === 200) {
           // setForm({...form, image: images});
-          console.log(response.data);
+          // console.log(response.data);
           // Alert.alert(response.data.message);
           // setMessage(response.data.message);
         }
@@ -712,12 +597,7 @@ const PostAnAd = () => {
           keyboardShouldPersistTaps="handled">
           <View style={tw` w-full items-start justify-center px-4`}>
             <View style={tw`w-full`}>
-              <PostAndAdForm
-                form={form}
-                setForm={setForm}
-                reset={reset}
-                setReset={setReset}
-              />
+              <PostAndAdForm form={form} setForm={setForm} reset={reset} />
               {IsVerifiedStorage || (
                 <>
                   <View

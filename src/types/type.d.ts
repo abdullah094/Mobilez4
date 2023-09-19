@@ -191,28 +191,7 @@ export interface Contact {
   max_created_at: Date;
 }
 
-export interface Form {
-  category?: Category | string;
-  brand?: string | null;
-  ram?: string | null;
-  storage?: string | null;
-  pta_status?: string | null;
-  condition?: string | null;
-  Warranty?: string | null;
-  city?: string | null;
-  max_price?: string | null;
-  min_price?: string | null;
-  model?: string | null;
-  otherModel?: string | null;
-  price?: string | null;
-  product_type?: 'New' | 'Used' | 'Refurbished' | null | '';
-  image?: Asset[];
-  description?: string | null;
-  warranty?: string | null;
-  accessories?: [string];
-  othertextModel?: string | null;
-  acc_type?: string | null;
-}
+
 export interface iImages {
   uri: any;
   name: any;
@@ -423,4 +402,47 @@ export interface IPackage {
   package_availablity: string;
   created_at: string;
   updated_at: string;
+}
+export interface Form {
+  category: 'Mobile' | 'Tablet' | 'Watch' | false;
+  isCategoryVisible: boolean;
+  errorCategory: string;
+  brand: string;
+  isBrandVisible: boolean;
+  errorBrand: string;
+  isOtherBrand: boolean;
+  model: string | null;
+  isOtherModel: boolean;
+  errorModel: string;
+  isModelVisible: boolean;
+  otherModel: false;
+  price?: string;
+  errorPrice: string;
+  ram: string;
+  errorRam: string;
+  isRamVisible: boolean;
+  pta_status: 'Not Aprroved' | 'Approved' | false;
+  isPTA_statusVisible: boolean;
+  errorPTA_status: string;
+  storage: string;
+  errorStorage: string;
+  isStorageVisible: boolean;
+  warranty: string;
+  isWarrantyVisible: boolean;
+  errorWarranty: string;
+  errorAccountStatus: string;
+  city?: string;
+  isCityVisible: boolean;
+  errorCity: string;
+  product_type?: 'New' | 'Used' | 'Refurbished' | false;
+  errorProduct_type: string;
+  isProduct_typeVisible: boolean;
+  isOtherProductUsed: boolean;
+  image?: Asset[];
+  description?: string | null;
+  accessories?: [string];
+  acc_type?: string | null;
+  isAccountTypeVisible: boolean;
+  shop_name:string;
+  shop_address:string;
 }

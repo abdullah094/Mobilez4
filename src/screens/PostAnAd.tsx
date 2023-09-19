@@ -1,6 +1,6 @@
 import {POST_AN_AD, SUBMIT_OTP} from '@env';
 
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
 import axios, {AxiosRequestConfig} from 'axios';
 import FormData from 'form-data';
 import mime from 'mime';
@@ -37,55 +37,108 @@ import AlertModale from '../components/AlertModale';
 import Header from '../components/Header';
 import PostAndAdForm from '../components/PostAndAdForm';
 import {color} from '../constants/Colors';
-import {Category, IndexNavigationProps, Profile} from '../types';
+import {Category, Form, IndexNavigationProps, Profile} from '../types';
 const {width, height} = Dimensions.get('window');
 
-export interface Form {
-  category: 'Mobile' | 'Tablet' | 'Watch' | false;
-  isCategoryVisible: boolean;
-  errorCategory: string;
-  brand: string;
-  isBrandVisible: boolean;
-  errorBrand: string;
-  isOtherBrand: boolean;
-  model: string | null;
-  isOtherModel: boolean;
-  errorModel: string;
-  isModelVisible: boolean;
-  otherModel: false;
-  price?: string;
-  errorPrice: string;
-  ram: string;
-  errorRam: string;
-  isRamVisible: boolean;
-  pta_status: 'Not Aprroved' | 'Approved';
-  isPTA_statusVisible: boolean;
-  errorPTA_status: string;
-  storage: string;
-  errorStorage: string;
-  isStorageVisible: boolean;
-  warranty: string;
-  isWarrantyVisible: boolean;
-  errorWarranty: string;
-  errorAccountStatus: string;
-  city?: string;
-  isCityVisible: boolean;
-  product_type?: 'New' | 'Used' | 'Refurbished';
-  errorProduct_type: string;
-  isProduct_typeVisible: boolean;
-  isOtherProductUsed: boolean;
-  image?: Asset[];
-  description?: string | null;
-  accessories?: [string];
-  acc_type?: string | null;
-  isAccountTypeVisible: boolean;
-}
+const PredefineData = {
+  acc_type: 'individual',
+  accessories: ['box'],
+  brand: 'Apple',
+  category: 'Mobile',
+  city: 'Gujrat',
+  description: 'Testing ',
+  errorAccountStatus: '',
+  errorBrand: '',
+  errorCategory: '',
+  errorCity: '',
+  errorModel: '',
+  errorPTA_status: '',
+  errorPrice: '',
+  errorProduct_type: '',
+  errorRam: '',
+  errorStorage: '',
+  errorWarranty: '',
+  image: [
+    {
+      fileName:
+        'rn_image_picker_lib_temp_5c3e58f0-1c50-418d-a28e-53149bdac359.jpg',
+      fileSize: 94521,
+      height: 1600,
+      type: 'image/jpeg',
+      uri: 'file:///data/user/0/com.wizard.mobilez/cache/rn_image_picker_lib_temp_5c3e58f0-1c50-418d-a28e-53149bdac359.jpg',
+      width: 1200,
+    },
+  ],
+  isAccountTypeVisible: false,
+  isBrandVisible: false,
+  isCategoryVisible: false,
+  isCityVisible: false,
+  isModelVisible: false,
+  isOtherBrand: false,
+  isOtherModel: false,
+  isOtherProductUsed: false,
+  isPTA_statusVisible: false,
+  isProduct_typeVisible: false,
+  isRamVisible: false,
+  isStorageVisible: false,
+  isWarrantyVisible: false,
+  model: 'I phone x',
+  otherModel: false,
+  price: '35000',
+  product_type: false,
+  pta_status: 'Approved',
+  ram: '8',
+  storage: '32',
+  warranty: '',
+};
+const defaultData = {
+  category: Category.PHONE,
+  isCategoryVisible: false,
+  errorCategory: '',
+  brand: '',
+  isBrandVisible: false,
+  errorBrand: '',
+  isOtherBrand: false,
+  model: null,
+  errorModel: '',
+  isOtherModel: false,
+  isModelVisible: false,
+  otherModel: false,
+  price: '',
+  errorPrice: '',
+  ram: '1',
+  errorRam: '',
+  isRamVisible: false,
+  pta_status: 'Not Aprroved',
+  errorPTA_status: '',
+  isPTA_statusVisible: false,
+  storage: '4',
+  errorStorage: '',
+  isStorageVisible: false,
+  product_type: 'New',
+  isProduct_typeVisible: false,
+  errorProduct_type: '',
+  isOtherProductUsed: false,
+  warranty: 'No Warranty',
+  errorWarranty: '',
+  isWarrantyVisible: false,
+  image: [],
+  description: null,
+  accessories: ['box'],
+  city: '',
+  errorCity: '',
+  isCityVisible: false,
+  isAccountTypeVisible: false,
+  errorAccountStatus: '',
+};
+
 const PostAnAd = () => {
   const route = useRoute();
   const id = route?.params?.id || 20;
   const from = route.params?.from || 'Post';
 
   const profileData = useSelector(selectProfileData) as Profile;
+  const [reset, setReset] = useState(0);
 
   const _accessToken = useSelector(selectAccessToken);
   const [IsVerifiedStorage, setIsVerifiedStorage] = useState(true);
@@ -103,6 +156,8 @@ const PostAnAd = () => {
   const [disabled, setDisabled] = useState(false);
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
+  const [form, setForm] = useState<Form>(defaultData);
 
   useEffect(() => {
     if (
@@ -126,46 +181,6 @@ const PostAnAd = () => {
     }
   }, [profileData]);
 
-  const [form, setForm] = useState<Form>({
-    category: Category.PHONE,
-    isCategoryVisible: false,
-    errorCategory: '',
-    brand: '',
-    isBrandVisible: false,
-    errorBrand: '',
-    isOtherBrand: false,
-    model: null,
-    errorModel: '',
-    isOtherModel: false,
-    isModelVisible: false,
-    otherModel: false,
-    price: '',
-    errorPrice: '',
-    ram: '1',
-    errorRam: '',
-    isRamVisible: false,
-    pta_status: 'Not Aprroved',
-    errorPTA_status: '',
-    isPTA_statusVisible: false,
-    storage: '4',
-    errorStorage: '',
-    isStorageVisible: false,
-    product_type: 'New',
-    isProduct_typeVisible: false,
-    errorProduct_type: '',
-    isOtherProductUsed: false,
-    warranty: 'No Warranty',
-    errorWarranty: '',
-    isWarrantyVisible: false,
-    image: [],
-    description: null,
-    accessories: ['box'],
-    city: 'Karachi',
-    isCityVisible: false,
-    isAccountTypeVisible: false,
-    errorAccountStatus: '',
-  });
-
   const resetError = () => {
     setForm(prev => ({
       ...prev,
@@ -178,6 +193,7 @@ const PostAnAd = () => {
       errorStorage: '',
       errorProduct_type: '',
       errorWarranty: '',
+      errorCity: '',
     }));
   };
 
@@ -193,13 +209,15 @@ const PostAnAd = () => {
     form.storage,
     form.product_type,
     from.warranty,
+    form.city,
   ]);
 
-  useEffect(() => {
-    clearData();
-  }, [form.category]);
+  // useEffect(() => {
+  //   clearData();
+  // }, [form.category]);
 
   const clearData = () => {
+    setReset(reset + 1);
     setForm(prev => ({
       ...prev,
       // category: Category.PHONE,
@@ -219,13 +237,13 @@ const PostAnAd = () => {
       ram: '',
       errorRam: '',
       isRamVisible: false,
-      pta_status: 'Approved',
+      pta_status: false,
       errorPTA_status: '',
       isPTA_statusVisible: false,
       storage: '',
       errorStorage: '',
       isStorageVisible: false,
-      product_type: 'New',
+      product_type: false,
       isProduct_typeVisible: false,
       errorProduct_type: '',
       isOtherProductUsed: false,
@@ -235,7 +253,8 @@ const PostAnAd = () => {
       image: [],
       description: null,
       accessories: ['box'],
-      city: 'karachi',
+      city: '',
+      errorCity: '',
       isCityVisible: false,
       isAccountTypeVisible: false,
       errorAccountStatus: '',
@@ -283,32 +302,7 @@ const PostAnAd = () => {
         setOtp('');
       });
   };
-  const imageUpload = async () => {
-    const options: ImageLibraryOptions = {
-      mediaType: 'photo',
-      quality: 0.5,
-      selectionLimit: 10,
-    };
-    const result = await launchImageLibrary(options);
-    const images = result.assets;
 
-    const formData = new FormData();
-    formData.append('image[]', images);
-
-    await axios
-      .post(
-        'https://www.mobilezmarket.com/api/upload-Ad-image',
-        {
-          'image[]': formData,
-        },
-        {
-          headers: {Authorization: `Bearer ${_accessToken}`},
-        },
-      )
-      .then(res => {
-        console.log('res.data', res.data);
-      });
-  };
   const ImageUpload = async () => {
     const options: ImageLibraryOptions = {
       mediaType: 'photo',
@@ -326,52 +320,6 @@ const PostAnAd = () => {
     });
     setForm(prev => ({...prev, image: image}));
     setUploadButton('Upload Image');
-
-    const formData = new FormData();
-    let images: {uri: any; name: any; type: any}[] = [];
-    form.image?.forEach(image => {
-      if (Platform.OS === 'android') {
-        const newImageUri = 'file:///' + image.uri.split('file:/').join('');
-        images.push({
-          uri: newImageUri,
-          name: image.fileName ?? image.uri.split('/').pop(),
-          type: mime.getType(newImageUri),
-        });
-      } else {
-        images.push({
-          uri: image.uri,
-          name: image.fileName ?? image.uri.split('/').pop(),
-          type: image.type,
-        });
-      }
-    });
-    console.log('images is here ', images);
-
-    images.forEach((image, index) => {
-      formData.append('image[]', image, `image${index + 1}.png`);
-    });
-    formData.append('product_id', 336);
-    let config = {
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: 'https://www.mobilezmarket.com/api/upload-Ad-image',
-      headers: {
-        Authorization: 'Bearer 774|VzX3AbTggTl9JIpFPkKYpSe86XLHdgHYvZPIUH7z',
-        'Content-Type': 'multipart/form-data',
-      },
-      data: formData,
-    };
-    axios
-      .request(config)
-      .then(response => {
-        if (response.status === 200) {
-          // setForm({...form, image: images});
-          console.log(response.data);
-        }
-      })
-      .catch(error => {
-        console.log('error' + error);
-      });
   };
 
   const SendOTP = () => {
@@ -457,6 +405,7 @@ const PostAnAd = () => {
     const formData = new FormData();
     let images: {uri: any; name: any; type: any}[] = [];
     form.image?.forEach(image => {
+      if (image.uri == undefined) return;
       if (Platform.OS === 'android') {
         const newImageUri = 'file:///' + image.uri.split('file:/').join('');
         images.push({
@@ -472,7 +421,7 @@ const PostAnAd = () => {
         });
       }
     });
-    console.log('images is here ', images);
+    // console.log('images is here ', images);
 
     images.forEach((image, index) => {
       formData.append('image[]', image, `image${index + 1}.png`);
@@ -493,14 +442,15 @@ const PostAnAd = () => {
       .then(response => {
         if (response.data.status === 200) {
           // setForm({...form, image: images});
-          console.log(response.data);
+          // console.log(response.data);
           // Alert.alert(response.data.message);
-          setMessage(response.data.message);
-          clearData();
+          // setMessage(response.data.message);
         }
+        clearData();
       })
       .catch(error => {
         console.log('error' + error);
+        clearData();
       });
   };
 
@@ -513,43 +463,6 @@ const PostAnAd = () => {
       .map(([key, value]) => {
         data.append(key, value);
       });
-
-    // data.append('brand', form.brand);
-    // data.append('model', form.model);
-    // data.append('description', form.description);
-    // data.append('price', form.price);
-    // data.append('warranty', form.warranty);
-    // data.append('category', form.category);
-    // data.append('product_type', form.product_type);
-    // data.append('pta_status', form.pta_status);
-    // data.append('ram', form.ram);
-    // data.append('storage', form.storage);
-    // data.append('city', form.city);
-    // data.append('acc_type', form.acc_type);
-
-    // Create headers manually
-    // let images: {uri: any; name: any; type: any}[] = [];
-    // form.image?.forEach(image => {
-    //   if (Platform.OS === 'android') {
-    //     const newImageUri = 'file:///' + image.uri.split('file:/').join('');
-    //     images.push({
-    //       uri: newImageUri,
-    //       name: image.fileName ?? image.uri.split('/').pop(),
-    //       type: mime.getType(newImageUri),
-    //     });
-    //   } else {
-    //     images.push({
-    //       uri: image.uri,
-    //       name: image.fileName ?? image.uri.split('/').pop(),
-    //       type: image.type,
-    //     });
-    //   }
-    // });
-
-    // // Append the images
-    // images.forEach((image, index) => {
-    //   data.append('image[]', image, `image${index + 1}.png`);
-    // });
 
     const config: AxiosRequestConfig<FormData> = {
       headers: {
@@ -586,6 +499,7 @@ const PostAnAd = () => {
                 ram: string[];
                 storage: string[];
                 warranty: string[];
+                city: string[];
               };
               status: number;
               message: string;
@@ -600,7 +514,6 @@ const PostAnAd = () => {
                 acc_type: form.acc_type,
               };
               dispatch(setProfileData(newProfileData));
-              Alert.alert(message);
               setMessage(message);
               navigation.navigate('Home');
             } else {
@@ -610,7 +523,6 @@ const PostAnAd = () => {
                 }
               }
             }
-
             setButton('Post Ad');
           })
           .catch(error => {
@@ -621,6 +533,10 @@ const PostAnAd = () => {
   };
 
   const validateAndSubmitForm = () => {
+    if (!IsVerifiedStorage) {
+      Alert.alert('Please Verify OTP');
+      return;
+    }
     if (!form.brand) {
       setForm(prev => ({...prev, errorBrand: 'Brand is required'}));
       return;
@@ -681,7 +597,7 @@ const PostAnAd = () => {
           keyboardShouldPersistTaps="handled">
           <View style={tw` w-full items-start justify-center px-4`}>
             <View style={tw`w-full`}>
-              <PostAndAdForm form={form} setForm={setForm} />
+              <PostAndAdForm form={form} setForm={setForm} reset={reset} />
               {IsVerifiedStorage || (
                 <>
                   <View
@@ -833,11 +749,7 @@ const PostAnAd = () => {
             />
 
             <TouchableOpacity
-              onPress={() => {
-                !IsVerifiedStorage
-                  ? Alert.alert('Please Verify OTP')
-                  : validateAndSubmitForm();
-              }}
+              onPress={validateAndSubmitForm}
               disabled={isOtp ? true : false}
               style={{
                 backgroundColor: color.orange,

@@ -163,6 +163,7 @@ const Profile = ({navigation}) => {
               right={
                 <TextInput.Icon
                   icon="pencil"
+                  iconColor="black"
                   onPress={() =>
                     setState(prev => ({
                       ...prev,
@@ -187,6 +188,7 @@ const Profile = ({navigation}) => {
               right={
                 <TextInput.Icon
                   icon="pencil"
+                  iconColor="black"
                   onPress={() =>
                     setState(prev => ({
                       ...prev,
@@ -209,6 +211,7 @@ const Profile = ({navigation}) => {
               right={
                 <TextInput.Icon
                   icon="pencil"
+                  iconColor="black"
                   onPress={() =>
                     setState(prev => ({
                       ...prev,
@@ -227,7 +230,7 @@ const Profile = ({navigation}) => {
               placeholder={profile.city}
               placeholderTextColor={'black'}
               value={profile.city}
-              onChangeText={text => setState(prev => ({...prev, email: text}))}
+              // onChangeText={text => setState(prev => ({...prev, email: text}))}
             />
           </View>
           <Button

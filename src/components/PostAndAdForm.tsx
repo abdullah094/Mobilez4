@@ -1,9 +1,9 @@
+//@ts-ignore
 import {BRANDS, MODELS} from '@env';
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, TextInput, View} from 'react-native';
 import {SelectList} from 'react-native-dropdown-select-list';
-import {Asset} from 'react-native-image-picker';
 import {
   ActivityIndicator,
   Checkbox,
@@ -14,7 +14,7 @@ import {useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {selectAccessToken, selectProfileData} from '../Redux/Slices';
 import {color} from '../constants/Colors';
-import {BrandAPI, ModelAPI, Profile} from '../types';
+import {BrandAPI, Form, ModelAPI, Profile} from '../types';
 
 const width = Dimensions.get('window').width;
 
@@ -64,71 +64,420 @@ const CategoryData = [
 ];
 const AccountStatusData = [
   {label: 'Approved', value: 'Approved'},
-  {label: 'Not-Approved', value: 'Not-Approved'},
+  {label: 'Not Approved', value: 'Not Approved'},
 ];
 const CityData = [
   {label: 'Karachi', value: 'Karachi'},
-  {label: 'Faislabad', value: 'Faislabad'},
+  {label: 'Lahore', value: 'Lahore'},
+  {label: 'Islamabad', value: 'Islamabad'},
+  {label: 'Faisalabad', value: 'Faisalabad'},
+  {label: 'Rawalpindi', value: 'Rawalpindi'},
+  {label: 'Multan', value: 'Multan'},
+  {label: 'Gujranwala', value: 'Gujranwala'},
+  {label: 'Peshawar', value: 'Peshawar'},
+  {label: 'Quetta', value: 'Quetta'},
+  {label: 'Sialkot', value: 'Sialkot'},
+  {label: 'Gujrat', value: 'Gujrat'},
+  {label: 'Bahawalpur', value: 'Bahawalpur'},
+  {label: 'Sargodha', value: 'Sargodha'},
+  {label: 'Sukkur', value: 'Sukkur'},
+  {label: 'Jhang', value: 'Jhang'},
+  {label: 'Larkana', value: 'Larkana'},
+  {label: 'Sheikhupura', value: 'Sheikhupura'},
+  {label: 'Rahim Yar Khan', value: 'Rahim Yar Khan'},
+  {label: 'Chiniot', value: 'Chiniot'},
+  {label: 'Sahiwal', value: 'Sahiwal'},
+  {label: 'Mardan', value: 'Mardan'},
+  {label: 'Kasur', value: 'Kasur'},
+  {label: 'Dera Ghazi Khan', value: 'Dera Ghazi Khan'},
+  {label: 'Nawabshah', value: 'Nawabshah'},
+  {label: 'Mingora', value: 'Mingora'},
+  {label: 'Okara', value: 'Okara'},
+  {label: 'Mirpur Khas', value: 'Mirpur Khas'},
+  {label: 'Chiniot', value: 'Chiniot'},
+  {label: 'Kamoke', value: 'Kamoke'},
+  {label: 'Sadiqabad', value: 'Sadiqabad'},
+  {label: 'Burewala', value: 'Burewala'},
+  {label: 'Jhelum', value: 'Jhelum'},
+  {label: 'Kohat', value: 'Kohat'},
+  {label: 'Khanewal', value: 'Khanewal'},
+  {label: 'Dera Ismail Khan', value: 'Dera Ismail Khan'},
+  {label: 'Gojra', value: 'Gojra'},
+  {label: 'Bahawalnagar', value: 'Bahawalnagar'},
+  {label: 'Muridke', value: 'Muridke'},
+  {label: 'Pakpattan', value: 'Pakpattan'},
+  {label: 'Abottabad', value: 'Abottabad'},
+  {label: 'Tando Adam', value: 'Tando Adam'},
+  {label: 'Jaranwala', value: 'Jaranwala'},
+  {label: 'Khairpur', value: 'Khairpur'},
+  {label: 'Chishtian', value: 'Chishtian'},
+  {label: 'Daska', value: 'Daska'},
+  {label: 'Mandi Bahauddin', value: 'Mandi Bahauddin'},
+  {label: 'Ahmedpur East', value: 'Ahmedpur East'},
+  {label: 'Kamalia', value: 'Kamalia'},
+  {label: 'Tando Allahyar', value: 'Tando Allahyar'},
+  {label: 'Khuzdar', value: 'Khuzdar'},
+  {label: 'Vihari', value: 'Vihari'},
+  {label: 'Attock', value: 'Attock'},
+  {label: 'Badin', value: 'Badin'},
+  {label: 'Sanghar', value: 'Sanghar'},
+  {label: 'Nankana Sahib', value: 'Nankana Sahib'},
+  {label: 'Hafizabad', value: 'Hafizabad'},
+  {label: 'Kotli', value: 'Kotli'},
+  {label: 'Lodhran', value: 'Lodhran'},
+  {label: 'Nowshera', value: 'Nowshera'},
+  {label: 'Charsadda', value: 'Charsadda'},
+  {label: 'Jamshoro', value: 'Jamshoro'},
+  {label: 'Kandhkot', value: 'Kandhkot'},
+  {label: 'Mianwali', value: 'Mianwali'},
+  {label: 'Hassan Abdal', value: 'Hassan Abdal'},
+  {label: 'Muzaffargarh', value: 'Muzaffargarh'},
+  {label: 'Toba Tek Singh', value: 'Toba Tek Singh'},
+  {label: 'Jhang Sadr', value: 'Jhang Sadr'},
+  {label: 'Khairpur Mir’s', value: 'Khairpur Mir’s'},
+  {label: 'Narowal', value: 'Narowal'},
+  {label: 'Shakargarh', value: 'Shakargarh'},
+  {label: 'Hujra', value: 'Hujra'},
+  {label: 'Kabirwala', value: 'Kabirwala'},
+  {label: 'Kasur', value: 'Kasur'},
+  {label: 'Mansehra', value: 'Mansehra'},
+  {label: 'Layyah', value: 'Layyah'},
+  {label: 'Kambar', value: 'Kambar'},
+  {label: 'Moro', value: 'Moro'},
+  {label: 'Mianwali', value: 'Mianwali'},
+  {label: 'Turbat', value: 'Turbat'},
+  {label: 'Shahdadkot', value: 'Shahdadkot'},
+  {label: 'Nawabshah', value: 'Nawabshah'},
+  {label: 'Dadu', value: 'Dadu'},
+  {label: 'Ali Pur', value: 'Ali Pur'},
+  {label: 'Lodhran', value: 'Lodhran'},
+  {label: 'Kotli', value: 'Kotli'},
+  {label: 'Loralai', value: 'Loralai'},
+  {label: 'Dera Allahyar', value: 'Dera Allahyar'},
+  {label: 'Pakpattan', value: 'Pakpattan'},
+  {label: 'Sehwan', value: 'Sehwan'},
+  {label: 'Chaman', value: 'Chaman'},
+  {label: 'Tando Jam', value: 'Tando Jam'},
+  {label: 'Kandiaro', value: 'Kandiaro'},
+  {label: 'Kunjah', value: 'Kunjah'},
+  {label: 'Sahiwal', value: 'Sahiwal'},
+  {label: 'Kamber', value: 'Kamber'},
+  {label: 'Malakand', value: 'Malakand'},
+  {label: 'Mithi', value: 'Mithi'},
+  {label: 'Ziarat', value: 'Ziarat'},
+  {label: 'Loralai', value: 'Loralai'},
+  {label: 'Dera Murad Jamali', value: 'Dera Murad Jamali'},
+  {label: 'Kohlu', value: 'Kohlu'},
+  {label: 'Gwadar', value: 'Gwadar'},
+  {label: 'Dera Bugti', value: 'Dera Bugti'},
+  {label: 'Tando Allahyar', value: 'Tando Allahyar'},
+  {label: 'Kot Addu', value: 'Kot Addu'},
+  {label: 'Turbat', value: 'Turbat'},
+  {label: 'Dullewala', value: 'Dullewala'},
+  {label: 'Shahkot', value: 'Shahkot'},
+  {label: 'Harunabad', value: 'Harunabad'},
+  {label: 'Pattoki', value: 'Pattoki'},
+  {label: 'Mamu Kanjan', value: 'Mamu Kanjan'},
+  {label: 'Jalalpur', value: 'Jalalpur'},
+  {label: 'Bhai Pheru', value: 'Bhai Pheru'},
+  {label: 'Kabirwala', value: 'Kabirwala'},
+  {label: 'Kot Radha Kishan', value: 'Kot Radha Kishan'},
+  {label: 'Hujra', value: 'Hujra'},
+  {label: 'Pindi Bhattian', value: 'Pindi Bhattian'},
+  {label: 'Khalabat', value: 'Khalabat'},
+  {label: 'Narang', value: 'Narang'},
+  {label: 'Topi', value: 'Topi'},
+  {label: 'Kamra', value: 'Kamra'},
+  {label: 'Mitha Tiwana', value: 'Mitha Tiwana'},
+  {label: 'Basirpur', value: 'Basirpur'},
+  {label: 'Naushahro Feroze', value: 'Naushahro Feroze'},
+  {label: 'Tando Muhammad Khan', value: 'Tando Muhammad Khan'},
+  {label: 'Haripur', value: 'Haripur'},
+  {label: 'Shikarpur', value: 'Shikarpur'},
+  {label: 'Bhakkar', value: 'Bhakkar'},
+  {label: 'Kharian', value: 'Kharian'},
+  {label: 'Lala Musa', value: 'Lala Musa'},
+  {label: 'Kasur', value: 'Kasur'},
+  {label: 'Mian Channun', value: 'Mian Channun'},
+  {label: 'Kundian', value: 'Kundian'},
+  {label: 'Bhawana', value: 'Bhawana'},
+  {label: 'Dajal', value: 'Dajal'},
+  {label: 'Chawinda', value: 'Chawinda'},
+  {label: 'Qadirpur Ran', value: 'Qadirpur Ran'},
+  {label: 'Tandlianwala', value: 'Tandlianwala'},
+  {label: 'Khewra', value: 'Khewra'},
+  {label: 'Kahror Pakka', value: 'Kahror Pakka'},
+  {label: 'Toba Tek Singh', value: 'Toba Tek Singh'},
+  {label: 'Tando Qaiser', value: 'Tando Qaiser'},
+  {label: 'Khairpur Nathan Shah', value: 'Khairpur Nathan Shah'},
+  {label: 'Gujar Khan', value: 'Gujar Khan'},
+  {label: 'Haripur', value: 'Haripur'},
+  {label: 'Ghotki', value: 'Ghotki'},
+  {label: 'Sarai Alamgir', value: 'Sarai Alamgir'},
+  {label: 'Pir Mahal', value: 'Pir Mahal'},
+  {label: 'Dinga', value: 'Dinga'},
+  {label: 'Jampur', value: 'Jampur'},
+  {label: 'Mangla', value: 'Mangla'},
+  {label: 'Qadirpur Ran', value: 'Qadirpur Ran'},
+  {label: 'Pishin', value: 'Pishin'},
+  {label: 'Kahna', value: 'Kahna'},
+  {label: 'Mianwali', value: 'Mianwali'},
+  {label: 'Samundri', value: 'Samundri'},
+  {label: 'Renala Khurd', value: 'Renala Khurd'},
+  {label: 'Kahuta', value: 'Kahuta'},
+  {label: 'Mehar', value: 'Mehar'},
+  {label: 'Narowal', value: 'Narowal'},
+  {label: 'Khushab', value: 'Khushab'},
+  {label: 'Gandava', value: 'Gandava'},
+  {label: 'Khairpur', value: 'Khairpur'},
+  {label: 'Shahdadpur', value: 'Shahdadpur'},
+  {label: 'Matiari', value: 'Matiari'},
+  {label: 'Sibi', value: 'Sibi'},
+  {label: 'Muzaffarabad', value: 'Muzaffarabad'},
+  {label: 'Chaman', value: 'Chaman'},
+  {label: 'Miran Shah', value: 'Miran Shah'},
+  {label: 'Uthal', value: 'Uthal'},
+  {label: 'Moro', value: 'Moro'},
+  {label: 'Tump', value: 'Tump'},
+  {label: 'Shahpur', value: 'Shahpur'},
+  {label: 'Sakrand', value: 'Sakrand'},
+  {label: 'Sehwan Sharif', value: 'Sehwan Sharif'},
+  {label: 'Khairpur Tamewali', value: 'Khairpur Tamewali'},
+  {label: 'Topi', value: 'Topi'},
+  {label: 'Leiah', value: 'Leiah'},
+  {label: 'Mingora', value: 'Mingora'},
+  {label: 'Ghakhar Mandi', value: 'Ghakhar Mandi'},
+  {label: 'Tando Ghulam Ali', value: 'Tando Ghulam Ali'},
+  {label: 'Thatta', value: 'Thatta'},
+  {label: 'Kandhkot', value: 'Kandhkot'},
+  {label: 'Hattar', value: 'Hattar'},
+  {label: 'Arifwala', value: 'Arifwala'},
+  {label: 'Bannu', value: 'Bannu'},
+  {label: 'Parachinar', value: 'Parachinar'},
+  {label: 'Gakuch', value: 'Gakuch'},
+  {label: 'Hangu', value: 'Hangu'},
+  {label: 'Timargara', value: 'Timargara'},
+  {label: 'Gwadar', value: 'Gwadar'},
+  {label: 'Kalat', value: 'Kalat'},
+  {label: 'Gandawa', value: 'Gandawa'},
+  {label: 'Rakhni', value: 'Rakhni'},
+  {label: 'Loralai', value: 'Loralai'},
+  {label: 'Gaddani', value: 'Gaddani'},
+  {label: 'Kulachi', value: 'Kulachi'},
+  {label: 'Zaida', value: 'Zaida'},
+  {label: 'Jand', value: 'Jand'},
+  {label: 'Lachi', value: 'Lachi'},
+  {label: 'Havelian', value: 'Havelian'},
+  {label: 'Ladhewala Waraich', value: 'Ladhewala Waraich'},
+  {label: 'Kamoke', value: 'Kamoke'},
+  {label: 'Matiari', value: 'Matiari'},
+  {label: 'Nankana Sahib', value: 'Nankana Sahib'},
+  {label: 'Kundian', value: 'Kundian'},
+  {label: 'Renala Khurd', value: 'Renala Khurd'},
+  {label: 'Risalpur', value: 'Risalpur'},
+  {label: 'Kot Mumin', value: 'Kot Mumin'},
+  {label: 'Kamra', value: 'Kamra'},
+  {label: 'Pindi Bhattian', value: 'Pindi Bhattian'},
+  {label: 'Ghakhar Mandi', value: 'Ghakhar Mandi'},
+  {label: 'Gojra', value: 'Gojra'},
+  {label: 'Makhdumpur', value: 'Makhdumpur'},
+  {label: 'Khurrianwala', value: 'Khurrianwala'},
+  {label: 'Gurjaani', value: 'Gurjaani'},
+  {label: 'Ambrolauri', value: 'Ambrolauri'},
+  {label: 'Oni', value: 'Oni'},
+  {label: 'Akhalkalaki', value: 'Akhalkalaki'},
+  {label: 'Batumi', value: 'Batumi'},
+  {label: 'Kobuleti', value: 'Kobuleti'},
+  {label: 'Kaspi', value: 'Kaspi'},
+  {label: 'Ninotsminda', value: 'Ninotsminda'},
+  {label: 'Sachkhere', value: 'Sachkhere'},
+  {label: 'Chiatura', value: 'Chiatura'},
+  {label: 'Tqibuli', value: 'Tqibuli'},
+  {label: 'Lentekhi', value: 'Lentekhi'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Ambrolauri', value: 'Ambrolauri'},
+  {label: 'Oni', value: 'Oni'},
+  {label: 'Akhalkalaki', value: 'Akhalkalaki'},
+  {label: 'Bakuriani', value: 'Bakuriani'},
+  {label: 'Borjomi', value: 'Borjomi'},
+  {label: 'Bakuriani', value: 'Bakuriani'},
+  {label: 'Ambrolauri', value: 'Ambrolauri'},
+  {label: 'Oni', value: 'Oni'},
+  {label: 'Akhalkalaki', value: 'Akhalkalaki'},
+  {label: 'Bakuriani', value: 'Bakuriani'},
+  {label: 'Borjomi', value: 'Borjomi'},
+  {label: 'Bakuriani', value: 'Bakuriani'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Kaspi', value: 'Kaspi'},
+  {label: 'Ninotsminda', value: 'Ninotsminda'},
+  {label: 'Sachkhere', value: 'Sachkhere'},
+  {label: 'Chiatura', value: 'Chiatura'},
+  {label: 'Tqibuli', value: 'Tqibuli'},
+  {label: 'Lentekhi', value: 'Lentekhi'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
+  {label: 'Keda', value: 'Keda'},
+  {label: 'Shuakhevi', value: 'Shuakhevi'},
+  {label: 'Khoni', value: 'Khoni'},
+  {label: 'Senaki', value: 'Senaki'},
+  {label: 'Poti', value: 'Poti'},
+  {label: 'Samtredia', value: 'Samtredia'},
+  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
+  {label: 'Abasha', value: 'Abasha'},
+  {label: 'Martvili', value: 'Martvili'},
+  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
+  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
 ];
 const AccountTypeData = [
   {label: 'individual', value: 'individual'},
   {label: 'business', value: 'business'},
 ];
 
-export interface Form {
-  category: 'Mobile' | 'Tablet' | 'Watch';
-  isCategoryVisible: boolean;
-  errorCategory: string;
-  brand: string;
-  isBrandVisible: boolean;
-  errorBrand: string;
-  isOtherBrand: boolean;
-  model: string | null;
-  isOtherModel: boolean;
-  errorModel: '';
-  isModelVisible: boolean;
-  otherModel: false;
-  price?: string;
-  errorPrice: string;
-  ram: string;
-  errorRam: string;
-  isRamVisible: boolean;
-  pta_status: 'Approved' | 'Not Approved' | 's';
-  isPTA_statusVisible: boolean;
-  errorPTA_status: string;
-  storage: string;
-  errorStorage: string;
-  isStorageVisible: boolean;
-  warranty: string;
-  isWarrantyVisible: boolean;
-  errorWarranty: string;
-  city?: string;
-  isCityVisible: boolean;
-  product_type?: 'New' | 'Used' | 'Refurbished';
-  user_type: string;
-  errorProduct_type: string;
-  isProduct_typeVisible: boolean;
-  isOtherProductUsed: boolean;
-  image?: Asset[];
-  description?: string | null;
-  accessories?: [string];
-  acc_type?: string | null;
-  isAccountTypeVisible: boolean;
-  shop_name?: string;
-  shop_address?: string;
-}
-
 export default function PostAndAdForm({
   form,
   setForm,
+  reset,
 }: {
   form: Form;
-  setForm: any;
+  setForm: Dispatch<SetStateAction<Form>>;
+  reset: number;
 }) {
   const _accessToken = useSelector(selectAccessToken);
   const profileData = useSelector(selectProfileData) as Profile;
-  const [brands, setBrands] = useState([]);
-  const [models, setModels] = useState([]);
+  const [brands, setBrands] = useState<
+    {
+      label: string;
+      value: string;
+    }[]
+  >([]);
+  const [models, setModels] = useState<
+    {
+      label: string;
+      value: string;
+    }[]
+  >([]);
   const [loadingBrand, setLoadingBrand] = useState(false);
   const [loadingModel, setLoadingModel] = useState(false);
 
@@ -192,20 +541,22 @@ export default function PostAndAdForm({
   useEffect(() => {
     getBrandFunc();
   }, [form.category]);
-
+  useEffect(() => {}, []);
   useEffect(() => {
     getModelFunc();
   }, [form.brand]);
-  // console.log(profileData.city, '============ city');
-  // console.log(profileData);
-  // console.log(form);
-  // console.log('profileeeeeeeeee', profileData);
   return (
     <View>
       <View style={tw`flex-row flex-wrap`}>
         <View style={tw`w-1/2 pt-2 pr-2`}>
           <SelectList
             boxStyles={styles.box}
+            key={reset}
+            // searchPlaceholder={
+            //   CategoryData[
+            //     CategoryData.map(x => x.value).indexOf(form.category)
+            //   ]
+            // }
             placeholder="Category"
             inputStyles={{color: 'black'}}
             setSelected={val => {
@@ -245,6 +596,7 @@ export default function PostAndAdForm({
           <View style={tw`w-1/2 pt-2 pl-2`}>
             <SelectList
               boxStyles={styles.box}
+              key={reset}
               placeholder="Choose Brands"
               inputStyles={{
                 color: 'black',
@@ -346,6 +698,7 @@ export default function PostAndAdForm({
           <View style={tw`w-full  pt-2`}>
             {/* <SelectList
                   boxStyles={styles.box}
+                   key={reset}
                   placeholder="Choose model"
                   inputStyles={{color: 'black'}}
                   setSelected={text => {
@@ -458,6 +811,7 @@ export default function PostAndAdForm({
               /> */}
               <SelectList
                 boxStyles={styles.box}
+                key={reset}
                 // inputStyles={styles.box}
                 placeholder="Choose Ram"
                 inputStyles={{color: 'black'}}
@@ -498,6 +852,7 @@ export default function PostAndAdForm({
               /> */}
               <SelectList
                 boxStyles={styles.box}
+                key={reset}
                 placeholder="PTA Status"
                 inputStyles={{color: 'black'}}
                 setSelected={text =>
@@ -537,6 +892,7 @@ export default function PostAndAdForm({
               /> */}
               <SelectList
                 boxStyles={styles.box}
+                key={reset}
                 placeholder="Choose Storage"
                 inputStyles={{color: 'black'}}
                 setSelected={text =>
@@ -579,6 +935,7 @@ export default function PostAndAdForm({
           /> */}
           <SelectList
             boxStyles={styles.box}
+            key={reset}
             placeholder="Product Condition"
             inputStyles={{color: 'black'}}
             setSelected={text =>
@@ -596,9 +953,11 @@ export default function PostAndAdForm({
       </View>
       {form.isOtherProductUsed && (
         <View style={tw`my-4 p-2 rounded-lg border border-gray-300`}>
-          <Text>Accessories</Text>
+          <Text style={{color: 'black'}}>Accessories</Text>
           <View>
             <Checkbox.Item
+              labelStyle={{color: 'black'}}
+              color="blue"
               onPress={() => {
                 setToggleAccessories(prev => ({
                   ...prev,
@@ -609,6 +968,8 @@ export default function PostAndAdForm({
               status={toggleAccessories.box ? 'checked' : 'unchecked'}
             />
             <Checkbox.Item
+              labelStyle={{color: 'black'}}
+              color="blue"
               onPress={() => {
                 setToggleAccessories(prev => ({
                   ...prev,
@@ -619,6 +980,8 @@ export default function PostAndAdForm({
               status={toggleAccessories.charger ? 'checked' : 'unchecked'}
             />
             <Checkbox.Item
+              labelStyle={{color: 'black'}}
+              color="blue"
               onPress={() => {
                 setToggleAccessories(prev => ({
                   ...prev,
@@ -629,6 +992,8 @@ export default function PostAndAdForm({
               status={toggleAccessories.data_cable ? 'checked' : 'unchecked'}
             />
             <Checkbox.Item
+              labelStyle={{color: 'black'}}
+              color="blue"
               onPress={() => {
                 setToggleAccessories(prev => ({
                   ...prev,
@@ -639,6 +1004,8 @@ export default function PostAndAdForm({
               status={toggleAccessories.handfree ? 'checked' : 'unchecked'}
             />
             <Checkbox.Item
+              labelStyle={{color: 'black'}}
+              color="blue"
               onPress={() => {
                 setToggleAccessories(prev => ({
                   ...prev,
@@ -677,6 +1044,7 @@ export default function PostAndAdForm({
         /> */}
         <SelectList
           boxStyles={styles.box}
+          key={reset}
           placeholder="Warranty"
           inputStyles={{color: 'black'}}
           setSelected={text =>
@@ -692,7 +1060,8 @@ export default function PostAndAdForm({
         {form.errorWarranty != '' && <Text>{form.errorWarranty} </Text>}
       </View>
       {profileData?.city === null && (
-        // <DropDown
+        <View style={tw`w-full  pt-2 pr-2`}>
+          {/* // <DropDown
         //   inputProps={{
         //     right: <TextInput.Icon icon={'menu-down'} />,
         //     style: {
@@ -712,24 +1081,27 @@ export default function PostAndAdForm({
         //     }))
         //   }
         //   list={CityData}
-        //   accessibilityLabel={'city'}
-        // />
+        //   accessibilityLabel={'city'} */}
+          {/* // /> */}
 
-        <SelectList
-          boxStyles={styles.box}
-          placeholder="City"
-          inputStyles={{color: 'black'}}
-          setSelected={text =>
-            setForm(prev => ({
-              ...prev,
-              city: text,
-            }))
-          }
-          data={CityData}
-          save="value"
-          dropdownTextStyles={{color: 'black'}}
-        />
+          <SelectList
+            boxStyles={styles.box}
+            key={reset}
+            placeholder="City"
+            inputStyles={{color: 'black'}}
+            setSelected={text =>
+              setForm(prev => ({
+                ...prev,
+                city: text,
+              }))
+            }
+            data={CityData}
+            save="value"
+            dropdownTextStyles={{color: 'black'}}
+          />
+        </View>
       )}
+
       {profileData.city === null && (
         <View style={tw`w-full  pt-2 pr-2`}>
           {/* <DropDown
@@ -762,6 +1134,7 @@ export default function PostAndAdForm({
             placeholder="Account Type"
             inputStyles={{color: 'black'}}
             boxStyles={styles.box}
+            key={reset}
             maxHeight={100}
             setSelected={text => {
               setForm(prev => ({

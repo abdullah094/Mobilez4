@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+// import {Thumbnail} from 'react-native-thumbnail-video';
 import tw from 'twrnc';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
@@ -63,6 +64,30 @@ const Videos = ({navigation}) => {
                 justifyContent: 'center',
                 margin: 10,
               }}>
+              {/* <Thumbnail
+                url={item.video_link}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                resizeMode="cover"
+                containerStyle={{
+                  height: 145,
+                  width: 140,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginRight: '10%',
+                  marginBottom: '10%',
+                  borderRadius: 10,
+                  overflow: 'hidden',
+                }}
+                iconStyle={{
+                  height: '20%',
+                  width: '20%',
+                }}
+              /> */}
               <Image
                 style={{width: 50, height: 50}}
                 source={require('../assets/video_logo.png')}

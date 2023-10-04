@@ -283,172 +283,6 @@ const CityData = [
   {label: 'Makhdumpur', value: 'Makhdumpur'},
   {label: 'Khurrianwala', value: 'Khurrianwala'},
   {label: 'Gurjaani', value: 'Gurjaani'},
-  {label: 'Ambrolauri', value: 'Ambrolauri'},
-  {label: 'Oni', value: 'Oni'},
-  {label: 'Akhalkalaki', value: 'Akhalkalaki'},
-  {label: 'Batumi', value: 'Batumi'},
-  {label: 'Kobuleti', value: 'Kobuleti'},
-  {label: 'Kaspi', value: 'Kaspi'},
-  {label: 'Ninotsminda', value: 'Ninotsminda'},
-  {label: 'Sachkhere', value: 'Sachkhere'},
-  {label: 'Chiatura', value: 'Chiatura'},
-  {label: 'Tqibuli', value: 'Tqibuli'},
-  {label: 'Lentekhi', value: 'Lentekhi'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Ambrolauri', value: 'Ambrolauri'},
-  {label: 'Oni', value: 'Oni'},
-  {label: 'Akhalkalaki', value: 'Akhalkalaki'},
-  {label: 'Bakuriani', value: 'Bakuriani'},
-  {label: 'Borjomi', value: 'Borjomi'},
-  {label: 'Bakuriani', value: 'Bakuriani'},
-  {label: 'Ambrolauri', value: 'Ambrolauri'},
-  {label: 'Oni', value: 'Oni'},
-  {label: 'Akhalkalaki', value: 'Akhalkalaki'},
-  {label: 'Bakuriani', value: 'Bakuriani'},
-  {label: 'Borjomi', value: 'Borjomi'},
-  {label: 'Bakuriani', value: 'Bakuriani'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Kaspi', value: 'Kaspi'},
-  {label: 'Ninotsminda', value: 'Ninotsminda'},
-  {label: 'Sachkhere', value: 'Sachkhere'},
-  {label: 'Chiatura', value: 'Chiatura'},
-  {label: 'Tqibuli', value: 'Tqibuli'},
-  {label: 'Lentekhi', value: 'Lentekhi'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-  {label: 'Keda', value: 'Keda'},
-  {label: 'Shuakhevi', value: 'Shuakhevi'},
-  {label: 'Khoni', value: 'Khoni'},
-  {label: 'Senaki', value: 'Senaki'},
-  {label: 'Poti', value: 'Poti'},
-  {label: 'Samtredia', value: 'Samtredia'},
-  {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-  {label: 'Abasha', value: 'Abasha'},
-  {label: 'Martvili', value: 'Martvili'},
-  {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-  {label: 'Tsalenjikha', value: 'Tsalenjikha'},
 ];
 const AccountTypeData = [
   {label: 'individual', value: 'individual'},
@@ -480,14 +314,51 @@ export default function PostAndAdForm({
   >([]);
   const [loadingBrand, setLoadingBrand] = useState(false);
   const [loadingModel, setLoadingModel] = useState(false);
+  // const [form, setForm] = useState<Form | null>(null);
 
-  const [toggleAccessories, setToggleAccessories] = useState({
-    box: false,
-    charger: false,
-    data_cable: false,
-    handfree: false,
-    kit_only: false,
+  const [toggleAccessories, setToggleAccessories] = useState<{
+    box: {
+      label: string;
+      value: string;
+      Selected: boolean;
+    };
+    charger: {
+      label: string;
+      value: string;
+      Selected: boolean;
+    };
+    data_cable: {
+      label: string;
+      value: string;
+      Selected: boolean;
+    };
+    handfree: {
+      label: string;
+      value: string;
+      Selected: boolean;
+    };
+    kit_only: {
+      label: string;
+      value: string;
+      Selected: boolean;
+    };
+  }>({
+    box: {label: 'Box', value: 'box', Selected: false},
+    charger: {label: 'Changer', value: 'charger', Selected: false},
+    data_cable: {label: 'Data Cable', value: 'data cable', Selected: false},
+    handfree: {label: 'HandFree', value: 'handfree', Selected: false},
+    kit_only: {label: 'Kit Only', value: 'kit only', Selected: false},
   });
+  useEffect(() => {
+    setForm(prev => ({
+      ...prev,
+      accessories: Object.values(toggleAccessories)
+        .filter(x => x.Selected)
+        .map(x => x.label)
+        .toString(),
+    }));
+  }, [toggleAccessories]);
+
   const getBrandFunc = () => {
     setLoadingBrand(true);
     setForm(prev => ({
@@ -545,6 +416,8 @@ export default function PostAndAdForm({
   useEffect(() => {
     getModelFunc();
   }, [form.brand]);
+
+  console.log(toggleAccessories);
   return (
     <View>
       <View style={tw`flex-row flex-wrap`}>
@@ -955,66 +828,20 @@ export default function PostAndAdForm({
         <View style={tw`my-4 p-2 rounded-lg border border-gray-300`}>
           <Text style={{color: 'black'}}>Accessories</Text>
           <View>
-            <Checkbox.Item
-              labelStyle={{color: 'black'}}
-              color="blue"
-              onPress={() => {
-                setToggleAccessories(prev => ({
-                  ...prev,
-                  box: !prev.box,
-                }));
-              }}
-              label="Box"
-              status={toggleAccessories.box ? 'checked' : 'unchecked'}
-            />
-            <Checkbox.Item
-              labelStyle={{color: 'black'}}
-              color="blue"
-              onPress={() => {
-                setToggleAccessories(prev => ({
-                  ...prev,
-                  charger: !prev.charger,
-                }));
-              }}
-              label="Charger"
-              status={toggleAccessories.charger ? 'checked' : 'unchecked'}
-            />
-            <Checkbox.Item
-              labelStyle={{color: 'black'}}
-              color="blue"
-              onPress={() => {
-                setToggleAccessories(prev => ({
-                  ...prev,
-                  data_cable: !prev.data_cable,
-                }));
-              }}
-              label="Data Cable"
-              status={toggleAccessories.data_cable ? 'checked' : 'unchecked'}
-            />
-            <Checkbox.Item
-              labelStyle={{color: 'black'}}
-              color="blue"
-              onPress={() => {
-                setToggleAccessories(prev => ({
-                  ...prev,
-                  handfree: !prev.handfree,
-                }));
-              }}
-              label="Hand Free"
-              status={toggleAccessories.handfree ? 'checked' : 'unchecked'}
-            />
-            <Checkbox.Item
-              labelStyle={{color: 'black'}}
-              color="blue"
-              onPress={() => {
-                setToggleAccessories(prev => ({
-                  ...prev,
-                  kit_only: !prev.kit_only,
-                }));
-              }}
-              label="Kit-only"
-              status={toggleAccessories.kit_only ? 'checked' : 'unchecked'}
-            />
+            {Object.entries(toggleAccessories).map(([key, value]) => (
+              <Checkbox.Item
+                labelStyle={{color: 'black'}}
+                color="blue"
+                onPress={() => {
+                  setToggleAccessories(prev => ({
+                    ...prev,
+                    ...{[key]: {...value, Selected: !value.Selected}},
+                  }));
+                }}
+                label={value.label}
+                status={value.Selected ? 'checked' : 'unchecked'}
+              />
+            ))}
           </View>
         </View>
       )}

@@ -12,6 +12,9 @@ import Store from './src/Redux/Store';
 import AdDeleteModaleScreen from './src/components/AdDeleteModaleScreen';
 import AdEditModaleScreen from './src/components/AdEditModaleScreen';
 import AppUpdateScreen from './src/components/AppUpdateComponent';
+import HowItWorkPage from './src/components/HowItWorkPage';
+import ProgressBarComponent from './src/components/ProgressBar';
+import ProgressGraph from './src/components/ProgressGraph';
 import Welcome from './src/components/Welcome';
 import TabNavigation from './src/navigation/TabNavigation';
 import AboutUs from './src/screens/AboutUs';
@@ -26,6 +29,7 @@ import FeatureAD from './src/screens/FeatureAD';
 import Filter from './src/screens/Filter';
 import FindMyDevice from './src/screens/FindMyDevice';
 import ForgotPassword from './src/screens/ForgotPassword';
+import Histroy from './src/screens/Histroy';
 import Images from './src/screens/Images';
 import InActiveUserScreen from './src/screens/InActiveUserScreen';
 import Listings from './src/screens/Listings';
@@ -329,6 +333,26 @@ const App = () => {
               options={{headerShown: false}}
               name="NonActiveUserVerify"
               component={NonActiveUserVerify}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="ProgressBarComponent"
+              component={ProgressBarComponent}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="HowItWorkPage"
+              component={HowItWorkPage}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="ProgressGraph"
+              component={ProgressGraph}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="Histroy"
+              component={Histroy}
             />
           </Stack.Navigator>
         </NavigationContainer>

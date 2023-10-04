@@ -48,7 +48,7 @@ const GridItem = ({
           overflow: 'hidden',
           shadowColor: '#000',
           backgroundColor: 'white',
-          borderRadius: 15,
+          borderRadius: 10,
           padding: 10,
           margin: 5,
           shadowOffset: {
@@ -59,6 +59,7 @@ const GridItem = ({
           shadowRadius: 3.84,
           elevation: 5,
           width: width * 0.45,
+          // borderWidth: 1,
         }}
         onPress={() => navigation.push('ProductPage', {id: item.id})}>
         {/* {item.status === 1 && (

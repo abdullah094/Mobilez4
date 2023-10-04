@@ -38,7 +38,7 @@ const HomeSlider = () => {
         <Image
           style={{width: '100%', height: '100%', borderRadius: 20}}
           source={{uri: image_url + item}}
-          resizeMode="cover"
+          resizeMode="contain"
         />
       </View>
     );

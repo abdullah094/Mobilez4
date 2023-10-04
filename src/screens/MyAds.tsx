@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  Animated,
   Dimensions,
   FlatList,
   Modal,
@@ -29,7 +30,6 @@ import Header from '../components/Header';
 import ListItem from '../components/ListItem';
 import {color} from '../constants/Colors';
 import WishlistComponent from './WishlistComponent';
-
 const {width, height} = Dimensions.get('window');
 const MyAds = ({navigation, isActive}) => {
   const route = useRoute();
@@ -46,17 +46,27 @@ const MyAds = ({navigation, isActive}) => {
   const [selectedAd, setselectedAd] = useState<number | null>(null);
   const [soldDisabled, setSoldDisabled] = useState<boolean>(false);
   const [deleteModale, setDeleteModale] = useState<boolean>(false);
+  const [adsCount, setAdsCount] = useState();
   const [loading, setLoading] = useState(true);
+  const DAILY_GOAL = 3; // 3 ads per day
+  const MONTHLY_GOAL = 90; // 90 ads per month
+  const [adsPosted, setAdsPosted] = useState([]);
+  const [lastUpdateDate, setLastUpdateDate] = useState(new Date());
+
   const myAdd = () => {
     axios
       .get(MY_ADS, {
         headers: {Authorization: `Bearer ${_accessToken}`},
       })
       .then(response => {
-        if (response.data.my_adds) {
-          setData(response.data.my_adds);
+        if (response?.data?.my_adds) {
+          setData(response?.data?.my_adds);
+          // console.log('adsssssss', response.data.my_adds.length);
+
+          setAdsCount(response?.data?.my_adds?.length);
           setLoading(false);
         } else {
+          setLoading(true);
         }
       })
       .catch(error => {
@@ -84,36 +94,6 @@ const MyAds = ({navigation, isActive}) => {
         console.log('hello', error);
       });
   }, [selectedAd]);
-
-  //   axios
-  //     .post(
-  //       `https://www.mobilezmarket.com/api/update-ad/${selectedAd}`,
-  //       {
-  //         brand: brand,
-  //         model: model,
-  //         storage: storage,
-  //         price: price,
-  //         ram: ram,
-  //         productType: productType,
-  //         description: description,
-  //         warrenty: warrenty,
-  //         category: category,
-  //         ptaStatus: ptaStatus,
-  //       },
-  //       {
-  //         headers: {Authorization: `Bearer ${_accessToken}`},
-  //       },
-  //     )
-  //     .then(response => {
-  //       navigation.navigate('PostAnAd', {
-  //         params: {from: 'Edit', id: selectedAd},
-  //       });
-  //       console.log('Updated Ad ');
-  //     })
-  //     .catch(error => {
-  //       console.log('hello', error);
-  //     });
-  // }, [selectedAd, _accessToken]);
 
   const onOpenListModal = useCallback(
     (id: number) => {
@@ -160,14 +140,43 @@ const MyAds = ({navigation, isActive}) => {
         console.log('hello', error);
       });
   }, [selectedAd, _accessToken]);
+  const totalAdsPosted = adsPosted.length;
+  const combinedGoal = DAILY_GOAL * 30; // Assuming 30 days in a month
+  const combinedProgressPercentage = (totalAdsPosted / combinedGoal) * 100;
+  const progressAnimation = new Animated.Value(0);
+  Animated.timing(progressAnimation, {
+    toValue: combinedProgressPercentage,
+    duration: 500, // Animation duration in milliseconds
+    useNativeDriver: false, // Required for Android
+  }).start();
 
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <Header title="My Ads" />
-        <View style={tw`flex-row justify-center p-2 `}>
+
+        {/* </View> */}
+
+        <View
+          style={[
+            {
+              justifyContent: 'space-evenly',
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              flexDirection: 'row',
+            },
+          ]}>
           <Button
-            style={[tw`w-30 border border-blue-500 mx-3`]}
+            style={[
+              // tw`w-40 border border-blue-500 mx-3`,
+              {
+                height: 40,
+                borderRadius: 10,
+                width: '45%',
+                borderColor: color.blue,
+                borderWidth: 1,
+              },
+            ]}
             mode={isWishlist ? 'text' : 'contained'}
             textColor={isWishlist ? 'black' : 'white'}
             buttonColor={isWishlist ? 'white' : '#015dcf'}
@@ -176,7 +185,16 @@ const MyAds = ({navigation, isActive}) => {
           </Button>
 
           <Button
-            style={tw`w-30 border border-blue-500 mx-3`}
+            style={[
+              // tw`w-4 border border-blue-500 mx-3`,
+              {
+                height: 40,
+                borderRadius: 10,
+                width: '45%',
+                borderColor: color.blue,
+                borderWidth: 1,
+              },
+            ]}
             textColor={isWishlist ? 'white' : 'black'}
             buttonColor={isWishlist ? '#015dcf' : 'white'}
             mode={isWishlist ? 'contained' : 'text'}
@@ -195,33 +213,13 @@ const MyAds = ({navigation, isActive}) => {
                   flex: 1,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  marginTop: 280,
                 }}
               />
-            ) : data.length > 0 ? (
-              <View style={tw`flex-row items-center justify-end m-6`}>
-                <TouchableOpacity
-                  style={tw`px-2`}
-                  onPress={() => setGrid(false)}>
-                  <ListIcon
-                    name="list"
-                    color={Grid ? color.black : color.red}
-                    size={30}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => setGrid(true)}>
-                  <Entypo
-                    name="grid"
-                    color={Grid ? color.red : color.black}
-                    size={30}
-                  />
-                </TouchableOpacity>
-              </View>
-            ) : (
+            ) : data.length <= 0 ? (
               <View
                 style={{
                   justifyContent: 'center',
-                  height: '90%',
+                  flex: 1,
                   alignItems: 'center',
                 }}>
                 <Thumb name="thumbsdown" color={'black'} size={40} />
@@ -229,44 +227,66 @@ const MyAds = ({navigation, isActive}) => {
                   You haven't posted anything
                 </Text>
               </View>
-            )}
-
-            {Grid ? (
-              <FlatList
-                data={data}
-                key={'_'}
-                keyExtractor={item => '_' + item.id}
-                contentContainerStyle={{
-                  justifyContent: 'space-between',
-                  marginHorizontal: 15,
-                  paddingBottom: 100,
-                }}
-                numColumns={2}
-                renderItem={({item}) => (
-                  <GridItem
-                    item={item}
-                    onPressList={() => onOpenListModal(item.id)}
-                  />
-                )}
-              />
             ) : (
-              <FlatList
-                data={data}
-                key={'#'}
-                keyExtractor={item => '#' + item.id}
-                contentContainerStyle={{
-                  justifyContent: 'space-between',
-                  marginHorizontal: 15,
-                  paddingBottom: 100,
-                }}
-                numColumns={1}
-                renderItem={({item}) => (
-                  <ListItem
-                    onPressList={() => onOpenListModal(item.id)}
-                    item={item}
+              <>
+                <View style={tw`flex-row items-center justify-end m-6`}>
+                  <TouchableOpacity
+                    style={tw`px-2`}
+                    onPress={() => setGrid(false)}>
+                    <ListIcon
+                      name="list"
+                      color={Grid ? color.black : color.blue}
+                      size={30}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setGrid(true)}>
+                    <Entypo
+                      name="grid"
+                      color={Grid ? color.blue : color.black}
+                      size={30}
+                    />
+                  </TouchableOpacity>
+                </View>
+                {Grid ? (
+                  <FlatList
+                    data={data}
+                    key={'_'}
+                    keyExtractor={item => '_' + item.id}
+                    contentContainerStyle={{
+                      justifyContent: 'space-between',
+                      marginHorizontal: 15,
+                      paddingBottom: 100,
+                    }}
+                    showsVerticalScrollIndicator={false}
+                    numColumns={2}
+                    renderItem={({item}) => (
+                      <GridItem
+                        item={item}
+                        onPressList={() => onOpenListModal(item.id)}
+                      />
+                    )}
+                  />
+                ) : (
+                  <FlatList
+                    data={data}
+                    key={'#'}
+                    keyExtractor={item => '#' + item.id}
+                    contentContainerStyle={{
+                      justifyContent: 'space-between',
+                      marginHorizontal: 15,
+                      paddingBottom: 100,
+                    }}
+                    showsVerticalScrollIndicator={false}
+                    numColumns={1}
+                    renderItem={({item}) => (
+                      <ListItem
+                        onPressList={() => onOpenListModal(item.id)}
+                        item={item}
+                      />
+                    )}
                   />
                 )}
-              />
+              </>
             )}
           </>
         ) : (
@@ -378,5 +398,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingTop: 200,
+  },
+  progressContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    padding: 10,
+  },
+  progressLabel: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  progressText: {
+    fontSize: 16,
+    marginTop: 5,
   },
 });

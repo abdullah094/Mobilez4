@@ -1,6 +1,6 @@
 import {ADD_WISHLIST, REMOVE_WISHLIST} from '@env';
 import axios from 'axios';
-import React from 'react';
+import React, {useState} from 'react';
 import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,6 +14,7 @@ import {
 const AddToWishList = ({ProductId, style = {}, size = 30}) => {
   const _accessToken = useSelector(selectAccessToken);
   const wishlistItemsExit: Number[] = useSelector(selectWishlist);
+  const [message, setMessage] = useState('');
   const dispatch = useDispatch();
   const exist = wishlistItemsExit.includes(ProductId);
   const AddToFavorite = () => {
@@ -23,7 +24,8 @@ const AddToWishList = ({ProductId, style = {}, size = 30}) => {
     };
 
     if (_accessToken == null) {
-      Alert.alert('You must be logged in to add to favorite');
+      // Alert.alert('You must be logged in to add to favorite');
+      setMessage('You must be logged in to add to favorite');
       return;
     }
     if (exist) {
@@ -56,12 +58,15 @@ const AddToWishList = ({ProductId, style = {}, size = 30}) => {
         .catch(error => console.log(error));
   };
   return (
-    <TouchableOpacity onPress={() => AddToFavorite()} style={style}>
-      <AntDesign
-        name={exist ? 'heart' : 'hearto'}
-        size={size}
-        color={'red'}></AntDesign>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity onPress={() => AddToFavorite()} style={style}>
+        <AntDesign
+          name={exist ? 'heart' : 'hearto'}
+          size={size}
+          color={'red'}></AntDesign>
+      </TouchableOpacity>
+      {/* <AlertModale message={message} setMessage={setMessage} /> */}
+    </>
   );
 };
 

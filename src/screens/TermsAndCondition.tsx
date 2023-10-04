@@ -18,7 +18,7 @@ const TermsAndCondition = () => {
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <Header title="Terms and Conditions" />
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View
             style={{
               justifyContent: 'center',

@@ -27,7 +27,6 @@ import {
   setWishList,
 } from '../Redux/Slices';
 
-import FontAwesome from 'react-native-vector-icons/Entypo';
 import AppUpdateScreen from '../components/AppUpdateComponent';
 import AppUpdateScreenIos from '../components/AppUpdateComponent copy';
 import HomeSlider from '../components/HomeSlider';
@@ -60,6 +59,21 @@ const Home = ({navigation}) => {
   DeviceInfo.getDeviceName().then((res: string) => {
     setDeviceName(res);
   });
+
+  // console.log('profile data', profile);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // Calculate the next index, wrapping around to the beginning if needed
+      const nextIndex = (currentIndex + 1) % logos.length;
+      setCurrentIndex(nextIndex);
+    }, 3000); // Adjust the interval time as needed (3 seconds in this example)
+
+    return () => {
+      // Clear the interval when the component unmounts
+      clearInterval(intervalId);
+    };
+  }, [currentIndex]);
 
   useEffect(() => {
     const handleDeepLink = async () => {
@@ -249,17 +263,7 @@ const Home = ({navigation}) => {
   useEffect(() => {
     _onRefresh();
   }, [navigation]);
-  const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
-  };
 
-  const handleNext = () => {
-    if (currentIndex < logos.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
-  };
   return (
     <>
       <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
@@ -427,13 +431,6 @@ const Home = ({navigation}) => {
               />
 
               <View style={styles.container}>
-                <TouchableOpacity onPress={handlePrevious}>
-                  <FontAwesome
-                    name="chevron-thin-left"
-                    size={25}
-                    color="gray"
-                  />
-                </TouchableOpacity>
                 <View style={styles.company_box}>
                   <FlatList
                     horizontal
@@ -447,20 +444,13 @@ const Home = ({navigation}) => {
                       />
                     )}
                     initialScrollIndex={currentIndex}
-                    getItemLayout={(data, index) => ({
+                    getItemLayout={(_logos, index) => ({
                       length: 70,
                       offset: 70 * index,
                       index,
                     })}
                   />
                 </View>
-                <TouchableOpacity onPress={handleNext}>
-                  <FontAwesome
-                    name="chevron-thin-right"
-                    size={25}
-                    color="gray"
-                  />
-                </TouchableOpacity>
               </View>
             </View>
 

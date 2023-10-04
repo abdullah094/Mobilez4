@@ -138,7 +138,7 @@ const ProductPage = ({navigation, route}) => {
                 .then(supported => {
                   if (!supported) {
                     Alert.alert(
-                      'Please install whats app to send direct message to students via whats app',
+                      'Please install whats app to send direct message via whats app',
                     );
                     Linking.openURL(
                       `${link}${args.number}?text="I'm%20interested%20in%20your%20car%20for%20sale"`,
@@ -361,7 +361,7 @@ const ProductPage = ({navigation, route}) => {
 
                       fontWeight: '700',
                     }}>
-                    Warrenty :
+                    Warranty :
                   </Text>
                   <Text
                     style={{
@@ -417,20 +417,21 @@ const ProductPage = ({navigation, route}) => {
 
                         fontWeight: '700',
                       }}>
-                      Accesories :
+                      Accessories :
                     </Text>
+                    <View style={{width: 300}}>
+                      <Text
+                        style={{
+                          color: color.black,
+                          fontSize: 15,
 
-                    <Text
-                      style={{
-                        color: color.black,
-                        fontSize: 15,
-
-                        fontWeight: '400',
-                        paddingHorizontal: 5,
-                        alignItems: 'center',
-                      }}>
-                      {data.details.accessories}
-                    </Text>
+                          fontWeight: '400',
+                          paddingHorizontal: 5,
+                          flexWrap: 'wrap',
+                        }}>
+                        {data.details.accessories}
+                      </Text>
+                    </View>
                   </View>
                 )}
 

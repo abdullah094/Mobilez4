@@ -27,10 +27,11 @@ const BlogDetails = ({navigation, route}) => {
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <Header title="Blog" />
         <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             alignItems: 'center',
-            marginTop: 50,
-            paddingBottom: 50,
+            marginTop: 20,
+            paddingBottom: 100,
           }}>
           <View
             style={{
@@ -48,16 +49,16 @@ const BlogDetails = ({navigation, route}) => {
               {data.title}
             </Text>
           </View>
-
-          <Image
-            style={{
-              width: 350,
-              height: 180,
-              marginTop: 10,
-              borderRadius: 15,
-            }}
-            source={{uri: base_url + data.image}}
-          />
+          <View style={{width: '100%', height: '10%', marginTop: 10}}>
+            <Image
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
+              resizeMode="contain"
+              source={{uri: base_url + data.image}}
+            />
+          </View>
 
           <View style={tw` mx-16 top-5`}>
             {/* <WebView

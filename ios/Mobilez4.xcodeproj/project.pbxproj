@@ -31,6 +31,84 @@
 		6BEBED19D9E722292A4E2FF1 /* Pods_Mobilez4_Mobilez4Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA764812DFAE0E305569C901 /* Pods_Mobilez4_Mobilez4Tests.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C2EA189E4BA1BE778E34FF06 /* Pods_Mobilez4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5EB372756DC787969148A0 /* Pods_Mobilez4.framework */; };
+		4F24A93176D54E0E916E001E /* Geologica-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A77D510863FA4C53AAF511E8 /* Geologica-Black.ttf */; };
+		F0C9116D4F9A413D8A918B7E /* Geologica-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 748BC0490E324E009F08F215 /* Geologica-Bold.ttf */; };
+		7A8AB10FD88343959633BBB1 /* Geologica-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 270E3717EDCB4D12868470C9 /* Geologica-ExtraBold.ttf */; };
+		969EDF0A11654434B5313543 /* Geologica-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B8F0168295F4537A3512590 /* Geologica-ExtraLight.ttf */; };
+		BBFEA5CDA9834B63AC251374 /* Geologica-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21BD11E639B84C73ACCC5143 /* Geologica-Light.ttf */; };
+		3A52F52A050C48F9A3F73643 /* Geologica-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2CC86075790A4CC293A8DB53 /* Geologica-Medium.ttf */; };
+		90381A82B895467FB4FD1E48 /* Geologica-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F786195094545BEBA470E38 /* Geologica-Regular.ttf */; };
+		9074295C0D1F4F229EFEA2E7 /* Geologica-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A12B556E9D1E4093B4257DBF /* Geologica-SemiBold.ttf */; };
+		3F8D6A72680F4CC18EBB848F /* Geologica-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1BBDAFA0D31641B69F067F8B /* Geologica-Thin.ttf */; };
+		2931EA34C5674926A1CD99B0 /* Geologica_Auto-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C1226CD21114709B6AAB08B /* Geologica_Auto-Black.ttf */; };
+		17D7A1E2BF7E4AFE91446128 /* Geologica_Auto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D53AD7944D3640BB941ACEFF /* Geologica_Auto-Bold.ttf */; };
+		6EF24183DDA642FEA400732F /* Geologica_Auto-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32D23EF60297470A9387D92C /* Geologica_Auto-ExtraBold.ttf */; };
+		9A61C0AD3ACA45059A3BB054 /* Geologica_Auto-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4ACB820A3569452385DF719E /* Geologica_Auto-ExtraLight.ttf */; };
+		D5A2ADCBF5B7428885E636BC /* Geologica_Auto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EFECE5B53A04184B1FC5CE1 /* Geologica_Auto-Light.ttf */; };
+		5F99473AA7C44FE9BDC7D89B /* Geologica_Auto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA2E5E190594524B6768FD6 /* Geologica_Auto-Medium.ttf */; };
+		BF30116FBBA84931A5AD4377 /* Geologica_Auto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7142583DACF47FE8EA27D19 /* Geologica_Auto-Regular.ttf */; };
+		3628B262E98648F083BF8945 /* Geologica_Auto-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F2D9FB21854E4A6B8B453D65 /* Geologica_Auto-SemiBold.ttf */; };
+		1A1AB72136C4428BB50C5245 /* Geologica_Auto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A57B34B4C3D940749E8CB288 /* Geologica_Auto-Thin.ttf */; };
+		B5E4FABD7ACC4940AB8475BE /* Geologica_Cursive-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 465712651E0D4CF3914FF69F /* Geologica_Cursive-Black.ttf */; };
+		06774ABC01BB4E239127FD00 /* Geologica_Cursive-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A5A07CC6B914C159BD3A994 /* Geologica_Cursive-Bold.ttf */; };
+		1035F872A4F04B4E803D86EA /* Geologica_Cursive-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 85854BCEE664452FA99D502A /* Geologica_Cursive-ExtraBold.ttf */; };
+		54E0F965AC8143248D18459D /* Geologica_Cursive-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7426852243CC4EC3BE9F5751 /* Geologica_Cursive-ExtraLight.ttf */; };
+		1D0DE97934104AB0B81C64FE /* Geologica_Cursive-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44AB273E0C144F2B83B6297D /* Geologica_Cursive-Light.ttf */; };
+		CFA6386A0C114DF1AEBE5528 /* Geologica_Cursive-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F2B1E0FE6FB442F9F2A1272 /* Geologica_Cursive-Medium.ttf */; };
+		FE0DC9F7EFB344A59A7483C9 /* Geologica_Cursive-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 471A4FC124584E83AFC7AE6F /* Geologica_Cursive-Regular.ttf */; };
+		62D95987AE544341AD65D917 /* Geologica_Cursive-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C43A232944C3470D86D55C17 /* Geologica_Cursive-SemiBold.ttf */; };
+		264E82A88EDE44D1B19541BA /* Geologica_Cursive-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E2D24FF445DB40748A3B8C85 /* Geologica_Cursive-Thin.ttf */; };
+		0CBAD16E34F74A0294BF50F3 /* Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A780FF7D13E745CD83C9A4E3 /* Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf */; };
+		3FBBA07FC6A449EDBC0FF328 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 219F4A611D5E4D8598A75E40 /* 1.png */; };
+		CAD8ED40E234456491D40E54 /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = C07D3648396148D5A06A5A08 /* 2.png */; };
+		AD42A2A137BE43BF9D220A44 /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = DB8EEE0E6A3644D6B1059C61 /* 3.png */; };
+		611E2F99468549EEA6A3A68C /* 4.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C82E5E62F8B400FB17A823A /* 4.png */; };
+		1062B9536673413ABE85BBDC /* Speech Bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 2722EAD06E58405987071FCE /* Speech Bubble.png */; };
+		209A820420C944069E71874A /* trend-up.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E97502303DB4ACDB848F24D /* trend-up.png */; };
+		7902DB4EC2FE45CBABDCA588 /* trend-up.svg in Resources */ = {isa = PBXBuildFile; fileRef = 59B2FB647A5A4241A7177170 /* trend-up.svg */; };
+		63CA190B1C624814B486C50A /* 10.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DDB65FE97D542F3ACBA40C5 /* 10.png */; };
+		1E037C2ACFC54531B5B811ED /* 11.png in Resources */ = {isa = PBXBuildFile; fileRef = CA5156D9890049C69B1E59CE /* 11.png */; };
+		D0275E36C3054C19B559BAE3 /* 12.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CBEDB5D83D04D7BAEB356F4 /* 12.png */; };
+		51F9B2C6AB6E46C49C96CB48 /* 13.png in Resources */ = {isa = PBXBuildFile; fileRef = F09099B24CBC40569E53491A /* 13.png */; };
+		F4F439C94B764A06A8C03219 /* 14.png in Resources */ = {isa = PBXBuildFile; fileRef = BBDBDECBC1E4442BB7E0011A /* 14.png */; };
+		F65A509519144A09BF3E1F63 /* 15.png in Resources */ = {isa = PBXBuildFile; fileRef = 62041B9DDA804CAAABB33A28 /* 15.png */; };
+		5651AC699AE3492BA56994E4 /* 16.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA55248C0CC40B8A815CD08 /* 16.png */; };
+		26B5F8949BF840B19D288D61 /* 17.png in Resources */ = {isa = PBXBuildFile; fileRef = 07EFF926F7254AEC9BC53247 /* 17.png */; };
+		CD7FA2D1A8204283A6E6ED07 /* 18.png in Resources */ = {isa = PBXBuildFile; fileRef = 38B3DDB7F6484173AC7DA5E2 /* 18.png */; };
+		15D3A77C1DF547719F6F58D4 /* 19.png in Resources */ = {isa = PBXBuildFile; fileRef = A02D0BB574CD48CEBBF34B20 /* 19.png */; };
+		5C284178A37647A1BEF158A1 /* 20.png in Resources */ = {isa = PBXBuildFile; fileRef = AD0C088F792B4B6297856060 /* 20.png */; };
+		3BA0C3F948C14E5880E785A7 /* 21.png in Resources */ = {isa = PBXBuildFile; fileRef = 51815E428F914CBE8F961D8E /* 21.png */; };
+		894ABE31BD50493F9E4B787A /* 22.png in Resources */ = {isa = PBXBuildFile; fileRef = F4DF167D99C44A33B8EF7472 /* 22.png */; };
+		5611B8B04F0A44D6ADDEEE25 /* 5.png in Resources */ = {isa = PBXBuildFile; fileRef = 982237BEA88042008DF95302 /* 5.png */; };
+		E2006715A11143EC898222FD /* 6.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F477B72FA6E4C0EB5468E10 /* 6.png */; };
+		F910D9449C344747B8A98C11 /* 7.png in Resources */ = {isa = PBXBuildFile; fileRef = 8C624DBAA75E434E9A77F351 /* 7.png */; };
+		D74E191E2928468495F3C3BC /* 8.png in Resources */ = {isa = PBXBuildFile; fileRef = 99EC130156C14D56995AA948 /* 8.png */; };
+		6E69784AD2954369A097C881 /* 9.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E676C7F91D6407EAD05F0F8 /* 9.png */; };
+		0B3787A58DB5446580CB65C9 /* chaticon.png in Resources */ = {isa = PBXBuildFile; fileRef = DA69D69B2F6A4D268C143ACF /* chaticon.png */; };
+		4F775FF3386A49A5A9397B26 /* F.png in Resources */ = {isa = PBXBuildFile; fileRef = ACBB43DBCA394CFB8B3206D8 /* F.png */; };
+		00F6DDEDEBD7485CA58A76BB /* facebooka.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EA092906D14818962CA8D9 /* facebooka.png */; };
+		31E65E0EC72C4103A01C2C15 /* googla.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F3AFF4FAB2E4D7EACB84796 /* googla.png */; };
+		AC8BE580403C48D5BCB69FCE /* Gpng.png in Resources */ = {isa = PBXBuildFile; fileRef = A8E8A2CBA3C24FF8ADBFDEC8 /* Gpng.png */; };
+		E117E3C4CAB34DC89C3D0A30 /* Show - Group - Horizontal - Active.png in Resources */ = {isa = PBXBuildFile; fileRef = A0E0ECEC34B845EE9A342E56 /* Show - Group - Horizontal - Active.png */; };
+		B54E3799EE2B448E8849A290 /* Logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F2253F66A8A1435F8ACC71B8 /* Logo.png */; };
+		03DCB6C27169477DA36AD209 /* mobile-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = BF2E6FD26F8D41C7B0A0C89D /* mobile-logo.png */; };
+		581C872B3C89492DBD126305 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C46B0BF77FAA40B3BAC3F1B6 /* plus.png */; };
+		B0C11F89D6AD45A9AD8ED511 /* 1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5EF24CC889B6401BA3E119E2 /* 1.jpg */; };
+		5A07A968B9D84095A43934F4 /* 2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F6A0D9DCE2C8433E81B12414 /* 2.jpg */; };
+		728718BC3103439DBD007877 /* 3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3EAA13AD607546748C0450FD /* 3.jpg */; };
+		C478168105BB4CCD998C9D05 /* 4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 60FE3CF0BB4A475C9A96A948 /* 4.jpg */; };
+		A61411A62EAE4D48B06829DC /* smartphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DF7C0BB72DA4CF7A9C5F662 /* smartphone.png */; };
+		71F2A3A07E244DAE8B89485F /* smartwatch.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C9C7F81E6D4024AB344C3D /* smartwatch.png */; };
+		A599FF4634014377913C3186 /* 01.png in Resources */ = {isa = PBXBuildFile; fileRef = 603795DF42CD4B3499EE8D16 /* 01.png */; };
+		E18046B98B624EF8AE6BF43F /* 02.png in Resources */ = {isa = PBXBuildFile; fileRef = 0782BD0AE6214E41AE3B4F17 /* 02.png */; };
+		F07E050ACCE34941B0583FD3 /* 03.png in Resources */ = {isa = PBXBuildFile; fileRef = ADAED489CBAE4FF4AA8F6B68 /* 03.png */; };
+		1C2E9FCECEF04A2880EAF259 /* 04.png in Resources */ = {isa = PBXBuildFile; fileRef = D3E56EE63CA644A1973945BA /* 04.png */; };
+		93F4E814BDCA483C8F37ACEE /* 05.png in Resources */ = {isa = PBXBuildFile; fileRef = FD70252DABDE4173B27219B4 /* 05.png */; };
+		3DA02C7EDD1A4B13A5205231 /* 06.png in Resources */ = {isa = PBXBuildFile; fileRef = 1631F7C4DC88487BAD7EE41C /* 06.png */; };
+		6F1CFAD4C6FC469CB458D2A5 /* Tablets.png in Resources */ = {isa = PBXBuildFile; fileRef = 7EA5262218994E73A97EFD8A /* Tablets.png */; };
+		2E4E53FED93D4BFAA9FFBB65 /* tag.png in Resources */ = {isa = PBXBuildFile; fileRef = AC4BAB7FD2824311B7C8F329 /* tag.png */; };
+		5AA1C052EAB6400B9A37A313 /* Untitled.zip in Resources */ = {isa = PBXBuildFile; fileRef = 4C784705120C448DAFF127A0 /* Untitled.zip */; };
+		4D31F7A26E0F48AA903F6B6D /* video_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8834408F3B5347C5B13516BB /* video_logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +157,84 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-Mobilez4-Mobilez4Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mobilez4-Mobilez4Tests.release.xcconfig"; path = "Target Support Files/Pods-Mobilez4-Mobilez4Tests/Pods-Mobilez4-Mobilez4Tests.release.xcconfig"; sourceTree = "<group>"; };
 		EA764812DFAE0E305569C901 /* Pods_Mobilez4_Mobilez4Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mobilez4_Mobilez4Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		A77D510863FA4C53AAF511E8 /* Geologica-Black.ttf */ = {isa = PBXFileReference; name = "Geologica-Black.ttf"; path = "../src/assets/fonts/Geologica-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		748BC0490E324E009F08F215 /* Geologica-Bold.ttf */ = {isa = PBXFileReference; name = "Geologica-Bold.ttf"; path = "../src/assets/fonts/Geologica-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		270E3717EDCB4D12868470C9 /* Geologica-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Geologica-ExtraBold.ttf"; path = "../src/assets/fonts/Geologica-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3B8F0168295F4537A3512590 /* Geologica-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Geologica-ExtraLight.ttf"; path = "../src/assets/fonts/Geologica-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		21BD11E639B84C73ACCC5143 /* Geologica-Light.ttf */ = {isa = PBXFileReference; name = "Geologica-Light.ttf"; path = "../src/assets/fonts/Geologica-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2CC86075790A4CC293A8DB53 /* Geologica-Medium.ttf */ = {isa = PBXFileReference; name = "Geologica-Medium.ttf"; path = "../src/assets/fonts/Geologica-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0F786195094545BEBA470E38 /* Geologica-Regular.ttf */ = {isa = PBXFileReference; name = "Geologica-Regular.ttf"; path = "../src/assets/fonts/Geologica-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A12B556E9D1E4093B4257DBF /* Geologica-SemiBold.ttf */ = {isa = PBXFileReference; name = "Geologica-SemiBold.ttf"; path = "../src/assets/fonts/Geologica-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1BBDAFA0D31641B69F067F8B /* Geologica-Thin.ttf */ = {isa = PBXFileReference; name = "Geologica-Thin.ttf"; path = "../src/assets/fonts/Geologica-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5C1226CD21114709B6AAB08B /* Geologica_Auto-Black.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-Black.ttf"; path = "../src/assets/fonts/Geologica_Auto-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D53AD7944D3640BB941ACEFF /* Geologica_Auto-Bold.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-Bold.ttf"; path = "../src/assets/fonts/Geologica_Auto-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		32D23EF60297470A9387D92C /* Geologica_Auto-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-ExtraBold.ttf"; path = "../src/assets/fonts/Geologica_Auto-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4ACB820A3569452385DF719E /* Geologica_Auto-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-ExtraLight.ttf"; path = "../src/assets/fonts/Geologica_Auto-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0EFECE5B53A04184B1FC5CE1 /* Geologica_Auto-Light.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-Light.ttf"; path = "../src/assets/fonts/Geologica_Auto-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1AA2E5E190594524B6768FD6 /* Geologica_Auto-Medium.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-Medium.ttf"; path = "../src/assets/fonts/Geologica_Auto-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A7142583DACF47FE8EA27D19 /* Geologica_Auto-Regular.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-Regular.ttf"; path = "../src/assets/fonts/Geologica_Auto-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F2D9FB21854E4A6B8B453D65 /* Geologica_Auto-SemiBold.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-SemiBold.ttf"; path = "../src/assets/fonts/Geologica_Auto-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A57B34B4C3D940749E8CB288 /* Geologica_Auto-Thin.ttf */ = {isa = PBXFileReference; name = "Geologica_Auto-Thin.ttf"; path = "../src/assets/fonts/Geologica_Auto-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		465712651E0D4CF3914FF69F /* Geologica_Cursive-Black.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-Black.ttf"; path = "../src/assets/fonts/Geologica_Cursive-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2A5A07CC6B914C159BD3A994 /* Geologica_Cursive-Bold.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-Bold.ttf"; path = "../src/assets/fonts/Geologica_Cursive-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		85854BCEE664452FA99D502A /* Geologica_Cursive-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-ExtraBold.ttf"; path = "../src/assets/fonts/Geologica_Cursive-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7426852243CC4EC3BE9F5751 /* Geologica_Cursive-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-ExtraLight.ttf"; path = "../src/assets/fonts/Geologica_Cursive-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		44AB273E0C144F2B83B6297D /* Geologica_Cursive-Light.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-Light.ttf"; path = "../src/assets/fonts/Geologica_Cursive-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0F2B1E0FE6FB442F9F2A1272 /* Geologica_Cursive-Medium.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-Medium.ttf"; path = "../src/assets/fonts/Geologica_Cursive-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		471A4FC124584E83AFC7AE6F /* Geologica_Cursive-Regular.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-Regular.ttf"; path = "../src/assets/fonts/Geologica_Cursive-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C43A232944C3470D86D55C17 /* Geologica_Cursive-SemiBold.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-SemiBold.ttf"; path = "../src/assets/fonts/Geologica_Cursive-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E2D24FF445DB40748A3B8C85 /* Geologica_Cursive-Thin.ttf */ = {isa = PBXFileReference; name = "Geologica_Cursive-Thin.ttf"; path = "../src/assets/fonts/Geologica_Cursive-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A780FF7D13E745CD83C9A4E3 /* Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf */ = {isa = PBXFileReference; name = "Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf"; path = "../src/assets/Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		219F4A611D5E4D8598A75E40 /* 1.png */ = {isa = PBXFileReference; name = "1.png"; path = "../src/assets/ads/1.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C07D3648396148D5A06A5A08 /* 2.png */ = {isa = PBXFileReference; name = "2.png"; path = "../src/assets/ads/2.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DB8EEE0E6A3644D6B1059C61 /* 3.png */ = {isa = PBXFileReference; name = "3.png"; path = "../src/assets/ads/3.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3C82E5E62F8B400FB17A823A /* 4.png */ = {isa = PBXFileReference; name = "4.png"; path = "../src/assets/ads/4.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2722EAD06E58405987071FCE /* Speech Bubble.png */ = {isa = PBXFileReference; name = "Speech Bubble.png"; path = "../src/assets/bottom nav 9/Speech Bubble.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0E97502303DB4ACDB848F24D /* trend-up.png */ = {isa = PBXFileReference; name = "trend-up.png"; path = "../src/assets/bottom nav 9/vuesax/linear/trend-up.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		59B2FB647A5A4241A7177170 /* trend-up.svg */ = {isa = PBXFileReference; name = "trend-up.svg"; path = "../src/assets/bottom nav 9/vuesax/linear/trend-up.svg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9DDB65FE97D542F3ACBA40C5 /* 10.png */ = {isa = PBXFileReference; name = "10.png"; path = "../src/assets/brand_logos/10.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CA5156D9890049C69B1E59CE /* 11.png */ = {isa = PBXFileReference; name = "11.png"; path = "../src/assets/brand_logos/11.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9CBEDB5D83D04D7BAEB356F4 /* 12.png */ = {isa = PBXFileReference; name = "12.png"; path = "../src/assets/brand_logos/12.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F09099B24CBC40569E53491A /* 13.png */ = {isa = PBXFileReference; name = "13.png"; path = "../src/assets/brand_logos/13.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BBDBDECBC1E4442BB7E0011A /* 14.png */ = {isa = PBXFileReference; name = "14.png"; path = "../src/assets/brand_logos/14.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		62041B9DDA804CAAABB33A28 /* 15.png */ = {isa = PBXFileReference; name = "15.png"; path = "../src/assets/brand_logos/15.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DDA55248C0CC40B8A815CD08 /* 16.png */ = {isa = PBXFileReference; name = "16.png"; path = "../src/assets/brand_logos/16.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		07EFF926F7254AEC9BC53247 /* 17.png */ = {isa = PBXFileReference; name = "17.png"; path = "../src/assets/brand_logos/17.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		38B3DDB7F6484173AC7DA5E2 /* 18.png */ = {isa = PBXFileReference; name = "18.png"; path = "../src/assets/brand_logos/18.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A02D0BB574CD48CEBBF34B20 /* 19.png */ = {isa = PBXFileReference; name = "19.png"; path = "../src/assets/brand_logos/19.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AD0C088F792B4B6297856060 /* 20.png */ = {isa = PBXFileReference; name = "20.png"; path = "../src/assets/brand_logos/20.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		51815E428F914CBE8F961D8E /* 21.png */ = {isa = PBXFileReference; name = "21.png"; path = "../src/assets/brand_logos/21.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F4DF167D99C44A33B8EF7472 /* 22.png */ = {isa = PBXFileReference; name = "22.png"; path = "../src/assets/brand_logos/22.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		982237BEA88042008DF95302 /* 5.png */ = {isa = PBXFileReference; name = "5.png"; path = "../src/assets/brand_logos/5.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3F477B72FA6E4C0EB5468E10 /* 6.png */ = {isa = PBXFileReference; name = "6.png"; path = "../src/assets/brand_logos/6.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8C624DBAA75E434E9A77F351 /* 7.png */ = {isa = PBXFileReference; name = "7.png"; path = "../src/assets/brand_logos/7.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		99EC130156C14D56995AA948 /* 8.png */ = {isa = PBXFileReference; name = "8.png"; path = "../src/assets/brand_logos/8.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2E676C7F91D6407EAD05F0F8 /* 9.png */ = {isa = PBXFileReference; name = "9.png"; path = "../src/assets/brand_logos/9.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DA69D69B2F6A4D268C143ACF /* chaticon.png */ = {isa = PBXFileReference; name = "chaticon.png"; path = "../src/assets/chaticon.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ACBB43DBCA394CFB8B3206D8 /* F.png */ = {isa = PBXFileReference; name = "F.png"; path = "../src/assets/F.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		18EA092906D14818962CA8D9 /* facebooka.png */ = {isa = PBXFileReference; name = "facebooka.png"; path = "../src/assets/facebooka.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3F3AFF4FAB2E4D7EACB84796 /* googla.png */ = {isa = PBXFileReference; name = "googla.png"; path = "../src/assets/googla.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A8E8A2CBA3C24FF8ADBFDEC8 /* Gpng.png */ = {isa = PBXFileReference; name = "Gpng.png"; path = "../src/assets/Gpng.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A0E0ECEC34B845EE9A342E56 /* Show - Group - Horizontal - Active.png */ = {isa = PBXFileReference; name = "Show - Group - Horizontal - Active.png"; path = "../src/assets/Item/Button/Show - Group - Horizontal - Active.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F2253F66A8A1435F8ACC71B8 /* Logo.png */ = {isa = PBXFileReference; name = "Logo.png"; path = "../src/assets/Logo.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BF2E6FD26F8D41C7B0A0C89D /* mobile-logo.png */ = {isa = PBXFileReference; name = "mobile-logo.png"; path = "../src/assets/mobile-logo.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C46B0BF77FAA40B3BAC3F1B6 /* plus.png */ = {isa = PBXFileReference; name = "plus.png"; path = "../src/assets/plus.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5EF24CC889B6401BA3E119E2 /* 1.jpg */ = {isa = PBXFileReference; name = "1.jpg"; path = "../src/assets/slider-pics/1.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F6A0D9DCE2C8433E81B12414 /* 2.jpg */ = {isa = PBXFileReference; name = "2.jpg"; path = "../src/assets/slider-pics/2.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3EAA13AD607546748C0450FD /* 3.jpg */ = {isa = PBXFileReference; name = "3.jpg"; path = "../src/assets/slider-pics/3.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		60FE3CF0BB4A475C9A96A948 /* 4.jpg */ = {isa = PBXFileReference; name = "4.jpg"; path = "../src/assets/slider-pics/4.jpg"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7DF7C0BB72DA4CF7A9C5F662 /* smartphone.png */ = {isa = PBXFileReference; name = "smartphone.png"; path = "../src/assets/smartphone.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		75C9C7F81E6D4024AB344C3D /* smartwatch.png */ = {isa = PBXFileReference; name = "smartwatch.png"; path = "../src/assets/smartwatch.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		603795DF42CD4B3499EE8D16 /* 01.png */ = {isa = PBXFileReference; name = "01.png"; path = "../src/assets/tabIcons/01.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0782BD0AE6214E41AE3B4F17 /* 02.png */ = {isa = PBXFileReference; name = "02.png"; path = "../src/assets/tabIcons/02.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ADAED489CBAE4FF4AA8F6B68 /* 03.png */ = {isa = PBXFileReference; name = "03.png"; path = "../src/assets/tabIcons/03.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D3E56EE63CA644A1973945BA /* 04.png */ = {isa = PBXFileReference; name = "04.png"; path = "../src/assets/tabIcons/04.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FD70252DABDE4173B27219B4 /* 05.png */ = {isa = PBXFileReference; name = "05.png"; path = "../src/assets/tabIcons/05.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1631F7C4DC88487BAD7EE41C /* 06.png */ = {isa = PBXFileReference; name = "06.png"; path = "../src/assets/tabIcons/06.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7EA5262218994E73A97EFD8A /* Tablets.png */ = {isa = PBXFileReference; name = "Tablets.png"; path = "../src/assets/Tablets.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AC4BAB7FD2824311B7C8F329 /* tag.png */ = {isa = PBXFileReference; name = "tag.png"; path = "../src/assets/tag.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4C784705120C448DAFF127A0 /* Untitled.zip */ = {isa = PBXFileReference; name = "Untitled.zip"; path = "../src/assets/Untitled.zip"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8834408F3B5347C5B13516BB /* video_logo.png */ = {isa = PBXFileReference; name = "video_logo.png"; path = "../src/assets/video_logo.png"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +340,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				46899D8B82F3450095D9B408 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -209,6 +366,92 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		46899D8B82F3450095D9B408 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				A77D510863FA4C53AAF511E8 /* Geologica-Black.ttf */,
+				748BC0490E324E009F08F215 /* Geologica-Bold.ttf */,
+				270E3717EDCB4D12868470C9 /* Geologica-ExtraBold.ttf */,
+				3B8F0168295F4537A3512590 /* Geologica-ExtraLight.ttf */,
+				21BD11E639B84C73ACCC5143 /* Geologica-Light.ttf */,
+				2CC86075790A4CC293A8DB53 /* Geologica-Medium.ttf */,
+				0F786195094545BEBA470E38 /* Geologica-Regular.ttf */,
+				A12B556E9D1E4093B4257DBF /* Geologica-SemiBold.ttf */,
+				1BBDAFA0D31641B69F067F8B /* Geologica-Thin.ttf */,
+				5C1226CD21114709B6AAB08B /* Geologica_Auto-Black.ttf */,
+				D53AD7944D3640BB941ACEFF /* Geologica_Auto-Bold.ttf */,
+				32D23EF60297470A9387D92C /* Geologica_Auto-ExtraBold.ttf */,
+				4ACB820A3569452385DF719E /* Geologica_Auto-ExtraLight.ttf */,
+				0EFECE5B53A04184B1FC5CE1 /* Geologica_Auto-Light.ttf */,
+				1AA2E5E190594524B6768FD6 /* Geologica_Auto-Medium.ttf */,
+				A7142583DACF47FE8EA27D19 /* Geologica_Auto-Regular.ttf */,
+				F2D9FB21854E4A6B8B453D65 /* Geologica_Auto-SemiBold.ttf */,
+				A57B34B4C3D940749E8CB288 /* Geologica_Auto-Thin.ttf */,
+				465712651E0D4CF3914FF69F /* Geologica_Cursive-Black.ttf */,
+				2A5A07CC6B914C159BD3A994 /* Geologica_Cursive-Bold.ttf */,
+				85854BCEE664452FA99D502A /* Geologica_Cursive-ExtraBold.ttf */,
+				7426852243CC4EC3BE9F5751 /* Geologica_Cursive-ExtraLight.ttf */,
+				44AB273E0C144F2B83B6297D /* Geologica_Cursive-Light.ttf */,
+				0F2B1E0FE6FB442F9F2A1272 /* Geologica_Cursive-Medium.ttf */,
+				471A4FC124584E83AFC7AE6F /* Geologica_Cursive-Regular.ttf */,
+				C43A232944C3470D86D55C17 /* Geologica_Cursive-SemiBold.ttf */,
+				E2D24FF445DB40748A3B8C85 /* Geologica_Cursive-Thin.ttf */,
+				A780FF7D13E745CD83C9A4E3 /* Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf */,
+				219F4A611D5E4D8598A75E40 /* 1.png */,
+				C07D3648396148D5A06A5A08 /* 2.png */,
+				DB8EEE0E6A3644D6B1059C61 /* 3.png */,
+				3C82E5E62F8B400FB17A823A /* 4.png */,
+				2722EAD06E58405987071FCE /* Speech Bubble.png */,
+				0E97502303DB4ACDB848F24D /* trend-up.png */,
+				59B2FB647A5A4241A7177170 /* trend-up.svg */,
+				9DDB65FE97D542F3ACBA40C5 /* 10.png */,
+				CA5156D9890049C69B1E59CE /* 11.png */,
+				9CBEDB5D83D04D7BAEB356F4 /* 12.png */,
+				F09099B24CBC40569E53491A /* 13.png */,
+				BBDBDECBC1E4442BB7E0011A /* 14.png */,
+				62041B9DDA804CAAABB33A28 /* 15.png */,
+				DDA55248C0CC40B8A815CD08 /* 16.png */,
+				07EFF926F7254AEC9BC53247 /* 17.png */,
+				38B3DDB7F6484173AC7DA5E2 /* 18.png */,
+				A02D0BB574CD48CEBBF34B20 /* 19.png */,
+				AD0C088F792B4B6297856060 /* 20.png */,
+				51815E428F914CBE8F961D8E /* 21.png */,
+				F4DF167D99C44A33B8EF7472 /* 22.png */,
+				982237BEA88042008DF95302 /* 5.png */,
+				3F477B72FA6E4C0EB5468E10 /* 6.png */,
+				8C624DBAA75E434E9A77F351 /* 7.png */,
+				99EC130156C14D56995AA948 /* 8.png */,
+				2E676C7F91D6407EAD05F0F8 /* 9.png */,
+				DA69D69B2F6A4D268C143ACF /* chaticon.png */,
+				ACBB43DBCA394CFB8B3206D8 /* F.png */,
+				18EA092906D14818962CA8D9 /* facebooka.png */,
+				3F3AFF4FAB2E4D7EACB84796 /* googla.png */,
+				A8E8A2CBA3C24FF8ADBFDEC8 /* Gpng.png */,
+				A0E0ECEC34B845EE9A342E56 /* Show - Group - Horizontal - Active.png */,
+				F2253F66A8A1435F8ACC71B8 /* Logo.png */,
+				BF2E6FD26F8D41C7B0A0C89D /* mobile-logo.png */,
+				C46B0BF77FAA40B3BAC3F1B6 /* plus.png */,
+				5EF24CC889B6401BA3E119E2 /* 1.jpg */,
+				F6A0D9DCE2C8433E81B12414 /* 2.jpg */,
+				3EAA13AD607546748C0450FD /* 3.jpg */,
+				60FE3CF0BB4A475C9A96A948 /* 4.jpg */,
+				7DF7C0BB72DA4CF7A9C5F662 /* smartphone.png */,
+				75C9C7F81E6D4024AB344C3D /* smartwatch.png */,
+				603795DF42CD4B3499EE8D16 /* 01.png */,
+				0782BD0AE6214E41AE3B4F17 /* 02.png */,
+				ADAED489CBAE4FF4AA8F6B68 /* 03.png */,
+				D3E56EE63CA644A1973945BA /* 04.png */,
+				FD70252DABDE4173B27219B4 /* 05.png */,
+				1631F7C4DC88487BAD7EE41C /* 06.png */,
+				7EA5262218994E73A97EFD8A /* Tablets.png */,
+				AC4BAB7FD2824311B7C8F329 /* tag.png */,
+				4C784705120C448DAFF127A0 /* Untitled.zip */,
+				8834408F3B5347C5B13516BB /* video_logo.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -324,6 +567,84 @@
 				4F664E1E2A39F6AA0074D042 /* FontAwesome5_Solid.ttf in Resources */,
 				4F664E1A2A39F6AA0074D042 /* MaterialCommunityIcons.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				4F24A93176D54E0E916E001E /* Geologica-Black.ttf in Resources */,
+				F0C9116D4F9A413D8A918B7E /* Geologica-Bold.ttf in Resources */,
+				7A8AB10FD88343959633BBB1 /* Geologica-ExtraBold.ttf in Resources */,
+				969EDF0A11654434B5313543 /* Geologica-ExtraLight.ttf in Resources */,
+				BBFEA5CDA9834B63AC251374 /* Geologica-Light.ttf in Resources */,
+				3A52F52A050C48F9A3F73643 /* Geologica-Medium.ttf in Resources */,
+				90381A82B895467FB4FD1E48 /* Geologica-Regular.ttf in Resources */,
+				9074295C0D1F4F229EFEA2E7 /* Geologica-SemiBold.ttf in Resources */,
+				3F8D6A72680F4CC18EBB848F /* Geologica-Thin.ttf in Resources */,
+				2931EA34C5674926A1CD99B0 /* Geologica_Auto-Black.ttf in Resources */,
+				17D7A1E2BF7E4AFE91446128 /* Geologica_Auto-Bold.ttf in Resources */,
+				6EF24183DDA642FEA400732F /* Geologica_Auto-ExtraBold.ttf in Resources */,
+				9A61C0AD3ACA45059A3BB054 /* Geologica_Auto-ExtraLight.ttf in Resources */,
+				D5A2ADCBF5B7428885E636BC /* Geologica_Auto-Light.ttf in Resources */,
+				5F99473AA7C44FE9BDC7D89B /* Geologica_Auto-Medium.ttf in Resources */,
+				BF30116FBBA84931A5AD4377 /* Geologica_Auto-Regular.ttf in Resources */,
+				3628B262E98648F083BF8945 /* Geologica_Auto-SemiBold.ttf in Resources */,
+				1A1AB72136C4428BB50C5245 /* Geologica_Auto-Thin.ttf in Resources */,
+				B5E4FABD7ACC4940AB8475BE /* Geologica_Cursive-Black.ttf in Resources */,
+				06774ABC01BB4E239127FD00 /* Geologica_Cursive-Bold.ttf in Resources */,
+				1035F872A4F04B4E803D86EA /* Geologica_Cursive-ExtraBold.ttf in Resources */,
+				54E0F965AC8143248D18459D /* Geologica_Cursive-ExtraLight.ttf in Resources */,
+				1D0DE97934104AB0B81C64FE /* Geologica_Cursive-Light.ttf in Resources */,
+				CFA6386A0C114DF1AEBE5528 /* Geologica_Cursive-Medium.ttf in Resources */,
+				FE0DC9F7EFB344A59A7483C9 /* Geologica_Cursive-Regular.ttf in Resources */,
+				62D95987AE544341AD65D917 /* Geologica_Cursive-SemiBold.ttf in Resources */,
+				264E82A88EDE44D1B19541BA /* Geologica_Cursive-Thin.ttf in Resources */,
+				0CBAD16E34F74A0294BF50F3 /* Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf in Resources */,
+				3FBBA07FC6A449EDBC0FF328 /* 1.png in Resources */,
+				CAD8ED40E234456491D40E54 /* 2.png in Resources */,
+				AD42A2A137BE43BF9D220A44 /* 3.png in Resources */,
+				611E2F99468549EEA6A3A68C /* 4.png in Resources */,
+				1062B9536673413ABE85BBDC /* Speech Bubble.png in Resources */,
+				209A820420C944069E71874A /* trend-up.png in Resources */,
+				7902DB4EC2FE45CBABDCA588 /* trend-up.svg in Resources */,
+				63CA190B1C624814B486C50A /* 10.png in Resources */,
+				1E037C2ACFC54531B5B811ED /* 11.png in Resources */,
+				D0275E36C3054C19B559BAE3 /* 12.png in Resources */,
+				51F9B2C6AB6E46C49C96CB48 /* 13.png in Resources */,
+				F4F439C94B764A06A8C03219 /* 14.png in Resources */,
+				F65A509519144A09BF3E1F63 /* 15.png in Resources */,
+				5651AC699AE3492BA56994E4 /* 16.png in Resources */,
+				26B5F8949BF840B19D288D61 /* 17.png in Resources */,
+				CD7FA2D1A8204283A6E6ED07 /* 18.png in Resources */,
+				15D3A77C1DF547719F6F58D4 /* 19.png in Resources */,
+				5C284178A37647A1BEF158A1 /* 20.png in Resources */,
+				3BA0C3F948C14E5880E785A7 /* 21.png in Resources */,
+				894ABE31BD50493F9E4B787A /* 22.png in Resources */,
+				5611B8B04F0A44D6ADDEEE25 /* 5.png in Resources */,
+				E2006715A11143EC898222FD /* 6.png in Resources */,
+				F910D9449C344747B8A98C11 /* 7.png in Resources */,
+				D74E191E2928468495F3C3BC /* 8.png in Resources */,
+				6E69784AD2954369A097C881 /* 9.png in Resources */,
+				0B3787A58DB5446580CB65C9 /* chaticon.png in Resources */,
+				4F775FF3386A49A5A9397B26 /* F.png in Resources */,
+				00F6DDEDEBD7485CA58A76BB /* facebooka.png in Resources */,
+				31E65E0EC72C4103A01C2C15 /* googla.png in Resources */,
+				AC8BE580403C48D5BCB69FCE /* Gpng.png in Resources */,
+				E117E3C4CAB34DC89C3D0A30 /* Show - Group - Horizontal - Active.png in Resources */,
+				B54E3799EE2B448E8849A290 /* Logo.png in Resources */,
+				03DCB6C27169477DA36AD209 /* mobile-logo.png in Resources */,
+				581C872B3C89492DBD126305 /* plus.png in Resources */,
+				B0C11F89D6AD45A9AD8ED511 /* 1.jpg in Resources */,
+				5A07A968B9D84095A43934F4 /* 2.jpg in Resources */,
+				728718BC3103439DBD007877 /* 3.jpg in Resources */,
+				C478168105BB4CCD998C9D05 /* 4.jpg in Resources */,
+				A61411A62EAE4D48B06829DC /* smartphone.png in Resources */,
+				71F2A3A07E244DAE8B89485F /* smartwatch.png in Resources */,
+				A599FF4634014377913C3186 /* 01.png in Resources */,
+				E18046B98B624EF8AE6BF43F /* 02.png in Resources */,
+				F07E050ACCE34941B0583FD3 /* 03.png in Resources */,
+				1C2E9FCECEF04A2880EAF259 /* 04.png in Resources */,
+				93F4E814BDCA483C8F37ACEE /* 05.png in Resources */,
+				3DA02C7EDD1A4B13A5205231 /* 06.png in Resources */,
+				6F1CFAD4C6FC469CB458D2A5 /* Tablets.png in Resources */,
+				2E4E53FED93D4BFAA9FFBB65 /* tag.png in Resources */,
+				5AA1C052EAB6400B9A37A313 /* Untitled.zip in Resources */,
+				4D31F7A26E0F48AA903F6B6D /* video_logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

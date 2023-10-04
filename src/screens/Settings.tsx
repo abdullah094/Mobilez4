@@ -1,7 +1,7 @@
 import {LOGOUT} from '@env';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Dimensions,
   SafeAreaView,
@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import Logout from 'react-native-vector-icons/Entypo';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
@@ -26,6 +27,7 @@ import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const Settings = ({navigation}) => {
+  const refRBSheet = useRef();
   const _accessToken = useSelector(selectAccessToken);
   const _profile = useSelector(selectProfileData);
   const dispatch = useDispatch();
@@ -33,6 +35,47 @@ const Settings = ({navigation}) => {
   const [message, setmessage] = useState('');
   const image_url = 'https://www.mobilezmarket.com/images/';
   const image_dimension = 100;
+  const [selectedOption, setSelectedOption] = useState('My Progress');
+  // const [visible, setVisible] = React.useState(false);
+
+  // const showDialog = () => setVisible(true);
+
+  // const hideDialog = () => setVisible(false);
+
+  const modalData = [
+    {
+      id: '1',
+      title: '1. How it works',
+      onPress: () => {
+        refRBSheet.current.close();
+        navigation.navigate('HowItWorkPage');
+      },
+    },
+    {
+      id: '2',
+      title: '2. My Progress',
+      onPress: () => {
+        refRBSheet.current.close();
+        navigation.navigate('ProgressGraph');
+      },
+    },
+    {
+      id: '3',
+      title: '3. Registeration Form',
+      onPress: () => {
+        refRBSheet.current.close();
+        navigation.navigate('ProgressBarComponent');
+      },
+    },
+    {
+      id: '4',
+      title: '4. History',
+      onPress: () => {
+        refRBSheet.current.close();
+        navigation.navigate('MyAds');
+      },
+    },
+  ];
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -70,6 +113,28 @@ const Settings = ({navigation}) => {
         console.log('e' + error);
         PutAccessTokenToAsync();
       });
+  };
+  console.log(_profile);
+  const handleOptionChange = option => {
+    setSelectedOption(option);
+
+    // Handle navigation or other actions based on the selected option
+    switch (option) {
+      case 'My Progress':
+        navigation.navigate('HowItWorkPage');
+        break;
+      case 'Registration Form':
+        // Handle registration form action
+        break;
+      case 'History':
+        navigation.navigate('MyAds');
+        break;
+      case 'Another Option':
+        // Handle the additional option
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -126,6 +191,7 @@ const Settings = ({navigation}) => {
                 style={{
                   backgroundColor: color.orange,
                   padding: 5,
+                  paddingHorizontal: 15,
                 }}>
                 <Text
                   style={{
@@ -163,6 +229,7 @@ const Settings = ({navigation}) => {
                 padding: 5,
                 justifyContent: 'flex-end',
                 backgroundColor: color.orange,
+                paddingHorizontal: 15,
               }}>
               <Text
                 style={{
@@ -174,7 +241,9 @@ const Settings = ({navigation}) => {
               </Text>
             </View>
           )}
-          <ScrollView contentContainerStyle={tw`bg-[#edf2f2]`}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={[tw`bg-[#edf2f2]`, {paddingHorizontal: 10}]}>
             {_accessToken ? (
               <>
                 <TouchableOpacity
@@ -222,6 +291,17 @@ const Settings = ({navigation}) => {
                   onPress={() => navigation.navigate('AccountManagement')}>
                   <Text style={[styles.button_text]}>Account Management</Text>
                 </TouchableOpacity>
+                {_profile.user_type === 'business' ? (
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={
+                      () => refRBSheet.current.open()
+                      // navigation.navigate('HowItWorkPage')
+                    }>
+                    <Text style={[styles.button_text]}>My Progress</Text>
+                  </TouchableOpacity>
+                ) : null}
+
                 {/* <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('FeatureAD')}>
@@ -283,6 +363,45 @@ const Settings = ({navigation}) => {
       </SafeAreaView>
 
       <AlertModale message={message} setMessage={setmessage} />
+
+      <View style={{height: 0}}>
+        <RBSheet
+          ref={refRBSheet}
+          closeOnDragDown={true}
+          closeOnPressMask={true}
+          closeOnPressBack={true}
+          customStyles={{
+            wrapper: {
+              backgroundColor: '#00000020',
+            },
+            draggableIcon: {
+              backgroundColor: '#000',
+            },
+          }}>
+          {modalData?.map(item => {
+            return (
+              <TouchableOpacity
+                key={item?.id}
+                style={[styles.button, {paddingHorizontal: 20}]}
+                onPress={item?.onPress}>
+                <Text style={[styles.button_text]}>{item?.title}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </RBSheet>
+      </View>
+
+      {/* <Portal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title>Alert</Dialog.Title>
+          <Dialog.Content>
+            <PaperText variant="bodyMedium">This is simple dialog</PaperText>
+          </Dialog.Content>
+          <Dialog.Actions>
+            <PaperButton onPress={hideDialog}>Done</PaperButton>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal> */}
     </>
   );
 };

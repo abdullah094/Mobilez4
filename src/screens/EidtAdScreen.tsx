@@ -100,9 +100,9 @@ const EditScreen = () => {
       setIsVerifiedStorage(false);
     }
   }, [profileData]);
-  // console.log(desc?.details?.brand);
   const [form, setForm] = useState<Form | null>(null);
 
+  console.log('form===>>>', form);
   // condition logic
   if (form?.product_type === 'Used' || form?.product_type === 'Refurbished') {
     setTimeout(() => {
@@ -239,7 +239,7 @@ const EditScreen = () => {
   }, []);
 
   const updateMyAd = () => {
-    console.log({form});
+    // console.log({form});
     axios
       .post(`https://www.mobilezmarket.com/api/update-ad/${id}`, form, {
         headers: {Authorization: `Bearer ${_accessToken}`},
@@ -247,7 +247,7 @@ const EditScreen = () => {
 
       .then(response => {
         const data = response.data;
-
+        console.log('=============>', response.data);
         if (data.status === 400) {
           let error = '';
           for (const [key, value] of Object.entries(data.errors)) {
@@ -259,7 +259,8 @@ const EditScreen = () => {
         }
       })
       .catch(error => {
-        navigation.navigate('Home');
+        // navigation.navigate('Home');
+        console.log('weee', error);
       });
   };
 
@@ -376,17 +377,15 @@ const EditScreen = () => {
                 {form.category === 'Mobile' &&
                 !form.brand?.includes('Other') ? (
                   <>
-                    <SelectList
-                      boxStyles={styles.box}
-                      defaultOption={{key: form.model, value: form.model}}
-                      inputStyles={{color: 'black'}}
-                      setSelected={val => {
-                        setIsOtherModel(false);
-                        setForm({...form, model: val});
+                    <TextInput
+                      value={form?.model}
+                      placeholderTextColor={'gray'}
+                      style={styles.box_input}
+                      onChangeText={text => {
+                        {
+                          setForm({...form, model: text});
+                        }
                       }}
-                      data={models}
-                      save="value"
-                      dropdownTextStyles={{color: 'black'}}
                     />
                   </>
                 ) : (
@@ -583,25 +582,49 @@ const EditScreen = () => {
               <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>
                 Product Image
               </Text>
-              <FlatList
-                horizontal
-                data={form?.productimages}
-                contentContainerStyle={{paddingVertical: 10, zIndex: 999}}
-                renderItem={({item}) => (
-                  <Image
-                    style={{
-                      width: 100,
-                      height: 100,
-                      marginRight: 15,
-                      zIndex: 999,
-                      marginVertical: 5,
-                    }}
-                    source={{
-                      uri: `https:/www.mobilezmarket.com/images/${item.img}`,
-                    }}
-                  />
-                )}
-              />
+              {form?.image != null ? (
+                <FlatList
+                  horizontal
+                  data={form?.image}
+                  contentContainerStyle={{paddingVertical: 10, zIndex: 999}}
+                  renderItem={({item}) => (
+                    <Image
+                      style={{
+                        width: 100,
+                        height: 100,
+                        marginRight: 15,
+                        zIndex: 999,
+                        marginVertical: 5,
+                        borderRadius: 15,
+                      }}
+                      source={{
+                        uri: `https:/www.mobilezmarket.com/images/${item.img}`,
+                      }}
+                    />
+                  )}
+                />
+              ) : (
+                <FlatList
+                  horizontal
+                  data={form?.productimages}
+                  contentContainerStyle={{paddingVertical: 10, zIndex: 999}}
+                  renderItem={({item}) => (
+                    <Image
+                      style={{
+                        width: 100,
+                        height: 100,
+                        marginRight: 15,
+                        zIndex: 999,
+                        marginVertical: 5,
+                        borderRadius: 15,
+                      }}
+                      source={{
+                        uri: `https:/www.mobilezmarket.com/images/${item.img}`,
+                      }}
+                    />
+                  )}
+                />
+              )}
 
               <Text
                 style={{marginVertical: 5, color: 'black', fontWeight: '700'}}>
@@ -612,8 +635,8 @@ const EditScreen = () => {
                 style={{
                   backgroundColor: color.orange,
                   width: width - 50,
-                  height: 50,
-                  borderRadius: 20,
+                  height: 42,
+                  borderRadius: 10,
                   marginTop: 40,
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -623,7 +646,7 @@ const EditScreen = () => {
                   style={{
                     color: color.white,
                     fontWeight: 'bold',
-                    fontSize: 15,
+                    fontSize: 16,
                   }}>
                   {uploadButton}
                 </Text>
@@ -652,8 +675,8 @@ const EditScreen = () => {
                 style={{
                   backgroundColor: color.orange,
                   width: width - 50,
-                  height: 50,
-                  borderRadius: 20,
+                  height: 42,
+                  borderRadius: 10,
                   marginTop: 40,
                   justifyContent: 'center',
                   alignItems: 'center',
@@ -662,7 +685,7 @@ const EditScreen = () => {
                   style={{
                     color: color.white,
                     fontWeight: 'bold',
-                    fontSize: 15,
+                    fontSize: 16,
                   }}>
                   {button}
                 </Text>

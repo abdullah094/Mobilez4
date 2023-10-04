@@ -74,28 +74,28 @@ export default function App() {
           tabBarIcon: ({color, size}) => (
             <View
               style={{
-                display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: 50,
-                width: 45,
-                borderRadius: 45,
-                backgroundColor: '#D9D9D9',
+                width: 50,
+                borderRadius: 100,
+
+                bottom: 10,
+                // backgroundColor: '#D9D9D9',
               }}>
               <View
                 style={{
-                  display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  borderRadius: 40,
-                  width: 43,
-                  height: 43,
-                  bottom: 5,
+                  borderRadius: 100,
+                  width: 50,
+                  height: 50,
                   backgroundColor: '#015DCF',
                 }}>
                 <Text
                   style={{
                     color: 'white',
+                    fontSize: 16,
                   }}>
                   Sell
                 </Text>

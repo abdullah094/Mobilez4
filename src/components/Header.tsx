@@ -14,30 +14,34 @@ import {selectAccessToken} from '../Redux/Slices';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
-const Header = ({title = ''}) => {
+const Header = ({title = '', icon = true}) => {
   const accessToken = useSelector(selectAccessToken);
 
   const navigation = useNavigation();
   const [logIn, setLogIn] = useState();
 
   return (
-    <View
-      style={tw`h-16 flex-row items-center justify-between px-2 bg-[#015dcf]`}>
+    <View style={tw`h-16 flex-row items-center px-2 bg-[#015dcf]`}>
       <TouchableOpacity
+        style={{position: 'absolute', left: 8}}
         onPress={() => {
-          navigation.navigate('Home');
+          navigation.goBack();
         }}>
-        <Ionicons name="ios-arrow-back-sharp" color={color.white} size={25} />
+        {icon && (
+          <Ionicons name="ios-arrow-back-sharp" color={color.white} size={27} />
+        )}
       </TouchableOpacity>
-      <Text
-        style={{
-          color: color.white,
-          textAlign: 'center',
-          fontWeight: '500',
-          flex: 1,
-        }}>
-        {title}
-      </Text>
+      <View style={{flex: 1, alignItems: 'center'}}>
+        <Text
+          style={{
+            color: color.white,
+            textAlign: 'center',
+            fontWeight: '500',
+            fontSize: 16,
+          }}>
+          {title}
+        </Text>
+      </View>
     </View>
   );
 };

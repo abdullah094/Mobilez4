@@ -1,10 +1,11 @@
 import {POST_AN_AD, SUBMIT_OTP} from '@env';
+import React, {ReactNode, useEffect, useState} from 'react';
 
 import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
 import axios, {AxiosRequestConfig} from 'axios';
 import FormData from 'form-data';
 import mime from 'mime';
-import React, {ReactNode, useEffect, useState} from 'react';
+
 import {
   ActivityIndicator,
   Alert,
@@ -124,7 +125,7 @@ const defaultData = {
   isWarrantyVisible: false,
   image: [],
   description: null,
-  accessories: ['box'],
+  accessories: [''],
   city: '',
   errorCity: '',
   isCityVisible: false,
@@ -147,13 +148,15 @@ const PostAnAd = () => {
 
   const navigation = useNavigation<IndexNavigationProps<'PostAnAd'>>();
 
-  const [button, setButton] = useState<ReactNode | String>('Save Product');
+  const [button, setButton] = useState<ReactNode | String>('Post Add');
   const [uploadButton, setUploadButton] = useState<ReactNode | String>(
     'Upload Image',
   );
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isOtp, setOTP] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [active, setActive] = useState(false);
+
   const [message, setMessage] = useState('');
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -455,6 +458,7 @@ const PostAnAd = () => {
   };
 
   const PostAdFunc = async () => {
+    setActive(true);
     setButton(<ActivityIndicator size={15} color={color.white} />);
     const data = new FormData();
 
@@ -514,7 +518,7 @@ const PostAnAd = () => {
                 acc_type: form.acc_type,
               };
               dispatch(setProfileData(newProfileData));
-              setMessage(message);
+              // setMessage(message);
               navigation.navigate('Home');
             } else {
               if (Object.entries(errors).length > 0) {
@@ -583,7 +587,7 @@ const PostAnAd = () => {
     }
     PostAdFunc();
   };
-  console.log(form);
+  // console.log(profileData);
   return (
     <SafeAreaView style={tw`h-full bg-[#015dcf]`}>
       <Header title="Post an Ad" />
@@ -714,8 +718,8 @@ const PostAnAd = () => {
               style={{
                 backgroundColor: color.orange,
                 width: width - 50,
-                height: 50,
-                borderRadius: 20,
+                height: 42,
+                borderRadius: 10,
                 marginTop: 40,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -750,12 +754,12 @@ const PostAnAd = () => {
 
             <TouchableOpacity
               onPress={validateAndSubmitForm}
-              disabled={isOtp ? true : false}
+              disabled={isOtp ? true : active ? true : false}
               style={{
                 backgroundColor: color.orange,
                 width: width - 50,
-                height: 50,
-                borderRadius: 20,
+                height: 42,
+                borderRadius: 10,
                 marginTop: 40,
                 justifyContent: 'center',
                 alignItems: 'center',

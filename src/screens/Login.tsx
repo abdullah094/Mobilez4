@@ -28,12 +28,12 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {selectAccessToken, setAccessToken} from '../Redux/Slices';
-import Header from '../components/Header';
 import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
-import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
+import {LoginButton, Settings} from 'react-native-fbsdk-next';
 import AlertModale from '../components/AlertModale';
+import Header from '../components/Header';
 import {IndexNavigationProps} from '../types';
 Settings.setAppID('686223029942369');
 Settings.initializeSDK();
@@ -97,6 +97,7 @@ const Login = () => {
       .then(response => {
         if (response.data.errors) {
           if (response.data.errors) {
+            console.log('Login Error', response.data.errors);
             if (response.data.errors.email && response.data.errors.password) {
               setMessage('Email and password are wrong');
             } else if (response.data.errors.email) {
@@ -127,6 +128,7 @@ const Login = () => {
 
       .catch(error => {
         setLoginLoader('Login');
+        console.log('Login Error', error.data.errors);
         setMessage(error.message);
       });
   };
@@ -234,15 +236,15 @@ const Login = () => {
     <>
       <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
         <View style={tw`bg-[#edf2f2] flex-1`}>
-          <ScrollView>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={tw`flex-1`}>
-              <Header title="Login" />
+              <Header title="Login" icon={false} />
               <View style={tw` flex-1 items-center justify-center`}>
                 <Image
                   style={{width: 200, height: 80, marginVertical: 30}}
                   source={require('../assets/mobile-logo.png')}
                 />
-                <View style={tw`bg-white p-6 rounded-3xl py-12 shadow-md `}>
+                <View style={tw`bg-white p-6 rounded-3xl py-8 shadow-md `}>
                   <View style={styles.input_box}>
                     <Text style={styles.box_heading}>Email</Text>
                     <TextInput
@@ -324,17 +326,17 @@ const Login = () => {
                     style={{
                       backgroundColor: color.orange,
                       width: 311,
-                      height: 50,
+                      height: 45,
                       justifyContent: 'center',
                       alignItems: 'center',
-                      borderRadius: 50,
+                      borderRadius: 10,
                       marginTop: 20,
                     }}>
                     <Text
                       style={{
                         color: color.white,
                         fontWeight: 'bold',
-                        fontSize: 20,
+                        fontSize: 18,
                       }}>
                       {loginLoader}
                     </Text>
@@ -359,7 +361,7 @@ const Login = () => {
                         tw`overflow-hidden flex items-center justify-center bg-[#1877f2]`,
                       ]}>
                       <LoginButton
-                        style={tw`w-full h-full ml-4`}
+                        style={tw`w-full h-full ml-3`}
                         onLoginFinished={(error, result) => {
                           if (error) {
                             console.log('login has error: ' + error);
@@ -377,18 +379,23 @@ const Login = () => {
                       />
                     </View>
 
-                    <View style={[styles.social_buttons, tw`bg-[#DC4E41]`]}>
+                    <View
+                      style={[
+                        styles.social_buttons,
+                        {borderWidth: 0.3, backgroundColor: 'white'},
+                      ]}>
                       <TouchableOpacity
                         onPress={() => {
                           setSocialLoginLoader(true);
                           _signIn();
                         }}>
                         {socialLoginLoader ? (
-                          <ActivityIndicator size="small" color="white" />
+                          <ActivityIndicator size="small" color="red" />
                         ) : (
                           <Image
-                            style={tw`h-4 w-4`}
-                            source={require('../assets/Gpng.png')}
+                            style={tw`h-6 w-6`}
+                            resizeMode="contain"
+                            source={require('../assets/googleIcon.png')}
                           />
                         )}
                       </TouchableOpacity>
@@ -398,13 +405,14 @@ const Login = () => {
 
                 {/* <AppleLoginButton /> */}
                 <View
-                  style={tw`w-full flex-row mt-14 items-center justify-center`}>
-                  <Text style={{color: 'black'}}>Don't have and account? </Text>
+                  style={tw`w-full flex-row mt-5 mb-10 items-center justify-center`}>
+                  <Text style={{color: 'black'}}>Don't have an account? </Text>
                   <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate('SignUp', {city: 'Karachi'})
+                    onPress={
+                      () => navigation.navigate('SignUp', {city: 'Karachi'})
+                      // navigation.navigate('OTPScreen', {phone: '03363766006'})
                     }>
-                    <Text style={tw`text-[#3B5998]`}>Sign Up</Text>
+                    <Text style={{color: color.blue}}>Sign Up</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -421,14 +429,14 @@ export default Login;
 
 const styles = StyleSheet.create({
   input_box: {
-    marginTop: 15,
+    marginTop: 10,
   },
   input: {
     justifyContent: 'flex-end',
     paddingHorizontal: 1,
     color: color.black,
 
-    height: 40,
+    height: 35,
     borderBottomWidth: 1,
     borderColor: color.gray,
     backgroundColor: 'white',
@@ -440,8 +448,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'black',
     fontWeight: 'bold',
-    marginBottom: 5,
+    // marginBottom: 5,
     marginLeft: 2,
   },
-  social_buttons: tw`bg-[#3B5998] h-11 w-11 mx-4 rounded-full top--6 justify-center items-center flex-row `,
+  social_buttons: tw`h-11 w-11 mx-4 rounded-full top--6 justify-center items-center flex-row `,
 });

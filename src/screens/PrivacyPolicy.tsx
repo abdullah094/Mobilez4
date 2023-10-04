@@ -17,7 +17,7 @@ const PrivacyPolicy = () => {
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Header title="Privacy And Policy" />
           <View
             style={{

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -102,7 +102,6 @@ const Profile = ({navigation}) => {
             }),
           );
         }
-
         setLoading(false);
       })
       .catch(error => {
@@ -112,7 +111,9 @@ const Profile = ({navigation}) => {
       });
   };
   if (state == null) return <ActivityIndicator />;
-
+  const firstNameTextInputRef = useRef<TextInput | null>(null);
+  const lastNameTextInputRef = useRef<TextInput | null>(null);
+  const emailTextInputRef = useRef<TextInput | null>(null);
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
@@ -144,41 +145,49 @@ const Profile = ({navigation}) => {
               borderColor: 'orange',
               backgroundColor: 'white',
               bottom: 50,
-              left: 10,
             }}
           />
           <Text style={styles.h1}>{profile.first_name}</Text>
           <Text style={styles.h1}>{profile.last_name}</Text>
           <View style={styles.box}>
-            <TextInput
-              disabled={!state.first_name_Enabled}
-              mode="outlined"
-              label="First name"
-              placeholder={profile.first_name}
-              placeholderTextColor={'black'}
-              value={state.first_name}
-              onChangeText={text =>
-                setState(prev => ({...prev, first_name: text}))
-              }
-              right={
-                <TextInput.Icon
-                  icon="pencil"
-                  iconColor="black"
-                  onPress={() =>
-                    setState(prev => ({
-                      ...prev,
-                      first_name_Enabled: !prev.first_name_Enabled,
-                    }))
-                  }
-                />
-              }
-            />
+            <View style={styles.box}>
+              <TextInput
+                disabled={!state.first_name_Enabled}
+                mode="outlined"
+                ref={firstNameTextInputRef} // Assign the ref to the TextInput
+                label="First name"
+                placeholder={profile.first_name}
+                keyboardType={'ascii-capable'}
+                placeholderTextColor={'black'}
+                value={state.first_name}
+                onChangeText={text =>
+                  setState(prev => ({...prev, first_name: text}))
+                }
+                right={
+                  <TextInput.Icon
+                    icon="pencil"
+                    iconColor="black"
+                    onPress={() => {
+                      setState(prev => ({
+                        ...prev,
+                        first_name_Enabled: !prev.first_name_Enabled,
+                      }));
+                      if (firstNameTextInputRef.current) {
+                        firstNameTextInputRef.current.focus(); // Focus the TextInput when the pencil icon is pressed
+                      }
+                    }}
+                  />
+                }
+              />
+            </View>
           </View>
           <View style={styles.box}>
             <TextInput
               disabled={!state.last_name_Enabled}
               mode="outlined"
               label="Last name"
+              ref={lastNameTextInputRef}
+              keyboardType={'ascii-capable'}
               placeholder={profile.last_name}
               placeholderTextColor={'black'}
               value={state.last_name}
@@ -189,21 +198,26 @@ const Profile = ({navigation}) => {
                 <TextInput.Icon
                   icon="pencil"
                   iconColor="black"
-                  onPress={() =>
+                  onPress={() => {
                     setState(prev => ({
                       ...prev,
                       last_name_Enabled: !prev.last_name_Enabled,
-                    }))
-                  }
+                    }));
+                    if (lastNameTextInputRef.current) {
+                      lastNameTextInputRef.current.focus(); // Focus the TextInput when the pencil icon is pressed
+                    }
+                  }}
                 />
               }
             />
           </View>
+
           <View style={styles.box}>
             <TextInput
               disabled={!state.email_Enabled}
               mode="outlined"
               label="Email"
+              ref={emailTextInputRef} // Assign the ref to the TextInput
               placeholder={profile.email}
               placeholderTextColor={'black'}
               value={state.email}
@@ -212,12 +226,15 @@ const Profile = ({navigation}) => {
                 <TextInput.Icon
                   icon="pencil"
                   iconColor="black"
-                  onPress={() =>
+                  onPress={() => {
                     setState(prev => ({
                       ...prev,
                       email_Enabled: !prev.email_Enabled,
-                    }))
-                  }
+                    }));
+                    if (emailTextInputRef.current) {
+                      emailTextInputRef.current.focus(); // Focus the TextInput when the pencil icon is pressed
+                    }
+                  }}
                 />
               }
             />
@@ -280,5 +297,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10, // Adjust the left position as needed
     bottom: 15, // Adjust the top position as needed
+  },
+  textInput: {
+    backgroundColor: 'white', // Set the background color to transparent
   },
 });

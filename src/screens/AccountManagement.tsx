@@ -35,6 +35,7 @@ const AccountManagement = () => {
 
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [email, setEmail] = useState<string>();
+  const [message, setMessage] = useState('');
   const openURI = async () => {
     const url = 'https://www.mobilezmarket.com/manage-account';
     const supported = await Linking.canOpenURL(url); //To check if URL is supported or not.
@@ -91,8 +92,7 @@ const AccountManagement = () => {
         },
       )
       .then(response => {
-        console.log('Thi is APi is working ');
-        <AlertModale message={response.data.message} />;
+        setMessage('The user has been Deleted');
         navigation.navigate('Login');
         PutAccessTokenToAsync();
       })
@@ -169,6 +169,7 @@ const AccountManagement = () => {
               </Text>
             </TouchableOpacity>
           </View>
+          <AlertModale message={message} setMessage={setMessage} />
         </ScrollView>
       </View>
     </SafeAreaView>

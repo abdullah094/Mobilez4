@@ -61,14 +61,14 @@ const WishlistComponent = () => {
             <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
               <ListIcon
                 name="list"
-                color={Grid ? color.black : color.red}
+                color={Grid ? color.black : color.blue}
                 size={30}
               />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => setGrid(true)}>
               <Entypo
                 name="grid"
-                color={Grid ? color.red : color.black}
+                color={Grid ? color.blue : color.black}
                 size={30}
               />
             </TouchableOpacity>
@@ -84,7 +84,9 @@ const WishlistComponent = () => {
                 paddingBottom: 100,
               }}
               numColumns={2}
-              renderItem={({item}) => <GridItem item={item}></GridItem>}
+              renderItem={({item}) => (
+                <GridItem hideIcon={true} item={item}></GridItem>
+              )}
             />
           ) : (
             <FlatList
@@ -97,7 +99,9 @@ const WishlistComponent = () => {
                 paddingBottom: 100,
               }}
               numColumns={1}
-              renderItem={({item}) => <ListItem item={item}></ListItem>}
+              renderItem={({item}) => (
+                <ListItem hideIcon={true} item={item}></ListItem>
+              )}
             />
           )}
         </>

@@ -1,0 +1,317 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/ads/1.png",
+      "sha1": "a8d6935e10c9a84fc8393c045b28a8f065bfa692"
+    },
+    {
+      "path": "src/assets/ads/2.png",
+      "sha1": "d4933fb60ef6e965536c0d35e8cbdeab961bcb7a"
+    },
+    {
+      "path": "src/assets/ads/3.png",
+      "sha1": "6086ae3253eee95280455a0e1d5eb535a2dc97af"
+    },
+    {
+      "path": "src/assets/ads/4.png",
+      "sha1": "f28618a019c92be8632674d37cf782b06a16a02e"
+    },
+    {
+      "path": "src/assets/bottom nav 9/Speech Bubble.png",
+      "sha1": "02f6d5a62e6e0045d404a8eccbc742877d30c8b0"
+    },
+    {
+      "path": "src/assets/bottom nav 9/vuesax/linear/trend-up.png",
+      "sha1": "0e323b91af3084ec7febea64a88e6cb3e0e44cd7"
+    },
+    {
+      "path": "src/assets/bottom nav 9/vuesax/linear/trend-up.svg",
+      "sha1": "22ad199cdefec9a131f0dddc875da8602589b5ef"
+    },
+    {
+      "path": "src/assets/brand_logos/10.png",
+      "sha1": "7825f8836846c1d1a79d355868a92ee9a70a51d4"
+    },
+    {
+      "path": "src/assets/brand_logos/11.png",
+      "sha1": "78bfb26bfefd48ef311b7036c7494c1db2cc2fc3"
+    },
+    {
+      "path": "src/assets/brand_logos/12.png",
+      "sha1": "dda5cb218ec8700fcc722645bd75d099b74bcbcb"
+    },
+    {
+      "path": "src/assets/brand_logos/13.png",
+      "sha1": "cef6a790f1467d33f536288f14e077beb2c1b49d"
+    },
+    {
+      "path": "src/assets/brand_logos/14.png",
+      "sha1": "3210a57accfe1ef45d58c69312403bf6ff463770"
+    },
+    {
+      "path": "src/assets/brand_logos/15.png",
+      "sha1": "6bbc83f99e25678f9b3e8400c587befbcad275f4"
+    },
+    {
+      "path": "src/assets/brand_logos/16.png",
+      "sha1": "f249d0a54ffd5bb2db736accc44634113e9d08b8"
+    },
+    {
+      "path": "src/assets/brand_logos/17.png",
+      "sha1": "fc718088e8b3a2b7355f2bc658cb1d993f097771"
+    },
+    {
+      "path": "src/assets/brand_logos/18.png",
+      "sha1": "9fac232a86bc2f39d3ae6be67eb309d64b3485a2"
+    },
+    {
+      "path": "src/assets/brand_logos/19.png",
+      "sha1": "39c9d9b2814900a29a50d618a7c17f6a3929bb47"
+    },
+    {
+      "path": "src/assets/brand_logos/20.png",
+      "sha1": "365d476c2c64a96a4e01a1e18d0083cd9e0f469f"
+    },
+    {
+      "path": "src/assets/brand_logos/21.png",
+      "sha1": "b54a16cb1fa3b5b64826de839d82c47998c5bf49"
+    },
+    {
+      "path": "src/assets/brand_logos/22.png",
+      "sha1": "ba0ef90668aecfc2b10a9f507a3ab96d70dd1fd0"
+    },
+    {
+      "path": "src/assets/brand_logos/5.png",
+      "sha1": "66a72d5c1994751b2c4fdede7eba88263ef3a16c"
+    },
+    {
+      "path": "src/assets/brand_logos/6.png",
+      "sha1": "48a8f7168e79866fe3b1401e4539ffd603aabbe5"
+    },
+    {
+      "path": "src/assets/brand_logos/7.png",
+      "sha1": "e97f0a869acdb8a4d1e4ce7d509cc5a55a09ccdd"
+    },
+    {
+      "path": "src/assets/brand_logos/8.png",
+      "sha1": "7558490b3b290e89c2218ec6d6f3c52ffdd0aeb5"
+    },
+    {
+      "path": "src/assets/brand_logos/9.png",
+      "sha1": "9259767b366cb4dd4f4803e3ebbd61bc74e3364d"
+    },
+    {
+      "path": "src/assets/chaticon.png",
+      "sha1": "02f6d5a62e6e0045d404a8eccbc742877d30c8b0"
+    },
+    {
+      "path": "src/assets/F.png",
+      "sha1": "e952555c4c3fda93e6b8e7a0fc59d0b8f8a8bcaf"
+    },
+    {
+      "path": "src/assets/facebooka.png",
+      "sha1": "f2c1bc67d9d97d4635d20ad62f4c296956b962c8"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-Black.ttf",
+      "sha1": "455882065118328f3c4353d015d902f58b8819db"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-Bold.ttf",
+      "sha1": "6048fa242c2589b936ee7611209c542cd5c92f7a"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-ExtraBold.ttf",
+      "sha1": "fe2aa9319aaf93ea79aa61220df8504c91638a70"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-ExtraLight.ttf",
+      "sha1": "a68f6a210288e5cce282977649147698394ca76b"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-Light.ttf",
+      "sha1": "5e63b9333e5965d2c88e458409e703cb55f0b60e"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-Medium.ttf",
+      "sha1": "378c4e454d064cb6f31220c91e7fefe8bd37ea1f"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-Regular.ttf",
+      "sha1": "095582fb5ad0ca02d463b3914a2d778a21abd285"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-SemiBold.ttf",
+      "sha1": "c1868ec52caeb6e164776af101c26f7d5b7e8377"
+    },
+    {
+      "path": "src/assets/fonts/Geologica-Thin.ttf",
+      "sha1": "329053a2a2b338cc17b0f463b26dbf1980895993"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-Black.ttf",
+      "sha1": "a5ed4f0d15f4708e7250be66d3cebbdf3a3d94bc"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-Bold.ttf",
+      "sha1": "c42d7a4427a5e73e52d4c09c74366a6c340c36ef"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-ExtraBold.ttf",
+      "sha1": "cb2949c8f3ab3e06b4f3dab3f7d86645c5aab508"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-ExtraLight.ttf",
+      "sha1": "038b06cb13a2d8a5166e976dbc00fb4a8ea4ad8d"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-Light.ttf",
+      "sha1": "602c7394ce88aa6eb2b1142eabf0705395407d60"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-Medium.ttf",
+      "sha1": "b1ecce1ec03de732de7dae624f3da3c1ce7bdf75"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-Regular.ttf",
+      "sha1": "10ff53f4fc18556c0f9b02ca54110d9f8d70180a"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-SemiBold.ttf",
+      "sha1": "0c5e15aef647ba7938fa4e47f113988abf736d17"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Auto-Thin.ttf",
+      "sha1": "00914d2126e0fab488fb2d622a67e0a6c5518617"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-Black.ttf",
+      "sha1": "9e09a107e87b28a57355e6ee75ec28f7a2ee81dd"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-Bold.ttf",
+      "sha1": "7ac9083682051b65a2c1db2478b49b9bcb4e7318"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-ExtraBold.ttf",
+      "sha1": "6d4f95075966109bb3170ecfe1128f2716783a33"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-ExtraLight.ttf",
+      "sha1": "760cfddece8fbd501958c1515c0922672bf48e16"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-Light.ttf",
+      "sha1": "488ebb808af360be2683fbd81c5e85a984247fc6"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-Medium.ttf",
+      "sha1": "bc23c61991056b423421c55b13e3d311f7865cc6"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-Regular.ttf",
+      "sha1": "2c0a386bdbe6893e8a11e97eede53db4ba117a6a"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-SemiBold.ttf",
+      "sha1": "2fd616a64dc75181e88d7aeb81d1c4542ebde9eb"
+    },
+    {
+      "path": "src/assets/fonts/Geologica_Cursive-Thin.ttf",
+      "sha1": "b984854364090c3a423bd23fb1762ecc2c426027"
+    },
+    {
+      "path": "src/assets/Geologica-VariableFont_CRSV,SHRP,slnt,wght.ttf",
+      "sha1": "df8594eeaf3e54021379a962cc9c5fff9b66b879"
+    },
+    {
+      "path": "src/assets/googla.png",
+      "sha1": "469ca17fd482a2d339f2843f6492227df67619e6"
+    },
+    {
+      "path": "src/assets/Gpng.png",
+      "sha1": "6eb01d2f8b7904860a14cc857952e87d515bb493"
+    },
+    {
+      "path": "src/assets/Item/Button/Show - Group - Horizontal - Active.png",
+      "sha1": "59960f059e3d67e609122caf271cac5b1b24ff28"
+    },
+    {
+      "path": "src/assets/Logo.png",
+      "sha1": "6d02c6146bcc7082218b533de7c0b0365017f393"
+    },
+    {
+      "path": "src/assets/mobile-logo.png",
+      "sha1": "9d02dfb7cbf09d25bf7ccc78b9be659958f148e4"
+    },
+    {
+      "path": "src/assets/plus.png",
+      "sha1": "c0907801d6e2497f8954ad73f9178fb4b3ce7e5c"
+    },
+    {
+      "path": "src/assets/slider-pics/1.jpg",
+      "sha1": "43a77833fb6387a223fe38de5c83c4070ad9b0da"
+    },
+    {
+      "path": "src/assets/slider-pics/2.jpg",
+      "sha1": "23ed463bcf31fdb4bd308bd59fd401fe224686e2"
+    },
+    {
+      "path": "src/assets/slider-pics/3.jpg",
+      "sha1": "3d635880af46ec7a0bc64eec064b90adc55410f4"
+    },
+    {
+      "path": "src/assets/slider-pics/4.jpg",
+      "sha1": "677939c692e72510fcea0f4d90bfb7c79801aaeb"
+    },
+    {
+      "path": "src/assets/smartphone.png",
+      "sha1": "dbc5eb10dabc0a66d28da077afbcbb661b44a2c2"
+    },
+    {
+      "path": "src/assets/smartwatch.png",
+      "sha1": "19e52827a1dd50517fb3f3c11b374d8e4caa5da3"
+    },
+    {
+      "path": "src/assets/tabIcons/01.png",
+      "sha1": "368d80aeffb21ed508942a69a129a935ec8f2e2d"
+    },
+    {
+      "path": "src/assets/tabIcons/02.png",
+      "sha1": "c2bf3741273cad137fd21068df9aaf67063e3486"
+    },
+    {
+      "path": "src/assets/tabIcons/03.png",
+      "sha1": "d37fd3dafece94cf1bdd912b81f9efaecc8906c9"
+    },
+    {
+      "path": "src/assets/tabIcons/04.png",
+      "sha1": "63a3026621789cd732e54d5eee34be239ac72c26"
+    },
+    {
+      "path": "src/assets/tabIcons/05.png",
+      "sha1": "03cdcb5f4634aad90804a15591f27ac016efd9cb"
+    },
+    {
+      "path": "src/assets/tabIcons/06.png",
+      "sha1": "737921f3c6235e849a88f4ba036d9620192bae4a"
+    },
+    {
+      "path": "src/assets/Tablets.png",
+      "sha1": "48f93cc35d553c4bb5fb69c872a5eaa32c27d4de"
+    },
+    {
+      "path": "src/assets/tag.png",
+      "sha1": "02c14183cf8ef6e86ae0162cee286d8155deb4df"
+    },
+    {
+      "path": "src/assets/Untitled.zip",
+      "sha1": "f793fbb7cd46fe35a4c075affb66df7329660dc9"
+    },
+    {
+      "path": "src/assets/video_logo.png",
+      "sha1": "a4326fd2b1e8ca818a7c59ea153194b7c605ab62"
+    }
+  ]
+}

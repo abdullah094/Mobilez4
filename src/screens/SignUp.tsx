@@ -4,7 +4,6 @@ import axios from 'axios';
 import React, {useState} from 'react';
 import {
   ActivityIndicator,
-  Alert,
   Dimensions,
   Pressable,
   SafeAreaView,
@@ -20,9 +19,9 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {selectAccessToken, setAccessToken} from '../Redux/Slices';
+import AlertModale from '../components/AlertModale';
 import Header from '../components/Header';
 import {color} from '../constants/Colors';
-
 const {width, height} = Dimensions.get('window');
 const SignUp = ({navigation, route}) => {
   const {city} = route.params;
@@ -30,6 +29,7 @@ const SignUp = ({navigation, route}) => {
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
   const [check, setCheck] = useState(false);
+  const [message, setMessage] = useState('');
   const [registerButtonText, setRegisterButtonText] = useState<any>('Register');
   const [showDropDown, setShowDropDown] = useState(false);
   const [formData, setFormData] = useState({
@@ -37,7 +37,7 @@ const SignUp = ({navigation, route}) => {
     last_name: '',
     email: '',
     phone: '',
-    city: 'Karachi',
+    city: '',
     acc_type: '',
     password: '',
     conf_password: '',
@@ -276,172 +276,6 @@ const SignUp = ({navigation, route}) => {
     {label: 'Makhdumpur', value: 'Makhdumpur'},
     {label: 'Khurrianwala', value: 'Khurrianwala'},
     {label: 'Gurjaani', value: 'Gurjaani'},
-    {label: 'Ambrolauri', value: 'Ambrolauri'},
-    {label: 'Oni', value: 'Oni'},
-    {label: 'Akhalkalaki', value: 'Akhalkalaki'},
-    {label: 'Batumi', value: 'Batumi'},
-    {label: 'Kobuleti', value: 'Kobuleti'},
-    {label: 'Kaspi', value: 'Kaspi'},
-    {label: 'Ninotsminda', value: 'Ninotsminda'},
-    {label: 'Sachkhere', value: 'Sachkhere'},
-    {label: 'Chiatura', value: 'Chiatura'},
-    {label: 'Tqibuli', value: 'Tqibuli'},
-    {label: 'Lentekhi', value: 'Lentekhi'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Ambrolauri', value: 'Ambrolauri'},
-    {label: 'Oni', value: 'Oni'},
-    {label: 'Akhalkalaki', value: 'Akhalkalaki'},
-    {label: 'Bakuriani', value: 'Bakuriani'},
-    {label: 'Borjomi', value: 'Borjomi'},
-    {label: 'Bakuriani', value: 'Bakuriani'},
-    {label: 'Ambrolauri', value: 'Ambrolauri'},
-    {label: 'Oni', value: 'Oni'},
-    {label: 'Akhalkalaki', value: 'Akhalkalaki'},
-    {label: 'Bakuriani', value: 'Bakuriani'},
-    {label: 'Borjomi', value: 'Borjomi'},
-    {label: 'Bakuriani', value: 'Bakuriani'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Kaspi', value: 'Kaspi'},
-    {label: 'Ninotsminda', value: 'Ninotsminda'},
-    {label: 'Sachkhere', value: 'Sachkhere'},
-    {label: 'Chiatura', value: 'Chiatura'},
-    {label: 'Tqibuli', value: 'Tqibuli'},
-    {label: 'Lentekhi', value: 'Lentekhi'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
-    {label: 'Keda', value: 'Keda'},
-    {label: 'Shuakhevi', value: 'Shuakhevi'},
-    {label: 'Khoni', value: 'Khoni'},
-    {label: 'Senaki', value: 'Senaki'},
-    {label: 'Poti', value: 'Poti'},
-    {label: 'Samtredia', value: 'Samtredia'},
-    {label: 'Lanchkhuti', value: 'Lanchkhuti'},
-    {label: 'Abasha', value: 'Abasha'},
-    {label: 'Martvili', value: 'Martvili'},
-    {label: 'Chkhorotsku', value: 'Chkhorotsku'},
-    {label: 'Tsalenjikha', value: 'Tsalenjikha'},
   ];
   const validateForm = () => {
     const errors = {};
@@ -493,12 +327,16 @@ const SignUp = ({navigation, route}) => {
       try {
         const response = await axios.post(REGISTER, formData);
         if (response.data.errors) {
-          console.log(response.data.errors);
-          Alert.alert(JSON.stringify(response.data));
-        } else {
+          // console.log(errors);
+          // Alert.alert(JSON.stringify(response.data.errors));
+          setMessage(response.data.errors);
+        } else if (response.data.status == 200) {
           console.log(response.data);
+          // setMessage(response.data);
           dispatch(setAccessToken(response.data.token));
           PutAccessTokenToAsync(response.data.token);
+        } else {
+          console.log('Exceptionnn', response);
         }
       } catch (error) {
         console.log(error);
@@ -511,9 +349,8 @@ const SignUp = ({navigation, route}) => {
   };
   const PutAccessTokenToAsync = async accessToken => {
     try {
-      await AsyncStorage.setItem('@user_token', accessToken);
       navigation.navigate('OTPScreen', {phone: formData.phone});
-      console.log(formData.phone);
+      await AsyncStorage.setItem('@user_token', accessToken);
     } catch (e) {
       console.log('Error saving Data to AsyncStorage:', e);
     }
@@ -525,7 +362,7 @@ const SignUp = ({navigation, route}) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={tw`h-full items-center `}>
             <Header title="SignUp" />
-            <Text style={tw`py-10 pt-20  text-black text-2xl  mx-10`}>
+            <Text style={tw`py-5 pt-10  text-black text-2xl  mx-10 font-bold`}>
               Create your <Text style={tw`font-bold`}>Account</Text>
             </Text>
 
@@ -655,6 +492,21 @@ const SignUp = ({navigation, route}) => {
                   />
                 </>
               )}
+              <View style={tw`mt-1 `}>
+                <SelectList
+                  placeholder="City"
+                  inputStyles={{color: 'black'}}
+                  boxStyles={styles.border_style}
+                  maxHeight={100}
+                  setSelected={val => {
+                    setFormData({...formData, city: val});
+                  }}
+                  data={CityData}
+                  save="value"
+                  dropdownTextStyles={{color: 'black'}}
+                  dropdownStyles={{borderCurve: 'continuous'}}
+                />
+              </View>
 
               <View
                 style={{
@@ -662,39 +514,42 @@ const SignUp = ({navigation, route}) => {
                   width: width - 40,
                   marginTop: 30,
                   alignItems: 'center',
+
+                  justifyContent: 'center',
                 }}>
                 <Pressable
                   onPress={() => setCheck(!check)}
                   style={{
                     marginLeft: 10,
                     borderWidth: 1,
-                    width: 25,
-                    height: 25,
+                    width: 22,
+                    height: 22,
+                    // alignSelf: 'center',
                     justifyContent: 'center',
                     alignItems: 'center',
                     borderRadius: 5,
                   }}>
                   {check && (
-                    <MaterialIcon name="check" color={color.orange} size={23} />
+                    <MaterialIcon name="check" color={color.orange} size={20} />
                   )}
                 </Pressable>
                 <Text style={{marginLeft: 5, color: color.black}}>
-                  I have read and accept terms and conditions.
+                  I accept and agree to terms and conditions
                 </Text>
               </View>
               <TouchableOpacity
                 disabled={!check}
                 onPress={fetchData}
                 style={{
-                  height: 50,
+                  height: 42,
                   backgroundColor: color.orange,
                   marginTop: 30,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  borderRadius: 25,
+                  borderRadius: 10,
                 }}>
                 <Text
-                  style={{color: 'white', fontWeight: 'bold', fontSize: 20}}>
+                  style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>
                   {registerButtonText}
                 </Text>
               </TouchableOpacity>
@@ -711,6 +566,7 @@ const SignUp = ({navigation, route}) => {
           </View>
         </ScrollView>
       </View>
+      <AlertModale message={message} setMessage={setMessage} />
     </SafeAreaView>
   );
 };
@@ -729,9 +585,9 @@ const styles = StyleSheet.create({
   },
   box_heading: {
     color: color.black,
-    fontWeight: '500',
+    fontWeight: 'bold',
     fontSize: 12,
-    marginLeft: 5,
+    marginLeft: 2,
   },
   box_input: {
     height: 50,

@@ -46,7 +46,7 @@ const MyAds = ({navigation, isActive}) => {
   const [selectedAd, setselectedAd] = useState<number | null>(null);
   const [soldDisabled, setSoldDisabled] = useState<boolean>(false);
   const [deleteModale, setDeleteModale] = useState<boolean>(false);
-  const [adsCount, setAdsCount] = useState();
+  const [adsCount, setAdsCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const DAILY_GOAL = 3; // 3 ads per day
   const MONTHLY_GOAL = 90; // 90 ads per month
@@ -77,7 +77,7 @@ const MyAds = ({navigation, isActive}) => {
   useEffect(() => {
     myAdd();
     setLoading(true);
-  }, [_accessToken, route]);
+  }, []);
 
   const soldFunc = useCallback(() => {
     axios
@@ -229,23 +229,35 @@ const MyAds = ({navigation, isActive}) => {
               </View>
             ) : (
               <>
-                <View style={tw`flex-row items-center justify-end m-6`}>
-                  <TouchableOpacity
-                    style={tw`px-2`}
-                    onPress={() => setGrid(false)}>
-                    <ListIcon
-                      name="list"
-                      color={Grid ? color.black : color.blue}
-                      size={30}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setGrid(true)}>
-                    <Entypo
-                      name="grid"
-                      color={Grid ? color.blue : color.black}
-                      size={30}
-                    />
-                  </TouchableOpacity>
+                <View
+                  style={[
+                    tw`flex-row items-center m-3`,
+                    {paddingHorizontal: 10, justifyContent: 'space-between'},
+                  ]}>
+                  <View>
+                    <Text
+                      style={{color: 'black', fontWeight: '600', fontSize: 18}}>
+                      Showing Results ({adsCount})
+                    </Text>
+                  </View>
+                  <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity
+                      style={tw`px-2`}
+                      onPress={() => setGrid(false)}>
+                      <ListIcon
+                        name="list"
+                        color={Grid ? color.black : color.blue}
+                        size={30}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setGrid(true)}>
+                      <Entypo
+                        name="grid"
+                        color={Grid ? color.blue : color.black}
+                        size={30}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 {Grid ? (
                   <FlatList
@@ -343,6 +355,7 @@ const MyAds = ({navigation, isActive}) => {
           setAlert={setModalVisible}
         />
       )}
+
       {deleteModale && (
         <AdDeleteModaleScreen
           id={selectedAd}

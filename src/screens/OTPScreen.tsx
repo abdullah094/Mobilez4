@@ -14,6 +14,7 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {selectAccessToken, setProfileData} from '../Redux/Slices';
 import AlertModale from '../components/AlertModale';
+import Header from '../components/Header';
 import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
@@ -121,24 +122,44 @@ const OTPScreen = ({route, navigation}) => {
           />
         </Pressable> */}
       {/* </View> */}
+      <Header title="OTP" />
+
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          paddingTop: 50,
-          paddingHorizontal: 25,
+          // alignItems: 'center',
+          paddingTop: 30,
+          paddingHorizontal: 15,
         }}>
-        <Text
+        <View style={{marginTop: 20}}>
+          <Text
+            style={{
+              color: color.black,
+              fontWeight: 'bold',
+              fontSize: 24,
+            }}>
+            OTP Verification
+          </Text>
+          <Text
+            style={{
+              color: color.black,
+              fontSize: 16,
+              marginTop: 5,
+            }}>
+            Enter the OTP sent on your number for verification
+          </Text>
+        </View>
+        {/* <Text
           style={{
-            paddingHorizontal: 40,
+            // paddingHorizontal: 40,
             fontWeight: 'bold',
             color: color.black,
             fontSize: 20,
-            textAlign: 'center',
+            // textAlign: 'center',
             marginTop: 20,
           }}>
-          Enter the OTP code we sent on your Phone
-        </Text>
+          OTP Verification
+        </Text> */}
         {/* <TextInput
           value={otp.otp_code}
           onChangeText={text => setOtp({...otp, otp_code: text})}
@@ -157,40 +178,42 @@ const OTPScreen = ({route, navigation}) => {
           keyboardAppearance="default"
           keyboardType="number-pad"
         /> */}
-        <OTPInputView
-          style={{width: '90%', height: 250}}
-          pinCount={6}
-          // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
-          // onCodeChanged = {code => { this.setState({code})}}
-          autoFocusOnLoad
-          codeInputFieldStyle={styles.underlineStyleBase}
-          codeInputHighlightStyle={styles.underlineStyleHighLighted}
-          onCodeFilled={code => {
-            console.log(`Code is ${code}, you are good to go!`);
-            setOtp({...otp, otp_code: code});
-          }}
-        />
-        <View
-          style={{
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}>
-          <Text>{" Did'nt recieve OTP? "}</Text>
-          <TouchableOpacity activeOpacity={0.7} onPress={ResendOTP}>
-            <Text
-              style={{
-                fontWeight: '600',
-                color: color.blue,
-              }}>
-              {resend}
-            </Text>
-          </TouchableOpacity>
+        <View style={{alignItems: 'center'}}>
+          <OTPInputView
+            style={{width: '90%', height: 250}}
+            pinCount={6}
+            // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
+            // onCodeChanged = {code => { this.setState({code})}}
+            autoFocusOnLoad
+            codeInputFieldStyle={styles.underlineStyleBase}
+            codeInputHighlightStyle={styles.underlineStyleHighLighted}
+            onCodeFilled={code => {
+              console.log(`Code is ${code}, you are good to go!`);
+              setOtp({...otp, otp_code: code});
+            }}
+          />
+          <View
+            style={{
+              alignItems: 'center',
+              flexDirection: 'row',
+            }}>
+            <Text>{" Did'nt recieve OTP? "}</Text>
+            <TouchableOpacity activeOpacity={0.7} onPress={ResendOTP}>
+              <Text
+                style={{
+                  fontWeight: '600',
+                  color: color.blue,
+                }}>
+                {resend}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
         <TouchableOpacity
           onPress={Submit}
           style={{
             width: '100%',
-            height: 50,
+            height: 42,
             borderRadius: 10,
             backgroundColor: color.orange,
             justifyContent: 'center',

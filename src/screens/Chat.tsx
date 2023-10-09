@@ -204,7 +204,7 @@ const ChatScreen = ({navigation}) => {
   }, [route, accessToken]);
   return (
     <SafeAreaView style={tw`flex-1`}>
-      {contacts.length === 0 && accessToken && (
+      {contacts?.length === 0 && accessToken && (
         <View
           style={{
             flex: 1,

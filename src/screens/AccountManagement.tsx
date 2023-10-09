@@ -103,15 +103,22 @@ const AccountManagement = () => {
   };
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
-      <View style={tw`bg-[#edf2f2] flex-1`}>
+      <Header title="Account Management" />
+
+      <View
+        style={[
+          tw`bg-[#edf2f2] flex-1`,
+          {
+            paddingHorizontal: 10,
+          },
+        ]}>
         <ScrollView>
-          <Header title="Account Management" />
           <View
             style={{
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{}}>
+            <View>
               <Text
                 style={{
                   padding: 10,
@@ -123,7 +130,8 @@ const AccountManagement = () => {
               </Text>
               <Text
                 style={{
-                  padding: 10,
+                  marginTop: 20,
+                  paddingHorizontal: 10,
                   fontWeight: '400',
                   color: 'black',
                 }}>
@@ -131,7 +139,7 @@ const AccountManagement = () => {
               </Text>
               <Text
                 style={{
-                  padding: 10,
+                  paddingHorizontal: 10,
                   fontWeight: '400',
                   color: 'black',
                 }}>
@@ -143,8 +151,11 @@ const AccountManagement = () => {
             style={{
               justifyContent: 'center',
               paddingHorizontal: 10,
+              marginTop: 20,
             }}>
-            <Text style={{color: 'black', fontSize: 12}}>Enter Your Email</Text>
+            <Text style={{color: 'black', fontSize: 14, fontWeight: 'bold'}}>
+              Enter Your Email
+            </Text>
             <View>
               <TextInput
                 placeholder="abc@mail.com"
@@ -157,8 +168,8 @@ const AccountManagement = () => {
               disabled={!isEmailValid} // Disable if email is not valid
               style={{
                 backgroundColor: isEmailValid ? 'red' : 'gray', // Change background color based on validity
-                height: 50,
-                borderRadius: 20,
+                height: 45,
+                borderRadius: 10,
                 marginTop: 10,
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -181,7 +192,8 @@ export default AccountManagement;
 const styles = StyleSheet.create({
   box_input: {
     height: 50,
-    width: '100%',
+    width: '99%',
+    alignSelf: 'center',
     borderColor: 'grey',
     borderRadius: 10,
     color: 'black',

@@ -5,19 +5,16 @@ import {
   Alert,
   Dimensions,
   FlatList,
-  Image,
   Linking,
   SafeAreaView,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-// import {Thumbnail} from 'react-native-thumbnail-video';
+import {Thumbnail} from 'react-native-thumbnail-video';
 import tw from 'twrnc';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
-import {color} from '../constants/Colors';
 
 const {width, height} = Dimensions.get('window');
 const Videos = ({navigation}) => {
@@ -46,9 +43,11 @@ const Videos = ({navigation}) => {
         <FlatList
           data={data}
           contentContainerStyle={{
-            marginTop: 100,
-            width: width - 30,
-            alignItems: 'center',
+            marginTop: 30,
+            paddingHorizontal: 10,
+            flex: 1,
+            // width: width - 30,
+            // alignItems: 'center',
           }}
           keyExtractor={item => item.id}
           numColumns={2}
@@ -56,15 +55,13 @@ const Videos = ({navigation}) => {
             <TouchableOpacity
               onPress={() => Linking.openURL(item.video_link)}
               style={{
-                width: 140,
-                height: 150,
-                borderWidth: 1,
+                width: '45%',
                 borderRadius: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
                 margin: 10,
               }}>
-              {/* <Thumbnail
+              <Thumbnail
                 url={item.video_link}
                 style={{
                   height: '100%',
@@ -74,21 +71,19 @@ const Videos = ({navigation}) => {
                 }}
                 resizeMode="cover"
                 containerStyle={{
-                  height: 145,
-                  width: 140,
+                  height: 130,
+                  width: '100%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  marginRight: '10%',
-                  marginBottom: '10%',
                   borderRadius: 10,
                   overflow: 'hidden',
                 }}
-                iconStyle={{
-                  height: '20%',
-                  width: '20%',
-                }}
-              /> */}
-              <Image
+                // iconStyle={{
+                //   height: '20%',
+                //   width: '20%',
+                // }}
+              />
+              {/* <Image
                 style={{width: 50, height: 50}}
                 source={require('../assets/video_logo.png')}
               />
@@ -101,7 +96,7 @@ const Videos = ({navigation}) => {
                 style={{width: '80%', marginTop: 5, color: 'gray'}}
                 numberOfLines={1}>
                 {item.updated_at}
-              </Text>
+              </Text> */}
             </TouchableOpacity>
           )}
         />

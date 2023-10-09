@@ -23,7 +23,7 @@ const Header = ({title = '', icon = true}) => {
   return (
     <View style={tw`h-16 flex-row items-center px-2 bg-[#015dcf]`}>
       <TouchableOpacity
-        style={{position: 'absolute', left: 8}}
+        style={{position: 'absolute', left: 15}}
         onPress={() => {
           navigation.goBack();
         }}>

@@ -56,12 +56,12 @@ const ContactUs = ({navigation}) => {
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Header title="Contact Us" />
-          <View style={[tw`flex-1 items-center justify-center p-5`]}>
+          <View style={[tw`flex-1  justify-center p-5`]}>
             <Text
               style={{fontWeight: 'bold', color: color.black, fontSize: 25}}>
               Tell us about yourself
             </Text>
-            <Text style={{color: color.black, marginTop: 10}}>
+            <Text style={{color: color.black, marginTop: 5}}>
               Your email address will not be published. Required fields are
               marked *
             </Text>
@@ -69,7 +69,7 @@ const ContactUs = ({navigation}) => {
             <View style={[styles.box, {marginTop: 30}]}>
               <Text style={styles.box_name}>Name</Text>
               <TextInput
-                placeholder="Name"
+                placeholder="Enter your name"
                 placeholderTextColor={'grey'}
                 style={styles.box_input}
                 value={contactForm.name}
@@ -82,7 +82,7 @@ const ContactUs = ({navigation}) => {
             <View style={styles.box}>
               <Text style={styles.box_name}>Email</Text>
               <TextInput
-                placeholder="Email"
+                placeholder="Enter your email"
                 placeholderTextColor={'grey'}
                 style={styles.box_input}
                 value={contactForm.email}

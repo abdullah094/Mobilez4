@@ -12,6 +12,7 @@ import Store from './src/Redux/Store';
 import AdDeleteModaleScreen from './src/components/AdDeleteModaleScreen';
 import AdEditModaleScreen from './src/components/AdEditModaleScreen';
 import AppUpdateScreen from './src/components/AppUpdateComponent';
+import DisclosureConsentModal from './src/components/DiclosureConsentModal';
 import HowItWorkPage from './src/components/HowItWorkPage';
 import ProgressBarComponent from './src/components/ProgressBar';
 import ProgressGraph from './src/components/ProgressGraph';
@@ -353,6 +354,11 @@ const App = () => {
               options={{headerShown: false}}
               name="Histroy"
               component={Histroy}
+            />
+            <Stack.Screen
+              options={{headerShown: false}}
+              name="DisclosureConsentModal"
+              component={DisclosureConsentModal}
             />
           </Stack.Navigator>
         </NavigationContainer>

@@ -370,6 +370,7 @@ const Settings = ({navigation}) => {
           closeOnDragDown={true}
           closeOnPressMask={true}
           closeOnPressBack={true}
+          height={230}
           customStyles={{
             wrapper: {
               backgroundColor: '#00000020',
@@ -414,7 +415,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderBottomWidth: 1,
     paddingHorizontal: 5,
-    marginTop: 10,
+    marginTop: 4,
     justifyContent: 'center',
     borderColor: color.gray,
   },

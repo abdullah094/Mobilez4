@@ -44,7 +44,7 @@ const Blogs = ({navigation}) => {
 
   return (
     <SafeAreaView>
-      <Header title={'BLOGS'} />
+      <Header title={'Blogs'} />
       <View style={styles.contentContainer}>
         <FlatList
           data={data}

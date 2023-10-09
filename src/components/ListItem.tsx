@@ -44,8 +44,9 @@ const ListItem = ({
       <TouchableOpacity
         onPress={() => navigation.navigate('ProductPage', {id: item.id})}
         style={{
-          width: width - 30,
-          height: 150,
+          width: width - 35,
+          height: 130,
+          alignSelf: 'center',
           marginTop: 10,
           backgroundColor: 'white',
           shadowColor: '#000',
@@ -55,12 +56,13 @@ const ListItem = ({
           },
           shadowOpacity: 0.29,
           shadowRadius: 4.65,
+
           elevation: 5,
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-evenly',
           padding: 10,
-          borderRadius: 15,
+          borderRadius: 10,
         }}>
         {item.sell_status === 'Sold' ? (
           <>
@@ -71,12 +73,12 @@ const ListItem = ({
                 top: 2,
                 zIndex: 999,
                 borderWidth: 1,
-                borderRadius: 14,
                 borderColor: 'red',
                 padding: 4,
                 backgroundColor: 'red',
                 width: '13%',
                 alignItems: 'center',
+                borderRadius: 10,
               }}>
               <Text style={{color: 'white', fontSize: 11, fontWeight: '600'}}>
                 Sold
@@ -123,6 +125,7 @@ const ListItem = ({
             paddingHorizontal: 16,
             width: '65%',
             justifyContent: 'space-between',
+            // borderWidth: 1,
           }}>
           <View>
             <Text
@@ -130,7 +133,7 @@ const ListItem = ({
                 color: 'black',
                 fontWeight: '700',
                 fontSize: 17,
-                marginTop: 6,
+                // marginTop: 6,
               }}
               numberOfLines={1}>
               {item?.brand} {item?.model}
@@ -167,13 +170,13 @@ const ListItem = ({
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              bottom: -10,
+              top: 8,
             }}>
             <Text
               style={{
                 color: color.black,
                 fontSize: 12,
-                marginTop: 2,
+                // marginTop: 2,
                 fontWeight: '500',
               }}
               numberOfLines={1}>
@@ -185,7 +188,7 @@ const ListItem = ({
                 alignItems: 'center',
               }}>
               <Icon name="location-pin" size={15} color={color.red} />
-              <Text style={{color: 'black', marginTop: 1, fontSize: 12}}>
+              <Text style={{color: 'black', fontSize: 12}}>
                 {item?.user?.city}
               </Text>
             </View>

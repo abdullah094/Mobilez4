@@ -3,6 +3,7 @@ import {BRANDS, DESCRIPTION, MODELS} from '@env';
 import CheckBox from '@react-native-community/checkbox';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import axios, {AxiosError} from 'axios';
+import FormData from 'form-data';
 import React, {ReactNode, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
@@ -100,9 +101,10 @@ const EditScreen = () => {
       setIsVerifiedStorage(false);
     }
   }, [profileData]);
-  const [form, setForm] = useState<Form | null>(null);
+  const [form, setForm] = useState<Form>(null);
+  // const [productImages, setProductImages] = useState();
 
-  console.log('form===>>>', form);
+  console.log('id===>>>', form?.image);
   // condition logic
   if (form?.product_type === 'Used' || form?.product_type === 'Refurbished') {
     setTimeout(() => {
@@ -136,7 +138,7 @@ const EditScreen = () => {
         setBrands(brands);
       })
       .catch(error => {
-        console.log('Brands ' + error);
+        // console.log('Brands ' + error);
       });
   };
   const getModelFunc = () => {
@@ -153,7 +155,7 @@ const EditScreen = () => {
         setModels(models);
       })
       .catch(error => {
-        console.log('Brands ' + error);
+        // console.log('Brands ' + error);
       });
   };
 
@@ -216,33 +218,69 @@ const EditScreen = () => {
         setForm({
           brand,
           category,
-          productimages,
           model,
           price,
           storage,
           ram,
           description,
           product_type,
+          productimages,
           pta_status,
           warranty,
           accessories,
         });
+        console.log('response----<<<<<', response.data.details?.productimages);
         setLoading(false);
       })
       .catch((reason: AxiosError) => {
-        console.log(reason?.message);
+        // console.log(reason?.message);
       });
   };
+
+  console.log('form', form);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const updateMyAd = () => {
+    // console.log('==========================>>>>>>>>>>>>>>', form?.image);
+    // if (form?.image == undefined) {
+    //   setForm({...form, image: form?.productimages});
+    // }
     // console.log({form});
+    const formData = new FormData();
+    Object.entries(form).map(([key, value]) => {
+      formData.append(key, value);
+    });
+    // formData.append('brand', form.brand);
+    // formData.append('model', form.model);
+    // formData.append('price', form.price);
+    // formData.append('storage', form.storage);
+    // formData.append('ram', form.ram);
+    // formData.append('product_type', form?.product_type);
+    // formData.append('description', form?.description);
+    // formData.append('warranty', form?.warranty);
+    // formData.append('category', form?.category);
+    // formData.append('accessories', form?.accessories);
+    // formData.append('pta_status', form?.pta_status);
+
+    form?.image?.forEach(image => {
+      formData.append(`image[]`, {
+        uri: image.uri,
+        name: `image.jpg`,
+        type: image.type, // Change the type as needed based on your image format
+      });
+    });
+
+    console.log('form', form);
+
     axios
-      .post(`https://www.mobilezmarket.com/api/update-ad/${id}`, form, {
-        headers: {Authorization: `Bearer ${_accessToken}`},
+      .post(`https://www.mobilezmarket.com/api/update-ad/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${_accessToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
       })
 
       .then(response => {
@@ -598,7 +636,7 @@ const EditScreen = () => {
                         borderRadius: 15,
                       }}
                       source={{
-                        uri: `https:/www.mobilezmarket.com/images/${item.img}`,
+                        uri: item.uri,
                       }}
                     />
                   )}

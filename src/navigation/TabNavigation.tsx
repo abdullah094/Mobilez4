@@ -41,10 +41,13 @@ export default function App() {
         tabBarInactiveTintColor: 'gray',
         headerShown: false,
         tabBarHideOnKeyboard: true,
+        tabBarItemStyle: {marginBottom: 5},
+        tabBarIconStyle: {marginTop: 5},
       })}>
       <Tab.Screen
         name="Home"
         options={{
+          // tabBarLabelStyle: {marginBottom: 5},
           tabBarLabel: 'Home',
           tabBarIcon: ({color, size}) => (
             <HomeIcon name="home" color={color} size={size} />
@@ -56,6 +59,7 @@ export default function App() {
       <Tab.Screen
         name="MyAds"
         options={{
+          // tabBarLabelStyle: {marginBottom: 5},
           tabBarLabel: 'My Ads',
           tabBarIcon: ({color, size}) => (
             <Image
@@ -109,6 +113,7 @@ export default function App() {
         name="Chat"
         component={ChatScreen}
         options={{
+          // tabBarLabelStyle: {marginBottom: 5},
           tabBarLabel: 'Chat',
           tabBarIcon: ({color, size}) => (
             <Image
@@ -122,6 +127,7 @@ export default function App() {
         name="More"
         component={Settings}
         options={{
+          // tabBarLabelStyle: {marginBottom: 5},
           tabBarLabel: 'More',
           tabBarIcon: ({color, size}) => (
             <More name="read-more" color={color} size={size} />

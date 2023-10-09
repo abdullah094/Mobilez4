@@ -2,7 +2,13 @@ import React, {useEffect} from 'react';
 import {Modal, Text, TouchableOpacity, View} from 'react-native';
 // import {Modal} from 'react-native-paper';
 
-const AlertModale = ({message, setMessage}) => {
+const AlertModale = ({
+  message,
+  setMessage,
+  onPress = () => {
+    setMessage('');
+  },
+}) => {
   const [visible, setVisible] = React.useState(false);
 
   // const showDialog = () => setVisible(true);
@@ -101,7 +107,7 @@ const AlertModale = ({message, setMessage}) => {
               alignItems: 'center',
             }}>
             <TouchableOpacity
-              onPress={onClose}
+              onPress={onPress}
               style={{
                 paddingVertical: 5,
                 paddingHorizontal: 20,

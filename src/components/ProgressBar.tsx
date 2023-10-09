@@ -1,4 +1,5 @@
 import {MY_ADS} from '@env';
+import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import React, {ReactNode, useEffect, useState} from 'react';
 import {
@@ -22,15 +23,21 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import PlusIcon from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
-import {selectAccessToken, selectProfileData} from '../Redux/Slices';
+import {
+  selectAccessToken,
+  selectProfileData,
+  setProfileData,
+} from '../Redux/Slices';
 import {color} from '../constants/Colors';
 import AlertModale from './AlertModale';
+import DisclosureConsentModal from './DiclosureConsentModal';
 import Header from './Header';
 const {width, height} = Dimensions.get('window');
 
 const ProgressBarComponent = () => {
   const profile = useSelector(selectProfileData);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   // console.log('profile', profile);
   const form_fields = {
     fName: profile?.first_name,
@@ -46,6 +53,7 @@ const ProgressBarComponent = () => {
   const [form, setform] = useState({});
   const [nicForm, setNicForm] = useState({});
   const [shopForm, setShopForm] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   // useEffect(() => {
   //   Animated.timing(progress, {
@@ -127,7 +135,9 @@ const ProgressBarComponent = () => {
   useEffect(() => {
     myAdd();
   }, [_accessToken]);
-
+  const handleConsent = () => {
+    setModalVisible(false);
+  };
   // const updateProgress = () => {
   //   const currentDate = new Date();
 
@@ -182,6 +192,8 @@ const ProgressBarComponent = () => {
   };
 
   const submitForm = () => {
+    setModalVisible(false);
+
     if (progressForm.fName == '') {
       setMessage('First Name is required');
     } else if (progressForm.lName == '') {
@@ -199,23 +211,46 @@ const ProgressBarComponent = () => {
     } else if (shopForm == undefined) {
       setMessage('Upload shop card image');
     } else {
-      const body = {
-        first_name: progressForm.fName,
-        last_name: progressForm.lName,
-        shop_name: progressForm.ShopName,
-        shop_address: progressForm.Shopaddress,
-        nic_number: progressForm.cnicNumber,
-        shop_visiting_card: shopForm?.image?.[0],
-        cnic_front_image: form?.image?.[0],
-        cnic_back_image: nicForm?.image?.[0],
-        account_title: progressForm.account_title,
-        whatsapp_number: progressForm.whatsapp_number,
-      };
-      console.log('Body', body);
+      const formData = new FormData();
+
+      // Append text fields to the form data
+      formData.append('first_name', progressForm.fName);
+      formData.append('last_name', progressForm.lName);
+      formData.append('shop_name', progressForm.ShopName);
+      formData.append('shop_address', progressForm.Shopaddress);
+      formData.append('nic_number', progressForm.cnicNumber);
+      formData.append('account_title', progressForm.account_title);
+      formData.append('whatsapp_number', progressForm.whatsapp_number);
+
+      formData.append('cnic_front_image', {
+        uri: form?.image?.[0]?.uri,
+        name: 'image.jpg',
+        type: 'image/jpeg',
+      });
+
+      formData.append('cnic_back_image', {
+        uri: nicForm?.image?.[0]?.uri,
+        name: 'image.jpg',
+        type: 'image/jpeg',
+      });
+
+      formData.append('shop_visiting_card', {
+        uri: shopForm?.image?.[0]?.uri,
+        name: 'image.jpg',
+        type: 'image/jpeg',
+      });
+
       axios
-        .post('https://www.mobilezmarket.com/api/prize-participation', body, {
-          headers: {Authorization: `Bearer ${_accessToken}`},
-        })
+        .post(
+          'https://www.mobilezmarket.com/api/prize-participation',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${_accessToken}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          },
+        )
         .then(response => {
           console.log('response', response);
 
@@ -252,62 +287,65 @@ const ProgressBarComponent = () => {
             });
           } else {
             setMessage(message);
-            // dispatch(
-            //   setProfileData({
-            //     ...profile,
-            //     first_name: state.first_name,
-            //     last_name: state.last_name,
-            //     shop_name: state.shop_name,
-            //     shop_address: state.shop_address,
-            //     nic_number: state.nic_number,
-            //     shop_visiting_card: state.nic_number,
-            //     cnic_front_image: state.cnic_front_image,
-            //     cnic_back_image: state.cnic_back_image,
-            //     account_title: state.account_title,
-            //     whatsapp_number: state.whatsapp_number,
-            //   }),
-            // );
+
+            dispatch(
+              setProfileData({
+                ...profile,
+                first_name: progressForm.fName,
+                last_name: progressForm.lName,
+                shop_name: progressForm.ShopName,
+                shop_address: progressForm.Shopaddress,
+                nic_number: progressForm.cnicNumber,
+                shop_visiting_card: shopForm?.image?.[0],
+                cnic_front_image: form?.image?.[0],
+                cnic_back_image: nicForm?.image?.[0],
+                account_title: progressForm.account_title,
+                whatsapp_number: progressForm.whatsapp_number,
+              }),
+            );
           }
+
           // setLoading(false);
         })
         .catch(error => {
-          console.log('error', error);
-          setMessage(error);
+          console.log('error', error.data);
+          // setMessage(error);
           // setLoading(false);
         });
     }
   };
-  const handleFormValidation = () => {
-    if (progressForm.fName == '') {
-      setMessage('First Name is required');
-    } else if (progressForm.lName == '') {
-      setMessage('Last Name is required');
-    } else if (progressForm.shop_name == '') {
-      setMessage('Shop Name is required');
-    } else if (progressForm.shop_address == '') {
-      setMessage('Shop Address is required');
-    } else if (progressForm.cnicNumber == '') {
-      setMessage('CNIC Number is required');
-    } else if (form == undefined) {
-      setMessage('Upload CNIC front image');
-    } else if (nicForm == undefined) {
-      setMessage('Upload CNIC back image');
-    } else if (shopForm == undefined) {
-      setMessage('Upload shop card image');
-    } else {
-      // const body = {}
-      // console.log('h', profile);
-      // const newProfileData = {
-      //   ...profile,
-      //   shop_visiting_card: shopForm?.image,
-      //   cnic_back_image: nicForm?.image,
-      //   cnic_front_image: form?.image,
-      //   shop_address: form.shop_address,
-      //   shop_name: form.shop_address,
-      // };
-      // dispatch(setProfileData(newProfileData));
-    }
-  };
+  // const handleFormValidation = () => {
+  //   if (progressForm.fName == '') {
+  //     setMessage('First Name is required');
+  //   } else if (progressForm.lName == '') {
+  //     setMessage('Last Name is required');
+  //   } else if (progressForm.shop_name == '') {
+  //     setMessage('Shop Name is required');
+  //   } else if (progressForm.shop_address == '') {
+  //     setMessage('Shop Address is required');
+  //   } else if (progressForm.cnicNumber == '') {
+  //     setMessage('CNIC Number is required');
+  //   } else if (form == undefined) {
+  //     setMessage('Upload CNIC front image');
+  //   } else if (nicForm == undefined) {
+  //     setMessage('Upload CNIC back image');
+  //   } else if (shopForm == undefined) {
+  //     setMessage('Upload shop card image');
+  //   } else {
+  //     // const body = {}
+  //     // console.log('h', profile);
+  //     // const newProfileData = {
+  //     //   ...profile,
+  //     //   shop_visiting_card: shopForm?.image,
+  //     //   cnic_back_image: nicForm?.image,
+  //     //   cnic_front_image: form?.image,
+  //     //   shop_address: form.shop_address,
+  //     //   shop_name: form.shop_address,
+  //     // };
+
+  //     // dispatch(setProfileData(newProfileData));
+  //   }
+  // };
 
   console.log('profile data', profile);
   return (
@@ -316,6 +354,7 @@ const ProgressBarComponent = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={tw`flex-1`}>
             <Header title="Registration Form " />
+
             {/* <View style={tw`flex-row jrustify-center`}>
               <View style={styles.progressContainer}>
                 <Text style={styles.progressLabel}>Monthly Progress</Text>
@@ -638,7 +677,7 @@ const ProgressBarComponent = () => {
                 marginBottom: 20,
               }}>
               <Button
-                onPress={submitForm}
+                onPress={() => setModalVisible(true)}
                 mode="contained"
                 buttonColor="#015dcf"
                 style={{borderRadius: 10}}>
@@ -648,7 +687,18 @@ const ProgressBarComponent = () => {
           </View>
         </ScrollView>
       </View>
-      <AlertModale message={message} setMessage={setMessage} />
+      <AlertModale
+        message={message}
+        setMessage={setMessage}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      />
+      <DisclosureConsentModal
+        visible={modalVisible}
+        onDismiss={() => setModalVisible(false)}
+        onConsent={submitForm}
+      />
     </SafeAreaView>
   );
 };

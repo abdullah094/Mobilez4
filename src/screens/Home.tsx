@@ -27,6 +27,7 @@ import {
   setWishList,
 } from '../Redux/Slices';
 
+import {useIsFocused} from '@react-navigation/native';
 import AppUpdateScreen from '../components/AppUpdateComponent';
 import AppUpdateScreenIos from '../components/AppUpdateComponent copy';
 import HomeSlider from '../components/HomeSlider';
@@ -36,6 +37,7 @@ import {Category, Profile} from '../types';
 import SearchScreen from './SearchScreen';
 const {width, height} = Dimensions.get('window');
 const Home = ({navigation}) => {
+  const isFocus = useIsFocused();
   const [profile, setProfile] = useState<Profile | null>();
   const [deviceName, setDeviceName] = useState<string>();
   const [refreshing, setRefreshing] = useState(false);
@@ -354,7 +356,7 @@ const Home = ({navigation}) => {
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              style={tw`mt-10`}>
+              style={tw`mt-5`}>
               {/* box1 */}
               <TouchableOpacity
                 style={styles.tab_box}
@@ -409,7 +411,11 @@ const Home = ({navigation}) => {
                 </View>
               </TouchableOpacity>
             </ScrollView>
-            <View style={tw`w-full items-center pt-4 mb-10`}>
+            <View
+              style={[
+                tw`w-full items-center pt-4 mb-10`,
+                {paddingHorizontal: 10},
+              ]}>
               {/* row1 */}
 
               {/* row2 */}

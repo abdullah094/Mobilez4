@@ -1,7 +1,7 @@
 import {ADD_WISHLIST, REMOVE_WISHLIST} from '@env';
 import axios from 'axios';
 import React, {useState} from 'react';
-import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -10,6 +10,7 @@ import {
   selectAccessToken,
   selectWishlist,
 } from '../Redux/Slices';
+import AlertModale from './AlertModale';
 
 const AddToWishList = ({ProductId, style = {}, size = 30}) => {
   const _accessToken = useSelector(selectAccessToken);
@@ -39,7 +40,8 @@ const AddToWishList = ({ProductId, style = {}, size = 30}) => {
         )
         .then(response => {
           dispatch(RemoveFromWishList(ProductId));
-          Alert.alert(response.data.message);
+          setMessage(response.data.message);
+          // Alert.alert(response.data.message);
         })
         .catch(error => console.log(error));
     } else
@@ -53,7 +55,7 @@ const AddToWishList = ({ProductId, style = {}, size = 30}) => {
         )
         .then(response => {
           dispatch(AddToWishlist(ProductId));
-          Alert.alert(response.data.message);
+          setMessage(response.data.message);
         })
         .catch(error => console.log(error));
   };
@@ -65,7 +67,7 @@ const AddToWishList = ({ProductId, style = {}, size = 30}) => {
           size={size}
           color={'red'}></AntDesign>
       </TouchableOpacity>
-      {/* <AlertModale message={message} setMessage={setMessage} /> */}
+      <AlertModale message={message} setMessage={setMessage} />
     </>
   );
 };

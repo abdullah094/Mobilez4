@@ -57,21 +57,32 @@ const WishlistComponent = () => {
         </View>
       ) : (
         <>
-          <View style={tw`flex-row items-center justify-end px-4 h-10`}>
-            <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
-              <ListIcon
-                name="list"
-                color={Grid ? color.black : color.blue}
-                size={30}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setGrid(true)}>
-              <Entypo
-                name="grid"
-                color={Grid ? color.blue : color.black}
-                size={30}
-              />
-            </TouchableOpacity>
+          <View
+            style={[
+              tw`flex-row items-center m-3`,
+              {paddingHorizontal: 10, justifyContent: 'space-between'},
+            ]}>
+            <View>
+              <Text style={{color: 'black', fontWeight: '600', fontSize: 18}}>
+                Showing Results ({data?.length})
+              </Text>
+            </View>
+            <View style={{flexDirection: 'row'}}>
+              <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
+                <ListIcon
+                  name="list"
+                  color={Grid ? color.black : color.blue}
+                  size={30}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => setGrid(true)}>
+                <Entypo
+                  name="grid"
+                  color={Grid ? color.blue : color.black}
+                  size={30}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           {Grid ? (
             <FlatList

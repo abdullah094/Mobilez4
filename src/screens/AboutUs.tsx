@@ -21,7 +21,8 @@ const AboutUs = () => {
               }}>
               <Text
                 style={{
-                  padding: 10,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
                   fontWeight: '500',
                   color: 'black',
                 }}>
@@ -34,7 +35,8 @@ const AboutUs = () => {
               </Text>
               <Text
                 style={{
-                  padding: 10,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
                   fontWeight: '400',
                   color: 'black',
                 }}>
@@ -46,7 +48,8 @@ const AboutUs = () => {
               </Text>
               <Text
                 style={{
-                  padding: 10,
+                  paddingHorizontal: 15,
+                  paddingVertical: 10,
                   fontWeight: '400',
                   color: 'black',
                 }}>

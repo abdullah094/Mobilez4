@@ -119,13 +119,15 @@ const Profile = ({navigation}) => {
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <ScrollView contentContainerStyle={{alignItems: 'center'}}>
           <Header title="Profile" />
-          <View
+          {/* <View
             style={{
               width: width,
               height: 40,
+              borderWidth: 2,
+              borderColor: 'red',
               backgroundColor: color.orange,
             }}
-          />
+          /> */}
           <Image
             resizeMode="contain"
             source={
@@ -144,11 +146,13 @@ const Profile = ({navigation}) => {
               borderWidth: 1,
               borderColor: 'orange',
               backgroundColor: 'white',
-              bottom: 50,
+              marginTop: 30,
             }}
           />
-          <Text style={styles.h1}>{profile.first_name}</Text>
-          <Text style={styles.h1}>{profile.last_name}</Text>
+          <Text style={styles.h1}>
+            {profile.first_name + ' ' + profile.last_name}
+          </Text>
+          {/* <Text style={styles.h1}>{profile.last_name}</Text> */}
           <View style={styles.box}>
             <View style={styles.box}>
               <TextInput
@@ -159,6 +163,8 @@ const Profile = ({navigation}) => {
                 placeholder={profile.first_name}
                 keyboardType={'ascii-capable'}
                 placeholderTextColor={'black'}
+                theme={{roundness: 7}}
+                style={{height: 45}}
                 value={state.first_name}
                 onChangeText={text =>
                   setState(prev => ({...prev, first_name: text}))
@@ -191,6 +197,8 @@ const Profile = ({navigation}) => {
               placeholder={profile.last_name}
               placeholderTextColor={'black'}
               value={state.last_name}
+              theme={{roundness: 7}}
+              style={{height: 45}}
               onChangeText={text =>
                 setState(prev => ({...prev, last_name: text}))
               }
@@ -221,6 +229,8 @@ const Profile = ({navigation}) => {
               placeholder={profile.email}
               placeholderTextColor={'black'}
               value={state.email}
+              theme={{roundness: 7}}
+              style={{height: 45}}
               onChangeText={text => setState(prev => ({...prev, email: text}))}
               right={
                 <TextInput.Icon
@@ -247,11 +257,21 @@ const Profile = ({navigation}) => {
               placeholder={profile.city}
               placeholderTextColor={'black'}
               value={profile.city}
+              theme={{roundness: 7}}
+              style={{height: 45}}
               // onChangeText={text => setState(prev => ({...prev, email: text}))}
             />
           </View>
           <Button
-            style={tw`mt-5 bg-blue-600`}
+            style={[
+              tw`mt-8 bg-blue-600`,
+              {
+                width: '88%',
+                borderRadius: 9,
+                height: 45,
+                justifyContent: 'center',
+              },
+            ]}
             mode="contained"
             loading={loading}
             labelStyle={{color: 'white'}}
@@ -273,7 +293,12 @@ const Profile = ({navigation}) => {
 export default Profile;
 
 const styles = StyleSheet.create({
-  h1: {fontWeight: 'bold', color: color.black, fontSize: 20},
+  h1: {
+    fontWeight: 'bold',
+    color: color.black,
+    fontSize: 20,
+    marginTop: 15,
+  },
   box: {
     width: width - 50,
     marginTop: 15,

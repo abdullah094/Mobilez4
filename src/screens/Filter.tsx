@@ -294,14 +294,14 @@ const Filter = () => {
                   marginTop: 40,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: 50,
-                  borderRadius: 20,
+                  height: 42,
+                  borderRadius: 10,
                 }}>
                 <Text
                   style={{
                     color: color.white,
                     fontWeight: 'bold',
-                    fontSize: 20,
+                    fontSize: 16,
                   }}>
                   Search
                 </Text>

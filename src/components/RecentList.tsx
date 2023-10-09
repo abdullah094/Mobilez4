@@ -101,7 +101,7 @@ const RecentList = ({
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingTop: 9,
+            paddingBottom: 5,
           }}>
           <Text style={styles.heading}>{Title}</Text>
         </View>

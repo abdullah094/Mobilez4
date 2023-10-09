@@ -39,7 +39,9 @@ const {width, height} = Dimensions.get('window');
 const Listings = () => {
   const navigation = useNavigation<IndexNavigationProps<'Listings'>>();
   const route = useRoute<IndexRouteProps<'Listings'>>();
+
   // const {name, form} = route.params as {name: string; form: Form};
+  const [form, setForm] = useState<Form>({});
 
   const [query, setQuery] = useState('');
   const [delayQuery, setDelayQuery] = useState('');
@@ -60,6 +62,8 @@ const Listings = () => {
     return () => clearTimeout(timeOutId);
   }, [delayQuery]);
 
+  console.log('form.category', route?.params?.form?.category);
+
   useEffect(() => {
     setForm(route.params.form);
     if (route.params.form.brand) {
@@ -67,7 +71,6 @@ const Listings = () => {
     }
   }, [route.params.form]);
 
-  const [form, setForm] = useState<Form>({});
   const clear = () => {
     setDelayQuery('');
   };
@@ -138,8 +141,9 @@ const Listings = () => {
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <View style={styles.header}>
-          <Header title={String(form.category).toUpperCase()}></Header>
-          <View style={tw`relative rounded-md flex-1`}>
+          <Header title={route?.params?.form?.category}></Header>
+          <View
+            style={[tw`relative rounded-md flex-1`, {paddingHorizontal: 20}]}>
             <View style={tw`flex-1 z-10`}>
               <TextInput
                 placeholder="Search"
@@ -153,7 +157,7 @@ const Listings = () => {
                   backgroundColor: '#4894F1',
                   paddingLeft: 32,
                   paddingHorizontal: 8,
-                  marginTop: 25,
+                  marginTop: 10,
                   alignItems: 'center',
                   justifyContent: 'center',
                   display: 'flex',
@@ -161,13 +165,13 @@ const Listings = () => {
                 }}
               />
               <Entypo
-                style={tw`absolute top-9 left-2`}
+                style={tw`absolute top-5.5 left-2`}
                 name="magnifying-glass"
                 size={20}
                 color={'white'}
               />
               <TouchableOpacity
-                style={tw`absolute top-9 right-2`}
+                style={tw`absolute top-5.5 right-2`}
                 onPress={clear}>
                 <Entypo name="cross" size={20} color={'white'} />
               </TouchableOpacity>
@@ -317,14 +321,14 @@ const Listings = () => {
           <TouchableOpacity style={tw`px-2`} onPress={() => setGrid(false)}>
             <ListIcon
               name="list"
-              color={Grid ? color.black : color.red}
+              color={Grid ? color.black : color.blue}
               size={20}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => setGrid(true)}>
             <Entypo
               name="grid"
-              color={Grid ? color.red : color.black}
+              color={Grid ? color.blue : color.black}
               size={20}
             />
           </TouchableOpacity>
@@ -340,6 +344,7 @@ const Listings = () => {
               marginHorizontal: 15,
               // paddingBottom: 100,
             }}
+            showsVerticalScrollIndicator={false}
             // onRefresh={() => setQuery('')}
             // refreshing={loadingMore}
             ListHeaderComponent={
@@ -378,6 +383,7 @@ const Listings = () => {
               marginHorizontal: 15,
               // paddingBottom: 100,
             }}
+            showsVerticalScrollIndicator={false}
             // onRefresh={() => setQuery('')}
             // refreshing={loadingMore}
             ListHeaderComponent={
@@ -481,9 +487,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   header: {
-    paddingHorizontal: 24,
+    paddingHorizontal: 5,
     height: 150,
-    borderBottomWidth: 1,
+    // borderBottomWidth: 1,
     backgroundColor: '#015dcf',
     zIndex: 10,
   },

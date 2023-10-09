@@ -344,9 +344,9 @@ export default function PostAndAdForm({
     };
   }>({
     box: {label: 'Box', value: 'box', Selected: false},
-    charger: {label: 'Changer', value: 'charger', Selected: false},
+    charger: {label: 'Charger', value: 'charger', Selected: false},
     data_cable: {label: 'Data Cable', value: 'data cable', Selected: false},
-    handfree: {label: 'HandFree', value: 'handfree', Selected: false},
+    handfree: {label: 'HandsFree', value: 'handfree', Selected: false},
     kit_only: {label: 'Kit Only', value: 'kit only', Selected: false},
   });
   useEffect(() => {

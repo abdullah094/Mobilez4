@@ -80,7 +80,7 @@ const SearchScreen = () => {
     Keyboard.dismiss();
   };
   return (
-    <View style={tw`flex-1 z-10`}>
+    <View style={[tw`flex-1 z-10`, {borderRadius: 7}]}>
       <TextInput
         value={delayQuery}
         onChangeText={text => setDelayQuery(text)}
@@ -89,7 +89,7 @@ const SearchScreen = () => {
         style={{
           width: '100%',
           height: 43,
-          borderRadius: 4,
+          borderRadius: 7,
           backgroundColor: '#4894F1',
           paddingLeft: 32,
           paddingHorizontal: 8,

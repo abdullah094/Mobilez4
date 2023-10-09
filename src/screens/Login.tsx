@@ -31,7 +31,7 @@ import {selectAccessToken, setAccessToken} from '../Redux/Slices';
 import {color} from '../constants/Colors';
 const {width, height} = Dimensions.get('window');
 
-import {LoginButton, Settings} from 'react-native-fbsdk-next';
+import {AccessToken, LoginButton, Settings} from 'react-native-fbsdk-next';
 import AlertModale from '../components/AlertModale';
 import Header from '../components/Header';
 import {IndexNavigationProps} from '../types';
@@ -82,55 +82,60 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const fetchLogin = () => {
-    setLoginLoader(<ActivityIndicator size="small" color="white" />);
-    axios
-      .post(
-        LOGIN,
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: {'Content-Type': 'application/json'},
-        },
-      )
-      .then(response => {
-        if (response.data.errors) {
+    if (email?.length < 1) {
+      setMessage('Please enter email');
+    } else if (password?.length < 1) {
+      setMessage('Please enter password');
+    } else {
+      setLoginLoader(<ActivityIndicator size="small" color="white" />);
+      axios
+        .post(
+          LOGIN,
+          {
+            email: email,
+            password: password,
+          },
+          {
+            headers: {'Content-Type': 'application/json'},
+          },
+        )
+        .then(response => {
           if (response.data.errors) {
-            console.log('Login Error', response.data.errors);
-            if (response.data.errors.email && response.data.errors.password) {
-              setMessage('Email and password are wrong');
-            } else if (response.data.errors.email) {
-              setMessage(response.data.errors.message.email);
-            } else if (response.data.errors.password) {
-              setMessage(response.data.errors.password);
+            if (response.data.errors) {
+              console.log('Login Error', response.data.errors);
+              if (response.data.errors.email && response.data.errors.password) {
+                setMessage('Email and password are wrong');
+              } else if (response.data.errors.email) {
+                setMessage(response.data.errors.message.email);
+              } else if (response.data.errors.password) {
+                setMessage(response.data.errors.password);
+              } else {
+                setMessage(response.data.message);
+                setSocialLoginLoader(false);
+              }
             } else {
-              setMessage(response.data.message);
+              setMessage('Please Try Again');
               setSocialLoginLoader(false);
             }
-          } else {
-            setMessage('Please Try Again');
-
-            setSocialLoginLoader(false);
+            setLoginLoader('Login');
+          } else if (response.data?.status === 403) {
+            // navigation.navigate('InActiveUserScreen');
+            setLoginLoader('Login');
+          } else if (response.data?.status) {
+            console.log('================here', response.data);
+            dispatch(setAccessToken(response.data.token));
+            setLoginLoader('Login');
+            PutAccessTokenToAsync(response.data.token);
           }
-          setLoginLoader('Login');
-        } else if (response.data?.status === 403) {
-          // navigation.navigate('InActiveUserScreen');
-          setLoginLoader('Login');
-        } else if (response.data?.status) {
-          console.log('================here', response.data);
+        })
 
-          dispatch(setAccessToken(response.data.token));
+        .catch(error => {
           setLoginLoader('Login');
-          PutAccessTokenToAsync(response.data.token);
-        }
-      })
 
-      .catch(error => {
-        setLoginLoader('Login');
-        console.log('Login Error', error.data.errors);
-        setMessage(error.message);
-      });
+          setMessage('Invalid credentials.');
+          console.log('Login Error', error.data.errors);
+        });
+    }
   };
 
   const fetchGoogleLogin = (gEmail, gid, name, avatar) => {
@@ -268,7 +273,7 @@ const Login = () => {
                       value={password}
                       secureTextEntry={hidePass}
                       textColor="black"
-                      onChangeText={text => setPassword(text.toLowerCase())}
+                      onChangeText={text => setPassword(text)}
                       onBlur={validatePassword}
                       right={
                         <TextInput.Icon

@@ -1,0 +1,65 @@
+diff --git a/node_modules/react-native-thumbnail-video/src/components/thumbnail.js b/node_modules/react-native-thumbnail-video/src/components/thumbnail.js
+index bc53a4f..93f721d 100644
+--- a/node_modules/react-native-thumbnail-video/src/components/thumbnail.js
++++ b/node_modules/react-native-thumbnail-video/src/components/thumbnail.js
+@@ -1,17 +1,16 @@
+-import React, { PureComponent } from 'react';
++import { ViewPropTypes } from 'deprecated-react-native-prop-types';
+ import PropTypes from 'prop-types';
++import React, { PureComponent } from 'react';
+ import {
+-  TouchableOpacity,
+-  ImageBackground,
+   Image,
+-  ViewPropTypes,
+-  ImagePropTypes,
++  ImageBackground,
+   Linking,
+   StyleSheet,
++  TouchableOpacity
+ } from 'react-native';
+ 
+-import { DEFAULT_WIDTH, TYPES } from './constants';
+ import { getVideoId } from '../helpers';
++import { DEFAULT_WIDTH, TYPES } from './constants';
+ 
+ export default class Thumbnail extends PureComponent {
+   constructor(props) {
+@@ -34,7 +33,7 @@ export default class Thumbnail extends PureComponent {
+       PropTypes.number,
+       PropTypes.string,
+     ]),
+-    iconStyle: Image.propTypes.style,
++    // iconStyle: Image.propTypes.style,
+     onPress: PropTypes.func,
+     onPressError: PropTypes.func,
+     style: ViewPropTypes.style,
+@@ -104,7 +103,7 @@ export default class Thumbnail extends PureComponent {
+       imageWidth,
+       imageHeight,
+       containerStyle,
+-      iconStyle,
++      // iconStyle,
+       children,
+       showPlayIcon,
+       ...props
+@@ -134,8 +133,9 @@ export default class Thumbnail extends PureComponent {
+           showPlayIcon ? (
+             <Image
+               source={require('../assets/play.png')}
+-              style={[styles.playIcon, iconStyle]}
++              style={[styles.playIcon]}
+               testId='thumbnail-image'
++              resizeMode='contain'
+             />
+           ) : (
+             null
+@@ -156,6 +156,8 @@ const styles = StyleSheet.create({
+     alignItems: 'center',
+   },
+   playIcon: {
++    width:"15%",
++    height:"20%",
+     tintColor: 'white',
+   },
+ });

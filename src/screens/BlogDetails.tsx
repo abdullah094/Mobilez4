@@ -25,7 +25,7 @@ const BlogDetails = ({navigation, route}) => {
   return (
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
-        <Header title="Blog" />
+        <Header title="Blog Detail" />
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{

@@ -421,7 +421,7 @@ const SignUp = ({navigation, route}) => {
                 secureTextEntry={true}
                 textColor="black"
                 onChangeText={text =>
-                  setFormData({...formData, password: text.toLowerCase()})
+                  setFormData({...formData, password: text})
                 }
               />
               <Text style={styles.errorText}>{formErrors.password}</Text>
@@ -433,7 +433,7 @@ const SignUp = ({navigation, route}) => {
                 placeholder="confirm password"
                 textColor="black"
                 onChangeText={text =>
-                  setFormData({...formData, conf_password: text.toLowerCase()})
+                  setFormData({...formData, conf_password: text})
                 }
               />
               <Text style={styles.errorText}>{formErrors.conf_password}</Text>

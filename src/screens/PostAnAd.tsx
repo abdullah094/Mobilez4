@@ -5,7 +5,6 @@ import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
 import axios, {AxiosRequestConfig} from 'axios';
 import FormData from 'form-data';
 import mime from 'mime';
-
 import {
   ActivityIndicator,
   Alert,
@@ -27,6 +26,7 @@ import {
   launchImageLibrary,
 } from 'react-native-image-picker';
 import {Button} from 'react-native-paper';
+import PlusIcon from 'react-native-vector-icons/AntDesign';
 import {useDispatch, useSelector} from 'react-redux';
 import tw from 'twrnc';
 import {
@@ -484,6 +484,7 @@ const PostAnAd = () => {
       ? axios
           .post(POST_AN_AD, data, config)
           .then(response => {
+            setActive(false);
             // console.log(response.data);
             const {
               errors,
@@ -518,8 +519,8 @@ const PostAnAd = () => {
                 acc_type: form.acc_type,
               };
               dispatch(setProfileData(newProfileData));
-              // setMessage(message);
-              navigation.navigate('Home');
+              setMessage(message);
+              // navigation.navigate('Home');
             } else {
               if (Object.entries(errors).length > 0) {
                 for (const [key, value] of Object.entries(errors)) {
@@ -532,6 +533,7 @@ const PostAnAd = () => {
           .catch(error => {
             console.log('Error', error);
             setButton('Post Ad');
+            setActive(false);
           })
       : Alert.alert('Please Login First');
   };
@@ -598,6 +600,7 @@ const PostAnAd = () => {
             paddingBottom: 200,
             // backgroundColor: '#015DCF',
           }}
+          showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled">
           <View style={tw` w-full items-start justify-center px-4`}>
             <View style={tw`w-full`}>
@@ -689,9 +692,42 @@ const PostAnAd = () => {
               )}
             </View>
             <Text style={{color: 'black', fontWeight: '700', paddingTop: 20}}>
-              Product Image
+              Product Image (upload upto 20 images)
             </Text>
-            <FlatList
+            <View style={{flexDirection: 'row', marginTop: 20}}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={ImageUpload}
+                style={{
+                  borderWidth: 0.7,
+                  width: 110,
+                  height: 75,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderStyle: 'dotted',
+                  borderRadius: 10,
+                }}>
+                <PlusIcon size={25} name="plus" color={'blue'} />
+              </TouchableOpacity>
+              <FlatList
+                horizontal
+                data={form?.image}
+                renderItem={({item}) => (
+                  <Image
+                    style={{
+                      width: 110,
+                      height: '100%',
+                      marginLeft: 10,
+                      borderRadius: 5,
+                      // marginVertical: 5,
+                    }}
+                    // resizeMode="contain"
+                    source={{uri: item.uri}}
+                  />
+                )}
+              />
+            </View>
+            {/* <FlatList
               horizontal
               data={form?.image}
               contentContainerStyle={{paddingVertical: 10, zIndex: 999}}
@@ -707,13 +743,13 @@ const PostAnAd = () => {
                   source={{uri: item.uri}}
                 />
               )}
-            />
+            /> */}
 
-            <Text
+            {/* <Text
               style={{marginVertical: 5, color: 'black', fontWeight: '700'}}>
               Upload upto 20 images
-            </Text>
-            <TouchableOpacity
+            </Text> */}
+            {/* <TouchableOpacity
               onPress={ImageUpload}
               style={{
                 backgroundColor: color.orange,
@@ -733,7 +769,7 @@ const PostAnAd = () => {
                 }}>
                 {uploadButton}
               </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <Text
               style={{
                 fontWeight: '600',
@@ -746,6 +782,8 @@ const PostAnAd = () => {
 
             <TextInput
               style={styles.description}
+              placeholder="Enter description"
+              placeholderTextColor={'grey'}
               multiline={true}
               value={form.description ?? ''}
               onChangeText={text => setForm({...form, description: text})}
@@ -776,7 +814,13 @@ const PostAnAd = () => {
           </View>
         </ScrollView>
       </View>
-      <AlertModale message={message} setMessage={setMessage} />
+      <AlertModale
+        message={message}
+        setMessage={setMessage}
+        // onPress={() => {
+        //   navigation.goBack();
+        // }}
+      />
     </SafeAreaView>
   );
 };
@@ -815,6 +859,7 @@ const styles = StyleSheet.create({
     height: 230,
     borderColor: color.black,
     borderRadius: 10,
+    paddingHorizontal: 15,
     color: color.black,
     width: '100%',
     borderWidth: 1,

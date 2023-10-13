@@ -597,7 +597,7 @@ const PostAnAd = () => {
         <ScrollView
           contentContainerStyle={{
             alignItems: 'center',
-            paddingBottom: 200,
+            paddingBottom: 50,
             // backgroundColor: '#015DCF',
           }}
           showsVerticalScrollIndicator={false}
@@ -795,12 +795,13 @@ const PostAnAd = () => {
               disabled={isOtp ? true : active ? true : false}
               style={{
                 backgroundColor: color.orange,
-                width: width - 50,
+                width: '100%',
                 height: 42,
                 borderRadius: 10,
-                marginTop: 40,
+                marginTop: 30,
                 justifyContent: 'center',
                 alignItems: 'center',
+                alignSelf: 'center',
               }}>
               <Text
                 style={{

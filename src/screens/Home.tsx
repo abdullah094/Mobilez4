@@ -341,7 +341,6 @@ const Home = ({navigation}) => {
           </View>
 
           <ScrollView
-            style={{}}
             contentContainerStyle={{
               alignItems: 'center',
               backgroundColor: color.white,
@@ -475,9 +474,9 @@ export default Home;
 const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 24,
-    height: 231,
-    borderBottomWidth: 1,
-    marginBottom: 28,
+    height: 190,
+    // borderBottomWidth: 1,
+    marginBottom: 70,
     backgroundColor: '#015dcf',
   },
 

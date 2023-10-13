@@ -60,9 +60,10 @@ const Blogs = ({navigation}) => {
             >
               <View
                 style={
-                  item === highlightedItem
-                    ? [styles.highlightedItemContainer, styles.itemMargin]
-                    : [styles.itemContainer, styles.itemMargin]
+                  // item === highlightedItem
+                  //   ? [styles.highlightedItemContainer, styles.itemMargin]
+                  // :
+                  [styles.itemContainer, styles.itemMargin]
                 }>
                 <Image
                   style={styles.image}
@@ -98,9 +99,9 @@ const styles = StyleSheet.create({
     paddingBottom: 150,
   },
   itemContainer: {
-    width: 180,
+    width: 160,
     padding: 10,
-    margin: 8,
+    // margin: 8,
     backgroundColor: '#ffffff', // Background color for the item
     borderRadius: 10, // Add some rounded corners for an attractive look
     elevation: 5, // Add shadow

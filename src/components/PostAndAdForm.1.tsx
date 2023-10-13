@@ -571,7 +571,7 @@ export default function PostAndAdForm({
                 <View style={tw`w-1/2 pl-2`}>
                   <SelectList
                     boxStyles={styles.box}
-                    placeholder="Choose Brands"
+                    placeholder="Choose Brand"
                     inputStyles={{
                       color: 'grey',
                       // fontFamily: 'Geologica_Auto-Black',

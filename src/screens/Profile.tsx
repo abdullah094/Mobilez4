@@ -164,7 +164,7 @@ const Profile = ({navigation}) => {
                 keyboardType={'ascii-capable'}
                 placeholderTextColor={'black'}
                 theme={{roundness: 7}}
-                style={{height: 45}}
+                // style={{height: 45}}
                 value={state.first_name}
                 onChangeText={text =>
                   setState(prev => ({...prev, first_name: text}))
@@ -198,7 +198,6 @@ const Profile = ({navigation}) => {
               placeholderTextColor={'black'}
               value={state.last_name}
               theme={{roundness: 7}}
-              style={{height: 45}}
               onChangeText={text =>
                 setState(prev => ({...prev, last_name: text}))
               }
@@ -230,7 +229,6 @@ const Profile = ({navigation}) => {
               placeholderTextColor={'black'}
               value={state.email}
               theme={{roundness: 7}}
-              style={{height: 45}}
               onChangeText={text => setState(prev => ({...prev, email: text}))}
               right={
                 <TextInput.Icon
@@ -258,7 +256,7 @@ const Profile = ({navigation}) => {
               placeholderTextColor={'black'}
               value={profile.city}
               theme={{roundness: 7}}
-              style={{height: 45}}
+
               // onChangeText={text => setState(prev => ({...prev, email: text}))}
             />
           </View>

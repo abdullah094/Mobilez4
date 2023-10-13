@@ -198,6 +198,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 10,
     paddingHorizontal: 15,
+    height: 45,
     // padding: 16,
   },
   header: {

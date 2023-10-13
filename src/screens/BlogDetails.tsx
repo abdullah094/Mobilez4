@@ -31,7 +31,7 @@ const BlogDetails = ({navigation, route}) => {
           contentContainerStyle={{
             alignItems: 'center',
             marginTop: 20,
-            paddingBottom: 100,
+            paddingBottom: 12,
           }}>
           <View
             style={{
@@ -44,12 +44,19 @@ const BlogDetails = ({navigation, route}) => {
                 fontSize: 18,
                 marginHorizontal: 20,
                 fontWeight: 'bold',
+                textAlign: 'center',
               }}
-              numberOfLines={1}>
+              // numberOfLines={2}
+            >
               {data.title}
             </Text>
           </View>
-          <View style={{width: '100%', height: '10%', marginTop: 10}}>
+          <View
+            style={{
+              width: '100%',
+              height: '3%',
+              marginTop: 10,
+            }}>
             <Image
               style={{
                 width: '100%',
@@ -60,7 +67,7 @@ const BlogDetails = ({navigation, route}) => {
             />
           </View>
 
-          <View style={tw` mx-16 top-5`}>
+          <View style={[tw` mx-5 top-1`, {flex: 1, paddingBottom: 100}]}>
             {/* <WebView
               originWhitelist={['*']}
               source={source}

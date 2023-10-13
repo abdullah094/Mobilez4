@@ -470,7 +470,7 @@ export default function PostAndAdForm({
             <SelectList
               boxStyles={styles.box}
               key={reset}
-              placeholder="Choose Brands"
+              placeholder="Choose Brand"
               inputStyles={{
                 color: 'black',
                 // fontFamily: 'Geologica_Auto-Black',

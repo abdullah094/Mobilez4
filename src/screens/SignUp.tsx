@@ -5,6 +5,7 @@ import React, {useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
+  Image,
   Pressable,
   SafeAreaView,
   ScrollView,
@@ -360,84 +361,105 @@ const SignUp = ({navigation, route}) => {
     <SafeAreaView style={tw`flex-1 bg-[#015dcf]`}>
       <View style={tw`bg-[#edf2f2] flex-1`}>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={tw`h-full items-center `}>
+          <View style={tw`flex-1`}>
             <Header title="SignUp" />
-            <Text style={tw`py-5 pt-10  text-black text-2xl  mx-10 font-bold`}>
-              Create your <Text style={tw`font-bold`}>Account</Text>
-            </Text>
-
-            <View style={tw`bg-white rounded-3x1 p-2 m-4 pb-12 `}>
-              <TextInput
-                style={styles.box_input}
-                value={formData.first_name}
-                placeholder="First name"
-                textColor="black"
-                onChangeText={text => {
-                  setFormErrors({...formErrors, first_name: ''});
-                  setFormData({...formData, first_name: text});
-                }}
+            <View style={[tw` flex-1 items-center justify-center`]}>
+              <Image
+                style={{width: 200, height: 80, marginVertical: 30}}
+                source={require('../assets/mobile-logo.png')}
               />
-              <Text style={styles.errorText}>{formErrors.first_name}</Text>
+              <Text style={tw`py-4 pt-0  text-black text-2xl  mx-10 font-bold`}>
+                Create your Account
+              </Text>
 
-              <TextInput
-                style={styles.box_input}
-                value={formData.last_name}
-                placeholder="Last name"
-                textColor="black"
-                onChangeText={text => {
-                  setFormErrors({...formErrors, last_name: ''});
+              <View style={[tw`bg-white p-2 rounded-2xl py-5 shadow-md `]}>
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>First Name</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.first_name}
+                    // placeholder="First name"
+                    textColor="black"
+                    onChangeText={text => {
+                      setFormErrors({...formErrors, first_name: ''});
+                      setFormData({...formData, first_name: text});
+                    }}
+                  />
+                  <Text style={styles.errorText}>{formErrors.first_name}</Text>
+                </View>
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>Last Name</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.last_name}
+                    textColor="black"
+                    onChangeText={text => {
+                      setFormErrors({...formErrors, last_name: ''});
 
-                  setFormData({...formData, last_name: text});
-                }}
-              />
-              <Text style={styles.errorText}>{formErrors.last_name}</Text>
+                      setFormData({...formData, last_name: text});
+                    }}
+                  />
+                  <Text style={styles.errorText}>{formErrors.last_name}</Text>
+                </View>
 
-              <TextInput
-                style={styles.box_input}
-                keyboardType="number-pad"
-                placeholder="Phone number"
-                textColor="black"
-                value={formData.phone}
-                onChangeText={text => setFormData({...formData, phone: text})}
-              />
-              <Text style={styles.errorText}>{formErrors.phone}</Text>
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>Phone Number</Text>
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="number-pad"
+                    textColor="black"
+                    value={formData.phone}
+                    onChangeText={text =>
+                      setFormData({...formData, phone: text})
+                    }
+                  />
+                  <Text style={styles.errorText}>{formErrors.phone}</Text>
+                </View>
 
-              <TextInput
-                style={styles.box_input}
-                keyboardType="email-address"
-                placeholder="Email"
-                textColor="black"
-                value={formData.email}
-                onChangeText={text =>
-                  setFormData({...formData, email: text.toLowerCase()})
-                }
-              />
-              <Text style={styles.errorText}>{formErrors.email}</Text>
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>Email</Text>
+                  <TextInput
+                    style={styles.input}
+                    keyboardType="email-address"
+                    textColor="black"
+                    value={formData.email}
+                    onChangeText={text =>
+                      setFormData({...formData, email: text.toLowerCase()})
+                    }
+                  />
+                  <Text style={styles.errorText}>{formErrors.email}</Text>
+                </View>
 
-              <TextInput
-                style={styles.box_input}
-                value={formData.password}
-                placeholder="password"
-                secureTextEntry={true}
-                textColor="black"
-                onChangeText={text =>
-                  setFormData({...formData, password: text})
-                }
-              />
-              <Text style={styles.errorText}>{formErrors.password}</Text>
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>Password</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={formData.password}
+                    secureTextEntry={true}
+                    textColor="black"
+                    onChangeText={text =>
+                      setFormData({...formData, password: text})
+                    }
+                  />
+                  <Text style={styles.errorText}>{formErrors.password}</Text>
+                </View>
 
-              <TextInput
-                style={styles.box_input}
-                secureTextEntry={true}
-                value={formData.conf_password}
-                placeholder="confirm password"
-                textColor="black"
-                onChangeText={text =>
-                  setFormData({...formData, conf_password: text})
-                }
-              />
-              <Text style={styles.errorText}>{formErrors.conf_password}</Text>
-              {/* <View style={tw`mt-1 `}>
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>Confirm Password</Text>
+                  <TextInput
+                    style={styles.input}
+                    secureTextEntry={true}
+                    value={formData.conf_password}
+                    textColor="black"
+                    onChangeText={text =>
+                      setFormData({...formData, conf_password: text})
+                    }
+                  />
+                  <Text style={styles.errorText}>
+                    {formErrors.conf_password}
+                  </Text>
+                </View>
+                {/* <View style={tw`mt-1 `}>
                 <SelectList
                   placeholder="City"
                   inputStyles={{color: 'black'}}
@@ -453,115 +475,148 @@ const SignUp = ({navigation, route}) => {
                 />
               </View> */}
 
-              <View style={tw`mt-1 `}>
-                <SelectList
-                  placeholder="Account Type"
-                  inputStyles={{color: 'black'}}
-                  boxStyles={styles.border_style}
-                  maxHeight={100}
-                  setSelected={val => {
-                    setFormData({...formData, acc_type: val});
-                  }}
-                  data={data}
-                  save="value"
-                  dropdownTextStyles={{color: 'black'}}
-                  dropdownStyles={{borderCurve: 'continuous'}}
-                />
-              </View>
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>Account Type</Text>
+                  <SelectList
+                    // placeholder="Account Type"
+                    inputStyles={{
+                      color: 'black',
+                      marginTop: 0,
+                    }}
+                    boxStyles={styles.border_style}
+                    // boxStyles={styles.input}
+                    maxHeight={100}
+                    setSelected={val => {
+                      setFormData({...formData, acc_type: val});
+                    }}
+                    data={data}
+                    save="value"
+                    dropdownTextStyles={{color: 'black'}}
+                    dropdownStyles={{
+                      borderCurve: 'continuous',
+                      // borderTopWidth: 0,
+                      // borderTopLeftRadius: 0,
+                      // borderTopRightRadius: 0,
 
-              {formData.acc_type === 'business' && (
-                <>
-                  <TextInput
-                    style={styles.box_input}
-                    value={formData.shop_name}
-                    placeholder="shop name"
-                    textColor="black"
-                    onChangeText={text =>
-                      setFormData({...formData, shop_name: text})
-                    }
+                      // marginTop: -10,
+                    }}
                   />
+                </View>
 
-                  <TextInput
-                    style={styles.box_input}
-                    value={formData.shop_address}
-                    placeholder="shop address"
-                    textColor="black"
-                    onChangeText={text =>
-                      setFormData({...formData, shop_address: text})
-                    }
+                {formData.acc_type === 'business' && (
+                  <>
+                    <View style={styles.input_box}>
+                      <Text style={styles.box_heading}>Shop Name</Text>
+                      <TextInput
+                        style={styles.input}
+                        value={formData.shop_name}
+                        textColor="black"
+                        onChangeText={text =>
+                          setFormData({...formData, shop_name: text})
+                        }
+                      />
+                    </View>
+
+                    <View style={styles.input_box}>
+                      <Text style={styles.box_heading}>Shop Address</Text>
+                      <TextInput
+                        style={styles.input}
+                        value={formData.shop_address}
+                        textColor="black"
+                        onChangeText={text =>
+                          setFormData({...formData, shop_address: text})
+                        }
+                      />
+                    </View>
+                  </>
+                )}
+                <View style={styles.input_box}>
+                  <Text style={styles.box_heading}>City</Text>
+                  <SelectList
+                    // placeholder="City"
+                    inputStyles={{
+                      color: 'black',
+                    }}
+                    boxStyles={styles.border_style}
+                    maxHeight={100}
+                    setSelected={val => {
+                      setFormData({...formData, city: val});
+                    }}
+                    data={CityData}
+                    save="value"
+                    dropdownTextStyles={{color: 'black'}}
+                    dropdownStyles={{borderCurve: 'continuous'}}
                   />
-                </>
-              )}
-              <View style={tw`mt-1 `}>
-                <SelectList
-                  placeholder="City"
-                  inputStyles={{color: 'black'}}
-                  boxStyles={styles.border_style}
-                  maxHeight={100}
-                  setSelected={val => {
-                    setFormData({...formData, city: val});
-                  }}
-                  data={CityData}
-                  save="value"
-                  dropdownTextStyles={{color: 'black'}}
-                  dropdownStyles={{borderCurve: 'continuous'}}
-                />
-              </View>
+                </View>
 
-              <View
-                style={{
-                  flexDirection: 'row',
-                  width: width - 40,
-                  marginTop: 30,
-                  alignItems: 'center',
-
-                  justifyContent: 'center',
-                }}>
-                <Pressable
-                  onPress={() => setCheck(!check)}
+                <View
                   style={{
-                    marginLeft: 10,
-                    borderWidth: 1,
-                    width: 22,
-                    height: 22,
-                    // alignSelf: 'center',
-                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    width: width - 40,
+                    marginTop: 30,
                     alignItems: 'center',
-                    borderRadius: 5,
+                    justifyContent: 'center',
                   }}>
-                  {check && (
-                    <MaterialIcon name="check" color={color.orange} size={20} />
-                  )}
-                </Pressable>
-                <Text style={{marginLeft: 5, color: color.black}}>
-                  I accept and agree to terms and conditions
-                </Text>
-              </View>
-              <TouchableOpacity
-                disabled={!check}
-                onPress={fetchData}
-                style={{
-                  height: 42,
-                  backgroundColor: color.orange,
-                  marginTop: 30,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 10,
-                }}>
-                <Text
-                  style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>
-                  {registerButtonText}
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={tw`flex flex-row justify-center w-full bottom-3  z-20 `}></View>
+                  <Pressable
+                    onPress={() => setCheck(!check)}
+                    style={{
+                      marginLeft: 10,
+                      borderWidth: 1,
+                      width: 20,
+                      height: 20,
+                      // alignSelf: 'center',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 5,
+                    }}>
+                    {check && (
+                      <MaterialIcon
+                        name="check"
+                        color={color.orange}
+                        size={17}
+                      />
+                    )}
+                  </Pressable>
+                  <Text style={{marginLeft: 5, color: color.black}}>
+                    I accept and agree to terms and conditions
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    marginTop: 30,
+                    paddingHorizontal: 20,
+                  }}>
+                  <TouchableOpacity
+                    disabled={!check}
+                    onPress={fetchData}
+                    style={{
+                      height: 42,
+                      backgroundColor: color.orange,
 
-            <View style={tw`flex-row items-center my-5`}>
-              <Text style={tw`text-gray-500`}>Already have account?</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                <Text style={tw`text-black mx-1`}>Sign In</Text>
-              </TouchableOpacity>
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 10,
+                    }}>
+                    <Text
+                      style={{
+                        color: 'white',
+                        fontWeight: 'bold',
+                        fontSize: 18,
+                      }}>
+                      {registerButtonText}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              <View
+                style={tw`flex flex-row justify-center w-full bottom-3  z-20 `}></View>
+
+              <View style={tw`flex-row items-center my-5`}>
+                <Text style={{color: 'black'}}>Already have account? </Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                  <Text style={{color: color.blue}}>Sign In</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -579,14 +634,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // backgroundColor:color.white
   },
+  input_box: {
+    marginTop: 10,
+    // borderWidth: 1,
+    paddingHorizontal: 20,
+  },
+  input: {
+    justifyContent: 'flex-end',
+    paddingHorizontal: 1,
+    color: color.black,
+
+    height: 35,
+    borderBottomWidth: 1,
+    borderColor: color.gray,
+    backgroundColor: 'white',
+  },
   box: {
     width: width - 40,
     marginTop: 15,
   },
   box_heading: {
-    color: color.black,
+    color: 'black',
     fontWeight: 'bold',
-    fontSize: 12,
+    fontSize: 15,
     marginLeft: 2,
   },
   box_input: {
@@ -597,7 +667,10 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   border_style: {
+    // borderBottomWidth: 1,
     borderColor: 'white',
+    borderWidth: 1,
+    // borderWidth: 1,
   },
   errorText: {
     color: 'red',

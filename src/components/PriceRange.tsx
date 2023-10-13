@@ -32,9 +32,10 @@ const PriceRange = ({handleValueChange}) => {
       <Text
         style={{
           color: color.white,
-          fontWeight: '400',
-          fontSize: 15,
-          paddingVertical: 16,
+          fontWeight: 'bold',
+          fontSize: 18,
+          paddingBottom: 30,
+          textAlign: 'center',
         }}>
         Price Range
       </Text>
@@ -43,25 +44,25 @@ const PriceRange = ({handleValueChange}) => {
         <View
           style={{
             borderWidth: 1,
-            borderRadius: 10,
+            borderRadius: 5,
             alignItems: 'center',
             padding: 8,
             width: 100,
             borderColor: 'white',
           }}>
-          <Text style={{color: 'white'}}>{low}</Text>
+          <Text style={{color: 'white'}}>{'Rs ' + low}</Text>
         </View>
 
         <View
           style={{
             borderWidth: 1,
-            borderRadius: 10,
+            borderRadius: 5,
             alignItems: 'center',
             padding: 8,
             width: 100,
             borderColor: 'white',
           }}>
-          <Text style={{color: 'white'}}>{high}</Text>
+          <Text style={{color: 'white'}}>{'Rs ' + high}</Text>
         </View>
       </View>
       <Slider

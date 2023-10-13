@@ -178,8 +178,8 @@ const Login = () => {
   };
   const PutAccessTokenToAsync = async accessToken => {
     try {
-      await AsyncStorage.setItem('@user_token', accessToken);
       navigation.navigate('Home');
+      await AsyncStorage.setItem('@user_token', accessToken);
     } catch (e) {
       console.log('Error saving Data to AsyncStorage:', e);
     }
@@ -249,7 +249,7 @@ const Login = () => {
                   style={{width: 200, height: 80, marginVertical: 30}}
                   source={require('../assets/mobile-logo.png')}
                 />
-                <View style={tw`bg-white p-6 rounded-3xl py-8 shadow-md `}>
+                <View style={[tw`bg-white p-4 rounded-3xl py-8 shadow-md `]}>
                   <View style={styles.input_box}>
                     <Text style={styles.box_heading}>Email</Text>
                     <TextInput
@@ -296,18 +296,18 @@ const Login = () => {
                         style={{
                           marginLeft: 10,
                           borderWidth: 1,
-                          width: 20,
-                          height: 20,
+                          width: 18,
+                          height: 18,
                           justifyContent: 'center',
                           alignItems: 'center',
-                          borderRadius: 5,
+                          borderRadius: 4,
                           marginHorizontal: 3,
                         }}>
                         {check && (
                           <MaterialIcon
                             name="check"
                             color={color.orange}
-                            size={18}
+                            size={16}
                           />
                         )}
                       </Pressable>
@@ -365,6 +365,14 @@ const Login = () => {
                         styles.social_buttons,
                         tw`overflow-hidden flex items-center justify-center bg-[#1877f2]`,
                       ]}>
+                      {/* <Image
+                        source={require('../assets/fbIcon.png')}
+                        resizeMode="contain"
+                        style={{
+                          width: 35,
+                          height: 35,
+                        }}
+                      /> */}
                       <LoginButton
                         style={tw`w-full h-full ml-3`}
                         onLoginFinished={(error, result) => {

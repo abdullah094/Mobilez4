@@ -2,7 +2,6 @@ import {MY_ADS} from '@env';
 import axios from 'axios';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-  ActivityIndicator,
   Animated,
   Dimensions,
   FlatList,
@@ -19,6 +18,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
 
 import {useRoute} from '@react-navigation/native';
+import Lottie from 'lottie-react-native';
 import Thumb from 'react-native-vector-icons/Octicons';
 import {useSelector} from 'react-redux';
 import tw from 'twrnc';
@@ -30,6 +30,7 @@ import Header from '../components/Header';
 import ListItem from '../components/ListItem';
 import {color} from '../constants/Colors';
 import WishlistComponent from './WishlistComponent';
+
 const {width, height} = Dimensions.get('window');
 const MyAds = ({navigation, isActive}) => {
   const route = useRoute();
@@ -61,7 +62,7 @@ const MyAds = ({navigation, isActive}) => {
       .then(response => {
         if (response?.data?.my_adds) {
           setData(response?.data?.my_adds);
-          // console.log('adsssssss', response.data.my_adds.length);
+          console.log('adsssssss', response.data.my_adds.length);
 
           setAdsCount(response?.data?.my_adds?.length);
           setLoading(false);
@@ -71,6 +72,7 @@ const MyAds = ({navigation, isActive}) => {
       })
       .catch(error => {
         console.log('hello', error);
+        setLoading(false);
       });
   };
 
@@ -206,14 +208,27 @@ const MyAds = ({navigation, isActive}) => {
         {!isWishlist ? (
           <>
             {loading ? (
-              <ActivityIndicator
-                size={55}
-                color={color.orange}
+              // <ActivityIndicator
+              //   size={55}
+              //   color={color.orange}
+              //   style={{
+              //     flex: 1,
+              //     justifyContent: 'center',
+              //     alignItems: 'center',
+              //   }}
+              // />
+              <Lottie
+                source={require('../assets/animations/animationSkeleton.json')}
+                autoPlay
+                loop
                 style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  width: '95%',
+                  marginTop: 10,
+                  alignSelf: 'center',
+                  backgroundColor: color.white,
                 }}
+                resizeMode="cover"
+                speed={0.7}
               />
             ) : data.length <= 0 ? (
               <View
@@ -247,14 +262,14 @@ const MyAds = ({navigation, isActive}) => {
                       <ListIcon
                         name="list"
                         color={Grid ? color.black : color.blue}
-                        size={30}
+                        size={26}
                       />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => setGrid(true)}>
                       <Entypo
                         name="grid"
                         color={Grid ? color.blue : color.black}
-                        size={30}
+                        size={26}
                       />
                     </TouchableOpacity>
                   </View>

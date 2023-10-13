@@ -11,6 +11,7 @@ import GridItem from './GridItem';
 
 import {CATEGORY} from '@env';
 import axios from 'axios';
+import Lottie from 'lottie-react-native';
 import tw from 'twrnc';
 import {Category, Pagination, Product} from '../types';
 
@@ -28,6 +29,7 @@ const RecentList = ({
   const [data, setData] = useState<Product[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [featured, setFeatured] = useState(0);
   const [allLoaded, setAllLoaded] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
@@ -47,6 +49,9 @@ const RecentList = ({
   }, [refreshing]);
 
   const loadData = pageNumber => {
+    if (pageNumber == 1) {
+      setIsLoading(true);
+    }
     console.log(CATEGORY + `?page=${pageNumber}`);
     axios
       .post(CATEGORY + `?page=${pageNumber}`, {
@@ -77,6 +82,11 @@ const RecentList = ({
         // load more complete, set loading more to false
         setRefreshing(false);
         setLoadingMore(false);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        setIsLoading(false);
+        console.log('error', error);
       });
   };
 
@@ -109,6 +119,27 @@ const RecentList = ({
         {refreshing && loadingMore ? (
           <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size={'large'} color={'#306CCE'} />
+          </View>
+        ) : isLoading ? (
+          <View
+            style={{
+              height: 260,
+              overflow: 'hidden',
+              marginBottom: 20,
+              backgroundColor: '#FFFFFF50',
+            }}>
+            <Lottie
+              source={require('../assets/animations/animationGrid.json')}
+              autoPlay
+              loop
+              style={{
+                width: '100%',
+                alignSelf: 'center',
+                // backgroundColor: color.gray,
+              }}
+              resizeMode="cover"
+              speed={0.7}
+            />
           </View>
         ) : (
           <>

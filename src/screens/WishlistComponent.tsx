@@ -1,13 +1,8 @@
 import {WISHLIST_GET} from '@env';
 import axios, {AxiosError} from 'axios';
+import Lottie from 'lottie-react-native';
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ListIcon from 'react-native-vector-icons/Feather';
 import Thumb from 'react-native-vector-icons/Octicons';
@@ -43,12 +38,25 @@ const WishlistComponent = () => {
   return (
     <View style={tw`flex-1`}>
       {loading ? (
-        <ActivityIndicator
-          size={55}
-          color={color.orange}
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+        <Lottie
+          source={require('../assets/animations/animationSkeleton.json')}
+          autoPlay
+          loop
+          style={{
+            width: '95%',
+            marginTop: 10,
+            alignSelf: 'center',
+            backgroundColor: color.white,
+          }}
+          resizeMode="cover"
+          speed={0.7}
         />
-      ) : data.length <= 0 ? (
+      ) : // <ActivityIndicator
+      //   size={55}
+      //   color={color.orange}
+      //   style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+      // />
+      data.length <= 0 ? (
         <View style={{justifyContent: 'center', flex: 1, alignItems: 'center'}}>
           <Thumb name="thumbsdown" color={'black'} size={40} />
           <Text style={{color: 'black', fontWeight: '700'}}>
@@ -94,6 +102,7 @@ const WishlistComponent = () => {
                 marginHorizontal: 15,
                 paddingBottom: 100,
               }}
+              showsVerticalScrollIndicator={false}
               numColumns={2}
               renderItem={({item}) => (
                 <GridItem hideIcon={true} item={item}></GridItem>
@@ -109,6 +118,7 @@ const WishlistComponent = () => {
                 marginHorizontal: 15,
                 paddingBottom: 100,
               }}
+              showsVerticalScrollIndicator={false}
               numColumns={1}
               renderItem={({item}) => (
                 <ListItem hideIcon={true} item={item}></ListItem>

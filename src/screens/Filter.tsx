@@ -143,7 +143,7 @@ const Filter = () => {
                     borderColor: '#D3D3D3',
                     marginTop: 16,
                   }}
-                  placeholder="Choose Brands"
+                  placeholder="Choose Brand"
                   inputStyles={{
                     color: 'grey',
                   }}

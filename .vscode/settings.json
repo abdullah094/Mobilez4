@@ -16,12 +16,7 @@
   ],
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
+    "source.organizeImports": "explicit"
   },
-  "tailwindCSS.classAttributes":[
-    "class",
-    "className",
-    "ngClass",
-    "style"
-  ]
+  "tailwindCSS.classAttributes": ["class", "className", "ngClass", "style"]
 }
